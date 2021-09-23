@@ -1,0 +1,176 @@
+2021-06-24 14:42:41 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-24 14:42:41 - Started 6320
+2021-06-24 16:24:57 - Stopping loteria.exe
+2021-06-24 16:24:57 - ProcessKill 6320
+2021-06-24 16:24:57 - Found child process: 684 Name: conhost.exe
+2021-06-24 16:24:57 - Found child process: 4672 Name: node.exe
+2021-06-24 16:24:57 - Stopping process 684
+2021-06-24 16:24:57 - Send SIGINT 684
+2021-06-24 16:24:57 - SIGINT to 684 failed - Killing as fallback
+2021-06-24 16:24:57 - Stopping process 4672
+2021-06-24 16:24:57 - Send SIGINT 4672
+2021-06-24 16:24:57 - SIGINT to 4672 failed - Killing as fallback
+2021-06-24 16:24:57 - Stopping process 6320
+2021-06-24 16:24:57 - Send SIGINT 6320
+2021-06-24 16:24:57 - SIGINT to 6320 failed - Killing as fallback
+2021-06-24 16:24:57 - Finished loteria.exe
+2021-06-24 16:25:10 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-24 16:25:10 - Started 7432
+2021-06-24 16:25:57 - Stopping loteria.exe
+2021-06-24 16:25:57 - ProcessKill 7432
+2021-06-24 16:25:57 - Shutdown exception
+Message:Se está cerrando el sistema.
+
+Stacktrace:   en System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   en System.Management.ManagementScope.InitializeGuts(Object o)
+   en System.Management.ManagementScope.Initialize()
+   en System.Management.ManagementObjectSearcher.Initialize()
+   en System.Management.ManagementObjectSearcher.Get()
+   en winsw.WrapperService.GetChildPids(Int32 pid)
+   en winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   en winsw.WrapperService.StopIt()
+   en winsw.WrapperService.OnShutdown()
+2021-06-24 16:26:26 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-24 16:26:26 - Started 5864
+2021-06-24 16:29:35 - Stopping loteria.exe
+2021-06-24 16:29:35 - ProcessKill 5864
+2021-06-24 16:29:35 - Found child process: 5912 Name: conhost.exe
+2021-06-24 16:29:35 - Found child process: 564 Name: node.exe
+2021-06-24 16:29:35 - Stopping process 5912
+2021-06-24 16:29:35 - Send SIGINT 5912
+2021-06-24 16:29:35 - SIGINT to 5912 failed - Killing as fallback
+2021-06-24 16:29:35 - Stopping process 564
+2021-06-24 16:29:35 - Send SIGINT 564
+2021-06-24 16:29:35 - SIGINT to 564 failed - Killing as fallback
+2021-06-24 16:29:35 - Stopping process 5864
+2021-06-24 16:29:35 - Send SIGINT 5864
+2021-06-24 16:29:35 - SIGINT to 5864 failed - Killing as fallback
+2021-06-24 16:29:35 - Finished loteria.exe
+2021-06-24 16:29:46 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-24 16:29:46 - Started 3860
+2021-06-24 16:30:29 - Stopping loteria.exe
+2021-06-24 16:30:29 - ProcessKill 3860
+2021-06-24 16:30:29 - Found child process: 4024 Name: conhost.exe
+2021-06-24 16:30:29 - Found child process: 8784 Name: node.exe
+2021-06-24 16:30:29 - Stopping process 4024
+2021-06-24 16:30:29 - Send SIGINT 4024
+2021-06-24 16:30:29 - SIGINT to 4024 failed - Killing as fallback
+2021-06-24 16:30:29 - Stopping process 8784
+2021-06-24 16:30:29 - Send SIGINT 8784
+2021-06-24 16:30:29 - SIGINT to 8784 failed - Killing as fallback
+2021-06-24 16:30:29 - Stopping process 3860
+2021-06-24 16:30:29 - Send SIGINT 3860
+2021-06-24 16:30:29 - SIGINT to 3860 failed - Killing as fallback
+2021-06-24 16:30:29 - Finished loteria.exe
+2021-06-24 16:30:31 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-24 16:30:31 - Started 3724
+2021-06-24 16:32:32 - Stopping loteria.exe
+2021-06-24 16:32:32 - ProcessKill 3724
+2021-06-24 16:32:32 - Shutdown exception
+Message:Se está cerrando el sistema.
+
+Stacktrace:   en System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   en System.Management.ManagementScope.InitializeGuts(Object o)
+   en System.Management.ManagementScope.Initialize()
+   en System.Management.ManagementObjectSearcher.Initialize()
+   en System.Management.ManagementObjectSearcher.Get()
+   en winsw.WrapperService.GetChildPids(Int32 pid)
+   en winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   en winsw.WrapperService.StopIt()
+   en winsw.WrapperService.OnShutdown()
+2021-06-24 16:32:54 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-24 16:32:55 - Started 5976
+2021-06-24 16:33:27 - Stopping loteria.exe
+2021-06-24 16:33:27 - ProcessKill 5976
+2021-06-24 16:33:27 - Found child process: 6024 Name: conhost.exe
+2021-06-24 16:33:27 - Found child process: 6464 Name: node.exe
+2021-06-24 16:33:27 - Stopping process 6024
+2021-06-24 16:33:27 - Send SIGINT 6024
+2021-06-24 16:33:27 - SIGINT to 6024 failed - Killing as fallback
+2021-06-24 16:33:27 - Stopping process 6464
+2021-06-24 16:33:27 - Send SIGINT 6464
+2021-06-24 16:33:27 - SIGINT to 6464 failed - Killing as fallback
+2021-06-24 16:33:27 - Stopping process 5976
+2021-06-24 16:33:27 - Send SIGINT 5976
+2021-06-24 16:33:27 - SIGINT to 5976 failed - Killing as fallback
+2021-06-24 16:33:27 - Finished loteria.exe
+2021-06-24 16:33:30 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-24 16:33:30 - Started 9864
+2021-06-28 12:06:02 - Stopping loteria.exe
+2021-06-28 12:06:02 - ProcessKill 9864
+2021-06-28 12:06:02 - Found child process: 9908 Name: conhost.exe
+2021-06-28 12:06:02 - Found child process: 9428 Name: node.exe
+2021-06-28 12:06:02 - Stopping process 9908
+2021-06-28 12:06:02 - Send SIGINT 9908
+2021-06-28 12:06:02 - SIGINT to 9908 failed - Killing as fallback
+2021-06-28 12:06:02 - Stopping process 9428
+2021-06-28 12:06:02 - Send SIGINT 9428
+2021-06-28 12:06:02 - SIGINT to 9428 failed - Killing as fallback
+2021-06-28 12:06:02 - Stopping process 9864
+2021-06-28 12:06:02 - Send SIGINT 9864
+2021-06-28 12:06:02 - SIGINT to 9864 failed - Killing as fallback
+2021-06-28 12:06:02 - Finished loteria.exe
+2021-06-28 12:06:04 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-28 12:06:04 - Started 9984
+2021-06-28 12:08:07 - Stopping loteria.exe
+2021-06-28 12:08:07 - ProcessKill 9984
+2021-06-28 12:08:07 - Found child process: 6868 Name: conhost.exe
+2021-06-28 12:08:07 - Found child process: 10228 Name: node.exe
+2021-06-28 12:08:07 - Stopping process 6868
+2021-06-28 12:08:07 - Send SIGINT 6868
+2021-06-28 12:08:07 - SIGINT to 6868 failed - Killing as fallback
+2021-06-28 12:08:07 - Stopping process 10228
+2021-06-28 12:08:07 - Send SIGINT 10228
+2021-06-28 12:08:07 - SIGINT to 10228 failed - Killing as fallback
+2021-06-28 12:08:07 - Stopping process 9984
+2021-06-28 12:08:07 - Send SIGINT 9984
+2021-06-28 12:08:07 - SIGINT to 9984 failed - Killing as fallback
+2021-06-28 12:08:07 - Finished loteria.exe
+2021-06-28 12:08:10 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-28 12:08:10 - Started 4088
+2021-06-28 12:12:03 - Stopping loteria.exe
+2021-06-28 12:12:03 - ProcessKill 4088
+2021-06-28 12:12:03 - Found child process: 9684 Name: conhost.exe
+2021-06-28 12:12:03 - Found child process: 5832 Name: node.exe
+2021-06-28 12:12:03 - Stopping process 9684
+2021-06-28 12:12:03 - Send SIGINT 9684
+2021-06-28 12:12:03 - SIGINT to 9684 failed - Killing as fallback
+2021-06-28 12:12:03 - Stopping process 5832
+2021-06-28 12:12:03 - Send SIGINT 5832
+2021-06-28 12:12:03 - SIGINT to 5832 failed - Killing as fallback
+2021-06-28 12:12:03 - Stopping process 4088
+2021-06-28 12:12:03 - Send SIGINT 4088
+2021-06-28 12:12:03 - SIGINT to 4088 failed - Killing as fallback
+2021-06-28 12:12:03 - Finished loteria.exe
+2021-06-28 12:12:06 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-28 12:12:06 - Started 10224
+2021-06-28 12:17:11 - Stopping loteria.exe
+2021-06-28 12:17:11 - ProcessKill 10224
+2021-06-28 12:17:11 - Found child process: 7332 Name: conhost.exe
+2021-06-28 12:17:11 - Found child process: 6152 Name: node.exe
+2021-06-28 12:17:11 - Stopping process 7332
+2021-06-28 12:17:11 - Send SIGINT 7332
+2021-06-28 12:17:11 - SIGINT to 7332 failed - Killing as fallback
+2021-06-28 12:17:11 - Stopping process 6152
+2021-06-28 12:17:11 - Send SIGINT 6152
+2021-06-28 12:17:11 - SIGINT to 6152 failed - Killing as fallback
+2021-06-28 12:17:11 - Stopping process 10224
+2021-06-28 12:17:11 - Send SIGINT 10224
+2021-06-28 12:17:11 - SIGINT to 10224 failed - Killing as fallback
+2021-06-28 12:17:11 - Finished loteria.exe
+2021-06-28 12:17:14 - Starting C:\Program Files (x86)\nodejs\node.exe  --harmony C:\Users\PROBOOK\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file C:\expressLS\bin\www --log "Loteria wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2021-06-28 12:17:14 - Started 6856
+2021-06-28 12:24:16 - Stopping loteria.exe
+2021-06-28 12:24:16 - ProcessKill 6856
+2021-06-28 12:24:16 - Found child process: 5848 Name: conhost.exe
+2021-06-28 12:24:16 - Found child process: 8600 Name: node.exe
+2021-06-28 12:24:16 - Stopping process 5848
+2021-06-28 12:24:16 - Send SIGINT 5848
+2021-06-28 12:24:16 - SIGINT to 5848 failed - Killing as fallback
+2021-06-28 12:24:16 - Stopping process 8600
+2021-06-28 12:24:16 - Send SIGINT 8600
+2021-06-28 12:24:16 - SIGINT to 8600 failed - Killing as fallback
+2021-06-28 12:24:16 - Stopping process 6856
+2021-06-28 12:24:16 - Send SIGINT 6856
+2021-06-28 12:24:16 - SIGINT to 6856 failed - Killing as fallback
+2021-06-28 12:24:16 - Finished loteria.exe

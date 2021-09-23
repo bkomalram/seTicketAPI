@@ -1,0 +1,125 @@
+events.js:353
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:112:13)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:94:28)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:388:22)
+    at endReadableNT (internal/streams/readable.js:1336:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+Emitted 'error' event on Connection instance at:
+    at Connection._handleProtocolError (C:\expressLS\node_modules\mysql\lib\Connection.js:423:8)
+    at Protocol.emit (events.js:376:20)
+    at Protocol._delegateError (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:398:10)
+    at Protocol.end (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:116:8)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:94:28)
+    [... lines matching original stack trace ...]
+    at processTicksAndRejections (internal/process/task_queues.js:82:21) {
+  fatal: true,
+  code: 'PROTOCOL_CONNECTION_LOST'
+}
+events.js:353
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:112:13)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:94:28)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:388:22)
+    at endReadableNT (internal/streams/readable.js:1336:12)
+    at processTicksAndRejections (internal/process/task_queues.js:82:21)
+Emitted 'error' event on Connection instance at:
+    at Connection._handleProtocolError (C:\expressLS\node_modules\mysql\lib\Connection.js:423:8)
+    at Protocol.emit (events.js:376:20)
+    at Protocol._delegateError (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:398:10)
+    at Protocol.end (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:116:8)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:94:28)
+    [... lines matching original stack trace ...]
+    at processTicksAndRejections (internal/process/task_queues.js:82:21) {
+  fatal: true,
+  code: 'PROTOCOL_CONNECTION_LOST'
+}
+events.js:353
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: Packets out of order. Got: 0 Expected: 6
+    at Parser._tryReadPacketHeader (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:470:15)
+    at Parser.write (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:33:29)
+    at Protocol.write (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:376:20)
+    at addChunk (internal/streams/readable.js:309:12)
+    at readableAddChunk (internal/streams/readable.js:284:9)
+    at Socket.Readable.push (internal/streams/readable.js:223:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23)
+Emitted 'error' event on Connection instance at:
+    at Connection._handleProtocolError (C:\expressLS\node_modules\mysql\lib\Connection.js:423:8)
+    at Protocol.emit (events.js:376:20)
+    at Protocol._delegateError (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:398:10)
+    at Protocol.handleParserError (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:380:10)
+    at Parser._tryReadPacketHeader (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:478:10)
+    at Parser.write (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:33:29)
+    [... lines matching original stack trace ...]
+    at Socket.emit (events.js:376:20) {
+  code: 'PROTOCOL_PACKETS_OUT_OF_ORDER',
+  fatal: true
+}
+events.js:353
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: Packets out of order. Got: 0 Expected: 6
+    at Parser._tryReadPacketHeader (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:470:15)
+    at Parser.write (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:33:29)
+    at Protocol.write (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:376:20)
+    at addChunk (internal/streams/readable.js:309:12)
+    at readableAddChunk (internal/streams/readable.js:284:9)
+    at Socket.Readable.push (internal/streams/readable.js:223:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23)
+Emitted 'error' event on Connection instance at:
+    at Connection._handleProtocolError (C:\expressLS\node_modules\mysql\lib\Connection.js:423:8)
+    at Protocol.emit (events.js:376:20)
+    at Protocol._delegateError (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:398:10)
+    at Protocol.handleParserError (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:380:10)
+    at Parser._tryReadPacketHeader (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:478:10)
+    at Parser.write (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:33:29)
+    [... lines matching original stack trace ...]
+    at Socket.emit (events.js:376:20) {
+  code: 'PROTOCOL_PACKETS_OUT_OF_ORDER',
+  fatal: true
+}
+events.js:353
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: Packets out of order. Got: 0 Expected: 32
+    at Parser._tryReadPacketHeader (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:470:15)
+    at Parser.write (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:33:29)
+    at Protocol.write (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (C:\expressLS\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:376:20)
+    at addChunk (internal/streams/readable.js:309:12)
+    at readableAddChunk (internal/streams/readable.js:284:9)
+    at Socket.Readable.push (internal/streams/readable.js:223:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23)
+Emitted 'error' event on Connection instance at:
+    at Connection._handleProtocolError (C:\expressLS\node_modules\mysql\lib\Connection.js:423:8)
+    at Protocol.emit (events.js:376:20)
+    at Protocol._delegateError (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:398:10)
+    at Protocol.handleParserError (C:\expressLS\node_modules\mysql\lib\protocol\Protocol.js:380:10)
+    at Parser._tryReadPacketHeader (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:478:10)
+    at Parser.write (C:\expressLS\node_modules\mysql\lib\protocol\Parser.js:33:29)
+    [... lines matching original stack trace ...]
+    at Socket.emit (events.js:376:20) {
+  code: 'PROTOCOL_PACKETS_OUT_OF_ORDER',
+  fatal: true
+}

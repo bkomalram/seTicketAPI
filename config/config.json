@@ -1,0 +1,23 @@
+{
+  "standalone": {
+    "username": "root",
+    "password": "password",
+    "database": "loteriadb",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "development": {
+    "username": "seapi",
+    "password": "b4s34p1",
+    "host": "localhost",     
+    "dialect": "sqlite",
+    "storage": "./database.sqlite"    
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
