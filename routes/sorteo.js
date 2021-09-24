@@ -2,26 +2,43 @@ const express = require("express")
 const router = express.Router()
 
 const con = require("../modules/database")
+const DB = require ("../models/index")
 
 /*Sorteo*/
 router.post("/crear", (req,res)=>{
     const { nombreSorteo } = req.body
     if (req.jornada.accesos < 2) {
-        res.json({
+        res.status(401).json({
             resultado: "Privilegios insuficientes",
             exitoso:false
         })
         return
     }
-    const accion = "CALL rCrearSorteo(?,?);"        
-
-    con.query(accion,[req.jornada.id,nombreSorteo],function (err,rows,fields) {
-        if (!err) {
-            res.json({resultado:{mensaje:"Exito"},exitoso:true})
-        } else {
-            res.json({resultado:{mensaje:"Ocurrio un error creando sorteo"},exitoso:false})
-        }
-    })
+    /*Verificando que tenga todo*/
+    const { password, newPassword } = req.body
+    if (!nombreSorteo) {
+        res.status(400).json({
+            resultado: "Se requieren el nombre del sorteo, para proceder.",
+            exitoso: false
+        })
+        return
+    } 
+    try {
+        DB.Game.create({
+            usuario_id: req.jornada.id,
+            nombre: nombreSorteo,
+            fecha: Date.now(),
+            esActivo: "SI"
+        })
+        .then((Game)=>{
+            Game.save()
+            .then((Commit)=>{
+                res.status(201).json({resultado:Commit,exitoso:true})
+            })        
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error creando sorteo",error:error},exitoso:false})
+    }            
 })
 
 router.post("/cerrar", (req,res)=>{

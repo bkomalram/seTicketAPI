@@ -11,7 +11,7 @@ router.get("/token", (req,res)=>{
         accesos:0
     }
     const generado = jwt.sign(initialToken,process.env.SALT,{ expiresIn: '1h' })
-    res.json({
+    res.status(200).json({
         token:generado
     })
 })
@@ -19,9 +19,9 @@ router.get("/token", (req,res)=>{
 router.get("/decode", (req,res)=>{
     try {
         var decodificado = jwt.verify(req.token,process.env.SALT)
-        res.json(decodificado)
+        res.status(200).json(decodificado)
     } catch (error) {
-        res.json(error)
+        res.status(500).json(error)
     }
     
 })
@@ -32,14 +32,14 @@ router.post("/log", (req,res)=>{
     DB.User.findOne({where:{nombre:usuario,esActivo:'SI'}})
     .then((User)=>{
         if(!User){
-            res.json({
+            res.status(401).json({
                 resultado: "Acceso denegado",
                 exitoso:false
             }) 
         } else {
             User.validPassword(password).then(isCorrect=>{
                 if (!isCorrect) {
-                    res.json({
+                    res.status(401).json({
                         resultado: "Acceso denegado",
                         exitoso:false
                     })
@@ -53,7 +53,7 @@ router.post("/log", (req,res)=>{
                     User.ultimaConexion = Date.now()
                     User.save()
                     .then((Commit)=>{
-                        res.json({
+                        res.status(200).json({
                             resultado:{ token: jwt.sign(objeto,process.env.SALT,{ expiresIn: '1h' }) },
                             exitoso:true
                         })
@@ -70,7 +70,7 @@ router.post("/log", (req,res)=>{
 router.post("/changePassword",(req,res)=>{
     /*Evalulando Accesos*/
     if (req.jornada.accesos == 0) {
-        res.json({
+        res.status(401).json({
             resultado: "Privilegios insuficientes",
             exitoso:false
         })
@@ -79,7 +79,7 @@ router.post("/changePassword",(req,res)=>{
     /*Verificando que tenga todo*/
     const { password, newPassword } = req.body
     if (!password || !newPassword) {
-        res.json({
+        res.status(400).json({
             resultado: "Se requieren las credenciales actuales y nuevas, para proceder.",
             exitoso: false
         })
@@ -93,7 +93,7 @@ router.post("/changePassword",(req,res)=>{
             User.validPassword(password)
             .then((Result)=>{
                 if(!Result){
-                    res.json({
+                    res.status(401).json({
                         resultado: "Credenciales erradas",
                         request: req.body,
                         exitoso:false
@@ -103,7 +103,7 @@ router.post("/changePassword",(req,res)=>{
                 /*Porceder con el cambio*/
                 User.changePassword(newPassword)                
                 .then((Commit)=>{
-                    res.json({
+                    res.status(201).json({
                         resultado: Commit,
                         exitoso:true
                     })
@@ -112,7 +112,7 @@ router.post("/changePassword",(req,res)=>{
             })                        
         })        
     } catch (error) {
-        res.json({
+        res.status(500).json({
             resultado: error,
             exitoso:false
         })

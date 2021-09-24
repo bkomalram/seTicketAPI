@@ -22,5 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Game',
   });
+
+  Game.prototype.createGame = async function(nombre,usuarioId) {
+    
+  }
   return Game;
 };
