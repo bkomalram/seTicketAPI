@@ -28,12 +28,18 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: async function(user) {
         const salt = await bcrypt.genSalt(10); //whatever number you want
         user.contrasena = await bcrypt.hash(user.contrasena, salt);
-      }
+      }      
     },    
   });
 
   User.prototype.validPassword = async function(contrasena) {
     return await bcrypt.compare(contrasena, this.contrasena);
+  }
+
+  User.prototype.changePassword = async function(contrasena) {
+    const salt = await bcrypt.genSalt(10); //whatever number you want
+    this.contrasena = await bcrypt.hash(contrasena, salt);
+    return await this.save()
   }
 
   return User;
