@@ -1,0 +1,26 @@
+{
+    "documents":{
+        "url":"https://sequelize.org/master/manual/migrations.html"
+    },
+    "commands": {
+        "models":{
+            "crearTabla":"npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string"
+        },
+        "migracion":{
+            "correr":"npx sequelize-cli db:migrate",
+            "regresar":"npx sequelize-cli db:migrate:undo",
+            "regresarTodas":"npx sequelize-cli db:migrate:undo:all",
+            "regresarHastaEspecifica":"npx sequelize-cli db:migrate:undo:all --to 20210831024504-create-user.js"
+        },
+        "seeds":{
+            "crear":"npx sequelize-cli seed:generate --name demo-user",
+            "correr":"npx sequelize-cli db:seed:all",
+            "regresar":"npx sequelize-cli db:seed:undo",
+            "regresarTodas":"npx sequelize-cli db:seed:undo:all",
+            "regresarEspecifica":"npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data esto no sirve"
+
+        }
+
+
+    }
+}

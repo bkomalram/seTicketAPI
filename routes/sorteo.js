@@ -50,19 +50,25 @@ router.post("/cerrar", (req,res)=>{
         })
         return
     }
-    const accion = "CALL rCierraSorteo(?);"        
 
-    con.query(accion,[sorteoId],function (err,rows,fields) {
-        if (!err) {
-            res.json({resultado:{mensaje:"Exito"},exitoso:true})
-        } else {
-            res.json({resultado:{mensaje:"Ocurrio un error cerrando sorteo"},exitoso:false})
-        }
-    })
+    /*Refactor v3.0
+    Sequelize ORM
+    BK*/
+    try {
+        DB.Game.update({            
+            esActivo: "NO"
+        },{ 
+            where: { id: sorteoId }
+        })
+        .then((Game)=>{
+            res.status(201).json({resultado:{mensaje:"Sorteo cerrado"},exitoso:true})       
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error cerrando sorteo",error:error},exitoso:false})
+    }    
 })
 
-router.get("/activos", (req,res)=>{    
-    const accion = "SELECT * FROM tSorteos WHERE ESACTIVO = 'SI'" 
+router.get("/activos", (req,res)=>{        
     if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",
@@ -71,13 +77,21 @@ router.get("/activos", (req,res)=>{
         return
     }       
 
-    con.query(accion,function (err,rows,fields) {
-        if (!err) {            
-            res.json({resultado:{registros:rows},exitoso:true})
-        } else {
-            res.json({resultado:{mensaje:"Ocurrio un error buscando lista de sorteos"},exitoso:false})
-        }
-    })
+    /*Refactor v3.0
+    Sequelize ORM
+    BK*/
+    try {
+        DB.Game.findAll({
+            where:{         
+                esActivo: "SI"
+            }
+        })
+        .then((Game)=>{
+            res.status(201).json({resultado:Game,exitoso:true})       
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando todos los sorteos",error:error},exitoso:false})
+    }    
 })
 
 /*Chances*/
