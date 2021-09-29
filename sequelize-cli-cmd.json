@@ -13,12 +13,15 @@
             "regresarHastaEspecifica":"npx sequelize-cli db:migrate:undo:all --to 20210831024504-create-user.js"
         },
         "seeds":{
-            "crear":"npx sequelize-cli seed:generate --name demo-user",
+            "crear":"npx sequelize-cli seed:generate --name developer-gamestates",
             "correr":"npx sequelize-cli db:seed:all",
             "regresar":"npx sequelize-cli db:seed:undo",
             "regresarTodas":"npx sequelize-cli db:seed:undo:all",
             "regresarEspecifica":"npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data esto no sirve"
 
+        },
+        "git":{
+            "subir":"git push -u nubeGitHub main"
         }
 
 

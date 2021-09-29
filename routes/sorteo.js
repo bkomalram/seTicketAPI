@@ -4,8 +4,25 @@ const router = express.Router()
 const con = require("../modules/database")
 const DB = require ("../models/index")
 
+/*Funciones*/
+async function updateChanceQuantity(recordObject) {
+    /*Select the object*/
+    let recordDatabase = await DB.GameState.findOne({
+        where: {
+            sorteo_id:sorteoId,
+            usuario_id:req.jornada.id,
+            chance: chance         
+        }
+    })
+    /*Update the record with the new quantity*/
+    console.log("Old quantity: "+recordDatabase.cantidad)
+    recordDatabase.cantidad = recordDatabase.cantidad + recordObject.cantidad
+    console.log("New quantity: "+recordDatabase.cantidad)
+    recordDatabase.save()                
+}
+
 /*Sorteo*/
-router.post("/crear", (req,res)=>{
+router.post("/", (req,res)=>{
     const { nombreSorteo } = req.body
     if (req.jornada.accesos < 2) {
         res.status(401).json({
@@ -41,7 +58,7 @@ router.post("/crear", (req,res)=>{
     }            
 })
 
-router.post("/cerrar", (req,res)=>{
+router.patch("/", (req,res)=>{
     const { sorteoId } = req.body
     if (req.jornada.accesos < 2) {
         res.json({
@@ -68,7 +85,7 @@ router.post("/cerrar", (req,res)=>{
     }    
 })
 
-router.get("/activos", (req,res)=>{        
+router.get("/", (req,res)=>{        
     if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",
@@ -79,7 +96,13 @@ router.get("/activos", (req,res)=>{
 
     /*Refactor v3.0
     Sequelize ORM
-    BK*/
+    BK
+    url/sorteo POST Crear
+    url/sorteo PATCH Cierra
+    url/sorteo GET Obtiene todos
+    url/sorteo/:id GET Obtiene especifico
+    url/sorteo/:id/chances GET Obtiene Chances de sorteo especifico para usuario en sesion
+    */
     try {
         DB.Game.findAll({
             where:{         
@@ -87,14 +110,57 @@ router.get("/activos", (req,res)=>{
             }
         })
         .then((Game)=>{
-            res.status(201).json({resultado:Game,exitoso:true})       
+            res.status(200).json({resultado:Game,exitoso:true})       
         })        
     } catch (error) {
         res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando todos los sorteos",error:error},exitoso:false})
     }    
 })
 
+
+router.get("/:sorteoId", (req,res)=>{     
+    
+    const { sorteoId } = req.params
+
+    if (req.jornada.accesos == 0) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }       
+
+    /*Refactor v3.0
+    Sequelize ORM
+    BK
+    url/sorteo POST Crear
+    url/sorteo PATCH Cierra
+    url/sorteo GET Obtiene todos
+    url/sorteo/:id GET Obtiene especifico
+    url/sorteo/:id/chances GET Obtiene Chances de sorteo especifico para usuario en sesion
+    */
+    try {
+        DB.Game.findAll({
+            where:{         
+                esActivo: "SI"
+            }
+        })
+        .then((Game)=>{
+            let objectSorteo = Game.find(element => element.id == sorteoId);
+            res.status(200).json({resultado:objectSorteo,exitoso:true})       
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando todos los sorteos",error:error},exitoso:false})
+    }  
+})
+
+/*
+    Refactor v3.0
+    Sequelize - ORM
+    BK*/
 /*Chances*/
+/*No es necesario hacer esto, se puede hacer cuando se crea el tickete y lo controlamos desde el Back 
+@@ Se creo la función updateChanceQuantity linea 8 para Reemplazar esto.
 router.post("/cantidad/chance", (req,res)=>{
     const { sorteoId, usuarioId, chance, cantidad } = req.body
     const accion = "CALL rActualizaCantidadChance(?,?,?,?);"   
@@ -105,8 +171,8 @@ router.post("/cantidad/chance", (req,res)=>{
             exitoso:false
         })
         return
-    }
-
+    }    
+        
     con.query(accion,[sorteoId,usuarioId,chance,cantidad],function (err,rows,fields) {
         if (!err) {
             res.json({termino:true,resultado:rows[1][0]})
@@ -115,7 +181,15 @@ router.post("/cantidad/chance", (req,res)=>{
         }
     })
 })
+*/
 
+    /*
+    Refactor v3.0
+    Sequelize - ORM
+    BK
+    Reemplazar
+No es necesario calcular los totales de una lista de valores, podemos hacerlo desde API ahora.
+Se reemplazará
 router.get("/chances/total/:sorteoId/:usuarioId", (req,res)=>{
     const {sorteoId, usuarioId} = req.params
     const accion = `
@@ -142,9 +216,17 @@ router.get("/chances/total/:sorteoId/:usuarioId", (req,res)=>{
         }
     })
 })
+*/
 
-router.get("/chances/:sorteoId/:usuarioId/:ordenado", (req,res)=>{
-    const {sorteoId, ordenado, usuarioId} = req.params
+    /*
+    Refactor v3.0
+    Sequelize - ORM
+    BK*/
+router.get("/:sorteoId/chances", (req,res)=>{    
+    const {sorteoId} = req.params
+    const {ord} = req.query
+    /*Optional ordenado = cantidad|chance| defecto chance*/    
+    var ordenado = ["chance","cantidad"].indexOf(ord)==-1?"chance":ord
     const accion = ordenado == 1 ? "SELECT CHANCE, CANTIDAD FROM tSorteoEstado WHERE SORTEO_ID = ? AND USUARIO_ID = ? ORDER BY CANTIDAD DESC" : "SELECT CHANCE, CANTIDAD FROM tSorteoEstado WHERE SORTEO_ID = ? AND USUARIO_ID = ?"
     if (req.jornada.accesos == 0) {
         res.json({
@@ -152,14 +234,25 @@ router.get("/chances/:sorteoId/:usuarioId/:ordenado", (req,res)=>{
             exitoso:false
         })
         return
-    }
-    con.query(accion,[sorteoId, usuarioId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows})
-        } else {
-            console.log(err)
-        }
-    })
+    }    
+    
+    try {
+        DB.GameState.findAll({
+            where:{         
+                sorteo_id: sorteoId,
+                usuario_id: req.jornada.id
+            },
+            order:[
+                [ordenado, 'DESC'],
+            ]
+        })
+        .then((GameState)=>{
+            res.status(201).json({resultado:GameState,exitoso:true})       
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando el estado de cuenta",error:error},exitoso:false})
+    } 
+    
 })
 
 /*Billetes*/
