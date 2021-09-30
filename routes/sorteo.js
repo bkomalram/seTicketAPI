@@ -9,7 +9,7 @@ async function updateChanceQuantity(recordObject) {
     /*Select the object*/
     let recordDatabase = await DB.GameState.findOne({
         where: {
-            sorteo_id:sorteoId,
+            game_id:sorteoId,
             usuario_id:req.jornada.id,
             chance: chance         
         }
@@ -224,24 +224,36 @@ router.get("/chances/total/:sorteoId/:usuarioId", (req,res)=>{
     BK*/
 router.get("/:sorteoId/chances", (req,res)=>{    
     const {sorteoId} = req.params
-    const {ord} = req.query
+    const {ord,all} = req.query
     /*Optional ordenado = cantidad|chance| defecto chance*/    
-    var ordenado = ["chance","cantidad"].indexOf(ord)==-1?"chance":ord
-    const accion = ordenado == 1 ? "SELECT CHANCE, CANTIDAD FROM tSorteoEstado WHERE SORTEO_ID = ? AND USUARIO_ID = ? ORDER BY CANTIDAD DESC" : "SELECT CHANCE, CANTIDAD FROM tSorteoEstado WHERE SORTEO_ID = ? AND USUARIO_ID = ?"
+    var ordenado = ["chance","cantidad"].indexOf(ord)==-1?"chance":ord    
     if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",
             exitoso:false
         })
         return
+    }      
+    /*Optional traer todos los chances cuando eres Administrador*/
+    if (req.jornada.accesos < 2) {
+        var objectWhere = {         
+            game_id: sorteoId,
+            usuario_id: req.jornada.id
+        }
+    } else if (all) {            
+        var objectWhere = {         
+            game_id: sorteoId
+        }
+    } else {
+        var objectWhere = {         
+            game_id: sorteoId,
+            usuario_id: req.jornada.id
+        }
     }    
     
     try {
         DB.GameState.findAll({
-            where:{         
-                sorteo_id: sorteoId,
-                usuario_id: req.jornada.id
-            },
+            where:objectWhere,
             order:[
                 [ordenado, 'DESC'],
             ]
@@ -256,9 +268,13 @@ router.get("/:sorteoId/chances", (req,res)=>{
 })
 
 /*Billetes*/
-
-router.get("/billetes/:sorteoId/:usuarioId", (req,res)=>{
-    const {sorteoId, usuarioId} = req.params
+/*
+    Refactor v3.0
+    Sequelize - ORM
+    BK
+    */
+router.get("/:sorteoId/billetes", (req,res)=>{
+    const {sorteoId} = req.params
     const accion = `
     SELECT NUMERO, SUM(CANTIDAD) CANTIDAD  FROM tSorteoTiquetes CABEZA
     LEFT JOIN tSorteoTiquetesRegistros CUERPO ON CUERPO.TIQUETE_ID = CABEZA.ID
@@ -274,13 +290,22 @@ router.get("/billetes/:sorteoId/:usuarioId", (req,res)=>{
         })
         return
     }
-    con.query(accion,[sorteoId, usuarioId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows})
-        } else {
-            console.log(err)
-        }
-    })
+
+    var objectWhere = {
+        vendedor_id:req.jornada.id,
+        game_id:sorteoId
+    }
+
+    try {
+        DB.GameTicket.findAll({
+            where:objectWhere,            
+        })
+        .then((LeftJoin)=>{
+            res.status(200).json({resultado:LeftJoin,exitoso:true})       
+        })
+    } catch (error) {
+        console.log(error)
+    }    
 })
 
 router.get("/billetes/total/:sorteoId/:usuarioId", (req,res)=>{

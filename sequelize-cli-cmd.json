@@ -10,10 +10,11 @@
             "correr":"npx sequelize-cli db:migrate",
             "regresar":"npx sequelize-cli db:migrate:undo",
             "regresarTodas":"npx sequelize-cli db:migrate:undo:all",
-            "regresarHastaEspecifica":"npx sequelize-cli db:migrate:undo:all --to 20210831024504-create-user.js"
+            "regresarHastaEspecifica":"npx sequelize-cli db:migrate:undo:all --to 20210831024504-create-user.js",
+            "crear":"npx sequelize-cli migration:create --name modify-game-state"
         },
         "seeds":{
-            "crear":"npx sequelize-cli seed:generate --name developer-gamestates",
+            "crear":"npx sequelize-cli seed:generate --name developer-gameticketrecord",
             "correr":"npx sequelize-cli db:seed:all",
             "regresar":"npx sequelize-cli db:seed:undo",
             "regresarTodas":"npx sequelize-cli db:seed:undo:all",
