@@ -297,10 +297,28 @@ router.get("/:sorteoId/billetes", (req,res)=>{
     }
 
     try {
+        
         DB.GameTicket.findAll({
-            where:objectWhere,            
+            where:objectWhere, 
+            include:[
+                { 
+                    model:DB.GameTicketRecord,                      
+                    where:{
+                        ganador:'NO',
+                        tipo:"BILLETE"
+                    },   
+                    required:false,
+                    attributes:['numero']
+                }
+            ],
+            attributes:[
+                'GameTicketRecords.numero',
+                [DB.sequelize.fn('sum', DB.sequelize.col('cantidad')), 'cantidad'],                
+            ],
+            group:['GameTicketRecords.numero']           
         })
         .then((LeftJoin)=>{
+
             res.status(200).json({resultado:LeftJoin,exitoso:true})       
         })
     } catch (error) {

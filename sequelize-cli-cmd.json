@@ -11,7 +11,7 @@
             "regresar":"npx sequelize-cli db:migrate:undo",
             "regresarTodas":"npx sequelize-cli db:migrate:undo:all",
             "regresarHastaEspecifica":"npx sequelize-cli db:migrate:undo:all --to 20210831024504-create-user.js",
-            "crear":"npx sequelize-cli migration:create --name modify-game-state"
+            "crear":"npx sequelize-cli migration:create --name modify-game-ticket-addingfk"
         },
         "seeds":{
             "crear":"npx sequelize-cli seed:generate --name developer-gameticketrecord",

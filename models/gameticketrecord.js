@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.GameTicket)
     }
   };
   GameTicketRecord.init({
-    gameTicket_id: DataTypes.INTEGER,
+    gameTicketId: DataTypes.INTEGER,
     tipo: DataTypes.ENUM('CHANCE', 'BILLETE', 'EXTRAORDINARIO'),
     numero: DataTypes.STRING,
     cantidad: DataTypes.INTEGER,

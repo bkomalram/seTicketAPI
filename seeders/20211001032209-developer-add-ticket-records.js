@@ -15,10 +15,10 @@ module.exports = {
       let developmentGameTicketRecord = []
     for (let index = 0; index < 10; index++) {      
       const element = {
-        gameTicketId: index+1,
+        gameTicketId: 1,
         tipo: index%2==0?'CHANCE':'BILLETE',
-        numero: index%2==0?'2'+index:'564'+index,
-        cantidad: index+1,
+        numero: index%2==0?'2'+index:'664'+index,
+        cantidad: index+10,
         precio_unidad: 0.25,
         valorcompra: 0.25*(index+1),
         ganador: 'NO',
@@ -44,6 +44,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-     await queryInterface.bulkDelete('GameTicketRecords', {gameTicketId:{[Sequelize.Op.lte]:10}}, {})
+     await queryInterface.bulkDelete('GameTicketRecords', {gameTicketId:{[Sequelize.Op.eq]:1}}, {})
   }
 };

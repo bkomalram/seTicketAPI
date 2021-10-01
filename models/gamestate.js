@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   GameState.init({
-    sorteo_id: DataTypes.INTEGER,
+    game_id: DataTypes.INTEGER,
     usuario_id: DataTypes.INTEGER,
     chance: DataTypes.STRING,
     cantidad: DataTypes.INTEGER

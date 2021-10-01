@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      gameTicket_id: {
+      gameTicketId: {
         type: Sequelize.INTEGER
       },
       tipo: {
