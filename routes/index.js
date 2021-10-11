@@ -18,9 +18,4 @@ router.get('/ventas', function(req, res, next) {
   res.render('index', { title: 'Venta' });
 });
 
-router.get('/tiquete/:ID', function(req, res, next) {  
-  const {ID} = req.params
-  res.render('qr', { ID: ID });
-});
-
 module.exports = router;

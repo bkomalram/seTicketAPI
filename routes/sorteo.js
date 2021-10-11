@@ -274,15 +274,7 @@ router.get("/:sorteoId/chances", (req,res)=>{
     BK
     */
 router.get("/:sorteoId/billetes", (req,res)=>{
-    const {sorteoId} = req.params
-    const accion = `
-    SELECT NUMERO, SUM(CANTIDAD) CANTIDAD  FROM tSorteoTiquetes CABEZA
-    LEFT JOIN tSorteoTiquetesRegistros CUERPO ON CUERPO.TIQUETE_ID = CABEZA.ID
-    WHERE CABEZA.SORTEO_ID = ?
-    AND CABEZA.VENDEDOR_ID = ?
-    AND LENGTH(NUMERO)>3
-    GROUP BY NUMERO
-    `
+    const {sorteoId} = req.params    
     if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",
@@ -296,36 +288,45 @@ router.get("/:sorteoId/billetes", (req,res)=>{
         game_id:sorteoId
     }
 
-    try {
-        
-        DB.GameTicket.findAll({
-            where:objectWhere, 
-            include:[
-                { 
-                    model:DB.GameTicketRecord,                      
-                    where:{
-                        ganador:'NO',
-                        tipo:"BILLETE"
-                    },   
-                    required:false,
-                    attributes:['numero']
-                }
+    try {              
+        DB.GameTicketRecord.findAll({
+            where:{                
+                tipo:"BILLETE"
+            },
+            include:[{
+                model:DB.GameTicket,
+                where:objectWhere,
+                required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                attributes:[]
+            }                            
             ],
             attributes:[
-                'GameTicketRecords.numero',
+                'numero',
                 [DB.sequelize.fn('sum', DB.sequelize.col('cantidad')), 'cantidad'],                
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador')), 'dineroPremio'],
             ],
-            group:['GameTicketRecords.numero']           
+            group:['numero']
         })
         .then((LeftJoin)=>{
-
             res.status(200).json({resultado:LeftJoin,exitoso:true})       
         })
+
+        
     } catch (error) {
-        console.log(error)
+        res.status(400).json({resultado:[],exitoso:false}) 
     }    
 })
 
+/*
+
+/*
+    Refactor v3.0
+    Sequelize - ORM
+    BK
+    Reemplazar
+No es necesario calcular los totales de una lista de valores, podemos hacerlo desde API ahora.
+Se reemplazó por el endpoint anterior a este url/sorteo/:sorteoId/billetes
 router.get("/billetes/total/:sorteoId/:usuarioId", (req,res)=>{
     const {sorteoId, usuarioId} = req.params
     const accion = `
@@ -351,103 +352,15 @@ router.get("/billetes/total/:sorteoId/:usuarioId", (req,res)=>{
         }
     })
 })
+*/
 
 /*Tiquete*/
-
-router.get("/tiquete/:tiqueteId", (req,res)=>{
-    const {tiqueteId} = req.params
-    const accion = `
-    SELECT * FROM tSorteoTiquetesRegistros Registros
-    LEFT JOIN tSorteoTiquetes Tiquetes on Tiquetes.Id = Registros.Tiquete_ID
-    WHERE Registros.Tiquete_ID = ?
-    ORDER BY NUMERO ASC
-    `
-    if (req.jornada.accesos == 0) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
-    }
-    con.query(accion,[tiqueteId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows})
-        } else {
-            console.log(err)
-        }
-    })
-})
-
-router.get("/tiquete/total/:tiqueteId", (req,res)=>{
-    const {tiqueteId} = req.params
-    const accion = `
-    SELECT SUM(VALOR) TOTAL FROM tSorteoTiquetesRegistros
-    WHERE Tiquete_ID = ? 
-    `
-    if (req.jornada.accesos == 0) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
-    }
-    con.query(accion,[tiqueteId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows[0]})
-        } else {
-            console.log(err)
-        }
-    })
-})
-
-router.post("/tiquete/crear", (req,res)=>{
-    const { sorteoId, usuarioId, tipo, valor } = req.body
-
-    const accion = `
-    CALL rCrearTiquete(?,?,?,?);
-    `        
-    if (req.jornada.accesos == 0) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
-    }
-
-    con.query(accion,[sorteoId, usuarioId, tipo, valor],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows[0][0]})
-        } else {
-            console.log(err)
-        }
-    })
-})
-
-router.post("/tiquete", (req,res)=>{
-    const { tiqueteId, tipo,  numero, cantidad, valor, precio } = req.body
-
-    const accion = `
-    CALL rAgregarRegistros(?,?,?,?,?,?);
-    `
-    if (req.jornada.accesos == 0) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
-    }        
-    con.query(accion,[tiqueteId, tipo, numero, cantidad, valor, precio],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true})
-        } else {
-            console.log(err)
-        }
-    })
-})
-
-
-
-
+/*
+    Refactor v3.0
+    Sequelize - ORM
+    BK
+    @@Se mueven todos los endpoints relacionado con tiquete a su propio API
+*/
 
 /*Configuracion*/
 

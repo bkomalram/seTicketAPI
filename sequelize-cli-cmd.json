@@ -14,7 +14,7 @@
             "crear":"npx sequelize-cli migration:create --name modify-game-ticket-addingfk"
         },
         "seeds":{
-            "crear":"npx sequelize-cli seed:generate --name developer-gameticketrecord",
+            "crear":"npx sequelize-cli seed:generate --name developer-add-ticket-records",
             "correr":"npx sequelize-cli db:seed:all",
             "regresar":"npx sequelize-cli db:seed:undo",
             "regresarTodas":"npx sequelize-cli db:seed:undo:all",

@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var chanceRouter = require('./routes/chance');
 var sorteoRouter = require('./routes/sorteo');
 var ganadoresRouter = require('./routes/ganadores');
+var tiqueteRouter = require('./routes/tiquete');
 var usuariosRouter = require('./routes/usuarios');
 
 /*Utility*/
@@ -53,8 +54,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/chances', chanceRouter);
 app.use('/sorteo', sorteoRouter);
+app.use('/tiquete', tiqueteRouter);
 app.use('/ganadores', ganadoresRouter);
 app.use('/usuarios', usuariosRouter);
+
 
 
 // catch 404 and forward to error handler
