@@ -4,23 +4,6 @@ const router = express.Router()
 const con = require("../modules/database")
 const DB = require ("../models/index")
 
-/*Funciones*/
-async function updateChanceQuantity(recordObject) {
-    /*Select the object*/
-    let recordDatabase = await DB.GameState.findOne({
-        where: {
-            game_id:sorteoId,
-            usuario_id:req.jornada.id,
-            chance: chance         
-        }
-    })
-    /*Update the record with the new quantity*/
-    console.log("Old quantity: "+recordDatabase.cantidad)
-    recordDatabase.cantidad = recordDatabase.cantidad + recordObject.cantidad
-    console.log("New quantity: "+recordDatabase.cantidad)
-    recordDatabase.save()                
-}
-
 /*Sorteo*/
 router.post("/", (req,res)=>{
     const { nombreSorteo } = req.body
@@ -259,7 +242,7 @@ router.get("/:sorteoId/chances", (req,res)=>{
             ]
         })
         .then((GameState)=>{
-            res.status(201).json({resultado:GameState,exitoso:true})       
+            res.status(200).json({resultado:GameState,exitoso:true})       
         })        
     } catch (error) {
         res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando el estado de cuenta",error:error},exitoso:false})
