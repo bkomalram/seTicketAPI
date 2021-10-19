@@ -13,6 +13,7 @@ var sorteoRouter = require('./routes/sorteo');
 var ganadoresRouter = require('./routes/ganadores');
 var tiqueteRouter = require('./routes/tiquete');
 var usuariosRouter = require('./routes/usuarios');
+var configuracionRouter = require('./routes/configuracion');
 
 /*Utility*/
 function verificaToken(req,res,next) {  
@@ -57,6 +58,7 @@ app.use('/sorteo', sorteoRouter);
 app.use('/tiquete', tiqueteRouter);
 app.use('/ganadores', ganadoresRouter);
 app.use('/usuarios', usuariosRouter);
+app.use('/configuracion', configuracionRouter);
 
 
 

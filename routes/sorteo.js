@@ -346,47 +346,11 @@ router.get("/billetes/total/:sorteoId/:usuarioId", (req,res)=>{
 */
 
 /*Configuracion*/
-
-router.get("/configuracion", (req,res)=>{
-    
-    const accion = `
-    SELECT * FROM tConfiguracion
-    `
-    if (req.jornada.accesos == 0) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
-    }
-    con.query(accion,function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows})
-        } else {
-            console.log(err)
-        }
-    })
-})
-
-router.post("/configuracion", (req,res)=>{
-    const { nombre, precioChance, precioBillete, impresion, sorteoId } = req.body
-
-    const accion = "CALL rActualizaConfiguracion(?,?,?,?,?)" 
-
-    if (req.jornada.accesos < 2) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
-    }
-    con.query(accion,[nombre,precioChance,precioBillete,impresion,sorteoId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true})
-        } else {
-            console.log(err)
-        }
-    })
-})
+/*
+    Refactor v3.0
+    Sequelize - ORM
+    BK
+    @@Se mueven todos los endpoints relacionado con configuracion a su propio API
+*/
 
 module.exports = router
