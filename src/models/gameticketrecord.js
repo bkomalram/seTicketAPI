@@ -25,7 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     primer_premio: DataTypes.ENUM('CHANCE_GANADOR', 'CUATRO_NUMEROS', 'TRES_PRIMEROS', 'TRES_ULTIMOS', 'DOS_PRIMEROS_ULTIMO_NUMERO', 'DOS_PRIMEROS', 'DOS_ULTIMOS', 'ULTIMO_NUMERO'),
     segundo_premio: DataTypes.ENUM('CHANCE_GANADOR', 'CUATRO_NUMEROS', 'TRES_PRIMEROS', 'TRES_ULTIMOS', 'DOS_ULTIMOS'),
     tercer_premio: DataTypes.ENUM('CHANCE_GANADOR', 'CUATRO_NUMEROS', 'TRES_PRIMEROS', 'TRES_ULTIMOS', 'DOS_ULTIMOS'),
-    valorganador: DataTypes.DOUBLE
+    valorganador1er: DataTypes.DOUBLE,
+    valorganador2do: DataTypes.DOUBLE,
+    valorganador3ro: DataTypes.DOUBLE
+
   }, {
     sequelize,
     modelName: 'GameTicketRecord',

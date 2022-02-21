@@ -1,6 +1,6 @@
 {
     "documents":{
-        "url":"https://sequelize.org/master/manual/migrations.html"
+        "url":"https://sequelize.org/master/manual/migrations.html"        
     },
     "commands": {
         "models":{
@@ -14,7 +14,7 @@
             "crear":"npx sequelize-cli migration:create --name modify-game-ticket-addingfk"
         },
         "seeds":{
-            "crear":"npx sequelize-cli seed:generate --name developer-add-ticket-records",
+            "crear":"npx sequelize-cli seed:generate --name developer-config",
             "correr":"npx sequelize-cli db:seed:all",
             "regresar":"npx sequelize-cli db:seed:undo",
             "regresarTodas":"npx sequelize-cli db:seed:undo:all",

@@ -6,14 +6,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var chanceRouter = require('./routes/chance');
-var sorteoRouter = require('./routes/sorteo');
-var ganadoresRouter = require('./routes/ganadores');
-var tiqueteRouter = require('./routes/tiquete');
-var usuariosRouter = require('./routes/usuarios');
-var configuracionRouter = require('./routes/configuracion');
+var indexRouter = require('./src/routes/index');
+var usersRouter = require('./src/routes/users');
+var chanceRouter = require('./src/routes/chance');
+var sorteoRouter = require('./src/routes/sorteo');
+var ganadoresRouter = require('./src/routes/ganadores');
+var tiqueteRouter = require('./src/routes/tiquete');
+var usuariosRouter = require('./src/routes/usuarios');
+var configuracionRouter = require('./src/routes/configuracion');
 
 /*Utility*/
 function verificaToken(req,res,next) {  
@@ -75,7 +75,7 @@ app.use(function(err, req, res, next) {
 
   console.log("Error_:"+err.message)
   if(err.message=="jwt expired")
-  res.json({respuesta:"La sesión caduco. Ingresa nuevamnete", exitoso:false})
+  res.json({respuesta:"La sesión caduco. Ingresa nuevamente", exitoso:false})
   else
   res.json({respuesta:"Ocurrio un error", exitoso:false})
 });

@@ -46,7 +46,9 @@ router.post("/", async (req,res)=>{
                 primer_premio: null,
                 segundo_premio: null,
                 tercer_premio: null,
-                valorganador: 0.00
+                valorganador1er: 0.00,
+                valorganador2do: 0.00,
+                valorganador3ro: 0.00
             })
             /*Optional execution Update GameState*/
             if (element.tipo == "CHANCE"){

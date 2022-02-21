@@ -6,10 +6,6 @@ router.get('/', function(req, res, next) {
   res.render('login', { title: 'Login' });
 });
 
-router.get('/ganadores', function(req, res, next) {
-  res.render('ganadores', { title: 'Ganadores' });
-});
-
 router.get('/cuentas', function(req, res, next) {
   res.render('cuentas', { title: 'cuentas' });
 });

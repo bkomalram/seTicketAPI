@@ -1,12 +1,12 @@
 {
-  "standalone": {
+  "development": {
     "username": "root",
-    "password": "password",
+    "password": "b4s34p1",
     "database": "loteriadb",
-    "host": "localhost",
+    "host": "database",
     "dialect": "mysql"
   },
-  "development": {
+  "standalone": {
     "username": "seapi",
     "password": "b4s34p1",
     "host": "localhost",     

@@ -287,7 +287,9 @@ router.get("/:sorteoId/billetes", (req,res)=>{
                 'numero',
                 [DB.sequelize.fn('sum', DB.sequelize.col('cantidad')), 'cantidad'],                
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
-                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador')), 'dineroPremio'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador1er')), 'dineroPremio1er'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador2do')), 'dineroPremio2do'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
             ],
             group:['numero']
         })
