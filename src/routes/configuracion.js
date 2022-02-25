@@ -31,7 +31,7 @@ router.get("/", (req,res)=>{
 })
 
 router.post("/", (req,res)=>{
-    const { nombre, precioChance, precioBillete, impresion, gameId } = req.body    
+    const { nombre, precioChance, precioBillete, impresion, sorteoId } = req.body    
 
     if (req.jornada.accesos < 2) {
         res.json({
@@ -71,11 +71,11 @@ router.post("/", (req,res)=>{
                 where: { propiedad:"impresion" }
             })
         }
-        if (gameId) {            
+        if (sorteoId) {            
             DB.Config.update({            
-                valor: gameId
+                valor: sorteoId
             },{ 
-                where: { propiedad:"gameId" }
+                where: { propiedad:"sorteoId" }
             })
         }
         res.status(200).json({resultado:"Configuración actualizada",exitoso:true})

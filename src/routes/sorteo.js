@@ -33,7 +33,27 @@ router.post("/", (req,res)=>{
         .then((Game)=>{
             Game.save()
             .then((Commit)=>{
-                res.status(201).json({resultado:Commit,exitoso:true})
+                try {
+                    let developmentGameStates = []
+                  for (let index = 0; index < 100; index++) {
+                    let chance = index.toString()
+                    const element = {
+                      game_id: Commit.id,
+                      usuario_id: Commit.usuario_id,
+                      chance: chance.padStart(2,'0'),
+                      cantidad: 0,
+                      createdAt: new Date(),
+                      updatedAt: new Date()
+                    };
+                    developmentGameStates.push(element)
+                  }
+                  DB.GameState.bulkCreate(developmentGameStates)
+                  .then((state)=>{
+                    res.status(201).json({resultado:Commit,exitoso:true})
+                  })                          
+                } catch (error) {
+                    res.status(500).json({resultado:{mensaje:"Ocurrio un error creando sorteo",error:error},exitoso:false})
+                }                
             })        
         })        
     } catch (error) {

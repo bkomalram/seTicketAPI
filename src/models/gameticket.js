@@ -28,5 +28,20 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'GameTicket',
   });  
   
+  GameTicket.prototype.setRedeemed = async function() {    
+    this.cambio = "SI";
+    return await this.save()
+  }
+
+  GameTicket.prototype.setInvalid = async function() {    
+    this.esValido = "NO";
+    return await this.save()
+  }
+
+  GameTicket.prototype.setValid = async function() {    
+    this.esValido = "SI";
+    return await this.save()
+  }
+
   return GameTicket;
 };

@@ -908,17 +908,12 @@ router.post("/", (req,res)=>{
     res.json(respuesta)
 })
 
-router.get("/billete/:sorteoId", (req,res)=>{
+
+router.get("/:sorteoId", (req,res)=>{
+    
     const {sorteoId} = req.params
-    const accion = `
-    SELECT * FROM 
-    tsorteotiquetes TIQ
-	LEFT JOIN tSorteoTiquetesRegistros REG on TIQ.ID = REG.TIQUETE_ID        
-	WHERE REG.TIPO = 'BILLETE'
-    AND TIQ.SORTEO_ID = ?
-	AND TIQ.GANADOR = 'SI'
-    AND REG.GANADOR = 'SI';
-    `
+    const {accion} = req.query    
+      
     if (req.jornada.accesos < 2) {
         res.json({
             resultado: "Privilegios insuficientes",
@@ -926,51 +921,87 @@ router.get("/billete/:sorteoId", (req,res)=>{
         })
         return
     }
-    con.query(accion,[sorteoId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows})
-        } else {
-            console.log(err)
-        }
-    })
-})
 
-router.get("/chance/:sorteoId", (req,res)=>{
-    const {sorteoId} = req.params
-    const accion = `
-    SELECT * FROM 
-    tsorteotiquetes TIQ
-	LEFT JOIN tSorteoTiquetesRegistros REG on TIQ.ID = REG.TIQUETE_ID        
-	WHERE REG.TIPO = 'CHANCE'
-    AND TIQ.SORTEO_ID = ?
-	AND TIQ.GANADOR = 'SI'
-    AND REG.GANADOR = 'SI';
-    `
-    if (req.jornada.accesos < 2) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
+    if (accion == "chance") {
+        var whereCondition = {                                                
+            ganador: "SI",
+            tipo: "CHANCE"
+        }
+    } else if(accion == "billete") {
+        var whereCondition = {                                                
+            ganador: "SI",
+            tipo: "BILLETE"
+        }
+    }
+    else {
+        var whereCondition = {                                                
+            ganador: "SI"            
+        }
+    }
+    
+    try {              
+        DB.GameTicketRecord.findAll({  
+            where:whereCondition,
+            include:[{
+                model:DB.GameTicket,                
+                required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                where:{                                    
+                    game_id:sorteoId,
+                    cambio: "NO"
+                },
+                attributes:[] //Nada de GameTicket en la respuesta
+            }                            
+            ],            
+            order:[
+                ["numero", 'ASC'],
+            ]
         })
+        .then((LeftJoin)=>{            
+            res.status(200).json({resultado:LeftJoin,exitoso:true})  
+            return     
+        })
+        
+    } catch (error) {        
+        res.status(400).json({resultado:error,exitoso:false}) 
         return
     }
-    con.query(accion,[sorteoId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows})
-        } else {
-            console.log(err)
-        }
-    })
+
 })
 
-router.post("/cambiar", (req,res)=>{
+/**
+ * Continua aquí, sigue con ticket, luego configuracion.
+ */
+
+router.put("/", (req,res)=>{
     const { tiqueteId } = req.body
 
-    const accion = `
-    CALL rCambiarTiquete(?);
-    `        
-    con.query(accion,[tiqueteId])
-    
-    res.json({ termino: true})
+    try {
+
+        DB.GameTicket.update({            
+            cambio: "SI"
+        },{ 
+            where: {id:tiqueteId,esValido:'SI'}
+        })        
+        .then((Result)=>{
+            if(!Result){
+                res.status(404).json({
+                    resultado: null,                        
+                    exitoso:false
+                })                    
+            } else {
+                res.status(200).json({
+                    resultado: Result,                        
+                    exitoso:true
+                })  
+            }
+            return                            
+        })
+    } catch (error) {
+        res.status(500).json({
+            resultado: error,
+            exitoso:false
+        })
+    }
 })
 
 
