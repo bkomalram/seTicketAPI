@@ -7,8 +7,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 var indexRouter = require('./src/routes/index');
-var usersRouter = require('./src/routes/users');
-var chanceRouter = require('./src/routes/chance');
 var sorteoRouter = require('./src/routes/sorteo');
 var ganadoresRouter = require('./src/routes/ganadores');
 var tiqueteRouter = require('./src/routes/tiquete');
@@ -52,8 +50,6 @@ app.use(verificaToken)
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/chances', chanceRouter);
 app.use('/sorteo', sorteoRouter);
 app.use('/tiquete', tiqueteRouter);
 app.use('/ganadores', ganadoresRouter);

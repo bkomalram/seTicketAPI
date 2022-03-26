@@ -1,8 +1,9 @@
 const express = require("express")
 const router = express.Router()
 
-const con = require("../modules/database")
 const DB = require ("../models/index")
+const amqp = require('amqplib/callback_api');
+const { v4: uuidv4 } = require('uuid');
 
 /*Tiquete*/
 router.post("/", async (req,res)=>{
@@ -67,6 +68,100 @@ router.post("/", async (req,res)=>{
         })
 
         res.status(201).json({resultado:headerTicket,exitoso:true})  
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({resultado:error,exitoso:false}) 
+    }    
+
+})
+
+
+/*Tiquete*/
+router.post("/mq", async (req,res)=>{
+    const { sorteoId, valor, registros } = req.body
+
+    const accion = `
+    CALL rCrearTiquete(?,?,?,?);
+    `        
+    if (req.jornada.accesos == 0) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }    
+
+    try {
+        /*Create GameTicket Instance*/
+        const headerTicket = await DB.GameTicket.create({
+            game_id: sorteoId,
+            fecha: new Date(),
+            vendedor_id: req.jornada.id,
+            ganador: 'NO',
+            valorcompra: valor,
+            valorganador: 0.00,
+            cambio: 'NO',
+            esValido: 'SI'
+        })
+
+        /**
+         * Armando payload para MQ
+         */
+
+        var mqBody = {
+            headerTicket:headerTicket,
+            registros:registros,
+            jornada:req.jornada.id,
+            sorteoId:sorteoId
+        }
+        
+        /**
+         * AMQP - Callback structure
+         * Necesitas crear un network para comunicar los contenedores,
+         * asi poder tener una aplicación completa.
+         *  */
+         amqp.connect('amqp://lsmq', function(error0, connection) {
+            if (error0) {
+              throw error0;
+            }
+            connection.createChannel(function(error1, channel) {
+              if (error1) {
+                throw error1;
+              }
+              channel.assertQueue('', {
+                exclusive: true
+              }, function(error2, q) {
+                if (error2) {
+                  throw error2;
+                }
+                var correlationId = uuidv4()                        
+          
+                console.log(' [x] Pidiendo crear Registros de %d', headerTicket.id);
+          
+                channel.consume(q.queue, function(msg) {
+                  if (msg.properties.correlationId == correlationId) {
+                    console.log(' [.] Got %s', msg.content.toString());
+
+                    res.status(201).json({resultado:headerTicket,exitoso:true})                    
+
+                    setTimeout(function() {
+                      connection.close();                              
+                    }, 500);
+                  }
+                }, {
+                  noAck: true
+                });
+                
+                const queueName = "queue-ticket-prevent-duplication"
+
+                channel.sendToQueue(queueName,
+                  Buffer.from(JSON.stringify(mqBody)),{
+                    correlationId: correlationId,
+                    replyTo: q.queue });
+              });
+            });
+          });          
         
     } catch (error) {
         console.log(error)

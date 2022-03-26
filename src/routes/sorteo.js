@@ -1,8 +1,9 @@
 const express = require("express")
 const router = express.Router()
 
-const con = require("../modules/database")
 const DB = require ("../models/index")
+const amqp = require('amqplib/callback_api');
+const { v4: uuidv4 } = require('uuid');
 
 /*Sorteo*/
 router.post("/", (req,res)=>{
@@ -33,27 +34,53 @@ router.post("/", (req,res)=>{
         .then((Game)=>{
             Game.save()
             .then((Commit)=>{
-                try {
-                    let developmentGameStates = []
-                  for (let index = 0; index < 100; index++) {
-                    let chance = index.toString()
-                    const element = {
-                      game_id: Commit.id,
-                      usuario_id: Commit.usuario_id,
-                      chance: chance.padStart(2,'0'),
-                      cantidad: 0,
-                      createdAt: new Date(),
-                      updatedAt: new Date()
-                    };
-                    developmentGameStates.push(element)
-                  }
-                  DB.GameState.bulkCreate(developmentGameStates)
-                  .then((state)=>{
-                    res.status(201).json({resultado:Commit,exitoso:true})
-                  })                          
-                } catch (error) {
-                    res.status(500).json({resultado:{mensaje:"Ocurrio un error creando sorteo",error:error},exitoso:false})
-                }                
+                /**
+                 * AMQP - Callback structure
+                 * Necesitas crear un network para comunicar los contenedores,
+                 * asi poder tener una aplicación completa.
+                 *  */
+                 amqp.connect('amqp://lsmq', function(error0, connection) {
+                    if (error0) {
+                      throw error0;
+                    }
+                    connection.createChannel(function(error1, channel) {
+                      if (error1) {
+                        throw error1;
+                      }
+                      channel.assertQueue('', {
+                        exclusive: true
+                      }, function(error2, q) {
+                        if (error2) {
+                          throw error2;
+                        }
+                        var correlationId = uuidv4()                        
+                  
+                        console.log(' [x] Pidiendo crear estados de sorteo %d', Commit.id);
+                  
+                        channel.consume(q.queue, function(msg) {
+                          if (msg.properties.correlationId == correlationId) {
+                            console.log(' [.] Got %s', msg.content.toString());
+
+                            res.status(201).json({resultado:{mensaje:"Sorteo creado", detalle: Commit},exitoso:true})  
+
+                            setTimeout(function() {
+                              connection.close();                              
+                            }, 500);
+                          }
+                        }, {
+                          noAck: true
+                        });
+                        
+                        const queueName = "queue-game-status"
+
+                        channel.sendToQueue(queueName,
+                          Buffer.from(Commit.id.toString()),{
+                            correlationId: correlationId,
+                            replyTo: q.queue });
+                      });
+                    });
+                  }); 
+
             })        
         })        
     } catch (error) {

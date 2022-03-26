@@ -1,7 +1,5 @@
 const express = require("express")
 const router = express.Router()
-
-const con = require("../modules/database")
 const DB = require ("../models/index")
 
 /*Configuracion*/

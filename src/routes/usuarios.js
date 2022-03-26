@@ -3,7 +3,6 @@ var express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
 const DB = require ("../models/index")
-const con = require("../modules/database")
 
 router.get("/token", (req,res)=>{
     const initialToken = {
@@ -119,5 +118,44 @@ router.post("/changePassword",(req,res)=>{
     }    
 })
 
+/**
+ * Crear Usuario
+ */
+ router.post("/", (req,res)=>{
+    const { usuario, password, perfil } = req.body   
+    if (req.jornada.accesos < 2) {
+        res.status(401).json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
 
+    try {
+        DB.User.create({
+            padreUsuario_id: req.jornada.id,
+            nombre: usuario,
+            contrasena:password,
+            perfil:perfil,
+            ultimaConexion:null,
+            esActivo:'SI'
+        })
+        .then((nuevoUsuario)=>{
+            nuevoUsuario.save()
+            res.status(200).json({
+            resultado:nuevoUsuario,
+            exitoso:true
+        })
+        })
+        .catch(error =>{
+            console.log(error)
+        })  
+    } catch (error) {
+        res.status(500).json({
+            resultado: error,
+            exitoso:false
+        }) 
+    }
+           
+})
 module.exports = router;

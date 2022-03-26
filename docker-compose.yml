@@ -5,6 +5,8 @@ services:
       container_name: lsapi
       restart: always
       build: .
+      networks:
+        - backend        
       ports:
         - "5000:3000"
       links:
@@ -16,11 +18,17 @@ services:
       container_name: lsdb
       image: mysql
       command: --default-authentication-plugin=mysql_native_password
-      restart: always  
+      restart: always
+      networks:
+        - backend  
       ports:
         - "6000:3306"    
       environment:
         MYSQL_ROOT_PASSWORD: b4s34p1
         MYSQL_DATABASE: loteriadb
+networks:
+  backend:
+    external:
+      name: seTicketNetwork
         
 
