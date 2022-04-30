@@ -6,7 +6,9 @@
 
 var app = require('../app');
 var debug = require('debug')('expressls:server');
-var http = require('http');
+var https = require('https');
+const path = require("path");
+const fs = require("fs");
 
 /**
  * Get port from environment and store in Express.
@@ -16,10 +18,14 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTPS server.
  */
 
-var server = http.createServer(app);
+// var server = http.createServer(app);
+var server = https.createServer({
+  key:fs.readFileSync(path.join(__dirname,"..","src","cert","key.pem")),
+  cert:fs.readFileSync(path.join(__dirname,"..","src","cert","cert.pem"))
+},app)
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -27,7 +33,7 @@ var server = http.createServer(app);
 
 server.listen(port);
 server.on('error', onError);
-server.on('listening', onListening);
+server.on('Server secure on', onListening);
 
 /**
  * Normalize a port into a number, string, or false.

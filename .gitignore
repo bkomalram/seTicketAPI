@@ -4,3 +4,4 @@ database.sqlite
 *.sqlite
 src/docs
 src/modules
+src/config/config.json

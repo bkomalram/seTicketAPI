@@ -1,5 +1,17 @@
 {
   "development": {
+    "username": "55ftvt4vjnlr",
+    "password": "pscale_pw_6DyZiHcQhgHbbxgzNxDY38Dbp5KzFiN7ZJpBV2hY1WE",
+    "database": "dev-bk",
+    "host": "8iq3ioosgle0.us-east-3.psdb.cloud",
+    "dialect": "mysql",
+    "dialectOptions": {
+      "ssl": {
+          "rejectUnauthorized": true     
+      }
+    }
+  },
+  "dev-local": {
     "username": "root",
     "password": "b4s34p1",
     "database": "loteriadb",
