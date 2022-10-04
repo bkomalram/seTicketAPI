@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= enviroment.VERSION %></title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/app.css" />   
+  </head>
+  <body class="container-fluid">
+    <div
+      class="d-none d-print-block print-style font-weight-bold pa"
+      id="outDimention"
+    >
+      <div id="outPut1" class="pt-2"></div>
+    </div>
+    <div class="row d-print-none" id="generar">   
+        <div
+          class="col-2 mx-3 mt-2 card text-body p-2 text-black-50 mb-2"
+          style="background-color: #dee2e6 !important"
+          id="contenedordatosGlobales"
+        >
+          <div class="card-body" id="datosGlobales">   
+            <div class="row">
+                <h5>Sorteo:</h5>
+                <select
+                  id="select-choose-game"
+                  name="select-choose-game"
+                  type="text"
+                  class="custom-select"
+                >
+                  <option value="" name="">Sin Sorteo Seleccionado</option>
+                </select>
+            </div>
+            <div class="row">
+                <h5>Primer Premio:</h5>
+                <input type="text" class="form-control" id="numeroGanador1erPremio">
+            </div>
+            <div class="row">
+                <h5>Segundo Premio:</h5>
+                <input type="text" class="form-control" id="numeroGanador2doPremio">
+            </div>
+            <div class="row">
+                <h5>Tercer Premio:</h5>
+                <input type="text" class="form-control" id="numeroGanador3erPremio">
+            </div>
+            <h4
+              class="text-danger text-center pt-3"
+              id="error-loading-game"
+            ></h4>
+            <button class="btn btn-sm btn-secondary col-12 mt-3" id="btnGenerarGanadores">
+                <h6 id="text-winner-generate">Generar</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-winner-generate"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+            <div class="rows">
+                <div class="py-3">
+                    <button class="btn btn-sm btn-secondary col-12" id="btnVentas">
+                      Regresar Venta
+                    </button>
+                  </div>
+            </div>
+            <div class="rows">
+                <div class="py-3">
+                    <button class="btn btn-sm btn-secondary col-12" id="btnImprimirGanadores">
+                      Imprimir
+                    </button>
+                  </div>
+            </div>
+        </div>
+        </div>      
+        <div class="col-9" id="listaGanadores">
+            <div
+              id="ticketOutput"
+              class="font-weight-bold bg-white text-body d-print-none mt-2"
+            ></div>
+        </div>
+    </div>        
+    </div>
+
+
+    <div
+      class="alert alert-danger d-none offset-4 col-4 mt-5 p-5"
+      role="alert"
+      id="alertSession"
+    >
+      <h4 class="alert-heading">Su sesión caduco!</h4>
+      <p>Oh si! debes ingresar nuevamente</p>
+      <hr />
+      <p class="mb-0" id="txtTimer">Seras redireccionado en 2 segundos . . .</p>
+    </div>
+    <div
+      class="d-flex justify-content-center"
+      style="margin-top: 20%"
+      id="loading"
+    >
+      <div
+        class="spinner-grow"
+        role="status"
+        style="
+          width: 10rem;
+          height: 10rem;
+          background-color: #dee2e6 !important;
+        "
+        id="spinnerLog"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+
+    <script src="/javascripts/modules/output.js"></script>
+    <script src="/javascripts/actions.js"></script>
+    <script src="/javascripts/qrcode.min.js"></script>
+    <script>
+        var globalChance = {
+            person: "Ganadores",
+            id:"1234567899874566123",
+            gameId:0,
+            receiptCount:"0",
+            price: 0.25,
+            bprice: 0,
+            userId: 500,
+            userProfile: "",
+            userName: "",
+            host:"192.168.0.10"
+            }
+
+
+            var api = "<%= enviroment.URL_API %>";
+
+            
+      /*Verificar si tiene sesión*/
+      if (localStorage.getItem("tokenSSO")) {
+        /*Verificando token*/
+        fetch(api + "usuarios/decode", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.exitoso) {
+              /**
+               * Basado en el perfil mostrar o dejar de mostrar
+               */
+              localStorage.setItem("sesion-accesos", data.resultado.accesos);
+              localStorage.setItem("sesion-perfil", data.resultado.perfil);
+              localStorage.setItem("sesion-usuario", data.resultado.usuario);
+              localStorage.setItem("sesion-id", data.resultado.id);
+
+              if (data.resultado.perfil != "ADMIN") {
+                document
+                  .querySelector("#contenedorConfiguracion")
+                  .classList.add("d-none");
+                document.querySelector("#btnCerrar").classList.add("d-none");
+                document
+                  .querySelector("#contenedorAccionesAdministrador")
+                  .classList.add("d-none");
+              }
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");              
+            } else {
+              /**
+               * Caduco la sesión mensaje y redireccionar
+               */
+
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+              document.querySelector("#generar").classList.add("d-none");
+              document
+                .querySelector("#alertSession")
+                .classList.remove("d-none");
+
+              localStorage.removeItem("tokenSSO");
+              setTimeout(function () {
+                window.location = "/";
+              }, 2000);
+            }
+          });
+      } else {
+        document.querySelector("#generar").classList.add("d-none");
+        document.querySelector("#loading").classList.remove("d-flex");
+        document.querySelector("#loading").classList.add("d-none");
+        document.querySelector("#alertSession").classList.remove("d-none");
+        localStorage.removeItem("tokenSSO");
+        setTimeout(function () {
+          window.location = "/";
+        }, 2000);
+      }
+
+      /**
+       * Carga automatica
+       */
+
+       cargarSorteos();
+
+      function cargarSorteos() {
+        fetch(api + "sorteo", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.querySelector("#error-loading-game").innerHTML = "";
+            if (data.exitoso) {
+              
+              let select = document.querySelector("#select-choose-game");
+              while (select.length > 0) {
+                select.remove(select.length - 1);
+              }
+              data.resultado.forEach((element) => {
+                let option = document.createElement("option");
+                option.text = element.nombre;
+                option.value = element.id;
+                option.setAttribute("name", element.id);
+                select.add(option);
+              });
+            } else {
+              document.querySelector("#error-loading-game").innerHTML =
+                "Error cargando sorteos, contacte el administrador.";              
+            }
+            return;
+          })                    
+          
+      }
+
+            var bag = {
+            person:globalChance.person,
+            userId: globalChance.userId,
+            id: ()=> {return globalChance.gameId.toString().padStart(18,'0').padStart(19,'1')},
+            items:[],
+            total:0,
+            date:function () {
+                let date = new Date()
+                return date.toLocaleString('en-US', { hour12: true })
+            },
+            receipt: () => {return (Number(globalChance.receiptCount)).toString().padStart(6,'0') },
+            add: function (item) {
+                this.items.push(item)
+                this.calc()
+                this.render()
+            },
+            update: function (index,item) {    
+                if (item.qty == 0)
+                this.items.splice(index,1)
+                else {
+                this.items[index].qty = this.items[index].qty + item.qty
+                this.items[index].price = item.price
+                this.items[index].total = this.items[index].total + item.total 
+                }    
+                this.calc()
+                this.render()   
+            },
+            render: chanceOutput,
+            calc: function () {
+                let sum=0
+                this.items.forEach(element => {
+                sum += element.total
+                })    
+                this.total = (Math.round(sum * 100) / 100).toFixed(2)
+            },
+            clear: function () {
+                this.items = []    
+            },
+            itemsInOrder: function() {
+                let rows = (this.items.length > 0) ? this.items.sort(function compare( a, b ) {
+                if ( Number(a.number) < Number(b.number) ){
+                    return -1;
+                }
+                if ( Number(a.number) > Number(b.number) ){
+                    return 1;
+                }
+                return 0;
+                }) : []
+                return rows
+            },
+            type: function(){
+                var isBillete = false
+                this.items.forEach(function (element) {      
+                isBillete = element.number.length > 2 ? true : false
+                })  
+                if (isBillete) {
+                return "BILLETE"
+                } else {
+                return "CHANCE"
+                }
+            }
+            }
+
+        
+
+
+        document.querySelector("#btnGenerarGanadores").addEventListener("click", function(){
+            bag.clear()
+            document
+            .querySelector("#spinner-winner-generate")
+            .classList.remove("d-none");
+            document.querySelector("#text-winner-generate").classList.add("d-none");
+            document.querySelector("#btnGenerarGanadores").setAttribute("disabled",true);
+
+            var sorteoId = document.querySelectorAll('#select-choose-game option')[document.querySelector('#select-choose-game').selectedIndex].getAttribute('name')
+
+            var objetoGanadores = {
+                sorteoId: sorteoId, 
+                numeroGanador1er: document.querySelector("#numeroGanador1erPremio").value, 
+                numeroGanador2do: document.querySelector("#numeroGanador2doPremio").value, 
+                numeroGanador3er:document.querySelector("#numeroGanador3erPremio").value
+            }
+            
+            var objetoLimpieza = {
+                sorteoId: sorteoId    
+            }
+
+            /***
+             * Limpia Siempre
+             * El estado actual 
+             */
+
+             fetch(api + "ganadores", {
+          method: "PATCH",
+          body: JSON.stringify(objetoLimpieza),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          }          
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            /*Invoka funcion de generar ganadores*/
+            fetch(api + "ganadores", {
+          method: "POST",
+          body: JSON.stringify(objetoGanadores),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          }          
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            /*Pinta resultado*/
+            fetch(api + "ganadores/"+sorteoId,{
+            method: 'GET',            
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          }           
+            })
+            .then(response => response.json())
+            .then(dataSorteo => {                
+
+                if (!dataSorteo.exitoso) {
+                    document.querySelector("#error-loading-game").innerHTML =
+                "Error generando ganadores, refresca.";
+                }
+                console.table(dataSorteo)
+                dataSorteo.resultado.forEach(element => {
+                    let newItem = {
+                    number:"",
+                    qty:0,
+                    price:0,
+                    total:0
+                    }
+
+                    newItem.number = element.numero;
+                    newItem.qty = element.cantidad;
+                    
+                    let valor1er = 0;
+                    let valor2do = 0;
+                    let valor3ro = 0;
+                    switch (element.primer_premio) {
+                        case 'CUATRO_NUMEROS':
+                            valor1er = 2000
+                            break;
+                        case 'TRES_PRIMEROS':
+                            valor1er = 50
+                            break;
+                        case 'TRES_ULTIMOS':
+                            valor1er = 50
+                            break;
+                        case 'DOS_PRIMEROS':
+                            valor1er = 3
+                            break;
+                        case 'DOS_ULTIMOS':
+                            valor1er = 3
+                            break;
+                        case 'DOS_PRIMEROS_ULTIMO_NUMERO':
+                            valor1er = 4
+                            break;
+                        case 'ULTIMO_NUMERO':
+                            valor1er = 1
+                            break;
+                        default:
+                            break;
+                    }
+
+                    switch (element.segundo_premio) {
+                        case 'CUATRO_NUMEROS':
+                            valor2do = 600
+                            break;
+                        case 'TRES_PRIMEROS':
+                            valor2do = 20
+                            break;
+                        case 'TRES_ULTIMOS':
+                            valor2do = 20
+                            break;
+                        case 'DOS_ULTIMOS':
+                            valor2do = 2                     
+                            break;
+                        default:
+                            break;
+                    }
+
+                    switch (element.tercer_premio) {
+                        case 'CUATRO_NUMEROS':
+                            valor3ro = 300
+                            break;
+                        case 'TRES_PRIMEROS':
+                            valor3ro = 10
+                            break;
+                        case 'TRES_ULTIMOS':
+                            valor3ro = 10
+                            break;
+                        case 'DOS_ULTIMOS':
+                            valor3ro = 1                     
+                            break;
+                        default:
+                            break;
+                    }
+
+                    
+                     /* 
+                        1 - 'CHANCE_GANADOR',
+                        2 - 'CUATRO_NUMEROS',
+                        3 - 'TRES_PRIMEROS',
+                        4 - 'TRES_ULTIMOS',
+                        5 - 'DOS_PRIMEROS',
+                        6 - 'DOS_ULTIMOS',
+                        7 - 'ULTIMO_NUMERO'
+                    */
+                    
+                    switch (element.primer_premio) {
+                        case 'CHANCE_GANADOR':
+                            valor1er = 14
+                            break;                        
+                        default:
+                            break;
+                    }
+                    
+                    /*
+                        1 - 'CHANCE_GANADOR',
+                        2 - 'CUATRO_NUMEROS',
+                        3 - 'TRES_PRIMEROS',
+                        4 - 'TRES_ULTIMOS',
+                        5 - 'DOS_ULTIMOS'
+                    */
+                    switch (element.segundo_premio) {
+                        case 'CHANCE_GANADOR':
+                            valor2do = 3
+                            break;                        
+                        default:
+                            break;
+                    }
+
+                    switch (element.tercer_premio) {
+                        case 'CHANCE_GANADOR':
+                            valor3ro = 2
+                            break;                        
+                        default:
+                            break;
+                    }
+
+
+                    newItem.price = valor1er + valor2do + valor3ro
+
+                    newItem.total = element.valorganador1er + element.valorganador2do +element.valorganador3ro;
+
+                    let indexItem = bag.items.findIndex(object=>object.number === newItem.number)        
+                    if (indexItem>-1) {          
+                        bag.update(indexItem,newItem)
+                    } else {
+                        if (newItem.qty>0) {
+                            bag.add(newItem) 
+                        }                    
+                    }
+
+                    chanceOutput()
+                    
+                });
+            })
+            .then(finish => {
+                document
+                .querySelector("#spinner-winner-generate")
+                .classList.add("d-none");
+                document.querySelector("#text-winner-generate").classList.remove("d-none");                            
+                document.querySelector("#btnGenerarGanadores").removeAttribute("disabled",true)
+                document.querySelector('#outPut1').innerHTML = document.querySelector('#ticketOutput').innerHTML
+            })            
+          })
+          })  
+            })                                
+        
+
+            document.querySelector("#numeroGanador3erPremio").addEventListener("keydown",function ({key}) {  
+ if (document.querySelector("input[id=numeroGanador3erPremio]").value.length >3 ){
+     document.querySelector("input[id=numeroGanador3erPremio]").value = document.querySelector("input[id=numeroGanador3erPremio]").value.slice(0,3)
+}
+})
+
+
+document.querySelector("#numeroGanador1erPremio").addEventListener("keydown",function ({key}) {  
+  if (document.querySelector("input[id=numeroGanador1erPremio]").value.length >3 ){
+     document.querySelector("input[id=numeroGanador1erPremio]").value = document.querySelector("input[id=numeroGanador1erPremio]").value.slice(0,3)
+    }
+})
+
+document.querySelector("#numeroGanador2doPremio").addEventListener("keydown",function ({key}) {  
+if (document.querySelector("input[id=numeroGanador2doPremio]").value.length >3 ){
+     document.querySelector("input[id=numeroGanador2doPremio]").value = document.querySelector("input[id=numeroGanador2doPremio]").value.slice(0,3)
+}
+})
+
+        document.querySelector("#btnVentas").addEventListener("click",function (event) {  
+            window.location = '/ventas'
+        })
+
+        document.querySelector("#btnImprimirGanadores").addEventListener("click",function (event) {  
+            window.print()
+        })
+        
+    </script>            
+  </body>
+</html>

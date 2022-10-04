@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('expressls:server');
 var https = require('https');
+var http = require('http');
 const path = require("path");
 const fs = require("fs");
 
@@ -21,11 +22,11 @@ app.set('port', port);
  * Create HTTPS server.
  */
 
-// var server = http.createServer(app);
-var server = https.createServer({
+var server = http.createServer(app);
+/*var server = https.createServer({
   key:fs.readFileSync(path.join(__dirname,"..","src","cert","key.pem")),
   cert:fs.readFileSync(path.join(__dirname,"..","src","cert","cert.pem"))
-},app)
+},app)*/
 
 /**
  * Listen on provided port, on all network interfaces.

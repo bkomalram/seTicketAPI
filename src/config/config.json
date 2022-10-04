@@ -1,5 +1,5 @@
 {
-  "development": {
+  "dev-scalete": {
     "username": "55ftvt4vjnlr",
     "password": "pscale_pw_6DyZiHcQhgHbbxgzNxDY38Dbp5KzFiN7ZJpBV2hY1WE",
     "database": "dev-bk",
@@ -11,7 +11,7 @@
       }
     }
   },
-  "dev-local": {
+  "development": {
     "username": "root",
     "password": "b4s34p1",
     "database": "loteriadb",

@@ -19,7 +19,7 @@ router.post("/", (req,res)=>{
     const { password, newPassword } = req.body
     if (!nombreSorteo) {
         res.status(400).json({
-            resultado: "Se requieren el nombre del sorteo, para proceder.",
+            resultado: "Se requiere el nombre del sorteo, para proceder.",
             exitoso: false
         })
         return
@@ -32,56 +32,8 @@ router.post("/", (req,res)=>{
             esActivo: "SI"
         })
         .then((Game)=>{
-            Game.save()
-            .then((Commit)=>{
-                /**
-                 * AMQP - Callback structure
-                 * Necesitas crear un network para comunicar los contenedores,
-                 * asi poder tener una aplicación completa.
-                 *  */
-                 amqp.connect('amqp://lsmq', function(error0, connection) {
-                    if (error0) {
-                      throw error0;
-                    }
-                    connection.createChannel(function(error1, channel) {
-                      if (error1) {
-                        throw error1;
-                      }
-                      channel.assertQueue('', {
-                        exclusive: true
-                      }, function(error2, q) {
-                        if (error2) {
-                          throw error2;
-                        }
-                        var correlationId = uuidv4()                        
-                  
-                        console.log(' [x] Pidiendo crear estados de sorteo %d', Commit.id);
-                  
-                        channel.consume(q.queue, function(msg) {
-                          if (msg.properties.correlationId == correlationId) {
-                            console.log(' [.] Got %s', msg.content.toString());
-
-                            res.status(201).json({resultado:{mensaje:"Sorteo creado", detalle: Commit},exitoso:true})  
-
-                            setTimeout(function() {
-                              connection.close();                              
-                            }, 500);
-                          }
-                        }, {
-                          noAck: true
-                        });
-                        
-                        const queueName = "queue-game-status"
-
-                        channel.sendToQueue(queueName,
-                          Buffer.from(Commit.id.toString()),{
-                            correlationId: correlationId,
-                            replyTo: q.queue });
-                      });
-                    });
-                  }); 
-
-            })        
+            Game.save() 
+            res.status(201).json({resultado:{mensaje:"Sorteo creado"},exitoso:true})                     
         })        
     } catch (error) {
         res.status(500).json({resultado:{mensaje:"Ocurrio un error creando sorteo",error:error},exitoso:false})
@@ -254,7 +206,7 @@ router.get("/chances/total/:sorteoId/:usuarioId", (req,res)=>{
     BK*/
 router.get("/:sorteoId/chances", (req,res)=>{    
     const {sorteoId} = req.params
-    const {ord,all} = req.query
+    const {ord,all,only} = req.query
     /*Optional ordenado = cantidad|chance| defecto chance*/    
     var ordenado = ["chance","cantidad"].indexOf(ord)==-1?"chance":ord    
     if (req.jornada.accesos == 0) {
@@ -268,21 +220,56 @@ router.get("/:sorteoId/chances", (req,res)=>{
     if (req.jornada.accesos < 2) {
         var objectWhere = {         
             game_id: sorteoId,
-            usuario_id: req.jornada.id
+            userId: req.jornada.id
         }
     } else if (all) {            
         var objectWhere = {         
             game_id: sorteoId
         }
+    } else if (only) {            
+        var objectWhere = {         
+            game_id: sorteoId,
+            userId: only.split(",")
+        }
     } else {
         var objectWhere = {         
             game_id: sorteoId,
-            usuario_id: req.jornada.id
+            userId: req.jornada.id
         }
     }    
     
     try {
-        DB.GameState.findAll({
+        DB.GameTicketRecord.findAll({
+            where:{                
+                tipo:"CHANCE"
+            },
+            include:[{
+                model:DB.GameTicket,
+                where:objectWhere,
+                required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                attributes:[],
+                include:[{
+                    model:DB.User,                    
+                    required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                    attributes:[]
+                }]
+            }                            
+            ],
+            attributes:[
+                'numero',
+                //[DB.sequelize.col('GameTicket->User.nombre'),'vendedor'],               
+                [DB.sequelize.fn('sum', DB.sequelize.col('cantidad')), 'cantidad'],                
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador1er')), 'dineroPremio1er'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador2do')), 'dineroPremio2do'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
+            ],
+            group:['numero']            
+        })
+        .then((LeftJoin)=>{
+            res.status(200).json({resultado:LeftJoin,exitoso:true})       
+        })
+        /*DB.GameState.findAll({
             where:objectWhere,
             order:[
                 [ordenado, 'DESC'],
@@ -290,7 +277,7 @@ router.get("/:sorteoId/chances", (req,res)=>{
         })
         .then((GameState)=>{
             res.status(200).json({resultado:GameState,exitoso:true})       
-        })        
+        })*/       
     } catch (error) {
         res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando el estado de cuenta",error:error},exitoso:false})
     } 
@@ -304,7 +291,8 @@ router.get("/:sorteoId/chances", (req,res)=>{
     BK
     */
 router.get("/:sorteoId/billetes", (req,res)=>{
-    const {sorteoId} = req.params    
+    const {sorteoId} = req.params
+    const {ord,all,only} = req.query
     if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",
@@ -313,9 +301,25 @@ router.get("/:sorteoId/billetes", (req,res)=>{
         return
     }
 
-    var objectWhere = {
-        vendedor_id:req.jornada.id,
-        game_id:sorteoId
+    if (req.jornada.accesos < 2) {
+        var objectWhere = {         
+            game_id: sorteoId,
+            userId: req.jornada.id
+        }
+    } else if (all) {            
+        var objectWhere = {         
+            game_id: sorteoId
+        }
+    } else if (only) {            
+        var objectWhere = {         
+            game_id: sorteoId,
+            userId: only.split(",")
+        }
+    } else {
+        var objectWhere = {         
+            game_id: sorteoId,
+            userId: req.jornada.id
+        }
     }
 
     try {              
@@ -327,18 +331,28 @@ router.get("/:sorteoId/billetes", (req,res)=>{
                 model:DB.GameTicket,
                 where:objectWhere,
                 required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
-                attributes:[]
-            }                            
+                attributes:[],
+                include:[{
+                    model:DB.User,                    
+                    required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                    attributes:[]
+                }]
+            }                                        
             ],
             attributes:[
                 'numero',
+                //[DB.sequelize.col('GameTicket->User.nombre'),'vendedor'], 
                 [DB.sequelize.fn('sum', DB.sequelize.col('cantidad')), 'cantidad'],                
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador1er')), 'dineroPremio1er'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador2do')), 'dineroPremio2do'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
             ],
-            group:['numero']
+            group:['numero'],
+            order:[
+                [DB.sequelize.literal('cantidad'), 'DESC'],
+            ]
+
         })
         .then((LeftJoin)=>{
             res.status(200).json({resultado:LeftJoin,exitoso:true})       

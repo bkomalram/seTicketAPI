@@ -26,14 +26,14 @@ const DB = require ("../models/index")
         throw error1;
       }
 
-      const queueName = "queue-ticket-verification"
+      const queueName = "queue-winners-step1"
       
       channel.assertQueue(queueName, {
         durable: false
       });
 
       channel.prefetch(1);
-      console.log(' [x] Esperando peticiones para ejecutar . . .');
+      console.log(' [x] Esperando peticion de ganadores . . .');
     /**
      * Declara el consumo
      */
@@ -49,59 +49,52 @@ const DB = require ("../models/index")
          const payload = JSON.parse(msg.content.toString());
 
         /**
-                * Verificacion de calidad
-                * Header vs Body
-                */
+        * Extracción de datos del sorteo para evaluar
+        * Chance
+        * Billete
+        */
 
-         DB.GameTicketRecord.findAll({
+         DB.GameTicket.findAll({
             where:{         
-              gameTicketId: payload.headerTicket.id,                 
-          },
-            include:[{
-                model:DB.GameTicket,
-                where:{         
-                  id: payload.headerTicket.id,                 
-              },
-                required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
-                attributes:[
-                  'id',
-                  'valorcompra',                  
-                ]
-            }                            
-            ],
-            attributes:[                                  
-                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'bodyAmount']                
-            ],
-            group: ['GameTicket.id']            
+                game_id: payload.sorteoId,                 
+          }         
         })
-        .then((LeftJoin)=>{                                    
-            if (LeftJoin[0].dataValues.bodyAmount != LeftJoin[0].dataValues.GameTicket.valorcompra)
-                return false
-            else
-                return true                                    
+        .then((AllTickets)=>{                                    
+            /**
+             * Atendiendo proceso de chances
+             */
+
+             AllTickets.forEach(element => {
+                /**
+                 * Buscando Chances asociados al ticket
+                 */
+
+                 DB.GameTicketRecord.findAll({
+                    where:{                
+                        tipo:"CHANCE",
+                        gameTicketId:element.id
+                    }           
+                })
+                .then((chances)=>{
+                    /**Aplicar logica de calculo
+                     * de ganadores chances
+                     */
+                    
+                })
+            });
         })
         .then((isOK)=>{        
         /**
          * Enviado a cola de verificacion queue-game-status-update
          * Solo si los resultados son iguales
          */
-        if(isOK) {
-                          
-         /**
-         * Regresa el mensaje de completo
-         */
-        channel.sendToQueue(msg.properties.replyTo,
-          Buffer.from("Proceso completo"), {
-          correlationId: msg.properties.correlationId
-          });
-      /**
-       * Quita el mensaje de la cola de envio
-       */
-      channel.ack(msg);
 
-        } else {
-         console.log("Resultados no iguales... se envia al inicio de la cola de procesamiento")
-         const nextqueueName = "queue-ticket-prevent-duplication"
+        /**
+             * Enviar a Cola de procesamiento mixto
+             *  */
+            
+         console.log("Enviando a proceso de chances ganadores")
+         const nextqueueName = "queue-winners-chances"
          channel.assertQueue(nextqueueName, {
           durable: false
         });
@@ -114,7 +107,7 @@ const DB = require ("../models/index")
           * Quita el mensaje de la cola de envio
           */
          channel.ack(msg);
-        }        
+                
 
         })               
                                         

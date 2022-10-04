@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= enviroment.VERSION %></title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+  </head>
+  <body class="container-fluid">
+    <div
+      class="d-none d-print-block print-style font-weight-bold pa"
+      id="outDimention"
+    >
+      <div id="outPut1" class="pt-2"></div>
+    </div>
+    <div class="row d-none" id="venta">
+      <div
+        class="col-6 d-print-none card p-2 mt-2"
+        style="background-color: #dee2e6 !important"
+      >
+        <div class="row" id="chanceBuilder">
+          <div class="col-3">
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">00</span>
+              </div>
+              <input
+                id="i00"
+                name="00"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">01</span>
+              </div>
+              <input
+                id="i01"
+                name="01"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">02</span>
+              </div>
+              <input
+                id="i02"
+                name="02"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">03</span>
+              </div>
+              <input
+                id="i03"
+                name="03"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">04</span>
+              </div>
+              <input
+                id="i04"
+                name="04"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">05</span>
+              </div>
+              <input
+                id="i05"
+                name="05"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">06</span>
+              </div>
+              <input
+                id="i06"
+                name="06"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">07</span>
+              </div>
+              <input
+                id="i07"
+                name="07"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">08</span>
+              </div>
+              <input
+                id="i08"
+                name="08"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">09</span>
+              </div>
+              <input
+                id="i09"
+                name="09"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">10</span>
+              </div>
+              <input
+                id="i10"
+                name="10"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">11</span>
+              </div>
+              <input
+                id="i11"
+                name="11"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">12</span>
+              </div>
+              <input
+                id="i12"
+                name="12"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">13</span>
+              </div>
+              <input
+                id="i13"
+                name="13"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">14</span>
+              </div>
+              <input
+                id="i14"
+                name="14"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">15</span>
+              </div>
+              <input
+                id="i15"
+                name="15"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">16</span>
+              </div>
+              <input
+                id="i16"
+                name="16"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">17</span>
+              </div>
+              <input
+                id="i17"
+                name="17"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">18</span>
+              </div>
+              <input
+                id="i18"
+                name="18"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">19</span>
+              </div>
+              <input
+                id="i19"
+                name="19"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">20</span>
+              </div>
+              <input
+                id="i20"
+                name="20"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">21</span>
+              </div>
+              <input
+                id="i21"
+                name="21"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">22</span>
+              </div>
+              <input
+                id="i22"
+                name="22"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">23</span>
+              </div>
+              <input
+                id="i23"
+                name="23"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">24</span>
+              </div>
+              <input
+                id="i24"
+                name="24"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">25</span>
+              </div>
+              <input
+                id="i25"
+                name="25"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">26</span>
+              </div>
+              <input
+                id="i26"
+                name="26"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">27</span>
+              </div>
+              <input
+                id="i27"
+                name="27"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">28</span>
+              </div>
+              <input
+                id="i28"
+                name="28"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">29</span>
+              </div>
+              <input
+                id="i29"
+                name="29"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">30</span>
+              </div>
+              <input
+                id="i30"
+                name="30"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">31</span>
+              </div>
+              <input
+                id="i31"
+                name="31"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">32</span>
+              </div>
+              <input
+                id="i32"
+                name="32"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">33</span>
+              </div>
+              <input
+                id="i33"
+                name="33"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">34</span>
+              </div>
+              <input
+                id="i34"
+                name="34"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">35</span>
+              </div>
+              <input
+                id="i35"
+                name="35"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">36</span>
+              </div>
+              <input
+                id="i36"
+                name="36"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">37</span>
+              </div>
+              <input
+                id="i37"
+                name="37"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">38</span>
+              </div>
+              <input
+                id="i38"
+                name="38"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">39</span>
+              </div>
+              <input
+                id="i39"
+                name="39"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">40</span>
+              </div>
+              <input
+                id="i40"
+                name="40"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">41</span>
+              </div>
+              <input
+                id="i41"
+                name="41"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">42</span>
+              </div>
+              <input
+                id="i42"
+                name="42"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">43</span>
+              </div>
+              <input
+                id="i43"
+                name="43"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">44</span>
+              </div>
+              <input
+                id="i44"
+                name="44"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">45</span>
+              </div>
+              <input
+                id="i45"
+                name="45"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">46</span>
+              </div>
+              <input
+                id="i46"
+                name="46"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">47</span>
+              </div>
+              <input
+                id="i47"
+                name="47"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">48</span>
+              </div>
+              <input
+                id="i48"
+                name="48"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">49</span>
+              </div>
+              <input
+                id="i49"
+                name="49"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">50</span>
+              </div>
+              <input
+                id="i50"
+                name="50"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">51</span>
+              </div>
+              <input
+                id="i51"
+                name="51"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">52</span>
+              </div>
+              <input
+                id="i52"
+                name="52"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">53</span>
+              </div>
+              <input
+                id="i53"
+                name="53"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">54</span>
+              </div>
+              <input
+                id="i54"
+                name="54"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">55</span>
+              </div>
+              <input
+                id="i55"
+                name="55"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">56</span>
+              </div>
+              <input
+                id="i56"
+                name="56"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">57</span>
+              </div>
+              <input
+                id="i57"
+                name="57"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">58</span>
+              </div>
+              <input
+                id="i58"
+                name="58"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">59</span>
+              </div>
+              <input
+                id="i59"
+                name="59"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">60</span>
+              </div>
+              <input
+                id="i60"
+                name="60"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">61</span>
+              </div>
+              <input
+                id="i61"
+                name="61"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">62</span>
+              </div>
+              <input
+                id="i62"
+                name="62"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">63</span>
+              </div>
+              <input
+                id="i63"
+                name="63"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">64</span>
+              </div>
+              <input
+                id="i64"
+                name="64"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">65</span>
+              </div>
+              <input
+                id="i65"
+                name="65"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">66</span>
+              </div>
+              <input
+                id="i66"
+                name="66"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">67</span>
+              </div>
+              <input
+                id="i67"
+                name="67"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">68</span>
+              </div>
+              <input
+                id="i68"
+                name="68"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">69</span>
+              </div>
+              <input
+                id="i69"
+                name="69"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">70</span>
+              </div>
+              <input
+                id="i70"
+                name="70"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">71</span>
+              </div>
+              <input
+                id="i71"
+                name="71"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">72</span>
+              </div>
+              <input
+                id="i72"
+                name="72"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">73</span>
+              </div>
+              <input
+                id="i73"
+                name="73"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">74</span>
+              </div>
+              <input
+                id="i74"
+                name="74"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">75</span>
+              </div>
+              <input
+                id="i75"
+                name="75"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">76</span>
+              </div>
+              <input
+                id="i76"
+                name="76"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">77</span>
+              </div>
+              <input
+                id="i77"
+                name="77"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">78</span>
+              </div>
+              <input
+                id="i78"
+                name="78"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">79</span>
+              </div>
+              <input
+                id="i79"
+                name="79"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">80</span>
+              </div>
+              <input
+                id="i80"
+                name="80"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">81</span>
+              </div>
+              <input
+                id="i81"
+                name="81"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">82</span>
+              </div>
+              <input
+                id="i82"
+                name="82"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">83</span>
+              </div>
+              <input
+                id="i83"
+                name="83"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">84</span>
+              </div>
+              <input
+                id="i84"
+                name="84"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">85</span>
+              </div>
+              <input
+                id="i85"
+                name="85"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">86</span>
+              </div>
+              <input
+                id="i86"
+                name="86"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">87</span>
+              </div>
+              <input
+                id="i87"
+                name="87"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">88</span>
+              </div>
+              <input
+                id="i88"
+                name="88"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">89</span>
+              </div>
+              <input
+                id="i89"
+                name="89"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">90</span>
+              </div>
+              <input
+                id="i90"
+                name="90"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">91</span>
+              </div>
+              <input
+                id="i91"
+                name="91"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">92</span>
+              </div>
+              <input
+                id="i92"
+                name="92"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">93</span>
+              </div>
+              <input
+                id="i93"
+                name="93"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">94</span>
+              </div>
+              <input
+                id="i94"
+                name="94"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">95</span>
+              </div>
+              <input
+                id="i95"
+                name="95"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">96</span>
+              </div>
+              <input
+                id="i96"
+                name="96"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">97</span>
+              </div>
+              <input
+                id="i97"
+                name="97"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">98</span>
+              </div>
+              <input
+                id="i98"
+                name="98"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group input-group-xs pr-0">
+              <div class="input-group-prepend">
+                <span class="input-group-text font-weight-bold">99</span>
+              </div>
+              <input
+                id="i99"
+                name="99"
+                type="text"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 d-print-none">
+        <div class="row d-print-none">
+          <div class="col-6 mt-2">
+            <button class="btn btn-sm btn-secondary col-12" id="btn-throw-ping">
+              <h5>Configuracion</h5>
+            </button>
+            <div
+              class="modal fade"
+              id="modalPing"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div
+                  class="modal-content card text-black-50"
+                  style="background-color: #dee2e6 !important"
+                >
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Coloca ping
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form id="form-config">
+                    <div class="modal-body text-center">
+                      <input type="password" id="inPing" />
+                    </div>
+                    <div
+                      class="modal-footer"
+                      style="justify-content: center !important"
+                    >
+                      <button
+                        type="submit"
+                        class="btn btn-sm btn-secondary col-6"
+                        id="btn-access-config"
+                      >
+                        Aceptar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 mt-2">
+            <button
+              class="btn btn-sm btn-secondary col-12"
+              id="btn-clear-board"
+            >
+              <h5>Limpiar</h5>
+            </button>
+          </div>
+          <div class="col-3 mt-2">
+            <button class="btn btn-sm btn-secondary col-12" id="btn-exit-app">
+              <h5>Salir</h5>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 d-print-none">
+            <div class="col-6 mt-5 d-none">
+              <div class="row">
+                <b class="label-font-size">PRESIONA ESPACIO </b>
+              </div>
+              <div class="row">
+                <input type="text" id="search" />
+              </div>
+              <div class="row">
+                <b class="label-font-size">ENTER PARA BUSCAR</b>
+              </div>
+            </div>
+
+            <div
+              class="col-12 mt-5 card text-black-50 p-3"
+              style="background-color: #dee2e6 !important"
+              id="singleChanceBuilder"
+            >
+              <div class="row px-4">
+                <h3>Chances</h3>
+              </div>
+              <div class="row px-4 input-group-xs">
+                <h4>Numero:</h4>
+                <input
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                  id="iSingleChance"
+                />
+              </div>
+              <div class="row px-4 input-group-xs">
+                <h4>Cantidad:</h4>
+                <input
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                  id="iSingleChanceQty"
+                />
+              </div>
+            </div>
+
+            <div
+              class="col-12 mt-5 card text-black-50 p-3"
+              style="background-color: #dee2e6 !important"
+              id="billeteBuilder"
+            >
+              <div class="row px-4">
+                <h3>Billetes</h3>
+              </div>
+              <div class="row px-4 input-group-xs">
+                <h4>Numero:</h4>
+                <input
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                  id="iBillete"
+                />
+              </div>
+              <div class="row px-4 input-group-xs">
+                <h4>Cantidad:</h4>
+                <input
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                  id="iBilleteQty"
+                />
+              </div>
+            </div>
+            <div class="col-12 mt-5 p-0">
+              <button
+                class="btn btn-sm btn-secondary col-12"
+                id="btn-print-ticket"
+              >
+                <h6 id="text-print-ticket">Imprimir</h6>
+                <div
+                  class="spinner-grow d-none"
+                  role="status"
+                  id="spinner-print-ticket"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+            </div>
+            <div class="col-12 mt-3">
+              <div class="row">
+                <input
+                  id="noOldTicket"
+                  type="text"
+                  class="form-control col-4"
+                />
+                <button
+                  class="btn btn-sm btn-secondary offset-1 col-7"
+                  id="btnReImprimir"
+                >
+                  <h6>Re-Imprimir</h6>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div
+              id="ticketOutput"
+              class="font-weight-bold bg-white text-body d-print-none mt-2"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-none d-print-none" id="configuracion">
+      <div class="col-12 mt-2">
+        <div class="row">
+          <div class="col-4 mb-2">
+            <button class="btn btn-sm btn-secondary col-12" id="goChance">
+              <h5>Regresar a venta</h5>
+            </button>
+          </div>
+          <div class="col-4 mb-2">
+            <button class="btn btn-sm btn-secondary col-12" id="btn-print-game">
+              <h5>Imprimir sorteo</h5>
+            </button>
+          </div>
+          <div class="col-4 mb-2">
+            <button
+              class="btn btn-sm btn-secondary col-12"
+              id="btn-refresh-game"
+            >
+              <h5 id="text-refresh-game">Actualizar</h5>
+              <div
+                class="spinner-grow d-none"
+                role="status"
+                id="spinner-refresh-game"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-4" id="contenedorConfiguracion">
+        <div
+          class="card text-body p-2 text-black-50 mb-2"
+          style="background-color: #dee2e6 !important"
+          id="contenedordatosGlobales"
+        >
+          <div class="card-body" id="datosGlobales">
+            <h5>Datos Globales</h5>
+            <form id="form-set-config">
+              <div class="input-group-xs mb-1 pr-0">
+                <span>Titulo</span>
+                <input
+                  id="inputName-title-ticket"
+                  name="inputName-title-ticket"
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="input-group-xs mb-1 pr-0">
+                <span>Sorteo en venta</span>
+                <select
+                  id="select-choose-game"
+                  name="select-choose-game"
+                  type="text"
+                  class="custom-select"
+                >
+                  <option value="" name="">Sin Sorteo Seleccionado</option>
+                </select>
+              </div>
+              <div class="col-8 offset-2 mt-2">
+                <button class="btn btn-sm btn-secondary col-12" type="submit">
+                  <h6 id="text-set-config">Modificar</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-set-config"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
+            </form>
+            <h4
+              class="text-danger text-center pt-3"
+              id="error-loading-game"
+            ></h4>
+          </div>
+        </div>
+        <div
+          class="card text-body text-black-50 mb-2"
+          style="background-color: #dee2e6 !important"
+          id="contenedorSorteos"
+        >
+          <div class="card-body" id="sorteos">
+            <h5>Sorteos</h5>
+            <form id="form-create-game">
+              <div class="input-group-xs mb-1 pr-0">
+                <span>Nombre</span>
+                <input
+                  id="inputName-create-game"
+                  name="inputName-create-game"
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="col-8 offset-2 mt-2">
+                <button class="btn btn-sm btn-secondary col-12" type="submit">
+                  <h6 id="text-create-game">Crear</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-create-game"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
+            </form>
+            <h4
+              class="text-danger text-center pt-3"
+              id="error-create-game"
+            ></h4>
+            <h4
+              class="text-success text-center pt-3"
+              id="success-create-game"
+            ></h4>
+          </div>
+        </div>
+        <div
+          class="card text-body text-black-50"
+          style="background-color: #dee2e6 !important"
+          id="contenedorOpciones"
+        >
+          <div class="card-body" id="sorteos">
+            <h5>Otras opciones</h5>
+            <div class="row">
+              <div class="col-6">
+                <button
+                  class="btn btn-sm btn-secondary col-12"
+                  id="btn-winner-game"
+                >
+                  <h6 id="text-winner-game">Ganadores</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-winner-game"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  class="btn btn-sm btn-secondary col-12"
+                  id="btn-stop-game"
+                >
+                  <h6 id="text-stop-game">Detener venta</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-stop-game"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <button
+                  class="btn btn-sm btn-secondary col-12"
+                  id="btn-reedem-game"
+                >
+                  <h6 id="text-reedem-game">Canjear</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-reedem-game"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  class="btn btn-sm btn-secondary col-12"
+                  id="btn-bill-game"
+                >
+                  <h6 id="text-bill-game">Cuentas</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-bill-game"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <button
+                  class="btn btn-sm btn-secondary col-12"
+                  id="btn-close-game"
+                >
+                  <h6 id="text-close-game">Cerrar sorteo</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-close-game"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card-border">
+          <div class="col-12 text-center mt-2" id="estadoTitulo">
+            <h5>Crea un sorteo para empezar</h5>
+          </div>
+          <div class="d-flex" id="estado"></div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="d-flex card-border" id="estadoSorteo">
+          <div class="col-12 font-weight-bold my-2" id="totalSorteo">
+            <div class="d-flex">
+              <div class="offset-4 col-4">Cantidad</div>
+              <div class="col-4">Monto</div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Chance</div>
+              <div class="col-4" id="chanceCantidad"></div>
+              <div class="col-4" id="chancePlata"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Billete</div>
+              <div class="col-4" id="billeteCantidad"></div>
+              <div class="col-4" id="billetePlata"></div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex" id="estadoBillete"></div>
+      </div>
+    </div>
+    <div
+      class="alert alert-danger d-none offset-4 col-4 mt-5 p-5"
+      role="alert"
+      id="alertSession"
+    >
+      <h4 class="alert-heading">Su sesión caduco!</h4>
+      <p>Oh si! debes ingresar nuevamente</p>
+      <hr />
+      <p class="mb-0" id="txtTimer">Seras redireccionado en 2 segundos . . .</p>
+    </div>
+    <div
+      class="d-flex justify-content-center"
+      style="margin-top: 20%"
+      id="loading"
+    >
+      <div
+        class="spinner-grow"
+        role="status"
+        style="
+          width: 10rem;
+          height: 10rem;
+          background-color: #dee2e6 !important;
+        "
+        id="spinnerLog"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <script src="/javascripts/qrcode.min.js"></script>
+    <script src="/javascripts/modules/output.js"></script>
+    <script src="/javascripts/renderer.js"></script>
+    <script src="/javascripts/jquery-3.2.1.slim.min.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script>
+      var api = "<%= enviroment.URL_API %>";
+      var qrURL = "<%= enviroment.URL_QR %>";
+
+      /*Verificar si tiene sesión*/
+      if (localStorage.getItem("tokenSSO")) {
+        /*Verificando token*/
+        fetch(api + "usuarios/decode", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.exitoso) {
+              /**
+               * Basado en el perfil mostrar o dejar de mostrar
+               */
+              localStorage.setItem("sesion-accesos", data.resultado.accesos);
+              localStorage.setItem("sesion-perfil", data.resultado.perfil);
+              localStorage.setItem("sesion-usuario", data.resultado.usuario);
+              localStorage.setItem("sesion-id", data.resultado.id);
+
+              if (data.resultado.perfil != "ADMIN") {
+                document
+                  .querySelector("#contenedorConfiguracion")
+                  .classList.add("d-none");
+                document.querySelector("#btnCerrar").classList.add("d-none");
+                document
+                  .querySelector("#contenedorAccionesAdministrador")
+                  .classList.add("d-none");
+              }
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+              document.querySelector("#venta").classList.remove("d-none");
+            } else {
+              /**
+               * Caduco la sesión mensaje y redireccionar
+               */
+
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+              document.querySelector("#venta").classList.add("d-none");
+              document
+                .querySelector("#alertSession")
+                .classList.remove("d-none");
+
+              localStorage.removeItem("tokenSSO");
+              setTimeout(function () {
+                window.location = "/";
+              }, 2000);
+            }
+          });
+      } else {
+        document.querySelector("#venta").classList.add("d-none");
+        document.querySelector("#loading").classList.remove("d-flex");
+        document.querySelector("#loading").classList.add("d-none");
+        document.querySelector("#alertSession").classList.remove("d-none");
+        localStorage.removeItem("tokenSSO");
+        setTimeout(function () {
+          window.location = "/";
+        }, 2000);
+      }
+
+      /**
+       * Carga automatica
+       */
+
+      /**
+       * Datos de sorteos
+       */
+      cargarSorteos();
+
+      function cargarSorteos() {
+        fetch(api + "sorteo", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.querySelector("#error-loading-game").innerHTML = "";
+            if (data.exitoso) {
+              document
+                .querySelector("#form-set-config")
+                .classList.remove("d-none");
+              let select = document.querySelector("#select-choose-game");
+              while (select.length > 0) {
+                select.remove(select.length - 1);
+              }
+              data.resultado.forEach((element) => {
+                let option = document.createElement("option");
+                option.text = element.nombre;
+                option.value = element.id;
+                option.setAttribute("name", element.id);
+                select.add(option);
+              });
+            } else {
+              document.querySelector("#error-loading-game").innerHTML =
+                "Error cargando sorteos, contacte el administrador.";
+              document
+                .querySelector("#form-set-config")
+                .classList.add("d-none");
+            }
+            return;
+          })
+          .then((sorteo) => {
+            if (localStorage.getItem("choose-game")) {
+              document
+                .querySelector("#select-choose-game")
+                .setAttribute("disabled", true);
+              document.querySelector("#select-choose-game").value =
+                localStorage.getItem("choose-game");
+              document.querySelector("#text-set-config").innerHTML =
+                "Modificar";
+            }
+            return;
+          })
+          .then((titulo) => {
+            if (localStorage.getItem("title-ticket")) {
+              document.querySelector("#inputName-title-ticket").value =
+                localStorage.getItem("title-ticket");
+              document.querySelector("#text-set-config").innerHTML =
+                "Modificar";
+              document
+                .querySelector("#inputName-title-ticket")
+                .setAttribute("disabled", true);
+            } else if (localStorage.getItem("choose-game")) {
+              let autoTitle =
+                document.querySelectorAll("#select-choose-game option")[
+                  document.querySelector("#select-choose-game").selectedIndex
+                ].text +
+                "-" +
+                localStorage.getItem("sesion-usuario");
+              document.querySelector("#inputName-title-ticket").value =
+                autoTitle;
+              localStorage.setItem("title-ticket", autoTitle);
+              document
+                .querySelector("#inputName-title-ticket")
+                .setAttribute("disabled", true);
+              document.querySelector("#text-set-config").innerHTML =
+                "Modificar";
+            } else {
+              document.querySelector("#inputName-title-ticket").value =
+                "Sin titulo";
+              document
+                .querySelector("#inputName-title-ticket")
+                .removeAttribute("disabled");
+            }
+            return;
+          })
+          .then((estado) => {
+            cargarEstadoSorteo();
+          });
+      }
+
+      /*Habilitando boton*/
+      if (
+        !localStorage.getItem("choose-game") &&
+        !localStorage.getItem("title-ticket")
+      ) {
+        document.querySelector("#text-set-config").innerHTML = "Aceptar";
+      }
+
+      /**
+       * Cargando estado de sorteo
+       */
+      function cargarEstadoSorteo() {
+        let builder = document.querySelector("#estado");
+        builder.innerHTML = "";
+
+        let contenedorBillete = document.querySelector("div[id=estadoBillete]");
+        contenedorBillete.innerHTML = "";
+
+        document.querySelector("#chanceCantidad").innerHTML = 0;
+        document.querySelector("#chancePlata").innerHTML = (
+          Math.round(0 * 100) / 100
+        ).toFixed(2);
+
+        document.querySelector("#billeteCantidad").innerHTML = 0;
+        document.querySelector("#billetePlata").innerHTML = (
+          Math.round(0 * 100) / 100
+        ).toFixed(2);
+
+        document.querySelector("#estadoTitulo").innerHTML =
+          "<h5>" +
+          document.querySelectorAll("#select-choose-game option")[
+            document.querySelector("#select-choose-game").selectedIndex
+          ].text +
+          "</h5>";
+
+        let numeroSorteo = document.querySelectorAll(
+          "#select-choose-game option"
+        )[document.querySelector("#select-choose-game").selectedIndex].value;
+
+        fetch(api + "sorteo/" + numeroSorteo + "/chances?ord=numero", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            let builderHTML = "";
+            for (let index = 0; index < 100; index++) {
+              let numeroTemporal = data.resultado.find(
+                (elemento) => elemento.numero == index.toString().padStart(2, 0)
+              );
+              //console.table(numeroTemporal);
+              var cantidadIterable = 0;
+              if (numeroTemporal) {
+                cantidadIterable = numeroTemporal.cantidad;
+              }
+
+              builderHTML +=
+                '<div class="d-flex"><b class="mr-3">' +
+                index.toString().padStart(2, 0) +
+                "</b>" +
+                '<p class="mb-0">' +
+                cantidadIterable +
+                "</p></div>";
+              if ([24, 49, 74, 99].indexOf(Number(index)) > -1) {
+                builder.innerHTML +=
+                  '<div class="col-3 py-1">' + builderHTML + "</div>";
+                builderHTML = "";
+              }
+            }
+            return data.resultado;
+          })
+          .then((totales) => {
+            let cantidadTotal = 0;
+            let montoTotal = 0;
+            totales.forEach((elemento) => {
+              cantidadTotal = cantidadTotal + Number(elemento.cantidad);
+              montoTotal = montoTotal + elemento.dineroVenta;
+            });
+            document.querySelector("#chanceCantidad").innerHTML =
+              cantidadTotal || 0;
+            document.querySelector("#chancePlata").innerHTML = (
+              Math.round(montoTotal * 100) / 100
+            ).toFixed(2);
+          });
+
+        /*Billetes*/
+        fetch(api + "sorteo/" + numeroSorteo + "/billetes", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            contenedorBillete = document.querySelector("div[id=estadoBillete]");
+            contenedorBillete.innerHTML = "";
+            temporalHTML = "";
+            var count = 0;
+            var base =
+              data.resultado.length < 20 ? data.resultado.length / 4 : 20;
+            data.resultado.forEach((elemento) => {
+              temporalHTML +=
+                '<div class="d-flex"><b class="mr-3">' +
+                elemento.numero +
+                "</b>" +
+                '<p class="mb-0">' +
+                elemento.cantidad +
+                "</p></div>";
+              count += 1;
+              if (count % base == 0) {
+                contenedorBillete.innerHTML +=
+                  '<div class="col-3 py-1">' + temporalHTML + "</div>";
+                temporalHTML = "";
+              }
+            });
+            return data.resultado;
+          })
+          .then((totales) => {
+            let cantidadTotal = 0;
+            let montoTotal = 0;
+            totales.forEach((elemento) => {
+              cantidadTotal = cantidadTotal + Number(elemento.cantidad);
+              montoTotal = montoTotal + elemento.dineroVenta;
+            });
+            document.querySelector("#billeteCantidad").innerHTML =
+              cantidadTotal || 0;
+            document.querySelector("#billetePlata").innerHTML = (
+              Math.round(montoTotal * 100) / 100
+            ).toFixed(2);
+          });
+      }
+
+      /**
+       *
+       *  Crear sorteo
+       *
+       * * */
+      document
+        .querySelector("#form-create-game")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          document
+            .querySelector("#spinner-create-game")
+            .classList.remove("d-none");
+          document.querySelector("#text-create-game").classList.add("d-none");
+          document.querySelector("#error-create-game").innerHTML = "";
+          document.querySelector("#success-create-game").innerHTML = "";
+          if (document.querySelector("#inputName-create-game").value === "") {
+            document
+              .querySelector("#spinner-create-game")
+              .classList.add("d-none");
+            document
+              .querySelector("#text-create-game")
+              .classList.remove("d-none");
+            document.querySelector("#error-create-game").innerHTML =
+              "Se requiere el nombre del sorteo, para proceder.";
+            return false;
+          }
+
+          var data = {
+            usuarioId: localStorage.getItem("sesion-id"),
+            nombreSorteo: document.querySelector("#inputName-create-game")
+              .value,
+          };
+          fetch(api + "sorteo", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exitoso) {
+                document
+                  .querySelector("#spinner-create-game")
+                  .classList.add("d-none");
+                document
+                  .querySelector("#text-create-game")
+                  .classList.remove("d-none");
+                document.querySelector("#success-create-game").innerHTML =
+                  data.resultado.mensaje;
+              } else {
+                document.querySelector("#inputName-create-game").value = "";
+                document.querySelector("#error-create-game").innerHTML =
+                  data.resultado;
+              }
+              document
+                .querySelector("#spinner-create-game")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-create-game")
+                .classList.remove("d-none");
+            })
+            .then((data) => {
+              cargarSorteos();
+              document.querySelector("#inputName-create-game").value = "";
+            });
+        });
+
+      /***
+       * Cerrar Sorteo
+       *
+       */
+
+      function cerrarSorteo() {
+        var data = {
+          sorteoId: localStorage.getItem("choose-game"),
+        };
+
+        fetch(api + "sorteo", {
+          method: "PATCH",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {})
+          .finally(() => {});
+      }
+
+      document
+        .querySelector("#btn-close-game")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          document.querySelector("#text-close-game").classList.add("d-none");
+          document
+            .querySelector("#spinner-close-game")
+            .classList.remove("d-none");
+
+          cerrarSorteo();
+
+          document.querySelector("#text-close-game").classList.remove("d-none");
+          document.querySelector("#spinner-close-game").classList.add("d-none");
+
+          document.querySelector("#estadoTitulo").innerHTML =
+            "<h5>Crea un sorteo para empezar</h5>";
+
+          cargarSorteos();
+
+          document
+            .querySelector("#inputName-title-ticket")
+            .removeAttribute("disabled");
+          document
+            .querySelector("#select-choose-game")
+            .removeAttribute("disabled");
+
+          let builder = document.querySelector("#estado");
+          builder.innerHTML = "";
+
+          document.querySelector("#chanceCantidad").innerHTML = 0;
+          document.querySelector("#chancePlata").innerHTML = (
+            Math.round(0 * 100) / 100
+          ).toFixed(2);
+
+          document.querySelector("#billeteCantidad").innerHTML = 0;
+          document.querySelector("#billetePlata").innerHTML = (
+            Math.round(0 * 100) / 100
+          ).toFixed(2);
+        });
+
+      /**
+       *
+       * Actualiza el sorteo en venta
+       *
+       */
+      document
+        .querySelector("#btn-refresh-game")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+
+          document.querySelector("#text-refresh-game").classList.add("d-none");
+          document
+            .querySelector("#spinner-refresh-game")
+            .classList.remove("d-none");
+
+          cargarEstadoSorteo();
+
+          document
+            .querySelector("#text-refresh-game")
+            .classList.remove("d-none");
+          document
+            .querySelector("#spinner-refresh-game")
+            .classList.add("d-none");
+        });
+      /**
+       *
+       * Cambiar configuracion
+       *    Titulo del tiquete
+       *    Sorteo en venta
+       * * */
+
+      document
+        .querySelector("#form-set-config")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          /**
+           * Habilitar modificacion
+           */
+          let isTitle = document
+            .querySelector("#inputName-title-ticket")
+            .hasAttribute("disabled");
+          let isGame = document
+            .querySelector("#select-choose-game")
+            .hasAttribute("disabled");
+          if (isTitle || isGame) {
+            document
+              .querySelector("#inputName-title-ticket")
+              .removeAttribute("disabled");
+            document
+              .querySelector("#select-choose-game")
+              .removeAttribute("disabled");
+            document.querySelector("#text-set-config").innerHTML = "Aceptar";
+          } else {
+            localStorage.setItem(
+              "title-ticket",
+              document.querySelector("#inputName-title-ticket").value
+            );
+            localStorage.setItem(
+              "choose-game",
+              document
+                .querySelectorAll("#select-choose-game option")
+                [
+                  document.querySelector("#select-choose-game").selectedIndex
+                ].getAttribute("name")
+            );
+            document
+              .querySelector("#inputName-title-ticket")
+              .setAttribute("disabled", true);
+            document
+              .querySelector("#select-choose-game")
+              .setAttribute("disabled", true);
+            document.querySelector("#text-set-config").innerHTML = "Modificar";
+
+            bag.id();
+            globalChance.person = localStorage.getItem("title-ticket");
+            bag.render();
+          }
+        });
+
+      /* *
+       *
+       * Utilidades de tablero
+       *
+       * */
+      function limpiarTablero() {
+        bag.clear();
+        bag.calc();
+        bag.render();
+        globalChance.receiptCount = 0;
+        document.querySelector("#search").value = "";
+        document.querySelector("#iBillete").value = "";
+        document.querySelector("#iBilleteQty").value = "";
+        document.querySelectorAll("#chanceBuilder input").forEach((element) => {
+          element.value = "";
+        });
+      }
+      function imprimirTiquete(event) {
+        document.querySelector("#text-print-ticket").classList.add("d-none");
+        document
+          .querySelector("#spinner-print-ticket")
+          .classList.remove("d-none");
+
+        if (!localStorage.getItem("choose-game")) {
+          return;
+        }
+        if (!localStorage.getItem("title-ticket")) {
+          return;
+        }
+
+        if (bag.items.length > 0) {
+          var arregloRegistros = [];
+
+          bag.items.forEach((element) => {
+            var objetoRegistro = {
+              tipo: null,
+              numero: null,
+              cantidad: null,
+              valor: null,
+              precio: null,
+            };
+
+            if (element.number.length == 2) objetoRegistro.tipo = "CHANCE";
+            else objetoRegistro.tipo = "BILLETE";
+
+            objetoRegistro.numero = element.number;
+            objetoRegistro.cantidad = element.qty;
+            objetoRegistro.valor = element.total;
+            objetoRegistro.precio = element.price;
+
+            arregloRegistros.push(objetoRegistro);
+          });
+
+          var objetoSorteo = {
+            sorteoId: localStorage.getItem("choose-game"),
+            valor: bag.total,
+            registros: arregloRegistros,
+          };
+
+          fetch(api + "tiquete/mq", {
+            method: "POST",
+            body: JSON.stringify(objetoSorteo),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exitoso) {
+                globalChance.receiptCount = data.resultado.id;
+                bag.render();
+                document.querySelector("#outPut1").innerHTML =
+                  document.querySelector("#ticketOutput").innerHTML +
+                  "<div class='mt-4'></div>" +
+                  document.querySelector("#ticketOutput").innerHTML +
+                  "<div class='mt-2'></div>";
+                generarQR(
+                  qrURL+"cambiar?id=" +                   
+                    globalChance.receiptCount.toString()
+                );
+                window.print();
+                limpiarTablero();
+              } else {
+                /*Agregar Modal
+                 * Mensaje no exitoso
+                 */
+              }
+
+              document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+            });
+        }
+      }
+
+      /* *
+       *
+       * Tablero de venta
+       *
+       * */
+
+      document
+        .querySelector("#btn-print-ticket")
+        .addEventListener("click", function (event) {
+          imprimirTiquete();
+        });
+
+      document.body.addEventListener("keydown", function (event) {
+        if (event.key === "p" || event.key === "P") {
+          if (!document.querySelector("#venta").classList.contains("d-none")) {
+            event.preventDefault();
+            document.body.focus();
+            imprimirTiquete();
+          }
+        }
+      });
+
+      /***
+       * Limpiar tablero
+       * */
+      document
+        .querySelector("#btn-clear-board")
+        .addEventListener("click", function (event) {
+          limpiarTablero();
+        });
+
+      /***
+       * Terminar sesion
+       * */
+      document
+        .querySelector("#btn-exit-app")
+        .addEventListener("click", function (event) {
+          localStorage.clear();
+          window.location = "/";
+        });
+
+      /***
+       * Configuracion
+       * */
+      document
+        .querySelector("#btn-access-config")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          let ping = document.querySelector("#inPing").value;
+          /*Ping para acceder a configuracion*/
+          if (ping == "<%= enviroment.CONFIG_PASSWORD %>") {
+            $("#modalPing").modal("hide");
+            showConfiguracion();
+            document.querySelector("#inPing").value = "";
+          } else {
+            $("#modalPing").modal("hide");
+            document.querySelector("#inPing").value = "";
+          }
+        });
+
+      document
+        .querySelector("#btn-throw-ping")
+        .addEventListener("click", function (event) {
+          if (globalChance.userProfile != "ADMIN") {
+            $("#modalPing").modal("show");
+            document.querySelector("#inPing").focus();
+          } else {
+            showConfiguracion();
+          }
+        });
+    </script>
+  </body>
+</html>

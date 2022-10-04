@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= enviroment.VERSION %></title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+  </head>
+  <body class="container-fluid">
+    <div
+      class="d-none d-print-block print-style font-weight-bold pa"
+      id="outDimention"
+    >
+      <div id="outPut1" class="pt-2"></div>
+    </div>
+    <div class="row d-print-none">
+      <div
+        class="col-2 mx-3 mt-2 card text-body p-2 text-black-50 mb-2"
+        style="background-color: #dee2e6 !important"
+        id="generar"
+      >
+        <div>
+          <h5>Sorteo:</h5>
+          <select
+            id="select-choose-game"
+            name="select-choose-game"
+            type="text"
+            class="custom-select"
+          >
+            <option value="" name="">Sin Sorteo Seleccionado</option>
+          </select>
+        </div>
+        <h4 class="text-danger text-center pt-3" id="error-loading-game"></h4>
+        <div class="rows" id="listaUsuarios"></div>
+        <div class="rows">
+          <div class="col-12 py-3">
+            <button class="btn btn-sm btn-secondary col-12" id="btnActualizar">
+              Actualizar
+            </button>
+          </div>
+        </div>
+        <div class="rows">
+          <div class="col-12 py-3">
+            <button
+              class="btn btn-sm btn-success col-12"
+              id="btnImprimirUnificado"
+            >
+              Imprimir
+            </button>
+          </div>
+        </div>
+        <div class="rows">
+          <div class="col-12 py-3">
+            <button class="btn btn-sm btn-info col-12" id="btnVentas">
+              Regresar Venta
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card-border">
+          <div class="col-12 text-center" id="estadoTitulo">
+            <h5>Selecciona los usuarios del sorteo</h5>
+          </div>
+          <div class="d-flex" id="estado"></div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="d-flex card-border border-top-0" id="estadoSorteo">
+          <div class="col-12 font-weight-bold" id="totalSorteo">
+            <div class="d-flex">
+              <div class="offset-4 col-4">CANT</div>
+              <div class="col-4">PLATA</div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Chance</div>
+              <div class="col-4" id="chanceCantidad"></div>
+              <div class="col-4" id="chancePlata"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Billete</div>
+              <div class="col-4" id="billeteCantidad"></div>
+              <div class="col-4" id="billetePlata"></div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex" id="estadoBillete"></div>
+      </div>
+    </div>
+
+    <div
+      class="alert alert-danger d-none offset-4 col-4 mt-5 p-5"
+      role="alert"
+      id="alertSession"
+    >
+      <h4 class="alert-heading">Su sesión caduco!</h4>
+      <p>Oh si! debes ingresar nuevamente</p>
+      <hr />
+      <p class="mb-0" id="txtTimer">Seras redireccionado en 2 segundos . . .</p>
+    </div>
+    <div
+      class="d-flex justify-content-center"
+      style="margin-top: 20%"
+      id="loading"
+    >
+      <div
+        class="spinner-grow"
+        role="status"
+        style="
+          width: 10rem;
+          height: 10rem;
+          background-color: #dee2e6 !important;
+        "
+        id="spinnerLog"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <script src="/javascripts/modules/output.js"></script>
+    <script src="/javascripts/actions.js"></script>
+
+    <script>
+      var globalChance = {
+        person: "Sorteo Unificado",
+        id: "1234567899874566123",
+        gameId: 0,
+        receiptCount: "0",
+        price: 0.25,
+        bprice: 0,
+        userId: 500,
+        userProfile: "",
+        userName: "",
+        host: "192.168.0.10",
+      };
+
+      var api = "<%= enviroment.URL_API %>";
+
+      /*Verificar si tiene sesión*/
+      if (localStorage.getItem("tokenSSO")) {
+        /*Verificando token*/
+        fetch(api + "usuarios/decode", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.exitoso) {
+              /**
+               * Basado en el perfil mostrar o dejar de mostrar
+               */
+              localStorage.setItem("sesion-accesos", data.resultado.accesos);
+              localStorage.setItem("sesion-perfil", data.resultado.perfil);
+              localStorage.setItem("sesion-usuario", data.resultado.usuario);
+              localStorage.setItem("sesion-id", data.resultado.id);
+
+              if (data.resultado.perfil != "ADMIN") {
+                document
+                  .querySelector("#contenedorConfiguracion")
+                  .classList.add("d-none");
+                document.querySelector("#btnCerrar").classList.add("d-none");
+                document
+                  .querySelector("#contenedorAccionesAdministrador")
+                  .classList.add("d-none");
+              }
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+            } else {
+              /**
+               * Caduco la sesión mensaje y redireccionar
+               */
+
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+              document.querySelector("#generar").classList.add("d-none");
+              document
+                .querySelector("#alertSession")
+                .classList.remove("d-none");
+
+              localStorage.removeItem("tokenSSO");
+              setTimeout(function () {
+                window.location = "/";
+              }, 2000);
+            }
+          });
+      } else {
+        document.querySelector("#generar").classList.add("d-none");
+        document.querySelector("#loading").classList.remove("d-flex");
+        document.querySelector("#loading").classList.add("d-none");
+        document.querySelector("#alertSession").classList.remove("d-none");
+        localStorage.removeItem("tokenSSO");
+        setTimeout(function () {
+          window.location = "/";
+        }, 2000);
+      }
+
+      /**
+       * Carga automatica
+       */
+
+      cargarSorteos();
+
+      function cargarSorteos() {
+        fetch(api + "sorteo", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.querySelector("#error-loading-game").innerHTML = "";
+            if (data.exitoso) {
+              let select = document.querySelector("#select-choose-game");
+              while (select.length > 0) {
+                select.remove(select.length - 1);
+              }
+              data.resultado.forEach((element) => {
+                let option = document.createElement("option");
+                option.text = element.nombre;
+                option.value = element.id;
+                option.setAttribute("name", element.id);
+                select.add(option);
+              });
+            } else {
+              document.querySelector("#error-loading-game").innerHTML =
+                "Error cargando sorteos, contacte el administrador.";
+            }
+            return;
+          });
+      }
+
+      var arregloUsuarios = [];
+      cargarUsuarios();
+      function cargarUsuarios() {
+        fetch(api + "usuarios", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.querySelector("#error-loading-game").innerHTML = "";
+            if (data.exitoso) {
+              arregloUsuarios = data.resultado;
+              pintarUsuarios();
+            } else {
+              document.querySelector("#error-loading-game").innerHTML =
+                "Error cargando usuarios, contacte el administrador.";
+            }
+            return;
+          });
+      }
+
+      var bag = {
+        person: globalChance.person,
+        userId: globalChance.userId,
+        id: () => {
+          return globalChance.gameId
+            .toString()
+            .padStart(18, "0")
+            .padStart(19, "1");
+        },
+        items: [],
+        total: 0,
+        date: function () {
+          let date = new Date();
+          return date.toLocaleString("en-US", { hour12: true });
+        },
+        receipt: () => {
+          return Number(globalChance.receiptCount).toString().padStart(5, "0");
+        },
+        add: function (item) {
+          this.items.push(item);
+          this.calc();
+          this.render();
+        },
+        update: function (index, item) {
+          if (item.qty == 0) this.items.splice(index, 1);
+          else {
+            this.items[index].qty = item.qty;
+            this.items[index].price = item.price;
+            this.items[index].total = item.total;
+          }
+          this.calc();
+          this.render();
+        },
+        render: chanceOutput,
+        calc: function () {
+          let sum = 0;
+          this.items.forEach((element) => {
+            sum += element.total;
+          });
+          this.total = (Math.round(sum * 100) / 100).toFixed(2);
+        },
+        clear: function () {
+          this.items = [];
+        },
+        itemsInOrder: function () {
+          let rows =
+            this.items.length > 0
+              ? this.items.sort(function compare(a, b) {
+                  if (Number(a.number) < Number(b.number)) {
+                    return -1;
+                  }
+                  if (Number(a.number) > Number(b.number)) {
+                    return 1;
+                  }
+                  return 0;
+                })
+              : [];
+          return rows;
+        },
+        type: function () {
+          var isBillete = false;
+          this.items.forEach(function (element) {
+            isBillete = element.number.length > 2 ? true : false;
+          });
+          if (isBillete) {
+            return "BILLETE";
+          } else {
+            return "CHANCE";
+          }
+        },
+      };
+      //Cuentas Programacion
+      var seleccionados = {
+        chances: [],
+        billetes: [],
+        chancesTotal: 0.0,
+        billetesTotal: 0.0,
+        cantidadChances: 0,
+        cantidadBilletes: 0,
+      };
+      async function cargarInformacion() {
+        try {
+          var sorteoId = document
+            .querySelectorAll("#select-choose-game option")
+            [
+              document.querySelector("#select-choose-game").selectedIndex
+            ].getAttribute("name");
+
+          var usuarios = "";
+
+          document.querySelectorAll("#listaUsuarios input").forEach((check) => {
+            if (check.checked) {
+              usuarios = usuarios + ",";
+              usuarios = usuarios + check.name;
+            }
+          });
+          usuarios = usuarios.slice(1);
+
+          /*Buscando Chances del usuario*/
+          fetch(api + "/sorteo/" + sorteoId + "/chances?only=" + usuarios)
+            .then((response) => response.json())
+            .then((data) => {
+              document.querySelector("#error-loading-game").innerHTML = "";
+              if (data.exitoso) {
+                let response = data.resultado;
+                let builder = document.querySelector("div[id=estado]");
+                builder.innerHTML = "";
+                document.querySelector("#estadoTitulo").innerHTML =
+                  "<h5>" +
+                  document.querySelectorAll("#gameInstanceName option")[
+                    document.querySelector("#gameInstanceName").selectedIndex
+                  ].text +
+                  "</h5>";
+                let html = "";
+                response.forEach((element) => {
+                  seleccionados.chancesTotal =
+                    seleccionados.chancesTotal + element.dineroVenta;
+                  seleccionados.cantidadChances =
+                    seleccionados.cantidadChances + element.cantidad;
+                  chanceCantidad = document.querySelector(
+                    "div[id=chanceCantidad]"
+                  );
+                  chancePlata = document.querySelector("div[id=chancePlata]");
+                  chanceCantidad.innerHTML = seleccionados.cantidadChances;
+                  chancePlata.innerHTML = (
+                    Math.round(seleccionados.chancesTotal * 100) / 100
+                  ).toFixed(2);
+
+                  html +=
+                    '<div class="d-flex"><b class="mr-3">' +
+                    element.numero +
+                    "</b>" +
+                    '<p class="mb-0">' +
+                    element.cantidad +
+                    "</p></div>";
+                  if ([24, 49, 74, 99].indexOf(Number(element.numero)) > -1) {
+                    builder.innerHTML +=
+                      '<div class="col-3 py-1">' + html + "</div>";
+                    html = "";
+                  }
+                });
+              } else {
+                document.querySelector("#error-loading-game").innerHTML =
+                  "Error cargando chances en cuentas, contacte el administrador.";
+              }
+              return;
+            });
+
+          /*Buscando Billetes del usuario*/
+          fetch(api + "/sorteo/" + sorteoId + "/billetes?only=" + usuarios)
+            .then((response) => response.json())
+            .then((data) => {
+              document.querySelector("#error-loading-game").innerHTML = "";
+              if (data.exitoso) {
+                let response = data.resultado;
+
+                builder = document.querySelector("div[id=estadoBillete]");
+                builder.innerHTML = "";
+                html = "";
+                var count = 0;
+                var base = response.length < 20 ? response.length / 4 : 20;
+                response.forEach((element) => {
+                  seleccionados.billetesTotal =
+                    seleccionados.billetesTotal + element.dineroVenta;
+                  seleccionados.cantidadBilletes =
+                    seleccionados.cantidadBilletes + element.cantidad;
+
+                  html +=
+                    '<div class="d-flex"><b class="mr-3">' +
+                    element.NUMERO +
+                    "</b>" +
+                    '<p class="mb-0">' +
+                    element.CANTIDAD +
+                    "</p></div>";
+                  count += 1;
+                  if (count % base == 0) {
+                    builder.innerHTML +=
+                      '<div class="col-3 py-1">' + html + "</div>";
+                    html = "";
+                  }
+                });
+
+                billeteCantidad = document.querySelector(
+                  "div[id=billeteCantidad]"
+                );
+                billetePlata = document.querySelector("div[id=billetePlata]");
+
+                billeteCantidad.innerHTML = seleccionados.cantidadBilletes;
+                billetePlata.innerHTML = (
+                  Math.round(seleccionados.billetesTotal * 100) / 100
+                ).toFixed(2);
+              } else {
+                document.querySelector("#error-loading-game").innerHTML =
+                  "Error cargando billetes en cuentas, contacte el administrador.";
+              }
+              return;
+            });                    
+        } catch {
+          console.log("Error cargando elementos del sorteo");
+        }
+      }
+
+      /// CONTINUA HACIENDO  PRUEBAS 
+      /// ACCESO DENEGADO AL ACTUALIZAR LAS CUENTAS
+
+      function pintarUsuarios() {
+        arregloUsuarios.forEach((registro, index) => {
+          let checkUsuario = [
+            '<div class="form-check">',
+            '<input class="form-check-input" type="checkbox" value="',
+            index,
+            '" id="check',
+            index,
+            '" name="',
+            registro.id,
+            '"',
+            '<label class="form-check-label" for="flexCheckDefault">',
+            registro.nombre,
+            "</label>",
+            "</div>",
+          ].join("");
+          document.querySelector("#listaUsuarios").innerHTML += checkUsuario;
+        });
+
+        document.querySelectorAll("input").forEach((check) => {
+          document
+            .querySelector("#" + check.id)
+            .addEventListener("click", function (event) {
+              //convergerDatos();
+            });
+        });
+      }
+
+      function convergerDatos() {
+        seleccionados.chances = [];
+        seleccionados.billetes = [];
+        seleccionados.chancesTotal = 0.0;
+        seleccionados.billetesTotal = 0.0;
+        seleccionados.cantidadChances = 0;
+        seleccionados.cantidadBilletes = 0;
+
+        /*Chances*/
+        document.querySelectorAll("input").forEach((check) => {
+          if (check.checked) {
+            if (seleccionados.chances.length === 0) {
+              arregloUsuarios[check.value].chances.forEach((registro) => {
+                seleccionados.chances.push(registro);
+              });
+            } else {
+              for (
+                let index = 0;
+                index < arregloUsuarios[check.value].chances.length;
+                index++
+              ) {
+                let chanceOperando =
+                  arregloUsuarios[check.value].chances[index];
+                let existeEnBase = seleccionados.chances.filter(
+                  (registro) =>
+                    registro.CHANCE === chanceOperando.CHANCE &&
+                    chanceOperando.CANTIDAD > 0
+                );
+                if (existeEnBase.length > 0) {
+                  var indexExistente = seleccionados.chances.indexOf(
+                    existeEnBase[0]
+                  );
+                  var nuevoElemento = {
+                    CHANCE: chanceOperando.CHANCE,
+                    CANTIDAD:
+                      existeEnBase[0].CANTIDAD + chanceOperando.CANTIDAD,
+                  };
+
+                  seleccionados.chances.splice(
+                    indexExistente,
+                    1,
+                    nuevoElemento
+                  );
+                }
+              }
+            }
+
+            /*Totales*/
+            seleccionados.chancesTotal =
+              seleccionados.chancesTotal +
+              Number(arregloUsuarios[check.value].plataChances);
+            seleccionados.cantidadChances =
+              seleccionados.cantidadChances +
+              Number(arregloUsuarios[check.value].cantidadChances);
+          }
+        });
+
+        /*Billetes*/
+        document.querySelectorAll("input").forEach((check) => {
+          if (check.checked) {
+            if (seleccionados.billetes.length === 0) {
+              arregloUsuarios[check.value].billetes.forEach((registro) => {
+                seleccionados.billetes.push(registro);
+              });
+            } else {
+              for (
+                let index = 0;
+                index < arregloUsuarios[check.value].billetes.length;
+                index++
+              ) {
+                let billeteOperando =
+                  arregloUsuarios[check.value].billetes[index];
+                let existeEnBase = seleccionados.billetes.filter(
+                  (registro) => registro.NUMERO === billeteOperando.NUMERO
+                );
+                if (existeEnBase.length > 0) {
+                  var indexExistente = seleccionados.billetes.indexOf(
+                    existeEnBase[0]
+                  );
+                  var nuevoElemento = {
+                    NUMERO: billeteOperando.NUMERO,
+                    CANTIDAD:
+                      existeEnBase[0].CANTIDAD + billeteOperando.CANTIDAD,
+                  };
+
+                  seleccionados.billetes.splice(indexExistente, 1);
+                  seleccionados.billetes.push(nuevoElemento);
+                } else {
+                  seleccionados.billetes.push(billeteOperando);
+                }
+              }
+            }
+            /*Totales*/
+            seleccionados.billetesTotal =
+              seleccionados.billetesTotal +
+              Number(arregloUsuarios[check.value].plataBilletes);
+            seleccionados.cantidadBilletes =
+              seleccionados.cantidadBilletes +
+              Number(arregloUsuarios[check.value].cantidadBilletes);
+          }
+        });
+
+        /*Pintar*/
+        pintarCuentas();
+      }
+
+      function pintarCuentas() {
+        let response = seleccionados.chances;
+        let builder = document.querySelector("div[id=estado]");
+        builder.innerHTML = "";
+        document.querySelector("#estadoTitulo").innerHTML =
+          "<h5>" +
+          document.querySelectorAll("#gameInstanceName option")[
+            document.querySelector("#gameInstanceName").selectedIndex
+          ].text +
+          "</h5>";
+        let html = "";
+        response.forEach((element) => {
+          html +=
+            '<div class="d-flex"><b class="mr-3">' +
+            element.CHANCE +
+            "</b>" +
+            '<p class="mb-0">' +
+            element.CANTIDAD +
+            "</p></div>";
+          if ([24, 49, 74, 99].indexOf(Number(element.CHANCE)) > -1) {
+            builder.innerHTML += '<div class="col-3 py-1">' + html + "</div>";
+            html = "";
+          }
+        });
+
+        response = seleccionados.billetes;
+
+        builder = document.querySelector("div[id=estadoBillete]");
+        builder.innerHTML = "";
+        html = "";
+        var count = 0;
+        var base = response.length < 20 ? response.length / 4 : 20;
+        response.forEach((element) => {
+          html +=
+            '<div class="d-flex"><b class="mr-3">' +
+            element.NUMERO +
+            "</b>" +
+            '<p class="mb-0">' +
+            element.CANTIDAD +
+            "</p></div>";
+          count += 1;
+          if (count % base == 0) {
+            builder.innerHTML += '<div class="col-3 py-1">' + html + "</div>";
+            html = "";
+          }
+        });
+
+        chanceCantidad = document.querySelector("div[id=chanceCantidad]");
+        chancePlata = document.querySelector("div[id=chancePlata]");
+
+        billeteCantidad = document.querySelector("div[id=billeteCantidad]");
+        billetePlata = document.querySelector("div[id=billetePlata]");
+
+        chanceCantidad.innerHTML = seleccionados.cantidadChances;
+        chancePlata.innerHTML = (
+          Math.round(seleccionados.chancesTotal * 100) / 100
+        ).toFixed(2);
+
+        billeteCantidad.innerHTML = seleccionados.cantidadBilletes;
+        billetePlata.innerHTML = (
+          Math.round(seleccionados.billetesTotal * 100) / 100
+        ).toFixed(2);
+      }
+
+      async function imprimirSorteoUnificado() {
+        let output = document.getElementById("outPut1");
+        let header = [
+          '<p name="outputTitle" id="outTitle" class="text-center mb-0">' +
+            globalChance.person +
+            "</p>",
+          '<p name="outputId" id="outId" class="text-center">' +
+            bag.id() +
+            "</p>",
+          '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+          '<div class="col-3 offset-3 px-0 text-center">CF</div>',
+          '<div class="col-3 px-0 text-center">CANT.</div>',
+          "</div>",
+        ].join("");
+
+        let total = [
+          '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+          '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: ' +
+            seleccionados.cantidadChances +
+            "</p>",
+          '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: ' +
+            (Math.round(seleccionados.chancesTotal * 100) / 100).toFixed(2) +
+            "</p>",
+          "</div>",
+        ].join("");
+
+        let fecha = [
+          '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+          '<p name="outputId" id="outId" class="text-center col-12 mb-1 mt-1">' +
+            bag.date() +
+            "</p>",
+          "</div>",
+        ].join("");
+
+        var body = [];
+
+        var chancesOrdenadosCantidad = seleccionados.chances.sort(function (
+          a,
+          b
+        ) {
+          if (a.CANTIDAD > b.CANTIDAD) {
+            return -1;
+          }
+          if (a.CANTIDAD < b.CANTIDAD) {
+            return 1;
+          }
+          return 0;
+        });
+
+        chancesOrdenadosCantidad.forEach((element) => {
+          let dyn = [
+            '<div class="row mx-0">',
+            '<div class="col-3 offset-3 px-0 text-center">*' +
+              element.CHANCE +
+              "*</div>",
+            '<div class="col-3 px-0 text-center">' +
+              element.CANTIDAD +
+              "</div>",
+            "</div>",
+          ];
+          body = body.concat(dyn);
+        });
+
+        body = body.join("");
+
+        output.innerHTML = header + body + total + fecha;
+        window.print();
+
+        /*Imprimir todos los Billetes*/
+        total = [
+          '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+          '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: ' +
+            seleccionados.cantidadBilletes +
+            "</p>",
+          '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: ' +
+            (Math.round(seleccionados.billetesTotal * 100) / 100).toFixed(2) +
+            "</p>",
+          "</div>",
+        ].join("");
+
+        body = [];
+
+        var billetesOrdenadosNumero = seleccionados.billetes.sort(function (
+          a,
+          b
+        ) {
+          if (a.NUMERO > b.NUMERO) {
+            return 1;
+          }
+          if (a.NUMERO < b.NUMERO) {
+            return -1;
+          }
+          return 0;
+        });
+
+        billetesOrdenadosNumero.forEach((element) => {
+          let dyn = [
+            '<div class="row mx-0">',
+            '<div class="col-3 offset-3 px-0 text-center">*' +
+              element.NUMERO +
+              "*</div>",
+            '<div class="col-3 px-0 text-center">' +
+              element.CANTIDAD +
+              "</div>",
+            "</div>",
+          ];
+          body = body.concat(dyn);
+        });
+
+        body = body.join("");
+
+        output.innerHTML = header + body + total + fecha;
+        window.print();
+      }
+
+      /*Llenar sorteos
+      fillGameInstances().then((termino) =>
+        cargarInformacion().then((retorno) => pintarUsuarios())
+      );*/
+
+      /*Imprimir*/
+      document
+        .querySelector("#btnImprimirUnificado")
+        .addEventListener("click", function (event) {
+          imprimirSorteoUnificado();
+        });
+      document
+        .querySelector("#btnVentas")
+        .addEventListener("click", function (event) {
+          window.location = "/ventas";
+        });
+    </script>
+  </body>
+</html>

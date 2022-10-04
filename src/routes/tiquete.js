@@ -25,7 +25,7 @@ router.post("/", async (req,res)=>{
         const headerTicket = await DB.GameTicket.create({
             game_id: sorteoId,
             fecha: new Date(),
-            vendedor_id: req.jornada.id,
+            userId: req.jornada.id,
             ganador: 'NO',
             valorcompra: valor,
             valorganador: 0.00,
@@ -97,7 +97,7 @@ router.post("/mq", async (req,res)=>{
         const headerTicket = await DB.GameTicket.create({
             game_id: sorteoId,
             fecha: new Date(),
-            vendedor_id: req.jornada.id,
+            userId: req.jornada.id,
             ganador: 'NO',
             valorcompra: valor,
             valorganador: 0.00,
@@ -196,7 +196,8 @@ router.get("/:tiqueteId", (req,res)=>{
                 model:DB.GameTicket,                
                 required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
                 attributes:[
-                    ["valorcompra","total"]
+                    ["valorcompra","total"],
+                    ["cambio","cambio"]
                 ] //Nada de GameTicket en la respuesta
             }                            
             ],            

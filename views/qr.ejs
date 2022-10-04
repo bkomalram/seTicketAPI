@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= enviroment.VERSION %></title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+  </head>
+  <body class="container-fluid">
+    <div class="row d-print-none">
+      <div class="col-6 offset-3 mt-5" id="contenedorCanjeo">
+        <div
+          id="ticketOutput"
+          class="font-weight-bold bg-white text-body d-print-none mt-2"
+        >
+          Ticket: <%= ID %>
+        </div>
+        <button class="btn btn-info col-12 p-5 mt-3 d-none" id="btnLanzarModal">
+          <h1>Cambiar</h1>
+        </button>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="modalPing"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content card text-black-50"
+        style="background-color: #dee2e6 !important">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Coloca ping</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <input type="text" id="inPing" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="btnCanjear">
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="alert alert-danger d-none offset-4 col-4 mt-5 p-5"
+      role="alert"
+      id="alertSession"
+    >
+      <h4 class="alert-heading">Su sesión caduco!</h4>
+      <p>Oh si! debes ingresar nuevamente</p>
+      <hr />
+      <p class="mb-0" id="txtTimer">Seras redireccionado en 2 segundos . . .</p>
+    </div>
+    <div
+      class="d-flex justify-content-center"
+      style="margin-top: 20%"
+      id="loading"
+    >
+      <div
+        class="spinner-grow"
+        role="status"
+        style="
+          width: 10rem;
+          height: 10rem;
+          background-color: #dee2e6 !important;
+        "
+        id="spinnerLog"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <script src="/javascripts/modules/output.js"></script>
+    <script src="/javascripts/qrcode.min.js"></script>
+    <script src="/javascripts/jquery-3.2.1.slim.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script>
+      const ticketId = "<%= ID %>";
+      var api = "<%= enviroment.URL_API %>";
+
+      /*Verificar si tiene sesión*/
+      if (localStorage.getItem("tokenSSO")) {
+        /*Verificando token*/
+        fetch(api + "usuarios/decode", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.exitoso) {
+              /**
+               * Basado en el perfil mostrar o dejar de mostrar
+               */
+              localStorage.setItem("sesion-accesos", data.resultado.accesos);
+              localStorage.setItem("sesion-perfil", data.resultado.perfil);
+              localStorage.setItem("sesion-usuario", data.resultado.usuario);
+              localStorage.setItem("sesion-id", data.resultado.id);
+
+              if (data.resultado.perfil != "ADMIN") {
+                document
+                  .querySelector("#contenedorConfiguracion")
+                  .classList.add("d-none");
+                document.querySelector("#btnCerrar").classList.add("d-none");
+                document
+                  .querySelector("#contenedorAccionesAdministrador")
+                  .classList.add("d-none");
+              }
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+            } else {
+              /**
+               * Caduco la sesión mensaje y redireccionar
+               */
+
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+              document
+                .querySelector("#contenedorCanjeo")
+                .classList.add("d-none");
+              document
+                .querySelector("#alertSession")
+                .classList.remove("d-none");
+
+              localStorage.removeItem("tokenSSO");
+              setTimeout(function () {
+                window.location = "/";
+              }, 2000);
+            }
+          });
+      } else {
+        document.querySelector("#contenedorCanjeo").classList.add("d-none");
+        document.querySelector("#loading").classList.remove("d-flex");
+        document.querySelector("#loading").classList.add("d-none");
+        document.querySelector("#alertSession").classList.remove("d-none");
+        localStorage.removeItem("tokenSSO");
+        setTimeout(function () {
+          window.location = "/";
+        }, 2000);
+      }
+
+      /**
+       * Carga automatica
+       */
+
+      var globalChance = {
+        person: "Ganadores",
+        id: "1234567899874566123",
+        gameId: 0,
+        receiptCount: ticketId,
+        price: 0.25,
+        bprice: 0,
+        userId: 500,
+        userProfile: "",
+        userName: "",
+        host: "192.168.0.10",
+      };
+
+      var bag = {
+        person: globalChance.person,
+        userId: globalChance.userId,
+        id: () => {
+          return globalChance.gameId
+            .toString()
+            .padStart(18, "0")
+            .padStart(19, "1");
+        },
+        items: [],
+        total: 0,
+        date: function () {
+          let date = new Date();
+          return date.toLocaleString("en-US", { hour12: true });
+        },
+        receipt: () => {
+          return Number(globalChance.receiptCount).toString().padStart(6, "0");
+        },
+        add: function (item) {
+          this.items.push(item);
+          this.calc();
+          this.render();
+        },
+        update: function (index, item) {
+          if (item.qty == 0) this.items.splice(index, 1);
+          else {
+            this.items[index].qty = item.qty;
+            this.items[index].price = item.price;
+            this.items[index].total = item.total;
+          }
+          this.calc();
+          this.render();
+        },
+        render: chanceOutput,
+        calc: function () {
+          let sum = 0;
+          this.items.forEach((element) => {
+            sum += element.total;
+          });
+          this.total = (Math.round(sum * 100) / 100).toFixed(2);
+        },
+        clear: function () {
+          this.items = [];
+        },
+        itemsInOrder: function () {
+          let rows =
+            this.items.length > 0
+              ? this.items.sort(function compare(a, b) {
+                  if (Number(a.number) < Number(b.number)) {
+                    return -1;
+                  }
+                  if (Number(a.number) > Number(b.number)) {
+                    return 1;
+                  }
+                  return 0;
+                })
+              : [];
+          return rows;
+        },
+        type: function () {
+          var isBillete = false;
+          this.items.forEach(function (element) {
+            isBillete = element.number.length > 2 ? true : false;
+          });
+          if (isBillete) {
+            return "BILLETE";
+          } else {
+            return "CHANCE";
+          }
+        },
+      };
+
+      fetch(api + "tiquete/" + ticketId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.exitoso) {
+            data.resultado.forEach((element) => {
+              let newItem = {
+                number: "",
+                qty: 0,
+                price: 0,
+                total: 0,
+              };
+
+              newItem.number = element.numero;
+              newItem.qty = element.cantidad;
+
+              let valor1er = 0;
+              let valor2do = 0;
+              let valor3ro = 0;
+              switch (element.primer_premio) {
+                case "CUATRO_NUMEROS":
+                  valor1er = 2000;
+                  break;
+                case "TRES_PRIMEROS":
+                  valor1er = 50;
+                  break;
+                case "TRES_ULTIMOS":
+                  valor1er = 50;
+                  break;
+                case "DOS_PRIMEROS":
+                  valor1er = 3;
+                  break;
+                case "DOS_ULTIMOS":
+                  valor1er = 3;
+                  break;
+                case "DOS_PRIMEROS_ULTIMO_NUMERO":
+                  valor1er = 4;
+                  break;
+                case "ULTIMO_NUMERO":
+                  valor1er = 1;
+                  break;
+                default:
+                  break;
+              }
+
+              switch (element.segundo_premio) {
+                case "CUATRO_NUMEROS":
+                  valor2do = 600;
+                  break;
+                case "TRES_PRIMEROS":
+                  valor2do = 20;
+                  break;
+                case "TRES_ULTIMOS":
+                  valor2do = 20;
+                  break;
+                case "DOS_ULTIMOS":
+                  valor2do = 2;
+                  break;
+                default:
+                  break;
+              }
+
+              switch (element.tercer_premio) {
+                case "CUATRO_NUMEROS":
+                  valor3ro = 300;
+                  break;
+                case "TRES_PRIMEROS":
+                  valor3ro = 10;
+                  break;
+                case "TRES_ULTIMOS":
+                  valor3ro = 10;
+                  break;
+                case "DOS_ULTIMOS":
+                  valor3ro = 1;
+                  break;
+                default:
+                  break;
+              }
+
+              /* 
+                        1 - 'CHANCE_GANADOR',
+                        2 - 'CUATRO_NUMEROS',
+                        3 - 'TRES_PRIMEROS',
+                        4 - 'TRES_ULTIMOS',
+                        5 - 'DOS_PRIMEROS',
+                        6 - 'DOS_ULTIMOS',
+                        7 - 'ULTIMO_NUMERO'
+                    */
+
+              switch (element.primer_premio) {
+                case "CHANCE_GANADOR":
+                  valor1er = 14;
+                  break;
+                default:
+                  break;
+              }
+
+              /*
+                        1 - 'CHANCE_GANADOR',
+                        2 - 'CUATRO_NUMEROS',
+                        3 - 'TRES_PRIMEROS',
+                        4 - 'TRES_ULTIMOS',
+                        5 - 'DOS_ULTIMOS'
+                    */
+              switch (element.segundo_premio) {
+                case "CHANCE_GANADOR":
+                  valor2do = 3;
+                  break;
+                default:
+                  break;
+              }
+
+              switch (element.tercer_premio) {
+                case "CHANCE_GANADOR":
+                  valor3ro = 2;
+                  break;
+                default:
+                  break;
+              }
+
+              newItem.price = valor1er + valor2do + valor3ro;
+
+              newItem.total =
+                element.valorganador1er +
+                element.valorganador2do +
+                element.valorganador3ro;
+                
+
+              let indexItem = bag.items.findIndex(
+                (object) => object.number === newItem.number
+              );
+              if (indexItem > -1) {
+                bag.update(indexItem, newItem);
+              } else {
+                if (newItem.qty > 0) {
+                  bag.add(newItem);
+                }
+              }
+
+              chanceOutput();
+              document
+                .querySelector("#contenedorCanjeo")
+                .classList.remove("d-none");
+              if (Number(bag.total) > 0) {
+                document
+                  .querySelector("#btnLanzarModal")
+                  .classList.remove("d-none");
+                if (element.GameTicket.cambio == "SI") {
+                    document.querySelector("#btnLanzarModal").innerHTML =  "<h1 class='text-center'>Tiquete Cambiado</h1>";
+                  document
+                    .querySelector("#btnLanzarModal")
+                    .setAttribute("disabled", true);
+                  document
+                    .querySelector("#btnLanzarModal")
+                    .classList.add("disabled");
+                  document
+                    .querySelector("#btnLanzarModal")
+                    .classList.remove("btn-info");
+                  document
+                    .querySelector("#btnLanzarModal")
+                    .classList.add("btn-success");                    
+                }                  
+              }
+            });
+          }
+        });
+
+      document
+        .querySelector("#btnLanzarModal")
+        .addEventListener("click", function (event) {
+          $("#modalPing").modal("show");
+        });
+
+      document
+        .querySelector("#btnCanjear")
+        .addEventListener("click", function () {
+          let ping = document.querySelector("#inPing").value;
+          /*Ping para acceder a configuracion*/
+          if (ping == "<%= enviroment.CHANGE_PASSWORD %>") {
+            $("#modalPing").modal("hide");
+            let objectoCambiar = {
+                tiqueteId: ticketId,
+            };
+            fetch(api + "ganadores", {
+            method: "PUT",
+            body: JSON.stringify(objectoCambiar),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+            },
+          })            
+              .then((response) => response.json())
+              .then((data) => {
+                window.location.reload();
+              });
+            document.querySelector("#inPing").value = "";
+          } else {
+            $("#modalPing").modal("hide");
+            document.querySelector("#inPing").value = "";
+          }
+        });
+    </script>
+  </body>
+</html>

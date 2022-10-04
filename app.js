@@ -15,7 +15,9 @@ var configuracionRouter = require('./src/routes/configuracion');
 
 /*Utility*/
 function verificaToken(req,res,next) {  
-  if (['/usuarios/token','/ganadores/cambiar'].indexOf(req.originalUrl) >= 0){
+  console.log(req.originalUrl)
+  if (['/usuarios/token','/','/ventas','/generar','/cambiar','/cuentas'].indexOf(req.originalUrl) >= 0 
+  || /^\/cambiar.+$/.test(req.originalUrl)){
     console.log("No requiere JWT")
     next()
   }    
@@ -71,9 +73,9 @@ app.use(function(err, req, res, next) {
 
   console.log("Error_:"+err.message)
   if(err.message=="jwt expired")
-  res.json({respuesta:"La sesión caduco. Ingresa nuevamente", exitoso:false})
+  res.json({resultado:"La sesión caduco. Ingresa nuevamente", exitoso:false})
   else
-  res.json({respuesta:"Ocurrio un error", exitoso:false})
+  res.json({resultado:"Ocurrio un error", exitoso:false})
 });
 
 module.exports = app;

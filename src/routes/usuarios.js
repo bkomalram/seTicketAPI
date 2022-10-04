@@ -4,6 +4,28 @@ const router = express.Router();
 const jwt = require('jsonwebtoken')
 const DB = require ("../models/index")
 
+router.get("/", (req,res)=>{
+    if (req.jornada.accesos < 2) {
+        res.status(401).json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+
+    DB.User.findAll({
+        where:{                
+            esActivo:"SI"            
+        },                    
+        order:[
+            ["id", 'ASC'],
+        ]
+    })
+    .then((data)=>{            
+        res.status(200).json({resultado:data,exitoso:true})       
+    })
+})
+
 router.get("/token", (req,res)=>{
     const initialToken = {
         perfil:"Invitado",
@@ -18,9 +40,16 @@ router.get("/token", (req,res)=>{
 router.get("/decode", (req,res)=>{
     try {
         var decodificado = jwt.verify(req.token,process.env.SALT)
-        res.status(200).json(decodificado)
+        res.status(200).json(
+            {
+                resultado: decodificado,
+                exitoso:true
+            })
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json({
+            resultado: error,
+            exitoso:false
+        })
     }
     
 })

@@ -12,12 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here      
       this.hasMany(models.GameTicketRecord)
+      this.belongsTo(models.User)
     }
   };
   GameTicket.init({
     game_id: DataTypes.INTEGER,
     fecha: DataTypes.DATE,
-    vendedor_id: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
     ganador: DataTypes.ENUM('SI', 'NO'),
     valorcompra: DataTypes.DOUBLE,
     valorganador: DataTypes.DOUBLE,

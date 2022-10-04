@@ -31,12 +31,13 @@ router.post("/", (req,res)=>{
             exitoso:false
         })
         return
-    }      
-    
+    } 
+             
     /*
     * Primer Premio
     * Refactor Sequelice 3.0
     */
+   var p1,p2,p3,p4,p5,p6,p7
     for (let index = 8; index > 1; index--) {  
         
         switch (index) {
@@ -67,12 +68,8 @@ router.post("/", (req,res)=>{
 
                 //Ejecuntando SQL
                 try {
-                    DB.sequelize.query(sentencia) 
-                    .then((results, metadata) => {                    
-                        res.json({
-                            resultado: results[0],
-                            exitoso:true            
-                        })                    
+                    p1= DB.sequelize.query(sentencia) 
+                    .then((results, metadata) => {                                                                
                     })
                     .catch(function(reason) {
                         res.json({
@@ -116,12 +113,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,3,2)  = `+ numeroGanador1er.substr(2,4)                
                 /*Ejecutando*/
                 try {
-                    DB.sequelize.query(sqlDosUltimos) 
-                    .then((results, metadata) => {                    
-                        res.json({
-                            resultado: results[0],
-                            exitoso:true            
-                        })                    
+                    p2 = DB.sequelize.query(sqlDosUltimos) 
+                    .then((results, metadata) => {                                                               
                     })
                     .catch(function(reason) {
                         res.json({
@@ -164,12 +157,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,1,2)  = `+ numeroGanador1er.substr(0,2)
                 /*Ejecutando*/
                 try {
-                    DB.sequelize.query(sentencia) 
-                    .then((results, metadata) => {                    
-                        res.json({
-                            resultado: results[0],
-                            exitoso:true            
-                        })                    
+                    p3 = DB.sequelize.query(sentencia) 
+                    .then((results, metadata) => {                                                               
                     })
                     .catch(function(reason) {
                         res.json({
@@ -216,12 +205,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,4,1)  = `+ numeroGanador1er.substr(3,4)
                 /*Ejecutando*/
                 try {
-                    DB.sequelize.query(sentencia) 
-                    .then((results, metadata) => {                    
-                        res.json({
-                            resultado: results[0],
-                            exitoso:true            
-                        })                    
+                    p4 = DB.sequelize.query(sentencia) 
+                    .then((results, metadata) => {                                                               
                     })
                     .catch(function(reason) {
                         res.json({
@@ -264,12 +249,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,2,3)  = `+ numeroGanador1er.substr(1,3)
                 /*Ejecutando*/
                 try {
-                    DB.sequelize.query(sentencia) 
-                    .then((results, metadata) => {                    
-                        res.json({
-                            resultado: results[0],
-                            exitoso:true            
-                        })                    
+                    p5 = DB.sequelize.query(sentencia) 
+                    .then((results, metadata) => {                                                               
                     })
                     .catch(function(reason) {
                         res.json({
@@ -313,12 +294,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,1,3)  = `+ numeroGanador1er.substr(0,3)
                 /*Ejecutando*/
                 try {
-                    DB.sequelize.query(sentencia) 
-                    .then((results, metadata) => {                    
-                        res.json({
-                            resultado: results[0],
-                            exitoso:true            
-                        })                    
+                    p6 = DB.sequelize.query(sentencia) 
+                    .then((results, metadata) => {                                                              
                     })
                     .catch(function(reason) {
                         res.json({
@@ -361,12 +338,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,1,4)  = `+ numeroGanador1er
                 /*Ejecutando*/
                 try {
-                    DB.sequelize.query(sentencia) 
-                    .then((results, metadata) => {                    
-                        res.json({
-                            resultado: results[0],
-                            exitoso:true            
-                        })                    
+                    p7 = DB.sequelize.query(sentencia) 
+                    .then((results, metadata) => {                                                               
                     })
                     .catch(function(reason) {
                         res.json({
@@ -397,6 +370,7 @@ router.post("/", (req,res)=>{
     * Segundo Premio
     * Refactor Sequelice 3.0
     */
+   var p8,p9,p10,p11
     for (let index = 5; index > 1; index--) {        
         switch (index) {
             case 5:                
@@ -427,12 +401,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,3,2)  = `+ numeroGanador2do.substr(2,4)
                 
                 /*Ejecutando*/
-                DB.sequelize.query(sentencia)
-                .then((results, metadata) => {                    
-                    res.json({
-                        resultado: results[0],                        
-                        exitoso:true            
-                    })
+                p8 = DB.sequelize.query(sentencia)
+                .then((results, metadata) => {                                        
                 })
                 .catch(function(reason) {
                     res.json({
@@ -469,12 +439,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,2,3)  = `+ numeroGanador2do.substr(1,3)
                 
                 /*Ejecutando*/
-                DB.sequelize.query(sentencia)
-                .then((results, metadata) => {                    
-                    res.json({
-                        resultado: results[0],                        
-                        exitoso:true            
-                    })
+                p9 = DB.sequelize.query(sentencia)
+                .then((results, metadata) => {                                        
                 })
                 .catch(function(reason) {
                     res.json({
@@ -511,12 +477,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,1,3)  = `+ numeroGanador2do.substr(0,3)
                 
                 /*Ejecutando*/
-                DB.sequelize.query(sentencia)
-                .then((results, metadata) => {                    
-                    res.json({
-                        resultado: results[0],                        
-                        exitoso:true            
-                    })
+                p10 = DB.sequelize.query(sentencia)
+                .then((results, metadata) => {                                        
                 })
                 .catch(function(reason) {
                     res.json({
@@ -553,12 +515,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,1,4)  = `+ numeroGanador2do
                 
                 /*Ejecutando*/
-                DB.sequelize.query(sentencia)
-                .then((results, metadata) => {                    
-                    res.json({
-                        resultado: results[0],                        
-                        exitoso:true            
-                    })
+                p11 =DB.sequelize.query(sentencia)
+                .then((results, metadata) => {                                        
                 })
                 .catch(function(reason) {
                     res.json({
@@ -586,6 +544,7 @@ router.post("/", (req,res)=>{
     */
 
     //Tercer Premio    
+    var p12,p13,p14,p15
     for (let index = 5; index > 1; index--) {        
         switch (index) {
             case 5:                
@@ -615,12 +574,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,3,2)  = `+ numeroGanador3er.substr(2,2)
                 
                 /*Ejecutando*/
-                DB.sequelize.query(sentencia)
-                .then((results, metadata) => {                    
-                    res.json({
-                        resultado: results[0],                        
-                        exitoso:true            
-                    })
+                p12 = DB.sequelize.query(sentencia)
+                .then((results, metadata) => {                                        
                 })
                 .catch(function(reason) {
                     res.json({
@@ -657,12 +612,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,2,3)  = `+ numeroGanador3er.substr(1,3)
                 
                 /*Ejecutando*/
-                DB.sequelize.query(sentencia)
-                .then((results, metadata) => {                    
-                    res.json({
-                        resultado: results[0],                        
-                        exitoso:true            
-                    })
+                p13 = DB.sequelize.query(sentencia)
+                .then((results, metadata) => {                                        
                 })
                 .catch(function(reason) {
                     res.json({
@@ -699,12 +650,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,1,3)  = `+ numeroGanador3er.substr(0,3)
                 
                 /*Ejecutando*/
-                DB.sequelize.query(sentencia)
-                .then((results, metadata) => {                    
-                    res.json({
-                        resultado: results[0],                        
-                        exitoso:true            
-                    })
+                p14 = DB.sequelize.query(sentencia)
+                .then((results, metadata) => {                                        
                 })
                 .catch(function(reason) {
                     res.json({
@@ -741,12 +688,8 @@ router.post("/", (req,res)=>{
                 AND SUBSTR(gTR.NUMERO,1,4)  = `+ numeroGanador3er
                 
                 /*Ejecutando*/
-                DB.sequelize.query(sentencia)
-                .then((results, metadata) => {                    
-                    res.json({
-                        resultado: results[0],                        
-                        exitoso:true            
-                    })
+                p15 = DB.sequelize.query(sentencia)
+                .then((results, metadata) => {                                        
                 })
                 .catch(function(reason) {
                     res.json({
@@ -799,12 +742,8 @@ router.post("/", (req,res)=>{
     AND gTR.NUMERO  = `+ numeroGanador1er.substr(2,2)
     
     /*Ejecutando*/
-    DB.sequelize.query(sentencia)
-    .then((results, metadata) => {                    
-        res.json({
-            resultado: results[0],                        
-            exitoso:true            
-        })
+    const p16 = DB.sequelize.query(sentencia)
+    .then((results, metadata) => {                            
     })
     .catch(function(reason) {
         res.json({
@@ -843,12 +782,8 @@ router.post("/", (req,res)=>{
     AND gTR.NUMERO  = `+ numeroGanador2do.substr(2,2)
     
     /*Ejecutando*/
-    DB.sequelize.query(sentencia)
-    .then((results, metadata) => {                    
-        res.json({
-            resultado: results[0],                        
-            exitoso:true            
-        })
+    const p17 = DB.sequelize.query(sentencia)
+    .then((results, metadata) => {                            
     })
     .catch(function(reason) {
         res.json({
@@ -887,12 +822,8 @@ router.post("/", (req,res)=>{
     AND gTR.NUMERO  = `+ numeroGanador3er.substr(2,2)
     
     /*Ejecutando*/
-    DB.sequelize.query(sentencia)
-    .then((results, metadata) => {                    
-        res.json({
-            resultado: results[0],                        
-            exitoso:true            
-        })
+    const p18 = DB.sequelize.query(sentencia)
+    .then((results, metadata) => {                            
     })
     .catch(function(reason) {
         res.json({
@@ -903,8 +834,13 @@ router.post("/", (req,res)=>{
     });
     
     respuesta.chances3er = true
-
-    res.json(respuesta)
+    
+    Promise.all([p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,p18]).then((values) => {
+        res.json({
+            resultado: respuesta,
+            exitoso:true            
+        });
+      });         
 })
 
 

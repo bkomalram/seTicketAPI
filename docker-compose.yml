@@ -5,12 +5,16 @@ services:
       container_name: lsapi
       restart: always
       build: .
+      #command: bash -c "./src/mq/run-commands.sh 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-verification-ticketrecords.js'"
+      depends_on:
+        - queue
       networks:
         - backend        
       ports:
         - "5000:3000"
       links:
-        - database     
+        - database
+        - queue     
       volumes:
         - .:/code
         - /code/node_modules  #Volumen dedicado al node_modules para que quede intacto #bcrypt issue  https://bobcares.com/blog/install-bcrypt-in-docker/       
@@ -26,6 +30,37 @@ services:
       environment:
         MYSQL_ROOT_PASSWORD: b4s34p1
         MYSQL_DATABASE: loteriadb
+    queue:
+      container_name: lsmq
+      image: rabbitmq:3-management
+      restart: always
+      networks:
+        - backend
+      ports:
+        - "5672:5672"
+        - "5671:5671"
+        - "4369:4369"
+        - "15672:15672"
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+    workers:
+      container_name: lsworkers
+      restart: always
+      build: .
+      command: bash -c "./src/mq/run-commands.sh 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-create-ticketrecords.js' 'node src/mq/worker-verification-ticketrecords.js'"
+      depends_on:
+        - queue
+      networks:
+        - backend              
+      links:
+        - database
+        - queue     
+      volumes:
+        - .:/code
+        - /code/node_modules    
 networks:
   backend:
     external:
