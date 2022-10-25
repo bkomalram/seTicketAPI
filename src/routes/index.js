@@ -11,6 +11,10 @@ router.get('/generar', function(req, res, next) {
   res.render('ganadores', { title: 'Ganadores', enviroment: env.parsed });
 });
 
+router.get('/balance', function(req, res, next) {
+  res.render('balance', { title: 'Balances', enviroment: env.parsed });
+});
+
 router.get('/cuentas', function(req, res, next) {
   res.render('cuentas', { title: 'Cuentas', enviroment: env.parsed });
 });

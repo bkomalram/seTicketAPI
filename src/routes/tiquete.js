@@ -93,6 +93,18 @@ router.post("/mq", async (req,res)=>{
     }    
 
     try {
+        /**
+         * Verificar si el sorteo esta en venta
+         */         
+        var enVenta = await DB.Game.findOne({
+            where: DB.sequelize.literal('id = '+ sorteoId +' and esActivo = "SI" and enVenta = "SI"' )                    
+        });
+
+        if (!enVenta) {
+            res.status(500).json({resultado:"Venta detenida o cerrada para sorteo.",exitoso:false})
+            return
+        }
+
         /*Create GameTicket Instance*/
         const headerTicket = await DB.GameTicket.create({
             game_id: sorteoId,

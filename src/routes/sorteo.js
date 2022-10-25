@@ -29,7 +29,8 @@ router.post("/", (req,res)=>{
             usuario_id: req.jornada.id,
             nombre: nombreSorteo,
             fecha: Date.now(),
-            esActivo: "SI"
+            esActivo: "SI",
+            enVenta: "SI"
         })
         .then((Game)=>{
             Game.save() 
@@ -64,6 +65,33 @@ router.patch("/", (req,res)=>{
         })        
     } catch (error) {
         res.status(500).json({resultado:{mensaje:"Ocurrio un error cerrando sorteo",error:error},exitoso:false})
+    }    
+})
+
+router.lock("/", (req,res)=>{
+    const { sorteoId } = req.body
+    if (req.jornada.accesos < 2) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+
+    /*Refactor v3.0
+    Sequelize ORM
+    BK*/
+    try {
+        DB.Game.update({            
+            enVenta: "NO"
+        },{ 
+            where: { id: sorteoId }
+        })
+        .then((Game)=>{
+            res.status(201).json({resultado:{mensaje:"Venta detenida."},exitoso:true})       
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error deteniendo venta en sorteo",error:error},exitoso:false})
     }    
 })
 
@@ -122,14 +150,11 @@ router.get("/:sorteoId", (req,res)=>{
     url/sorteo/:id/chances GET Obtiene Chances de sorteo especifico para usuario en sesion
     */
     try {
-        DB.Game.findAll({
-            where:{         
-                esActivo: "SI"
-            }
-        })
-        .then((Game)=>{
-            let objectSorteo = Game.find(element => element.id == sorteoId);
-            res.status(200).json({resultado:objectSorteo,exitoso:true})       
+        DB.Game.findOne({
+            where: DB.sequelize.literal('id = '+ sorteoId +' and esActivo = "SI" and enVenta = "SI"' )                    
+        })       
+        .then((Game)=>{           
+            res.status(200).json({resultado:Game,exitoso:true})       
         })        
     } catch (error) {
         res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando todos los sorteos",error:error},exitoso:false})
@@ -208,7 +233,7 @@ router.get("/:sorteoId/chances", (req,res)=>{
     const {sorteoId} = req.params
     const {ord,all,only} = req.query
     /*Optional ordenado = cantidad|chance| defecto chance*/    
-    var ordenado = ["chance","cantidad"].indexOf(ord)==-1?"chance":ord    
+    var ordenado = ["numero","cantidad"].indexOf(ord)==-1?"numero":ord    
     if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",

@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     usuario_id: DataTypes.INTEGER,
     nombre: DataTypes.STRING,
     fecha: DataTypes.DATE,
-    esActivo: DataTypes.ENUM('SI', 'NO')
+    esActivo: DataTypes.ENUM('SI', 'NO'),
+    enVenta: DataTypes.ENUM('SI', 'NO')
   }, {
     sequelize,
     modelName: 'Game',
@@ -26,5 +27,16 @@ module.exports = (sequelize, DataTypes) => {
   Game.prototype.createGame = async function(nombre,usuarioId) {
     
   }
+
+  Game.prototype.invalidar= async function() {    
+    this.esActivo = "NO";
+    return await this.save()
+  }
+
+  Game.prototype.detenerVenta= async function() {    
+    this.enVenta = "NO";
+    return await this.save()
+  }
+
   return Game;
 };

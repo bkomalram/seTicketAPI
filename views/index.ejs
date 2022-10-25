@@ -1265,7 +1265,7 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <form id="form-config">
+                  <form id="form-ping">
                     <div class="modal-body text-center">
                       <input type="password" id="inPing" />
                     </div>
@@ -1383,6 +1383,47 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
+              <div
+                class="modal fade"
+                id="modalErrorTicket"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="errorTicketModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                  <div
+                    class="modal-content card text-black-50"
+                    style="background-color: #dee2e6 !important"
+                  >
+                    <div class="modal-header">
+                      <h5
+                        class="modal-title font-weight-bolder"
+                        id="errorTicketModalLabel"
+                      >
+                        Ups!? no puedes continuar vendiendo
+                      </h5>
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <form id="form-config">
+                      <div class="modal-body text-center">
+                        <h5 id="text-error-ticket"></h5>
+                      </div>
+                      <div
+                        class="modal-footer"
+                        style="justify-content: center !important"
+                      ></div>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col-12 mt-3">
               <div class="row">
@@ -1566,13 +1607,60 @@
                     <span class="sr-only">Loading...</span>
                   </div>
                 </button>
+                <div
+                  class="modal fade"
+                  id="modalLock"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="lockModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog" role="document">
+                    <div
+                      class="modal-content card text-black-50"
+                      style="background-color: #dee2e6 !important"
+                    >
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="lockModalLabel">
+                          Ping de seguridad
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form id="form-config">
+                        <div class="modal-body text-center">
+                          <input type="password" id="inPingLock" />
+                          <h5 id="text-message-lock"></h5>
+                        </div>
+                        <div
+                          class="modal-footer"
+                          style="justify-content: center !important"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-secondary col-6"
+                            id="btn-lock-game"
+                          >
+                            Aceptar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row">
               <div class="col-6">
                 <button
                   class="btn btn-sm btn-secondary col-12"
-                  id="btn-reedem-game"
+                  id="btn-throw-cambiar"
                 >
                   <h6 id="text-reedem-game">Canjear</h6>
                   <div
@@ -1583,6 +1671,52 @@
                     <span class="sr-only">Loading...</span>
                   </div>
                 </button>
+                <div
+                  class="modal fade"
+                  id="modalCambiar"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="cambiarModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog" role="document">
+                    <div
+                      class="modal-content card text-black-50"
+                      style="background-color: #dee2e6 !important"
+                    >
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="cambiarModalLabel">
+                          Coloca número de tiquete
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form id="form-config">
+                        <div class="modal-body text-center">
+                          <input type="text" id="inTicket" />
+                        </div>
+                        <div
+                          class="modal-footer"
+                          style="justify-content: center !important"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-secondary col-6"
+                            id="btn-reedem-game"
+                          >
+                            Aceptar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="col-6">
                 <button
@@ -1611,6 +1745,21 @@
                     class="spinner-grow d-none"
                     role="status"
                     id="spinner-close-game"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  class="btn btn-sm btn-secondary col-12"
+                  id="btn-balance-game"
+                >
+                  <h6 id="text-balance-game">Balances</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-balance-game"
                   >
                     <span class="sr-only">Loading...</span>
                   </div>
@@ -2215,6 +2364,7 @@
         document
           .querySelector("#spinner-print-ticket")
           .classList.remove("d-none");
+        document.querySelector("#text-error-ticket").innerHTML = "";
 
         if (!localStorage.getItem("choose-game")) {
           return;
@@ -2271,8 +2421,7 @@
                   document.querySelector("#ticketOutput").innerHTML +
                   "<div class='mt-2'></div>";
                 generarQR(
-                  qrURL+"cambiar?id=" +                   
-                    globalChance.receiptCount.toString()
+                  qrURL + "cambiar?id=" + globalChance.receiptCount.toString()
                 );
                 window.print();
                 limpiarTablero();
@@ -2280,6 +2429,10 @@
                 /*Agregar Modal
                  * Mensaje no exitoso
                  */
+                document.querySelector("#text-error-ticket").innerHTML =
+                  data.resultado;
+
+                $("#modalErrorTicket").modal("show");
               }
 
               document
@@ -2334,6 +2487,52 @@
         });
 
       /***
+       * Terminar venta
+       * */
+      document
+        .querySelector("#btn-stop-game")
+        .addEventListener("click", function (event) {
+          document.querySelector("#text-message-lock").innerHTML  = "";
+          document.querySelector("#inPingLock").value = "";
+          $("#modalLock").modal("show");
+        });
+      document
+        .querySelector("#btn-lock-game")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+
+          let ping = document.querySelector("#inPingLock").value;
+          /*Ping para acceder a configuracion*/
+          if (ping == "<%= enviroment.LOCK_PASSWORD %>") {
+            document.querySelector("#inPingLock").value = "";
+            $("#modalLock").modal("hide");
+
+            var objetoSorteo = {
+              sorteoId: localStorage.getItem("choose-game"),
+            };
+            fetch(api + "sorteo", {
+              method: "LOCK",
+              body: JSON.stringify(objetoSorteo),
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+              },
+            })
+              .then((response) => response.json())
+              .then((response) => {
+                if (response.exitoso) {
+                  document.querySelector("#text-message-lock").innerHTML  =
+                    "Venta detenida.";
+                }
+              });
+          } else {
+            document.querySelector("#inPingLock").value = "";
+            document.querySelector("#text-message-lock").innerHTML  =
+              "Datos incorrectos.";
+          }
+        });
+
+      /***
        * Configuracion
        * */
       document
@@ -2352,15 +2551,43 @@
           }
         });
 
+      /***
+       * Cambiar Ticket
+       * */
+      document
+        .querySelector("#btn-reedem-game")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          let ticket = document.querySelector("#inTicket").value;
+          window.location = "/cambiar?id=" + ticket;
+        });
+
+      document
+        .querySelector("#btn-throw-cambiar")
+        .addEventListener("click", function (event) {
+          $("#modalCambiar").modal("show");
+          document.querySelector("#inTicket").focus();
+        });
+
       document
         .querySelector("#btn-throw-ping")
         .addEventListener("click", function (event) {
-          if (globalChance.userProfile != "ADMIN") {
+          if (localStorage.getItem("sesion-perfil") != "ADMIN") {
             $("#modalPing").modal("show");
-            document.querySelector("#inPing").focus();
+            document.querySelector("#inTicket").focus();
           } else {
             showConfiguracion();
           }
+        });
+
+      /***
+       * Balance Sorteos
+       * */
+      document
+        .querySelector("#btn-balance-game")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          window.location = "/balance";
         });
     </script>
   </body>

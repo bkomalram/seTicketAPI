@@ -843,6 +843,83 @@ router.post("/", (req,res)=>{
       });         
 })
 
+router.get("/", (req,res)=>{
+    
+    const {sorteoId} = req.params
+    const {accion} = req.query    
+      
+    if (req.jornada.accesos < 2) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+
+    if (accion == "chance") {
+        var whereCondition = {                                                
+            ganador: "SI",
+            tipo: "CHANCE"
+        }
+    } else if(accion == "billete") {
+        var whereCondition = {                                                
+            ganador: "SI",
+            tipo: "BILLETE"
+        }
+    }
+    else {
+        var whereCondition = {                                                
+            ganador: "SI"            
+        }
+    }
+    
+    try {              
+        DB.GameTicketRecord.findAll({  
+            where:whereCondition,
+            include:[{
+                model:DB.GameTicket,                
+                required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                where:{                                                        
+                    cambio: "NO"
+                },
+                attributes:[] //Nada de GameTicket en la respuesta
+            }                            
+            ],                        
+            attributes:[                
+                [DB.sequelize.col("GameTicket.game_id"),'gameId'],                
+                [DB.sequelize.fn('sum', DB.sequelize.literal('GameTicketRecord.valorganador1er + GameTicketRecord.valorganador2do + GameTicketRecord.valorganador3ro')), 'total'],                 
+            ],
+            group:['GameTicket.game_id'],            
+        })
+        .then((LeftJoin)=>{ 
+            
+            
+            newResponse = []
+            promises = []
+            LeftJoin.forEach(element => {               
+                promises.push(DB.Game.findOne({
+                    where: DB.sequelize.literal('id = '+ element.dataValues.gameId)                    
+                })
+                .then((Juego)=>{
+                    let elemento = {}
+                    elemento.gameId = element.dataValues.gameId                    
+                    elemento.gameName = Juego.nombre
+                    elemento.total = element.dataValues.total
+                    newResponse.push(elemento)
+                    return
+                }))
+            });            
+            Promise.all(promises).then((values) => {
+                res.status(200).json({resultado:newResponse,exitoso:true}) 
+              });                        
+        })
+        
+    } catch (error) {        
+        res.status(400).json({resultado:error,exitoso:false}) 
+        return
+    }
+
+})
 
 router.get("/:sorteoId", (req,res)=>{
     
@@ -902,6 +979,7 @@ router.get("/:sorteoId", (req,res)=>{
     }
 
 })
+
 
 /**
  * Continua aquí, sigue con ticket, luego configuracion.

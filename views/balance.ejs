@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= enviroment.VERSION %></title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+  </head>
+  <body class="container-fluid">
+    <div class="row d-print-none" id="generar">
+      <div
+        class="col-2 mx-3 mt-2 card text-body p-2 text-black-50 mb-2"
+        style="background-color: #dee2e6 !important"
+        id="contenedordatosGlobales"
+      >
+        <div class="card-body" id="datosGlobales">
+          <div class="rows">
+            <div class="py-3">
+              <button class="btn btn-sm btn-secondary col-12" id="btnVentas">
+                Regresar Venta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-9 mx-3 mt-2 card text-body p-2 text-black-50 mb-2"
+        style="background-color: #dee2e6 !important"
+        id="balance-card"
+      >
+        <div id="balance-sorteos" class="card-body"></div>
+      </div>
+    </div>
+
+    <div
+      class="alert alert-danger d-none offset-4 col-4 mt-5 p-5"
+      role="alert"
+      id="alertSession"
+    >
+      <h4 class="alert-heading">Su sesión caduco!</h4>
+      <p>Oh si! debes ingresar nuevamente</p>
+      <hr />
+      <p class="mb-0" id="txtTimer">Seras redireccionado en 2 segundos . . .</p>
+    </div>
+    <div
+      class="d-flex justify-content-center"
+      style="margin-top: 20%"
+      id="loading"
+    >
+      <div
+        class="spinner-grow"
+        role="status"
+        style="
+          width: 10rem;
+          height: 10rem;
+          background-color: #dee2e6 !important;
+        "
+        id="spinnerLog"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <script>
+      var api = "<%= enviroment.URL_API %>";
+      var qrURL = "<%= enviroment.URL_QR %>";
+
+      /*Verificar si tiene sesión*/
+      if (localStorage.getItem("tokenSSO")) {
+        /*Verificando token*/
+        fetch(api + "usuarios/decode", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.exitoso) {
+              /**
+               * Basado en el perfil mostrar o dejar de mostrar
+               */
+              localStorage.setItem("sesion-accesos", data.resultado.accesos);
+              localStorage.setItem("sesion-perfil", data.resultado.perfil);
+              localStorage.setItem("sesion-usuario", data.resultado.usuario);
+              localStorage.setItem("sesion-id", data.resultado.id);
+              
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+              document.querySelector("#generar").classList.remove("d-none");
+            } else {
+              /**
+               * Caduco la sesión mensaje y redireccionar
+               */
+
+              document.querySelector("#loading").classList.remove("d-flex");
+              document.querySelector("#loading").classList.add("d-none");
+              document.querySelector("#generar").classList.add("d-none");
+              document
+                .querySelector("#alertSession")
+                .classList.remove("d-none");
+
+              localStorage.removeItem("tokenSSO");
+              setTimeout(function () {
+                window.location = "/";
+              }, 2000);
+            }
+          });
+      } else {
+        document.querySelector("#generar").classList.add("d-none");
+        document.querySelector("#loading").classList.remove("d-flex");
+        document.querySelector("#loading").classList.add("d-none");
+        document.querySelector("#alertSession").classList.remove("d-none");
+        localStorage.removeItem("tokenSSO");
+        setTimeout(function () {
+          window.location = "/";
+        }, 2000);
+      }
+
+      /**
+       * Carga automatica
+       */
+       fetch(api + "ganadores", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((response) => {     
+            var linea = ""
+            let ordenado = response.resultado.sort(function compare(a, b) {
+                  if (Number(a.gameId) < Number(b.gameId)) {
+                    return -1;
+                  }
+                  if (Number(a.gameId) > Number(b.gameId)) {
+                    return 1;
+                  }
+                  return 0;
+                })                
+            response.resultado.forEach(elemento => {
+              linea = linea + '<div class="row"><div class="col">'+elemento.gameName+'</div><div class="col">'+elemento.total+'</div></div>'
+            });
+            document.querySelector("#balance-sorteos").innerHTML = linea
+          })
+          
+          document
+        .querySelector("#btnVentas")
+        .addEventListener("click", function (event) {
+          window.location = "/ventas";
+        });
+    </script>
+  </body>
+</html>

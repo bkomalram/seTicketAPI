@@ -1,0 +1,63 @@
+.input-group-xs>.input-group-prepend>.input-group-text,
+.input-group-xs>.form-control,.input-group-xs>.custom-select{
+    height: 28px;
+    padding: 1px 5px;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+.output80{
+    width: 80mm; 
+    height: 100%;     
+    margin-left: -10px;
+}
+
+.output58{
+    width: 58mm; 
+    height: 100%;     
+    margin-left: -10px;
+}
+
+.label-font-size{
+    font-size: xx-small;
+    margin-bottom: 0!important;
+}
+
+#outPut1 {
+    display: block;
+    page-break-after: always;
+    position: relative;
+}
+
+.card-border{
+    background-clip: border-box;
+    border: 1px solid #adb5bd;
+    border-radius: .25rem;
+}
+
+body {
+    background: #343a40;
+    color: #adb5bd;    
+}
+
+canvas{
+    padding: 0;
+    margin: auto;
+    display: block;
+}
+
+@media print {
+    @page {
+      size: auto;
+      margin: 0;
+    }
+    .print-style{
+        background: white !important;
+        border-color: #000000!important;
+        color: #000000;
+        border: 3px;        
+    }
+    .pa{
+        position: absolute;
+    }
+  }
