@@ -116,6 +116,7 @@ router.get("/", (req,res)=>{
     try {
         DB.Game.findAll({
             where:{         
+                usuario_id: [req.jornada.padreUsuario_id, req.jornada.id],
                 esActivo: "SI"
             }
         })

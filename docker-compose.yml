@@ -11,7 +11,7 @@ services:
       networks:
         - backend        
       ports:
-        - "5000:3000"
+        - "5100:3000"
       links:
         - database
         - queue     
@@ -20,8 +20,8 @@ services:
         - /code/node_modules  #Volumen dedicado al node_modules para que quede intacto #bcrypt issue  https://bobcares.com/blog/install-bcrypt-in-docker/       
     database:
       container_name: lsdb
-      image: mysql
-      command: --default-authentication-plugin=mysql_native_password
+      image: mariadb:10.6.4-focal
+      command: '--default-authentication-plugin=mysql_native_password'
       restart: always
       networks:
         - backend  

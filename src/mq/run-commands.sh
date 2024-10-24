@@ -1,4 +1,3 @@
-#!/bin/bash
 
 for cmd in "$@"; do {
   echo "Process \"$cmd\" started";

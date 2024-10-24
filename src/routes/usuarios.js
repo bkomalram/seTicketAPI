@@ -76,6 +76,7 @@ router.post("/log", (req,res)=>{
                         accesos: User.dataValues.perfil=="ADMIN"? 2 : 1,                
                         perfil:User.dataValues.perfil,
                         usuario:User.dataValues.nombre,
+                        padreUsuario_id: User.dataValues.padreUsuario_id,
                         id:User.dataValues.id
                     }
                     User.ultimaConexion = Date.now()
