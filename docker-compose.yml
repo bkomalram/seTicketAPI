@@ -30,6 +30,8 @@ services:
       environment:
         MYSQL_ROOT_PASSWORD: b4s34p1
         MYSQL_DATABASE: loteriadb
+      volumes:
+        - db-data-sandbox:/var/lib/mysql
     queue:
       container_name: lsmq
       image: rabbitmq:3-management
@@ -65,5 +67,7 @@ networks:
   backend:
     external:
       name: seTicketNetwork
+volumes:
+  db-data-sandbox:
         
 

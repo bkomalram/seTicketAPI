@@ -1781,6 +1781,9 @@
         <div class="d-flex card-border" id="estadoSorteo">
           <div class="col-12 font-weight-bold my-2" id="totalSorteo">
             <div class="d-flex">
+              <div class="col-12 card-border">Ventas</div>
+            </div>
+            <div class="d-flex">
               <div class="offset-4 col-4">Cantidad</div>
               <div class="col-4">Monto</div>
             </div>
@@ -1793,6 +1796,28 @@
               <div class="col-4">Billete</div>
               <div class="col-4" id="billeteCantidad"></div>
               <div class="col-4" id="billetePlata"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-12 card-border">Cuentas de ganadores</div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Chance</div>
+              <div class="offset-4 col-4" id="chancePremioTotal"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Billete</div>
+              <div class="offset-4 col-4" id="BilletePremioTotal"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-12 card-border">Diferencia</div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Chance</div>
+              <div class="offset-4 col-4" id="chanceBalanceTotal"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Billete</div>
+              <div class="offset-4 col-4" id="BilleteBalanceTotal"></div>
             </div>
           </div>
         </div>
@@ -1861,7 +1886,10 @@
 
               if (data.resultado.perfil != "ADMIN") {
                 document
-                  .querySelector("#contenedorConfiguracion")
+                  .querySelector("#contenedorSorteos")
+                  .classList.add("d-none");
+                document
+                  .querySelector("#contenedorOpciones")
                   .classList.add("d-none");
                 document.querySelector("#btn-close-game").classList.add("d-none");
                 /*document
@@ -2080,7 +2108,41 @@
             document.querySelector("#chancePlata").innerHTML = (
               Math.round(montoTotal * 100) / 100
             ).toFixed(2);
-          });
+             return Math.round(montoTotal * 100) / 100
+          })
+          .then((something => {
+            /* Ganadores Chance*/
+            fetch(api + "ganadores/" + numeroSorteo + "?accion=chance", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+              },
+            })
+              .then((response) => response.json())
+              .then((totales) => {
+                let cantidadTotal = 0;
+                let montoTotal = 0;
+                totales.resultado.forEach((elemento) => {
+                  montoTotal = montoTotal + elemento.valorganador1er + elemento.valorganador2do
+                    + elemento.valorganador3ro;
+                });
+                document.querySelector("#chancePremioTotal").innerHTML = (
+                  Math.round(montoTotal * 100) / 100
+                ).toFixed(2);
+                let balance = something - montoTotal
+                if (balance < 0) {
+                  document.querySelector("#chanceBalanceTotal").classList.add("text-danger");
+                } else {
+                  document.querySelector("#chanceBalanceTotal").classList.remove("text-danger");
+                }
+                if (montoTotal == 0) {
+                  balance = "----.--";
+                }
+                document.querySelector("#chanceBalanceTotal").innerHTML =
+                  balance || 0;
+              });
+          }));
 
         /*Billetes*/
         fetch(api + "sorteo/" + numeroSorteo + "/billetes", {
@@ -2127,7 +2189,44 @@
             document.querySelector("#billetePlata").innerHTML = (
               Math.round(montoTotal * 100) / 100
             ).toFixed(2);
-          });
+            return Math.round(montoTotal * 100) / 100
+          })
+          .then((something => {
+            /* Ganadores Billetes */
+            fetch(api + "ganadores/" + numeroSorteo + "?accion=billete", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+              },
+            })
+              .then((response) => response.json())
+              .then((totales) => {
+                let cantidadTotal = 0;
+                let montoTotal = 0;
+                totales.resultado.forEach((elemento) => {
+                  cantidadTotal = cantidadTotal + Number(elemento.cantidad);
+                  montoTotal = montoTotal + elemento.valorganador1er + elemento.valorganador2do
+                    + elemento.valorganador3ro;
+                });
+
+                document.querySelector("#BilletePremioTotal").innerHTML = (
+                  Math.round(montoTotal * 100) / 100
+                ).toFixed(2);
+                let balance = something - montoTotal
+                if (balance < 0) {
+                  document.querySelector("#BilleteBalanceTotal").classList.add("text-danger");
+                } else {
+                  document.querySelector("#BilleteBalanceTotal").classList.remove("text-danger");
+                }
+                if (montoTotal == 0) {
+                  balance = "----.--";
+                }
+                document.querySelector("#BilleteBalanceTotal").innerHTML =
+                  balance || 0;
+              });
+          }));
+
       }
 
       /**
@@ -2367,9 +2466,46 @@
         document.querySelector("#text-error-ticket").innerHTML = "";
 
         if (!localStorage.getItem("choose-game")) {
+          /**
+           * 
+           * Removiendo transicion
+           * */
+           document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+          /*
+          * Agregar Modal
+          * Mensaje no exitoso
+          */
+          document.querySelector("#text-error-ticket").innerHTML =
+          "Debes seleccionar un sorteo activo para poder vender";
+
+        $("#modalErrorTicket").modal("show");
+
           return;
         }
         if (!localStorage.getItem("title-ticket")) {
+          /**
+           * 
+           * Removiendo transicion
+           * */
+           document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+          /*
+          * Agregar Modal
+          * Mensaje no exitoso
+          */
+          document.querySelector("#text-error-ticket").innerHTML =
+          "Debes seleccionar un titulo para los ticketes";
+
+        $("#modalErrorTicket").modal("show");
           return;
         }
 
@@ -2566,15 +2702,20 @@
         .querySelector("#btn-throw-cambiar")
         .addEventListener("click", function (event) {
           $("#modalCambiar").modal("show");
-          document.querySelector("#inTicket").focus();
+          setTimeout(function() {
+            document.querySelector("#inTicket").focus();
+            }, 500);
         });
 
       document
         .querySelector("#btn-throw-ping")
         .addEventListener("click", function (event) {
+          event.preventDefault();
           if (localStorage.getItem("sesion-perfil") != "ADMIN") {
             $("#modalPing").modal("show");
-            document.querySelector("#inTicket").focus();
+            setTimeout(function() {
+                document.querySelector("#form-ping .modal-body #inPing").focus();
+            }, 500);
           } else {
             showConfiguracion();
           }

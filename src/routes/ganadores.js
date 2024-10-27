@@ -846,7 +846,7 @@ router.post("/", (req,res)=>{
 router.get("/", (req,res)=>{
     
     const {sorteoId} = req.params
-    const {accion} = req.query    
+    const {accion,only} = req.query    
       
     if (req.jornada.accesos < 2) {
         res.json({
@@ -872,6 +872,15 @@ router.get("/", (req,res)=>{
             ganador: "SI"            
         }
     }
+
+    if (only) {            
+        whereCondition.userId = only.split(",")
+    }
+    res.json({
+        resultado: whereCondition,
+        exitoso:false
+    })
+    return
     
     try {              
         DB.GameTicketRecord.findAll({  
@@ -924,7 +933,7 @@ router.get("/", (req,res)=>{
 router.get("/:sorteoId", (req,res)=>{
     
     const {sorteoId} = req.params
-    const {accion} = req.query    
+    const {accion, only} = req.query    
       
     if (req.jornada.accesos < 2) {
         res.json({
