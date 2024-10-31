@@ -9,7 +9,8 @@ services:
       depends_on:
         - queue
       networks:
-        - backend        
+        - backend  
+        - public      
       ports:
         - "5100:3000"
       links:
@@ -75,8 +76,9 @@ services:
       command: certonly --webroot --webroot-path=/var/www/html --email ingeniustechnologyfactory@gmail.com --staging --agree-tos --no-eff-email -d demo-ticket.duckdns.org
       #command: certonly --webroot --webroot-path=/var/www/html --email ingeniustechnologyfactory@gmail.com --force-renewal --agree-tos --no-eff-email -d demo-ticket.duckdns.org
 networks:
-  - public
-  - seTicketNetwork
+  backend:
+    external:
+      name: seTicketNetwork
 volumes:
   db-data-sandbox:
   certbot-etc-sandbox:
