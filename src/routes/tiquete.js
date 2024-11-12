@@ -79,7 +79,7 @@ router.post("/", async (req,res)=>{
 
 /*Tiquete*/
 router.post("/mq", async (req,res)=>{
-    const { sorteoId, valor, registros } = req.body
+    const { sorteoId, userId, valor, registros } = req.body
 
     const accion = `
     CALL rCrearTiquete(?,?,?,?);
@@ -109,7 +109,7 @@ router.post("/mq", async (req,res)=>{
         const headerTicket = await DB.GameTicket.create({
             game_id: sorteoId,
             fecha: new Date(),
-            userId: req.jornada.id,
+            userId: userId ? userId : req.jornada.id,
             ganador: 'NO',
             valorcompra: valor,
             valorganador: 0.00,

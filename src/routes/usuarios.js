@@ -15,7 +15,11 @@ router.get("/", (req,res)=>{
 
     DB.User.findAll({
         where:{                
-            esActivo:"SI"            
+            esActivo:"SI",
+            [DB.Sequelize.Op.or]:[
+                {padreUsuario_id: req.jornada.id},
+                {id:req.jornada.id}
+            ]           
         },                    
         order:[
             ["id", 'ASC'],
@@ -149,10 +153,54 @@ router.post("/changePassword",(req,res)=>{
 })
 
 /**
+ * Cambiar Porcentaje
+ */
+router.post("/changePercentage",(req,res)=>{
+    /*Evalulando Accesos*/
+    if (req.jornada.accesos < 2) {
+        res.status(401).json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+    /*Verificando que tenga todo*/
+    const { porcentajeComision, userId } = req.body
+    if (!porcentajeComision || !userId) {
+        res.status(400).json({
+            resultado: "Se requieren informacion del userId y porcentaje, para proceder.",
+            exitoso: false
+        })
+        return
+    }    
+    /*Evaluando información*/
+    try {
+        DB.User.findOne({where:{id:userId,esActivo:'SI'}})
+        .then((User)=>{
+            console.log(User)
+            /*Porceder con el cambio*/
+            User.changePercentage(porcentajeComision)                
+            .then((Commit)=>{
+                res.status(201).json({
+                    resultado: Commit,
+                    exitoso:true
+                })
+                return
+            })                        
+        })        
+    } catch (error) {
+        res.status(500).json({
+            resultado: error,
+            exitoso:false
+        })
+    }    
+    })
+
+/**
  * Crear Usuario
  */
  router.post("/", (req,res)=>{
-    const { usuario, password, perfil } = req.body   
+    const { usuario, password, porcentajeComision, perfil } = req.body   
     if (req.jornada.accesos < 2) {
         res.status(401).json({
             resultado: "Privilegios insuficientes",
@@ -165,6 +213,7 @@ router.post("/changePassword",(req,res)=>{
         DB.User.create({
             padreUsuario_id: req.jornada.id,
             nombre: usuario,
+            porcentajeComision:porcentajeComision,
             contrasena:password,
             perfil:perfil,
             ultimaConexion:null,

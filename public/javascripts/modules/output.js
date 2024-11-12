@@ -2,9 +2,18 @@ var qrURL = "<%= enviroment.URL_QR %>";
 const chanceOutput = function () {
     let output = document.getElementById("ticketOutput")
     let header = [
-      '<img src="/images/vaca.png" alt="Smiley face" style="width: 50px;position: absolute;margin-left: 10px;margin-top: 5px;">',
-      '<p name="outputTitle" id="outTitle" class="text-center mb-0">'+globalChance.person+'</p>',
-      '<p name="outputId" id="outId" class="text-center">'+bag.id()+'</p>',      
+      '<div class="row mx-0 print-style">',
+        '<img src="/images/vaca.png" class="col-3 mt-4 w-50 h-50">',
+        '<div class="col-6 p-0">',
+         '<div class="row mx-0 mt-2 print-style text-center">',
+            '<p name="outputTitle" id="outTitle" class="col-12">'+globalChance.person+'</p>',
+            '<p name="outputId" id="outId" class="col-12 ">'+bag.id()+'</p>', 
+            '<p name="seller" id="seller" class="col-12 p-0 m-0 text-sm" style="font-size: smaller;">'+bag.seller+'</p>',
+            '<p name="customer-name" id="display-customer-name" class="col-12 p-0 m-0 text-sm" style="font-size: smaller;">'+bag.customerName+'</p>',
+          '</div>',
+        '</div>',
+        '<canvas id="canvas" class="mt-2 col-3 w-50 h-50 p-0"></canvas>',
+      '</div>',     
         '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
           '<div class="col-3 px-0 text-center">CF</div>',
           '<div class="col-3 px-0 text-center">CANT.</div>',
@@ -15,6 +24,12 @@ const chanceOutput = function () {
     let total = [
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
         '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: '+bag.total+'</p>',
+      '</div>',
+      '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+        '<p name="chanceCount" id="chanceCount" class="text-center col-12"> CANT. CHANCE: '+bag.chanceCount+'</p>',
+      '</div>',
+      '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+        '<p name="billeteCount" id="billeteCount" class="text-center col-12"> CANT. BILLETE: '+bag.billeteCount+'</p>',
       '</div>'
     ].join('')
   
@@ -27,9 +42,6 @@ const chanceOutput = function () {
     let footer = [
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
         '<h1 name="outputId" id="outId" class="text-center col-12"> No: '+bag.receipt()+'</h1>',
-      '</div>',
-      '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
-        '<canvas id="canvas" class="mt-2"></canvas>',
       '</div>',      
     ].join('')
     var body =[    
@@ -69,6 +81,12 @@ const chanceOutput = function () {
     let total = [
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
         '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: '+(Math.round(montoTotal * 100) / 100).toFixed(2)+'</p>',
+      '</div>',
+      '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+        '<p name="chanceCount" id="chanceCount" class="text-center col-12"> CANT. CHANCE: '+bag.chanceCount+'</p>',
+      '</div>',
+      '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+        '<p name="billeteCount" id="billeteCount" class="text-center col-12"> CANT. BILLETE: '+bag.billeteCount+'</p>',
       '</div>'
     ].join('')
   
@@ -383,13 +401,19 @@ const imprimirSorteo = async function () {
 }
 
 const generarQR = function (valor = "Tiquete en creación") {
-  QRCode.toCanvas(document.querySelector("#ticketOutput canvas"), valor,function (error) {
+
+  const opciones = {
+    width: "100",
+    height: "100"
+  };
+
+  QRCode.toCanvas(document.querySelector("#ticketOutput canvas"), valor, opciones,function (error) {
     if (error) console.error(error)    
-  })  
+  })
 
   if(document.querySelector("#outPut1 canvas"))
     document.querySelectorAll('#outPut1 canvas').forEach(function(elemento){
-      QRCode.toCanvas(elemento, valor,function (error) {
+      QRCode.toCanvas(elemento, valor, opciones,function (error) {
         if (error) console.error(error)        
       })
     })    

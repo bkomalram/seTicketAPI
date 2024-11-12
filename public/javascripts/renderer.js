@@ -15,7 +15,9 @@ var globalChance = {
 var bag = {
   person:globalChance.person,
   userId: globalChance.userId,
-  id: ()=> {return localStorage.getItem("choose-game") ? localStorage.getItem("choose-game").padStart(18,'0').padStart(19,'1') : "NO _ VALIDO"},
+  seller: "",
+  customerName:"",
+  id: ()=> {return localStorage.getItem("choose-game") ? localStorage.getItem("choose-game").padStart(6,'0').padStart(7,'1') : "NO _ VALIDO"},
   items:[],
   total:0,
   date:function () {
@@ -53,6 +55,8 @@ var bag = {
       sum += element.total
     })    
     this.total = (Math.round(sum * 100) / 100).toFixed(2)
+    this.chanceCount = this.items.filter(item => item.number.length == 2).reduce((sum, item) => sum + item.qty, 0)
+    this.billeteCount = this.items.filter(item => item.number.length > 2).reduce((sum, item) => sum + item.qty, 0)
   },
   clear: function () {
     this.items = []    
@@ -79,7 +83,9 @@ var bag = {
     } else {
       return "CHANCE"
     }
-  }
+  },
+  chanceCount: 0,
+  billeteCount: 0
 }
 
 /*Utility*/
@@ -232,7 +238,11 @@ document.querySelector("#iBilleteQty").addEventListener("keydown",function ({key
     let indexItem = bag.items.findIndex(object=>object.number === newItem.number)
     
     if (indexItem>-1) {
-      bag.push(indexItem,newItem)
+      if (newItem.qty==0) {
+        bag.update(indexItem,newItem)
+      } else {
+        bag.push(indexItem,newItem)
+      }
     } else {
       if (newItem.qty>0) {
         bag.add(newItem) 
@@ -261,7 +271,11 @@ document.querySelector("#iSingleChanceQty").addEventListener("keydown",function 
     let indexItem = bag.items.findIndex(object=>object.number === newItem.number)
     
     if (indexItem>-1) {
-      bag.push(indexItem,newItem)
+      if (newItem.qty==0) {
+        bag.update(indexItem,newItem)
+      } else {
+        bag.push(indexItem,newItem)
+      }
     } else {
       if (newItem.qty>0) {
         bag.add(newItem) 
