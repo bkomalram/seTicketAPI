@@ -71,10 +71,13 @@
       </div>
       <div class="col-4">
         <div class="d-flex card-border border-top-0" id="estadoSorteo">
-          <div class="col-12 font-weight-bold" id="totalSorteo">
+          <div class="col-12 font-weight-bold my-2" id="totalSorteo">
             <div class="d-flex">
-              <div class="offset-4 col-4">CANT</div>
-              <div class="col-4">PLATA</div>
+              <div class="col-12 card-border">Ventas</div>
+            </div>
+            <div class="d-flex">
+              <div class="offset-4 col-4">Cantidad</div>
+              <div class="col-4">Monto</div>
             </div>
             <div class="d-flex">
               <div class="col-4">Chance</div>
@@ -85,6 +88,28 @@
               <div class="col-4">Billete</div>
               <div class="col-4" id="billeteCantidad"></div>
               <div class="col-4" id="billetePlata"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-12 card-border">Cuentas de ganadores</div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Chance</div>
+              <div class="offset-4 col-4" id="chancePremioTotal"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Billete</div>
+              <div class="offset-4 col-4" id="BilletePremioTotal"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-12 card-border">Diferencia</div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Chance</div>
+              <div class="offset-4 col-4" id="chanceBalanceTotal"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-4">Billete</div>
+              <div class="offset-4 col-4" id="BilleteBalanceTotal"></div>
             </div>
           </div>
         </div>
@@ -359,6 +384,7 @@
               usuarios = usuarios + ",";
               usuarios = usuarios + check.name;
             }
+            console.log(check)
           });
           usuarios = usuarios.slice(1);
 
@@ -377,17 +403,27 @@
                 seleccionados.chances = data.resultado;
                 let response = data.resultado;
                 let builder = document.querySelector("div[id=estado]");
-                builder.innerHTML = "";
-                document.querySelector("#estadoTitulo").innerHTML =
-                  "<h5>" +
+                let builderHTML = '<table class="table table-bordered"><tbody>';
+                    builderHTML +='<tr><th colspan=10 class="text-center" style="background-color: white; border: 1px solid black;" ><h5>' +
                   document.querySelectorAll("#select-choose-game option")[
                     document.querySelector("#select-choose-game").selectedIndex
                   ].text +
-                  "</h5>";
-                let html = "";
+                  "</h5></th></tr>"
                 builder.innerHTML = "";
                 for (let index = 0; index < 100; index++) {
-                  html +=
+
+                  builderHTML += 
+                  '<td class="text-center" style="background-color: white; border: 1px solid black;">' +
+                  '<b class="mr-3">' + index.toString().padStart(2, 0)+ '</b>' + 
+                  '<p class="mb-0" id=cc' +index.toString().padStart(2, 0)+ '>0</p>' +
+                  '</td>';
+
+                    if (index % 10 === 9) {
+                      // Cierra la fila después de cada 10 elementos
+                      builderHTML += '</tr>';
+                    }
+
+                  /*html +=
                     '<div class="d-flex"><b class="mr-3">' +
                     String(index).padStart(2, "0") +
                     "</b>" +
@@ -400,8 +436,12 @@
                     builder.innerHTML +=
                       '<div class="col-3 py-1">' + html + "</div>";
                     html = "";
-                  }
+                  }*/
                 }
+
+                builderHTML += '</tbody></table>';
+                document.querySelector("#estado").innerHTML = builderHTML
+
                 response.forEach((element) => {
                   seleccionados.chancesTotal =
                     seleccionados.chancesTotal + element.dineroVenta;
@@ -422,8 +462,41 @@
                 document.querySelector("#error-loading-game").innerHTML =
                   "Error cargando chances en cuentas, contacte el administrador.";
               }
-              return;
-            });
+              return Math.round(seleccionados.chancesTotal * 100) / 100;
+            })
+            .then((something => {
+            /* Ganadores Chance*/
+            fetch(api + "ganadores/" + sorteoId + "?accion=chance&only=" + usuarios, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+              },
+            })
+              .then((response) => response.json())
+              .then((totales) => {
+                let cantidadTotal = 0;
+                let montoTotal = 0;
+                totales.resultado.forEach((elemento) => {
+                  montoTotal = montoTotal + elemento.valorganador1er + elemento.valorganador2do
+                    + elemento.valorganador3ro;
+                });
+                document.querySelector("#chancePremioTotal").innerHTML = (
+                  Math.round(montoTotal * 100) / 100
+                ).toFixed(2);
+                let balance = something - montoTotal
+                if (balance < 0) {
+                  document.querySelector("#chanceBalanceTotal").classList.add("text-danger");
+                } else {
+                  document.querySelector("#chanceBalanceTotal").classList.remove("text-danger");
+                }
+                if (montoTotal == 0) {
+                  balance = "----.--";
+                }
+                document.querySelector("#chanceBalanceTotal").innerHTML =
+                  balance || 0;
+              });
+          }));
 
           /*Buscando Billetes del usuario*/
           fetch(api + "/sorteo/" + sorteoId + "/billetes?only=" + usuarios, {
@@ -478,8 +551,43 @@
                 document.querySelector("#error-loading-game").innerHTML =
                   "Error cargando billetes en cuentas, contacte el administrador.";
               }
-              return;
-            });
+              return Math.round(seleccionados.billetesTotal * 100) / 100;
+            })
+            .then((something => {
+            /* Ganadores Billetes */
+            fetch(api + "ganadores/" + sorteoId + "?accion=billete&only=" + usuarios, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+              },
+            })
+              .then((response) => response.json())
+              .then((totales) => {
+                let cantidadTotal = 0;
+                let montoTotal = 0;
+                totales.resultado.forEach((elemento) => {
+                  cantidadTotal = cantidadTotal + Number(elemento.cantidad);
+                  montoTotal = montoTotal + elemento.valorganador1er + elemento.valorganador2do
+                    + elemento.valorganador3ro;
+                });
+
+                document.querySelector("#BilletePremioTotal").innerHTML = (
+                  Math.round(montoTotal * 100) / 100
+                ).toFixed(2);
+                let balance = something - montoTotal
+                if (balance < 0) {
+                  document.querySelector("#BilleteBalanceTotal").classList.add("text-danger");
+                } else {
+                  document.querySelector("#BilleteBalanceTotal").classList.remove("text-danger");
+                }
+                if (montoTotal == 0) {
+                  balance = "----.--";
+                }
+                document.querySelector("#BilleteBalanceTotal").innerHTML =
+                  balance || 0;
+              });
+          }));
         } catch {
           console.log("Error cargando elementos del sorteo");
         }
@@ -498,6 +606,9 @@
             index,
             '" name="',
             registro.id,
+            '"',
+            ' comision="',
+            registro.porcentajeComision,
             '"',
             '<label class="form-check-label" for="flexCheckDefault">',
             registro.nombre,

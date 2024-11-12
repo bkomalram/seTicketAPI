@@ -17,6 +17,7 @@ var bag = {
   userId: globalChance.userId,
   seller: "",
   customerName:"",
+  sacado:0,
   id: ()=> {return localStorage.getItem("choose-game") ? localStorage.getItem("choose-game").padStart(6,'0').padStart(7,'1') : "NO _ VALIDO"},
   items:[],
   total:0,
@@ -417,9 +418,9 @@ document.querySelector("#goChance").addEventListener("click",function (event) {
   clearChance()  
 })*/
 
-document.querySelector("#btn-print-game").addEventListener("click",function (event) {  
+/*document.querySelector("#btn-print-game").addEventListener("click",function (event) {  
   imprimirSorteo()    
-})
+})*/
 
 document.querySelector("#btn-winner-game").addEventListener("click",function (event) {  
   window.location = '/generar'  

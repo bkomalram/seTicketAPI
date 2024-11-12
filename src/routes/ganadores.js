@@ -845,9 +845,9 @@ router.post("/", (req,res)=>{
 
 router.get("/", (req,res)=>{
     
-    const {sorteoId} = req.params
+    //const {sorteoId} = req.params
     const {accion,only} = req.query    
-      
+    
     if (req.jornada.accesos < 2) {
         res.json({
             resultado: "Privilegios insuficientes",
@@ -876,11 +876,7 @@ router.get("/", (req,res)=>{
     if (only) {            
         whereCondition.userId = only.split(",")
     }
-    res.json({
-        resultado: whereCondition,
-        exitoso:false
-    })
-    return
+    
     
     try {              
         DB.GameTicketRecord.findAll({  
@@ -959,6 +955,20 @@ router.get("/:sorteoId", (req,res)=>{
             ganador: "SI"            
         }
     }
+
+
+    if (only) {            
+        var leftwhereCondition = {                                    
+            game_id:sorteoId,
+            userId: only.split(","),
+            cambio: "NO"
+        }
+    } else {
+        var leftwhereCondition = {                                    
+            game_id:sorteoId,
+            cambio: "NO"
+        }
+    }
     
     try {              
         DB.GameTicketRecord.findAll({  
@@ -966,10 +976,7 @@ router.get("/:sorteoId", (req,res)=>{
             include:[{
                 model:DB.GameTicket,                
                 required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
-                where:{                                    
-                    game_id:sorteoId,
-                    cambio: "NO"
-                },
+                where:leftwhereCondition,
                 attributes:[] //Nada de GameTicket en la respuesta
             }                            
             ],            

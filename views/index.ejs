@@ -1482,9 +1482,10 @@
             </button>
           </div>
           <div class="col-4 mb-2">
-            <button class="btn btn-sm btn-secondary col-12" id="btn-print-game">
-              <h5>Imprimir sorteo</h5>
-            </button>
+            <div class="row">
+              <h5 class="col-3 m-0">Sacado:</h5>
+              <input type="number" class="form-control col-3 offset-2" autocomplete="off" id="optional-sacado">
+            </div>
           </div>
           <div class="col-4 mb-2">
             <button
@@ -1793,12 +1794,7 @@
         </div>
       </div>
       <div class="col-4">
-        <div class="card-border">
-          <div class="col-12 text-center mt-2" id="estadoTitulo">
-            <h5>Crea un sorteo para empezar</h5>
-          </div>
-          <div class="d-flex" id="estado"></div>
-        </div>
+        <div class="d-flex" id="estado"></div>
       </div>
       <div class="col-4">
         <div class="d-flex card-border" id="estadoSorteo">
@@ -2073,13 +2069,6 @@
           Math.round(0 * 100) / 100
         ).toFixed(2);
 
-        document.querySelector("#estadoTitulo").innerHTML =
-          "<h5>" +
-          document.querySelectorAll("#select-choose-game option")[
-            document.querySelector("#select-choose-game").selectedIndex
-          ].text +
-          "</h5>";
-
         let numeroSorteo = document.querySelectorAll(
           "#select-choose-game option"
         )[document.querySelector("#select-choose-game").selectedIndex].value;
@@ -2093,7 +2082,12 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            let builderHTML = "";
+            let builderHTML = '<table class="table table-bordered"><tbody>';
+            builderHTML +='<tr><th colspan=10 class="text-center" style="background-color: white; border: 1px solid black;" ><h5>' +
+          document.querySelectorAll("#select-choose-game option")[
+            document.querySelector("#select-choose-game").selectedIndex
+          ].text +
+          "</h5></th></tr>"
             for (let index = 0; index < 100; index++) {
               let numeroTemporal = data.resultado.find(
                 (elemento) => elemento.numero == index.toString().padStart(2, 0)
@@ -2101,30 +2095,34 @@
               //console.table(numeroTemporal);
               var cantidadIterable = 0;
               if (numeroTemporal) {
-                cantidadIterable = numeroTemporal.cantidad;
+                cantidadSacada = numeroTemporal.cantidad - bag.sacado;
+                cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
+                numeroTemporal.cantidad = cantidadIterable
               }
-
-              builderHTML +=
-                '<div class="d-flex"><b class="mr-3">' +
-                index.toString().padStart(2, 0) +
-                "</b>" +
-                '<p class="mb-0">' +
-                cantidadIterable +
-                "</p></div>";
-              if ([24, 49, 74, 99].indexOf(Number(index)) > -1) {
-                builder.innerHTML +=
-                  '<div class="col-3 py-1">' + builderHTML + "</div>";
-                builderHTML = "";
-              }
+              
+              builderHTML += 
+      '<td class="text-center" style="background-color: white; border: 1px solid black;">' +
+      '<b class="mr-3">' + index.toString().padStart(2, 0)+ '</b>' + 
+      '<p class="mb-0">' + cantidadIterable + '</p>' +
+      '</td>';
+              if (index % 10 === 9) {
+                // Cierra la fila después de cada 10 elementos
+                builderHTML += '</tr>';
             }
+              
+            }
+            builderHTML += '</tbody></table>';
+            document.querySelector("#estado").innerHTML = builderHTML
             return data.resultado;
           })
           .then((totales) => {
+            console.log(totales)
             let cantidadTotal = 0;
             let montoTotal = 0;
             totales.forEach((elemento) => {
               cantidadTotal = cantidadTotal + Number(elemento.cantidad);
-              montoTotal = montoTotal + elemento.dineroVenta;
+
+              montoTotal = montoTotal + Number(elemento.cantidad)*0.25;
             });
             document.querySelector("#chanceCantidad").innerHTML =
               cantidadTotal || 0;
@@ -2405,9 +2403,6 @@
 
           document.querySelector("#text-close-game").classList.remove("d-none");
           document.querySelector("#spinner-close-game").classList.add("d-none");
-
-          document.querySelector("#estadoTitulo").innerHTML =
-            "<h5>Crea un sorteo para empezar</h5>";
 
           cargarSorteos();
 
@@ -2822,6 +2817,15 @@
           console.log(inputCustomerName.value)
           bag.render()
       });
+
+      /***
+       * Sacado
+       * */
+       const inputSacado = document.getElementById("optional-sacado");
+       inputSacado.addEventListener("input", function() {
+          bag.sacado = Number(inputSacado.value);
+      });
+      
     </script>
   </body>
 </html>
