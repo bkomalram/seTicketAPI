@@ -19,11 +19,11 @@
       <div id="outPut1" class="pt-2"></div>
     </div>
     <div class="row d-none" id="venta">
-      <div class="col-3 d-print-none card p-2 mt-2"
+      <div class="col-3 d-print-none mt-2"
         style="background-color: #dee2e6 !important"
       >
         <div class="row" id="chanceBuilder">
-          <div class="col-3 pr-0">
+          <div class="col-3 px-0">
             <div class="input-group input-group-xs pr-0">
               <div class="input-group-prepend">
                 <span class="input-group-text font-weight-bold">00</span>
@@ -929,7 +929,7 @@
               />
             </div>
           </div>
-          <div class="col-3 pl-0">
+          <div class="col-3 px-0">
             <div class="input-group input-group-xs pr-0">
               <div class="input-group-prepend">
                 <span class="input-group-text font-weight-bold">75</span>
@@ -1476,18 +1476,18 @@
     <div class="row d-none d-print-none" id="configuracion">
       <div class="col-12 mt-2">
         <div class="row">
-          <div class="col-4 mb-2">
+          <div class="col-3 mb-2">
             <button class="btn btn-sm btn-secondary col-12" id="goChance">
               <h5>Regresar a venta</h5>
             </button>
           </div>
-          <div class="col-4 mb-2">
+          <div class="col-6 mb-2">
             <div class="row">
-              <h5 class="col-3 m-0">Sacado:</h5>
-              <input type="number" class="form-control col-3 offset-2" autocomplete="off" id="optional-sacado">
+              <h4 class="col-3 m-0 text-right">Sacado:</h4>
+              <input type="text" class="form-control col-3" autocomplete="off" id="optional-sacado">
             </div>
           </div>
-          <div class="col-4 mb-2">
+          <div class="col-3 mb-2">
             <button
               class="btn btn-sm btn-secondary col-12"
               id="btn-refresh-game"
@@ -1504,7 +1504,7 @@
           </div>
         </div>
       </div>
-      <div class="col-4" id="contenedorConfiguracion">
+      <div class="col-3" id="contenedorConfiguracion">
         <div
           class="card text-body p-2 text-black-50 mb-2"
           style="background-color: #dee2e6 !important"
@@ -1607,7 +1607,7 @@
                   class="btn btn-sm btn-secondary col-12"
                   id="btn-winner-game"
                 >
-                  <h6 id="text-winner-game">Ganadores</h6>
+                  <h6 id="text-winner-game" style="font-size: 0.9rem;">Ganadores</h6>
                   <div
                     class="spinner-grow d-none"
                     role="status"
@@ -1622,7 +1622,7 @@
                   class="btn btn-sm btn-secondary col-12"
                   id="btn-stop-game"
                 >
-                  <h6 id="text-stop-game">Detener venta</h6>
+                  <h6 id="text-stop-game" style="font-size: 0.9rem;">Detener venta</h6>
                   <div
                     class="spinner-grow d-none"
                     role="status"
@@ -1686,7 +1686,7 @@
                   class="btn btn-sm btn-secondary col-12"
                   id="btn-throw-cambiar"
                 >
-                  <h6 id="text-reedem-game">Canjear</h6>
+                  <h6 id="text-reedem-game" style="font-size: 0.9rem;">Canjear</h6>
                   <div
                     class="spinner-grow d-none"
                     role="status"
@@ -1747,7 +1747,7 @@
                   class="btn btn-sm btn-secondary col-12"
                   id="btn-bill-game"
                 >
-                  <h6 id="text-bill-game">Cuentas</h6>
+                  <h6 id="text-bill-game" style="font-size: 0.9rem;">Cuentas</h6>
                   <div
                     class="spinner-grow d-none"
                     role="status"
@@ -1764,7 +1764,7 @@
                   class="btn btn-sm btn-secondary col-12"
                   id="btn-close-game"
                 >
-                  <h6 id="text-close-game">Cerrar sorteo</h6>
+                  <h6 id="text-close-game" style="font-size: 0.9rem;">Cerrar sorteo</h6>
                   <div
                     class="spinner-grow d-none"
                     role="status"
@@ -1779,7 +1779,7 @@
                   class="btn btn-sm btn-secondary col-12"
                   id="btn-balance-game"
                 >
-                  <h6 id="text-balance-game">Balances</h6>
+                  <h6 id="text-balance-game" style="font-size: 0.9rem;">Balances</h6>
                   <div
                     class="spinner-grow d-none"
                     role="status"
@@ -1793,10 +1793,12 @@
           </div>
         </div>
       </div>
-      <div class="col-4">
-        <div class="d-flex" id="estado"></div>
+      <div class="col-6">
+        <div class="d-flex" id="estado">
+          <table class="table table-bordered" id="numberTable"></table>
+        </div>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <div class="d-flex card-border" id="estadoSorteo">
           <div class="col-12 font-weight-bold my-2" id="totalSorteo">
             <div class="d-flex">
@@ -2054,7 +2056,7 @@
        */
       function cargarEstadoSorteo() {
         let builder = document.querySelector("#estado");
-        builder.innerHTML = "";
+        builder.innerHTML = '<table class="table table-bordered" id="numberTable"></table>';
 
         let contenedorBillete = document.querySelector("div[id=estadoBillete]");
         contenedorBillete.innerHTML = "";
@@ -2082,13 +2084,42 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            let builderHTML = '<table class="table table-bordered"><tbody>';
-            builderHTML +='<tr><th colspan=10 class="text-center" style="background-color: white; border: 1px solid black;" ><h5>' +
-          document.querySelectorAll("#select-choose-game option")[
+          const table = document.getElementById("numberTable");
+          const columns = 4;
+          //Header
+          const trheader = document.createElement("tr");
+          const th = document.createElement("th");
+          th.textContent = document.querySelectorAll("#select-choose-game option")[
             document.querySelector("#select-choose-game").selectedIndex
-          ].text +
-          "</h5></th></tr>"
-            for (let index = 0; index < 100; index++) {
+          ].text;
+          th.setAttribute('colspan','8')
+          trheader.appendChild(th)
+          table.appendChild(trheader); 
+
+          for (let row = 0; row < 25; row++) { // Crear 10 filas
+              const tr = document.createElement("tr");
+              for (let col = 0; col < columns; col++) { // Crear columnas para cada fila
+                  const td = document.createElement("td");
+                  var cantidadIterable = 0;
+                  const number = (col * 25 + row).toString().padStart(2, '0'); // Formatear número como "00", "01", etc.
+                  td.textContent = number;
+                  td.classList.add("font-weight-bold")
+                  tr.appendChild(td);
+                  let numeroTemporal = data.resultado.find(
+                    (elemento) => elemento.numero == number.toString().padStart(2, 0)
+                  );
+                  if (numeroTemporal) {
+                    cantidadSacada = numeroTemporal.cantidad - bag.sacado;
+                    cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
+                    numeroTemporal.cantidad = cantidadIterable
+                  }
+                  const tdCant = document.createElement("td");
+                  tdCant.textContent = cantidadIterable
+                  tr.appendChild(tdCant);
+              }
+              table.appendChild(tr); // Añadir la fila a la tabla
+          }
+            /*for (let index = 0; index < 100; index++) {
               let numeroTemporal = data.resultado.find(
                 (elemento) => elemento.numero == index.toString().padStart(2, 0)
               );
@@ -2099,8 +2130,9 @@
                 cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
                 numeroTemporal.cantidad = cantidadIterable
               }
+                */
               
-              builderHTML += 
+              /*builderHTML += 
       '<td class="text-center" style="background-color: white; border: 1px solid black;">' +
       '<b class="mr-3">' + index.toString().padStart(2, 0)+ '</b>' + 
       '<p class="mb-0">' + cantidadIterable + '</p>' +
@@ -2108,11 +2140,11 @@
               if (index % 10 === 9) {
                 // Cierra la fila después de cada 10 elementos
                 builderHTML += '</tr>';
-            }
+            }*/
               
-            }
-            builderHTML += '</tbody></table>';
-            document.querySelector("#estado").innerHTML = builderHTML
+            //}
+            //builderHTML += '</tbody></table>';
+            //document.querySelector("#estado").innerHTML = builderHTML
             return data.resultado;
           })
           .then((totales) => {

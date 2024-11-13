@@ -46,9 +46,20 @@ canvas{
     display: block;
 }
 
-.table td, .table th {
+table {
+    border-collapse: collapse;
+    width: 100%; /* Ancho total de la tabla */
+    table-layout: fixed; /* Distribución simétrica */
+}
+
+td,th {
     padding: 0 !important;
+    background-color: white; 
+    border: 1px solid black;
+    text-align: center;
+    width: 25%; /* Ancho total de la tabla */
     }
+
 
 @media print {
     @page {

@@ -402,45 +402,38 @@
               if (data.exitoso) {
                 seleccionados.chances = data.resultado;
                 let response = data.resultado;
-                let builder = document.querySelector("div[id=estado]");
-                let builderHTML = '<table class="table table-bordered"><tbody>';
-                    builderHTML +='<tr><th colspan=10 class="text-center" style="background-color: white; border: 1px solid black;" ><h5>' +
-                  document.querySelectorAll("#select-choose-game option")[
-                    document.querySelector("#select-choose-game").selectedIndex
-                  ].text +
-                  "</h5></th></tr>"
-                builder.innerHTML = "";
-                for (let index = 0; index < 100; index++) {
+                let builder = document.querySelector("#estado");
+                builder.innerHTML = '<table class="table table-bordered" id="numberTable"></table>';
+                
+                const table = document.getElementById("numberTable");
+                const columns = 4;
+                //Header
+                const trheader = document.createElement("tr");
+                const th = document.createElement("th");
+                th.textContent = document.querySelectorAll("#select-choose-game option")[
+                  document.querySelector("#select-choose-game").selectedIndex
+                ].text;
+                th.setAttribute('colspan','8')
+                trheader.appendChild(th)
+                table.appendChild(trheader);
 
-                  builderHTML += 
-                  '<td class="text-center" style="background-color: white; border: 1px solid black;">' +
-                  '<b class="mr-3">' + index.toString().padStart(2, 0)+ '</b>' + 
-                  '<p class="mb-0" id=cc' +index.toString().padStart(2, 0)+ '>0</p>' +
-                  '</td>';
-
-                    if (index % 10 === 9) {
-                      // Cierra la fila después de cada 10 elementos
-                      builderHTML += '</tr>';
+                for (let row = 0; row < 25; row++) { // Crear 10 filas
+                    const tr = document.createElement("tr");
+                    for (let col = 0; col < columns; col++) { // Crear columnas para cada fila
+                        const td = document.createElement("td");
+                        var cantidadIterable = 0;
+                        const number = (col * 25 + row).toString().padStart(2, '0'); // Formatear número como "00", "01", etc.
+                        td.textContent = number;
+                        td.classList.add("font-weight-bold")
+                        tr.appendChild(td);
+                        
+                        const tdCant = document.createElement("td");
+                        tdCant.textContent = 0
+                        tdCant.setAttribute('id','cc'+number.toString().padStart(2, 0))
+                        tr.appendChild(tdCant);
                     }
-
-                  /*html +=
-                    '<div class="d-flex"><b class="mr-3">' +
-                    String(index).padStart(2, "0") +
-                    "</b>" +
-                    '<p class="mb-0" id=cc' +
-                    String(index).padStart(2, "0") +
-                    ">" +
-                    0 +
-                    "</p></div>";
-                  if ([24, 49, 74, 99].indexOf(Number(index)) > -1) {
-                    builder.innerHTML +=
-                      '<div class="col-3 py-1">' + html + "</div>";
-                    html = "";
-                  }*/
+                    table.appendChild(tr); // Añadir la fila a la tabla
                 }
-
-                builderHTML += '</tbody></table>';
-                document.querySelector("#estado").innerHTML = builderHTML
 
                 response.forEach((element) => {
                   seleccionados.chancesTotal =
