@@ -11,7 +11,14 @@ const DB = require ("../models/index")
 
     /*Limpia Ganadores*/
 router.patch("/",(req,res)=>{    
-    const { sorteoId } = req.body       
+    const { sorteoId } = req.body    
+    if (req.jornada.accesos < 2) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }    
     DB.sequelize.query("UPDATE GameTicketRecords gtR LEFT JOIN GameTickets gT ON gT.Id = gtR.gameTicketId SET gT.ganador = 'NO', gT.valorganador = 0, gtR.ganador = 'NO', gtR.primer_premio = null, gtR.segundo_premio = null, gtR.tercer_premio = null, gtR.valorganador1er = 0, gtR.valorganador2do = 0, gtR.valorganador3ro = 0 WHERE gT.cambio = 'NO' and gT.game_id = "+sorteoId)
     .then((results, metadata) => {
         // Results will be an empty array and metadata will contain the number of affected rows.        
@@ -848,7 +855,7 @@ router.get("/", (req,res)=>{
     //const {sorteoId} = req.params
     const {accion,only} = req.query    
     
-    if (req.jornada.accesos < 2) {
+    if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",
             exitoso:false
@@ -931,7 +938,7 @@ router.get("/:sorteoId", (req,res)=>{
     const {sorteoId} = req.params
     const {accion, only} = req.query    
       
-    if (req.jornada.accesos < 2) {
+    if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",
             exitoso:false
@@ -1005,6 +1012,14 @@ router.put("/", (req,res)=>{
     const { tiqueteId } = req.body
 
     try {
+
+        if (req.jornada.accesos == 0) {
+            res.json({
+                resultado: "Privilegios insuficientes",
+                exitoso:false
+            })
+            return
+        }
 
         DB.GameTicket.update({            
             cambio: "SI"
