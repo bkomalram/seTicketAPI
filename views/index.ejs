@@ -2003,7 +2003,9 @@
               });
 
               //Setting Automatico del ultimo sorteo creado
-              localStorage.setItem("choose-game",data.resultado[0].id);
+              if(data.resultado.length>0)
+                localStorage.setItem("choose-game",data.resultado[0].id);
+
             } else {
               document.querySelector("#error-loading-game").innerHTML =
                 "Error cargando sorteos, contacte el administrador.";
@@ -2059,6 +2061,7 @@
             return;
           })
           .then((estado) => {
+            bag.render()
             cargarEstadoSorteo();
           });
       }
@@ -2363,11 +2366,13 @@
         cargarUsuarios()
         document.querySelector("#select-seller").classList.remove("d-none")
         document.querySelector("#row-optional-sacado").classList.remove("d-none")
+        document.querySelector("#estadoSacado").classList.add("d-flex")
         document.querySelector("#estadoSacado").classList.remove("d-none")
       }
       else {
         document.querySelector("#select-seller").classList.add("d-none")
         document.querySelector("#row-optional-sacado").classList.add("d-none")
+        document.querySelector("#estadoSacado").classList.remove("d-flex")
         document.querySelector("#estadoSacado").classList.add("d-none")
       }
 
