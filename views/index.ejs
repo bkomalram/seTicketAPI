@@ -2191,8 +2191,14 @@
              return Math.round(montoTotal * 100) / 100
           })
           .then((something => {
+            /*Solo su tablero cuando no es admin*/
+            var tableros = ""
+            if (localStorage.getItem("sesion-accesos") < 2) {
+              tableros = "&only="+localStorage.getItem("sesion-id") 
+            }
+            
             /* Ganadores Chance*/
-            fetch(api + "ganadores/" + numeroSorteo + "?accion=chance", {
+            fetch(api + "ganadores/" + numeroSorteo + "?accion=chance"+tableros, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -2289,8 +2295,13 @@
             return Math.round(montoTotal * 100) / 100
           })
           .then((something => {
+            /*Solo su tablero cuando no es admin*/
+            var tableros = ""
+            if (localStorage.getItem("sesion-accesos") < 2) {
+              tableros = "&only="+localStorage.getItem("sesion-id") 
+            }
             /* Ganadores Billetes */
-            fetch(api + "ganadores/" + numeroSorteo + "?accion=billete", {
+            fetch(api + "ganadores/" + numeroSorteo + "?accion=billete"+tableros, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -2326,13 +2337,19 @@
 
       }
 
-       /**
+        /**
        *
        *  Cargar Vendedores
        *
        * * */
-
-      cargarUsuarios();
+      if (localStorage.getItem("sesion-accesos") == 2) {
+        cargarUsuarios()
+        document.querySelector("#select-seller").classList.remove("d-none")
+      }
+      else {
+        document.querySelector("#select-seller").classList.add("d-none")
+      }
+      
       function cargarUsuarios() {
         fetch(api + "usuarios", {
           method: "GET",
