@@ -8,7 +8,7 @@ const chanceOutput = function () {
          '<div class="row mx-0 mt-2 print-style text-center">',
             '<p name="outputTitle" id="outTitle" class="col-12">'+globalChance.person+'</p>',
             '<p name="outputId" id="outId" class="col-12 ">'+bag.id()+'</p>', 
-            '<p name="seller" id="seller" class="col-12 p-0 m-0 text-sm" style="font-size: smaller;">'+bag.seller+'</p>',
+            '<p name="seller" id="seller" class="d-none col-12 p-0 m-0 text-sm" style="font-size: smaller;">'+bag.seller+'</p>',
             '<p name="customer-name" id="display-customer-name" class="col-12 p-0 m-0 text-sm" style="font-size: smaller;">'+bag.customerName+'</p>',
           '</div>',
         '</div>',

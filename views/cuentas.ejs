@@ -67,6 +67,7 @@
             <h5>Selecciona los usuarios del sorteo</h5>
           </div>
           <div class="d-flex" id="estado"></div>
+          <div class="d-flex" id="estadoBillete"></div>
         </div>
       </div>
       <div class="col-4">
@@ -88,6 +89,16 @@
               <div class="col-4">Billete</div>
               <div class="col-4" id="billeteCantidad"></div>
               <div class="col-4" id="billetePlata"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-8">Comision Chance</div>
+              
+              <div class="col-4" id="comisionChance"></div>
+            </div>
+            <div class="d-flex">
+              <div class="col-8">Comision Billete</div>
+              
+              <div class="col-4" id="comisionBillete"></div>
             </div>
             <div class="d-flex">
               <div class="col-12 card-border">Cuentas de ganadores</div>
@@ -113,7 +124,6 @@
             </div>
           </div>
         </div>
-        <div class="d-flex" id="estadoBillete"></div>
       </div>
     </div>
 
@@ -384,7 +394,6 @@
               usuarios = usuarios + ",";
               usuarios = usuarios + check.name;
             }
-            console.log(check)
           });
           usuarios = usuarios.slice(1);
 
@@ -440,10 +449,8 @@
                     seleccionados.chancesTotal + element.dineroVenta;
                   seleccionados.cantidadChances =
                     seleccionados.cantidadChances + Number(element.cantidad);
-                  chanceCantidad = document.querySelector(
-                    "div[id=chanceCantidad]"
-                  );
-                  chancePlata = document.querySelector("div[id=chancePlata]");
+                  chanceCantidad = document.querySelector("#chanceCantidad");
+                  chancePlata = document.querySelector("#chancePlata");
                   chanceCantidad.innerHTML = seleccionados.cantidadChances;
                   chancePlata.innerHTML = (
                     Math.round(seleccionados.chancesTotal * 100) / 100
@@ -451,6 +458,37 @@
                   document.querySelector("#cc" + element.numero).innerHTML =
                     element.cantidad;
                 });
+
+                
+                //Usuario sin venta
+                if (response.length == 0) {
+                  seleccionados.chancesTotal = 0
+                  seleccionados.cantidadChances = 0
+                  document.querySelector("#chanceCantidad").innerHTML = 0;
+                  document.querySelector("#chancePlata").innerHTML = (
+                    Math.round(0 * 100) / 100
+                  ).toFixed(2);
+                }
+
+                //Comision Chance
+                    //Si hay mas de uno seleccionado no calcula comision
+                    let multipleSeleccionado = 0
+                    let porcentajeVendedor = 0
+                    document.querySelectorAll("#listaUsuarios input").forEach((check) => {
+                      if (check.checked) {
+                        multipleSeleccionado = multipleSeleccionado + 1
+                        porcentajeVendedor = check.getAttribute("comision")
+                      }
+                    });
+                
+                if(multipleSeleccionado == 1) {
+                  document.querySelector("#comisionChance").innerHTML = (
+                    Math.round(seleccionados.chancesTotal * Number(porcentajeVendedor) * 100) / 100
+                  ).toFixed(2);
+                } else {
+                  document.querySelector("#comisionChance").innerHTML = "---.--"
+                }
+
               } else {
                 document.querySelector("#error-loading-game").innerHTML =
                   "Error cargando chances en cuentas, contacte el administrador.";
@@ -504,32 +542,49 @@
               document.querySelector("#error-loading-game").innerHTML = "";
               if (data.exitoso) {
                 seleccionados.billetes = data.resultado;
-                let response = data.resultado;
-                builder = document.querySelector("div[id=estadoBillete]");
-                builder.innerHTML = "";
-                html = "";
-                var count = 0;
-                var base = response.length < 20 ? response.length / 4 : 20;
-                response.forEach((element) => {
-                  seleccionados.billetesTotal =
-                    seleccionados.billetesTotal + element.dineroVenta;
-                  seleccionados.cantidadBilletes =
-                    seleccionados.cantidadBilletes + Number(element.cantidad);
+                //Comienza
+                contenedorBillete = document.querySelector("div[id=estadoBillete]");
+                contenedorBillete.innerHTML = '<table class="table table-bordered" id="billeteTable"></table>';
+                const table = document.getElementById("billeteTable");
+                const columns = 4;
 
-                  html +=
-                    '<div class="d-flex"><b class="mr-3">' +
-                    element.numero +
-                    "</b>" +
-                    '<p class="mb-0">' +
-                    element.cantidad +
-                    "</p></div>";
-                  count += 1;
-                  if (count % base == 0) {
-                    builder.innerHTML +=
-                      '<div class="col-3 py-1">' + html + "</div>";
-                    html = "";
+                //Header
+                const trheader = document.createElement("tr");
+                const th = document.createElement("th");
+                th.textContent = "Billetes"
+                th.setAttribute('colspan','8')
+                trheader.appendChild(th)
+                table.appendChild(trheader); 
+
+                const columnQty = data.resultado.length / 4 ;
+                var number = 0
+                for (let row = 0; row < columnQty; row++) {
+                  if (number >= data.resultado.length)
+                    continue;
+                  const tr = document.createElement("tr");
+                  for (let col = 0; col < columns; col++) { // Crear columnas para cada fila
+                      if (number >= data.resultado.length)
+                        continue;
+                      const td = document.createElement("td");
+                      var cantidadIterable = 0;
+                      //const number = (col * columnQty + row).toString().padStart(2, '0'); // Formatear número como "00", "01", etc.
+                      td.textContent = data.resultado[number].numero;
+                      td.classList.add("font-weight-bold")
+                      tr.appendChild(td);
+
+                      const tdCant = document.createElement("td");
+                      tdCant.textContent = data.resultado[number].cantidad
+                      tr.appendChild(tdCant);
+
+                      //calculo
+                      seleccionados.billetesTotal =
+                      seleccionados.billetesTotal + data.resultado[number].dineroVenta;
+                      seleccionados.cantidadBilletes =
+                      seleccionados.cantidadBilletes + Number(data.resultado[number].cantidad);
+                      number = number + 1
                   }
-                });
+                  table.appendChild(tr); // Añadir la fila a la tabla
+              }
 
                 billeteCantidad = document.querySelector(
                   "div[id=billeteCantidad]"
@@ -540,6 +595,25 @@
                 billetePlata.innerHTML = (
                   Math.round(seleccionados.billetesTotal * 100) / 100
                 ).toFixed(2);
+
+                //Comision Billete
+                    //Si hay mas de uno seleccionado no calcula comision
+                    let multipleSeleccionado = 0
+                    let porcentajeVendedor = 0
+                    document.querySelectorAll("#listaUsuarios input").forEach((check) => {
+                      if (check.checked) {
+                        multipleSeleccionado = multipleSeleccionado + 1
+                        porcentajeVendedor = check.getAttribute("comision")
+                      }
+                    });
+                if(multipleSeleccionado == 1) {
+                  document.querySelector("#comisionBillete").innerHTML = (
+                    Math.round(seleccionados.billetesTotal * Number(porcentajeVendedor) * 100) / 100
+                  ).toFixed(2);
+                } else {
+                  document.querySelector("#comisionBillete").innerHTML = "---.--"
+                }
+
               } else {
                 document.querySelector("#error-loading-game").innerHTML =
                   "Error cargando billetes en cuentas, contacte el administrador.";

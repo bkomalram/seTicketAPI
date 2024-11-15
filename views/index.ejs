@@ -1797,6 +1797,12 @@
         <div class="d-flex" id="estado">
           <table class="table table-bordered" id="numberTable"></table>
         </div>
+        
+        <div class="d-flex" id="estadoSacado">
+          <table class="table table-bordered" id="sacadoTable"></table>
+        </div>
+        
+        <div class="d-flex" id="estadoBillete"></div>
       </div>
       <div class="col-3">
         <div class="d-flex card-border" id="estadoSorteo">
@@ -1842,7 +1848,6 @@
             </div>
           </div>
         </div>
-        <div class="d-flex" id="estadoBillete"></div>
       </div>
     </div>
     <div
@@ -2058,6 +2063,9 @@
         let builder = document.querySelector("#estado");
         builder.innerHTML = '<table class="table table-bordered" id="numberTable"></table>';
 
+        let builderSacado = document.querySelector("#estadoSacado");
+        builderSacado.innerHTML = '<table class="table table-bordered" id="sacadoTable"></table>';
+
         let contenedorBillete = document.querySelector("div[id=estadoBillete]");
         contenedorBillete.innerHTML = "";
 
@@ -2109,6 +2117,44 @@
                     (elemento) => elemento.numero == number.toString().padStart(2, 0)
                   );
                   if (numeroTemporal) {
+                    cantidadSacada = numeroTemporal.cantidad;
+                    //cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
+                    //numeroTemporal.cantidad = cantidadIterable
+                  }
+                  const tdCant = document.createElement("td");
+                  tdCant.textContent = cantidadSacada
+                  tr.appendChild(tdCant);
+              }
+              table.appendChild(tr); // Añadir la fila a la tabla
+          }
+            return data;
+          })
+          .then((data) => {
+          const table = document.getElementById("sacadoTable");
+          const columns = 4;
+          //Header
+          const trheader = document.createElement("tr");
+          const th = document.createElement("th");
+          th.textContent = "Final " + document.querySelectorAll("#select-choose-game option")[
+            document.querySelector("#select-choose-game").selectedIndex
+          ].text;
+          th.setAttribute('colspan','8')
+          trheader.appendChild(th)
+          table.appendChild(trheader); 
+
+          for (let row = 0; row < 25; row++) { // Crear 10 filas
+              const tr = document.createElement("tr");
+              for (let col = 0; col < columns; col++) { // Crear columnas para cada fila
+                  const td = document.createElement("td");
+                  var cantidadIterable = 0;
+                  const number = (col * 25 + row).toString().padStart(2, '0'); // Formatear número como "00", "01", etc.
+                  td.textContent = number;
+                  td.classList.add("font-weight-bold")
+                  tr.appendChild(td);
+                  let numeroTemporal = data.resultado.find(
+                    (elemento) => elemento.numero == number.toString().padStart(2, 0)
+                  );
+                  if (numeroTemporal) {
                     cantidadSacada = numeroTemporal.cantidad - bag.sacado;
                     cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
                     numeroTemporal.cantidad = cantidadIterable
@@ -2119,32 +2165,6 @@
               }
               table.appendChild(tr); // Añadir la fila a la tabla
           }
-            /*for (let index = 0; index < 100; index++) {
-              let numeroTemporal = data.resultado.find(
-                (elemento) => elemento.numero == index.toString().padStart(2, 0)
-              );
-              //console.table(numeroTemporal);
-              var cantidadIterable = 0;
-              if (numeroTemporal) {
-                cantidadSacada = numeroTemporal.cantidad - bag.sacado;
-                cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
-                numeroTemporal.cantidad = cantidadIterable
-              }
-                */
-              
-              /*builderHTML += 
-      '<td class="text-center" style="background-color: white; border: 1px solid black;">' +
-      '<b class="mr-3">' + index.toString().padStart(2, 0)+ '</b>' + 
-      '<p class="mb-0">' + cantidadIterable + '</p>' +
-      '</td>';
-              if (index % 10 === 9) {
-                // Cierra la fila después de cada 10 elementos
-                builderHTML += '</tr>';
-            }*/
-              
-            //}
-            //builderHTML += '</tbody></table>';
-            //document.querySelector("#estado").innerHTML = builderHTML
             return data.resultado;
           })
           .then((totales) => {
@@ -2208,26 +2228,43 @@
           .then((response) => response.json())
           .then((data) => {
             contenedorBillete = document.querySelector("div[id=estadoBillete]");
-            contenedorBillete.innerHTML = "";
-            temporalHTML = "";
-            var count = 0;
-            var base =
-              data.resultado.length < 20 ? data.resultado.length / 4 : 20;
-            data.resultado.forEach((elemento) => {
-              temporalHTML +=
-                '<div class="d-flex"><b class="mr-3">' +
-                elemento.numero +
-                "</b>" +
-                '<p class="mb-0">' +
-                elemento.cantidad +
-                "</p></div>";
-              count += 1;
-              if (count % base == 0) {
-                contenedorBillete.innerHTML +=
-                  '<div class="col-3 py-1">' + temporalHTML + "</div>";
-                temporalHTML = "";
+            contenedorBillete.innerHTML = '<table class="table table-bordered" id="billeteTable"></table>';
+            const table = document.getElementById("billeteTable");
+            const columns = 4;
+
+            //Header
+            const trheader = document.createElement("tr");
+            const th = document.createElement("th");
+            th.textContent = "Billetes"
+            th.setAttribute('colspan','8')
+            trheader.appendChild(th)
+            table.appendChild(trheader); 
+
+            const columnQty = data.resultado.length / 4 ;
+            
+            var number = 0
+            for (let row = 0; row < columnQty; row++) {
+              if (number >= data.resultado.length)
+                continue;
+              const tr = document.createElement("tr");
+              for (let col = 0; col < columns; col++) { // Crear columnas para cada fila
+                  if (number >= data.resultado.length)
+                    continue;
+                  const td = document.createElement("td");
+                  var cantidadIterable = 0;
+                  //const number = (col * columnQty + row).toString().padStart(2, '0'); // Formatear número como "00", "01", etc.
+                  td.textContent = data.resultado[number].numero;
+                  td.classList.add("font-weight-bold")
+                  tr.appendChild(td);
+
+                  const tdCant = document.createElement("td");
+                  tdCant.textContent = data.resultado[number].cantidad
+                  tr.appendChild(tdCant);
+                  number = number + 1
               }
-            });
+              table.appendChild(tr); // Añadir la fila a la tabla
+          }
+
             return data.resultado;
           })
           .then((totales) => {
