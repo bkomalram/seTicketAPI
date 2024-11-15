@@ -1963,7 +1963,8 @@
       /**
        * Carga automatica
        */
-
+      // Remueve el Flag de edicion al recaragar
+       localStorage.removeItem("edit-ticket-number")
       /**
        * Datos de sorteos
        */
@@ -2175,7 +2176,6 @@
             return data.resultado;
           })
           .then((totales) => {
-            console.log(totales)
             let cantidadTotal = 0;
             let montoTotal = 0;
             totales.forEach((elemento) => {
@@ -2931,14 +2931,18 @@
       /***
        * Editar Ticket
        * */
-      
+      document.querySelector("#noOldTicket")
+      .addEventListener("keydown", function ({key}) {
+        if (key==="Enter") {
+          document.querySelector("#btnEditar").click()
+        }
+      })
+
       document.querySelector("#btnEditar")
       .addEventListener("click",function() {
+        localStorage.removeItem("edit-ticket-number")
         //Traer el ticket de la BD
-        // Modificar las variables de editar
-        // Modificar los permisos para que solo pueda editar sus tickets
-        // Agregar mensaje de Modal diciendo "ticket cargado. etc"
-        if (isNaN(document.querySelector("#noOldTicket").value)){
+        if (isNaN(document.querySelector("#noOldTicket").value) || document.querySelector("#noOldTicket").value == ""){
           //Mensaje
           return
         }    
@@ -2974,7 +2978,6 @@
               return;
             }
             //Montarlo en la bolsa
-            console.log(data)
             for (let editarIndex = 0; editarIndex < data.resultado.length; editarIndex++) {
               const element = data.resultado[editarIndex];
               let newItem = {
