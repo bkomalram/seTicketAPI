@@ -49,5 +49,6 @@ module.exports = (sequelize, DataTypes) => {
     return await this.save()
   }
 
+
   return User;
 };

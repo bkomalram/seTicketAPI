@@ -451,13 +451,13 @@ document.querySelector("#btn-close-game").addEventListener("click", async functi
   if(response.termino)    
     await loadConfiguration()
 })
-*/
+
 document.querySelector("#btnReImprimir").addEventListener("click", async function (event) {  
   let no = document.querySelector('#noOldTicket').value
   if (!isNaN(no))
     await loadOldTicket(no)    
   document.querySelector('#noOldTicket').value = ''   
-})
+})*/
 
 /*document.body.addEventListener("keydown", async function (event) {      
   if (event.key===" ") {  

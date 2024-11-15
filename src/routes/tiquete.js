@@ -79,7 +79,7 @@ router.post("/", async (req,res)=>{
 
 /*Tiquete*/
 router.post("/mq", async (req,res)=>{
-    const { sorteoId, userId, valor, registros } = req.body
+    const { sorteoId, userId, valor, registros, editar} = req.body
 
     const accion = `
     CALL rCrearTiquete(?,?,?,?);
@@ -105,8 +105,25 @@ router.post("/mq", async (req,res)=>{
             return
         }
 
-        /*Create GameTicket Instance*/
-        const headerTicket = await DB.GameTicket.create({
+        var headerTicket
+
+        if (editar) {
+            const accion = await DB.GameTicket.update({
+                game_id: sorteoId,
+                fecha: new Date(),
+                userId: userId ? userId : req.jornada.id,
+                ganador: 'NO',
+                valorcompra: valor,
+                valorganador: 0.00,
+                cambio: 'NO',
+                esValido: 'SI'
+            },{ where: { id: editar }})
+
+            headerTicket  = await DB.GameTicket.findOne({ where: { id: editar } })
+        } else {
+
+            /*Create GameTicket Instance*/
+            headerTicket = await DB.GameTicket.create({
             game_id: sorteoId,
             fecha: new Date(),
             userId: userId ? userId : req.jornada.id,
@@ -115,14 +132,16 @@ router.post("/mq", async (req,res)=>{
             valorganador: 0.00,
             cambio: 'NO',
             esValido: 'SI'
-        })
+            })
+
+        }
 
         /**
          * Armando payload para MQ
          */
 
         var mqBody = {
-            headerTicket:headerTicket,
+            headerTicket: headerTicket,
             registros:registros,
             jornada:req.jornada.id,
             sorteoId:sorteoId
@@ -210,7 +229,8 @@ router.get("/:tiqueteId", (req,res)=>{
                 attributes:[
                     ["valorcompra","total"],
                     ["cambio","cambio"]
-                ] //Nada de GameTicket en la respuesta
+                ], //Nada de GameTicket en la respuesta
+                where: {userId : req.jornada.id}
             }                            
             ],            
             order:[

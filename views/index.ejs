@@ -1449,9 +1449,15 @@
                 />
                 <button
                   class="btn btn-sm btn-secondary offset-1 col-7"
-                  id="btnReImprimir"
+                  id="btnEditar"
                 >
-                  <h6>Re-Imprimir</h6>
+                  <h6>Recargar</h6>
+                </button>
+                <button
+                  class="btn btn-sm btn-secondary offset-1 col-7 d-none"
+                  id="btnAceptarEditar"
+                >
+                  <h6>Editar</h6>
                 </button>
               </div>
             </div>
@@ -2157,8 +2163,8 @@
                   );
                   if (numeroTemporal) {
                     let cantidadSacada = numeroTemporal.cantidad - bag.sacado;
-                    cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
-                    numeroTemporal.cantidad = cantidadIterable
+                    cantidadIterable = cantidadSacada //(cantidadSacada > 0) ? cantidadSacada : 0
+                    numeroTemporal.cantidad = cantidadSacada
                   }
                   const tdCant = document.createElement("td");
                   tdCant.textContent = cantidadIterable
@@ -2623,6 +2629,32 @@
 
           return;
         }
+
+
+        // Edicion Activa
+        if (localStorage.getItem("edit-ticket-number")) {
+          /**
+           * 
+           * Removiendo transicion
+           * */
+           document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+          /*
+          * Agregar Modal
+          * Mensaje no exitoso
+          */
+          document.querySelector("#text-error-ticket").innerHTML =
+          "Debes completar la edicion solicitada antes de poder vender";
+
+        $("#modalErrorTicket").modal("show");
+
+          return;
+        }
+
         if (!localStorage.getItem("title-ticket")) {
           /**
            * 
@@ -2896,6 +2928,179 @@
           bag.sacado = Number(inputSacado.value);
       });
       
+      /***
+       * Editar Ticket
+       * */
+      
+      document.querySelector("#btnEditar")
+      .addEventListener("click",function() {
+        //Traer el ticket de la BD
+        // Modificar las variables de editar
+        // Modificar los permisos para que solo pueda editar sus tickets
+        // Agregar mensaje de Modal diciendo "ticket cargado. etc"
+        if (isNaN(document.querySelector("#noOldTicket").value)){
+          //Mensaje
+          return
+        }    
+        fetch(api + "tiquete/"+document.querySelector("#noOldTicket").value, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+            },
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.resultado.length < 1) {
+              /**
+               * 
+               * Removiendo transicion
+               * */
+              document
+              .querySelector("#spinner-print-ticket")
+              .classList.add("d-none");
+                document
+                  .querySelector("#text-print-ticket")
+                  .classList.remove("d-none");
+              /*
+              * Agregar Modal
+              * Mensaje no exitoso
+              */
+              document.querySelector("#text-error-ticket").innerHTML =
+              "Recuerda solo puedes recargar ticketes que hayas vendido.";
+
+              $("#modalErrorTicket").modal("show");
+
+              return;
+            }
+            //Montarlo en la bolsa
+            console.log(data)
+            for (let editarIndex = 0; editarIndex < data.resultado.length; editarIndex++) {
+              const element = data.resultado[editarIndex];
+              let newItem = {
+                number:"",
+                qty:0,
+                price:0,
+                total:0
+              }
+              newItem.number = element.numero
+              newItem.qty = element.cantidad
+              newItem.price = element.tipo == "BILLETE" ? 1.00 : 0.25
+              newItem.total = element.valorcompra      
+              let indexItem = bag.items.findIndex(object=>object.number === newItem.number)
+              
+              if (indexItem>-1) {
+                if (newItem.qty==0) {
+                  bag.update(indexItem,newItem)
+                } else {
+                  bag.push(indexItem,newItem)
+                }
+              } else {
+                if (newItem.qty>0) {
+                  bag.add(newItem) 
+                }                    
+              }
+            }
+
+            // Cambiar numero
+            globalChance.receiptCount = data.resultado[0].GameTicketId
+            localStorage.setItem("edit-ticket-number",data.resultado[0].GameTicketId)
+            bag.render()
+            document.querySelector("#btnEditar").classList.add("d-none")
+            document.querySelector("#btnAceptarEditar").classList.remove("d-none")
+            return data
+          })
+          .then((data) => {
+            
+          })
+      })
+      
+      //Editar en la BD el ticket
+      document.querySelector("#btnAceptarEditar")
+      .addEventListener("click",function () {
+
+        if (bag.items.length > 0) {
+          var arregloRegistros = [];
+
+          bag.items.forEach((element) => {
+            var objetoRegistro = {
+              tipo: null,
+              numero: null,
+              cantidad: null,
+              valor: null,
+              precio: null,
+            };
+
+            if (element.number.length == 2) objetoRegistro.tipo = "CHANCE";
+            else objetoRegistro.tipo = "BILLETE";
+
+            objetoRegistro.numero = element.number;
+            objetoRegistro.cantidad = element.qty;
+            objetoRegistro.valor = element.total;
+            objetoRegistro.precio = element.price;
+
+            arregloRegistros.push(objetoRegistro);
+          });
+
+          var objetoSorteo = {
+            sorteoId: localStorage.getItem("choose-game"),
+            userId:localStorage.getItem("sesion-id"),
+            valor: bag.total,
+            registros: arregloRegistros,
+            editar: localStorage.getItem("edit-ticket-number")
+          };
+
+
+          fetch(api + "tiquete/mq", {
+            method: "POST",
+            body: JSON.stringify(objetoSorteo),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exitoso) {
+                globalChance.receiptCount = data.resultado.id;
+                bag.render();
+                document.querySelector("#outPut1").innerHTML =
+                  document.querySelector("#ticketOutput").innerHTML;
+                generarQR(
+                  qrURL + "cambiar?id=" + globalChance.receiptCount.toString()
+                );
+                window.print();
+                limpiarTablero();
+              } else {
+                /*Agregar Modal
+                 * Mensaje no exitoso
+                 */
+                document.querySelector("#text-error-ticket").innerHTML =
+                  data.resultado;
+
+                $("#modalErrorTicket").modal("show");
+              }
+
+              document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+            })
+            .then((response) => {
+              document.querySelector("#btnEditar").classList.remove("d-none")
+              document.querySelector("#btnAceptarEditar").classList.add("d-none")
+              globalChance.receiptCount = 0
+              localStorage.removeItem("edit-ticket-number")
+              bag.render()
+              
+              document.querySelector("#noOldTicket").value = ""
+            });
+        }
+        
+      })
+
     </script>
   </body>
 </html>
