@@ -1965,9 +1965,13 @@
        */
       // Remueve el Flag de edicion al recaragar
        localStorage.removeItem("edit-ticket-number")
+      // Colocamos Titulo por defecto
+      localStorage.setItem("title-ticket", "*Lucky's Seven*");
+      globalChance.person = localStorage.getItem("title-ticket")
       /**
        * Datos de sorteos
        */
+      
       cargarSorteos();
 
       function cargarSorteos() {
@@ -1982,6 +1986,7 @@
           .then((data) => {
             document.querySelector("#error-loading-game").innerHTML = "";
             if (data.exitoso) {
+              
               document
                 .querySelector("#form-set-config")
                 .classList.remove("d-none");
@@ -1996,6 +2001,9 @@
                 option.setAttribute("name", element.id);
                 select.add(option);
               });
+
+              //Setting Automatico del ultimo sorteo creado
+              localStorage.setItem("choose-game",data.resultado[0].id);
             } else {
               document.querySelector("#error-loading-game").innerHTML =
                 "Error cargando sorteos, contacte el administrador.";
@@ -2355,12 +2363,12 @@
         cargarUsuarios()
         document.querySelector("#select-seller").classList.remove("d-none")
         document.querySelector("#row-optional-sacado").classList.remove("d-none")
-        document.querySelector("#sacadoTable").classList.remove("d-none")
+        document.querySelector("#estadoSacado").classList.remove("d-none")
       }
       else {
         document.querySelector("#select-seller").classList.add("d-none")
         document.querySelector("#row-optional-sacado").classList.add("d-none")
-        document.querySelector("#sacadoTable").classList.add("d-none")
+        document.querySelector("#estadoSacado").classList.add("d-none")
       }
 
       function cargarUsuarios() {

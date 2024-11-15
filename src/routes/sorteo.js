@@ -118,7 +118,10 @@ router.get("/", (req,res)=>{
             where:{         
                 usuario_id: [req.jornada.padreUsuario_id, req.jornada.id],
                 esActivo: "SI"
-            }
+            },
+            order:[
+                [DB.sequelize.literal('id'), 'DESC'],
+            ]
         })
         .then((Game)=>{
             res.status(200).json({resultado:Game,exitoso:true})       
