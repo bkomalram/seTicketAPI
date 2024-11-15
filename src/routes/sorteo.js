@@ -260,7 +260,7 @@ router.get("/:sorteoId/chances", (req,res)=>{
     } else {
         var objectWhere = {         
             game_id: sorteoId,
-            userId: req.jornada.id
+            //userId: req.jornada.id
         }
     }    
     
@@ -344,7 +344,7 @@ router.get("/:sorteoId/billetes", (req,res)=>{
     } else {
         var objectWhere = {         
             game_id: sorteoId,
-            userId: req.jornada.id
+            //userId: req.jornada.id
         }
     }
 

@@ -1488,7 +1488,7 @@
             </button>
           </div>
           <div class="col-6 mb-2">
-            <div class="row">
+            <div class="row" id="row-optional-sacado">
               <h4 class="col-3 m-0 text-right">Sacado:</h4>
               <input type="text" class="form-control col-3" autocomplete="off" id="optional-sacado">
             </div>
@@ -2222,9 +2222,15 @@
                 } else {
                   document.querySelector("#chanceBalanceTotal").classList.remove("text-danger");
                 }
+
                 if (montoTotal == 0) {
                   balance = "----.--";
                 }
+                
+                if (totales.resultado.length == 0) {
+                  balance = something - montoTotal;
+                }
+
                 document.querySelector("#chanceBalanceTotal").innerHTML =
                   balance || 0;
               });
@@ -2330,6 +2336,9 @@
                 if (montoTotal == 0) {
                   balance = "----.--";
                 }
+                if (totales.resultado.length == 0) {
+                  balance = something - montoTotal;
+                }
                 document.querySelector("#BilleteBalanceTotal").innerHTML =
                   balance || 0;
               });
@@ -2345,11 +2354,15 @@
       if (localStorage.getItem("sesion-accesos") == 2) {
         cargarUsuarios()
         document.querySelector("#select-seller").classList.remove("d-none")
+        document.querySelector("#row-optional-sacado").classList.remove("d-none")
+        document.querySelector("#sacadoTable").classList.remove("d-none")
       }
       else {
         document.querySelector("#select-seller").classList.add("d-none")
+        document.querySelector("#row-optional-sacado").classList.add("d-none")
+        document.querySelector("#sacadoTable").classList.add("d-none")
       }
-      
+
       function cargarUsuarios() {
         fetch(api + "usuarios", {
           method: "GET",
