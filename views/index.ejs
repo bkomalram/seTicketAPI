@@ -2116,13 +2116,14 @@
                   let numeroTemporal = data.resultado.find(
                     (elemento) => elemento.numero == number.toString().padStart(2, 0)
                   );
+                  let cantidadSacada = 0
                   if (numeroTemporal) {
                     cantidadSacada = numeroTemporal.cantidad;
                     //cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
                     //numeroTemporal.cantidad = cantidadIterable
                   }
                   const tdCant = document.createElement("td");
-                  tdCant.textContent = cantidadSacada || 0
+                  tdCant.textContent = cantidadSacada
                   tr.appendChild(tdCant);
               }
               table.appendChild(tr); // Añadir la fila a la tabla
@@ -2155,7 +2156,7 @@
                     (elemento) => elemento.numero == number.toString().padStart(2, 0)
                   );
                   if (numeroTemporal) {
-                    cantidadSacada = numeroTemporal.cantidad - bag.sacado;
+                    let cantidadSacada = numeroTemporal.cantidad - bag.sacado;
                     cantidadIterable = (cantidadSacada > 0) ? cantidadSacada : 0
                     numeroTemporal.cantidad = cantidadIterable
                   }
