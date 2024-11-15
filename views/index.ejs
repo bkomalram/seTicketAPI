@@ -2122,7 +2122,7 @@
                     //numeroTemporal.cantidad = cantidadIterable
                   }
                   const tdCant = document.createElement("td");
-                  tdCant.textContent = cantidadSacada
+                  tdCant.textContent = cantidadSacada || 0
                   tr.appendChild(tdCant);
               }
               table.appendChild(tr); // Añadir la fila a la tabla
