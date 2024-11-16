@@ -9,8 +9,7 @@ services:
       depends_on:
         - queue
       networks:
-        - backend  
-        - public      
+        - backend     
       links:
         - database
         - queue     

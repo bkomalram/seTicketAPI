@@ -1928,6 +1928,12 @@
                 /*document
                   .querySelector("#contenedorAccionesAdministrador")
                   .classList.add("d-none");*/
+                  document.querySelector("#select-seller").classList.add("d-none")
+                  document.querySelector("#row-optional-sacado").classList.add("d-none")
+                  document.querySelector("#estadoSacado").classList.remove("d-flex")
+                  document.querySelector("#estadoSacado").classList.add("d-none")
+              } else {
+                cargarUsuarios()
               }
               document.querySelector("#loading").classList.remove("d-flex");
               document.querySelector("#loading").classList.add("d-none");
@@ -2363,19 +2369,6 @@
        *  Cargar Vendedores
        *
        * * */
-      if (localStorage.getItem("sesion-accesos") == 2) {
-        cargarUsuarios()
-        document.querySelector("#select-seller").classList.remove("d-none")
-        document.querySelector("#row-optional-sacado").classList.remove("d-none")
-        document.querySelector("#estadoSacado").classList.add("d-flex")
-        document.querySelector("#estadoSacado").classList.remove("d-none")
-      }
-      else {
-        document.querySelector("#select-seller").classList.add("d-none")
-        document.querySelector("#row-optional-sacado").classList.add("d-none")
-        document.querySelector("#estadoSacado").classList.remove("d-flex")
-        document.querySelector("#estadoSacado").classList.add("d-none")
-      }
 
       function cargarUsuarios() {
         fetch(api + "usuarios", {
