@@ -11,8 +11,6 @@ services:
       networks:
         - backend  
         - public      
-      ports:
-        - "5100:3000"
       links:
         - database
         - queue     
@@ -64,17 +62,6 @@ services:
       volumes:
         - .:/code
         - /code/node_modules
-    certbot:
-      image: certbot/certbot
-      container_name: certbot
-      volumes:
-        - certbot-etc-sandbox:/etc/letsencrypt
-        - certbot-var-sandbox:/var/lib/letsencrypt
-        - web-static-sandbox:/var/www/html
-      depends_on:
-        - app
-      command: certonly --webroot --webroot-path=/var/www/html --email ingeniustechnologyfactory@gmail.com --staging --agree-tos --no-eff-email -d demo-ticket.duckdns.org
-      #command: certonly --webroot --webroot-path=/var/www/html --email ingeniustechnologyfactory@gmail.com --force-renewal --agree-tos --no-eff-email -d demo-ticket.duckdns.org
 networks:
   backend:
     external:
@@ -89,5 +76,4 @@ volumes:
       type: none
       device: ./public/
       o: bind
-        
 
