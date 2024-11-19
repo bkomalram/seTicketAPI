@@ -81,13 +81,15 @@ router.post("/log", (req,res)=>{
                         perfil:User.dataValues.perfil,
                         usuario:User.dataValues.nombre,
                         padreUsuario_id: User.dataValues.padreUsuario_id,
+                        porcentajeChance: User.dataValues.porcentajeComision,
+                        porcentajeBillete: User.dataValues.porcentajeComision,
                         id:User.dataValues.id
                     }
                     User.ultimaConexion = Date.now()
                     User.save()
                     .then((Commit)=>{
                         res.status(200).json({
-                            resultado:{ token: jwt.sign(objeto,process.env.SALT,{ expiresIn: '1h' }) },
+                            resultado:{ token: jwt.sign(objeto,process.env.SALT,{ expiresIn: '24h' }) },
                             exitoso:true
                         })
                     })                    

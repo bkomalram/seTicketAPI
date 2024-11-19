@@ -1799,6 +1799,27 @@
             </div>
           </div>
         </div>
+        <div
+          class="card text-body text-black-50"
+          style="background-color: #dee2e6 !important"
+          id="contenedorPorcentajes"
+        ><div class="card-body">
+          <table class="table table-bordered" id="porcentajeTable">
+            <tr><th colspan="2">Vendedor</th></tr>
+            <tr><td class="font-weight-bold">% Chances</td><td id="tablePorcentajeVendedorChance">0</td>
+            <tr><td class="font-weight-bold">% Billetes</td><td id="tablePorcentajeVendedorBillete">0</td>
+            <tr><td class="font-weight-bold">Total</td><td id="tablePorcentajeVendedorTotal">0</td>  
+            <tr><th colspan="2">Casa</th></tr>
+            <tr><td class="font-weight-bold">% Chances</td><td id="tablePorcentajeCasaChance">0</td>
+            <tr><td class="font-weight-bold">% Billetes</td><td id="tablePorcentajeCasaBillete">0</td>
+            <tr><td class="font-weight-bold">Total</td><td id="tablePorcentajeCasaTotal">0</td>
+            <tr><th colspan="2">Balance Sorteo</th></tr>
+            <tr><td class="font-weight-bold">Chances</td><td id="tableBalanceChance">0</td>
+            <tr><td class="font-weight-bold">Billetes</td><td id="tableBalanceBillete">0</td>
+            <tr><td class="font-weight-bold">Total</td><td id="tableBalanceTotal">0</td>
+          </table>
+          </div>
+        </div>
       </div>
       <div class="col-6">
         <div class="d-flex" id="estado">
@@ -1916,6 +1937,8 @@
               localStorage.setItem("sesion-perfil", data.resultado.perfil);
               localStorage.setItem("sesion-usuario", data.resultado.usuario);
               localStorage.setItem("sesion-id", data.resultado.id);
+              localStorage.setItem("sesion-%chance", data.resultado.porcentajeChance);
+              localStorage.setItem("sesion-%billete", data.resultado.porcentajeBillete);
 
               if (data.resultado.perfil != "ADMIN") {
                 document
@@ -1932,6 +1955,7 @@
                   document.querySelector("#row-optional-sacado").classList.add("d-none")
                   document.querySelector("#estadoSacado").classList.remove("d-flex")
                   document.querySelector("#estadoSacado").classList.add("d-none")
+                  document.querySelector("#form-set-config button").classList.add("d-none")
               } else {
                 cargarUsuarios()
               }
@@ -2206,9 +2230,29 @@
             document.querySelector("#chancePlata").innerHTML = (
               Math.round(montoTotal * 100) / 100
             ).toFixed(2);
-             return Math.round(montoTotal * 100) / 100
+
+            /**
+             * El porcentaje del vendedor 
+            **/
+            let montoCasa
+            document.querySelector("#tablePorcentajeVendedorChance").innerHTML = (
+              Math.round(localStorage.getItem("sesion-%chance") * montoTotal * 100) / 100
+            ).toFixed(2);
+            
+            document.querySelector("#tablePorcentajeCasaChance").innerHTML = (
+              Math.round((montoTotal 
+              - Number(document.querySelector("#tablePorcentajeVendedorChance").innerHTML)) 
+              * 100) / 100
+            ).toFixed(2);
+
+            
+            
+
+            
+
+             return {something: Math.round(montoTotal * 100) / 100, montoChance: Number(document.querySelector("#tablePorcentajeCasaChance").innerHTML)}
           })
-          .then((something => {
+          .then((object => {
             /*Solo su tablero cuando no es admin*/
             var tableros = ""
             if (localStorage.getItem("sesion-accesos") < 2) {
@@ -2234,11 +2278,14 @@
                 document.querySelector("#chancePremioTotal").innerHTML = (
                   Math.round(montoTotal * 100) / 100
                 ).toFixed(2);
-                let balance = something - montoTotal
+                let balance = object.something - montoTotal
+                let balanceChance = object.montoChance - montoTotal
                 if (balance < 0) {
                   document.querySelector("#chanceBalanceTotal").classList.add("text-danger");
+                  document.querySelector("#tableBalanceChance").classList.add("text-danger");
                 } else {
                   document.querySelector("#chanceBalanceTotal").classList.remove("text-danger");
+                  document.querySelector("#tableBalanceChance").classList.remove("text-danger");
                 }
 
                 if (montoTotal == 0) {
@@ -2246,11 +2293,16 @@
                 }
                 
                 if (totales.resultado.length == 0) {
-                  balance = something - montoTotal;
+                  balance = object.something - montoTotal;
+                  balanceChance = object.montoChance - montoTotal
                 }
 
                 document.querySelector("#chanceBalanceTotal").innerHTML =
                   balance || 0;
+                document.querySelector("#tableBalanceChance").innerHTML =
+                (
+                  Math.round(balanceChance * 100) / 100
+                ).toFixed(2) || 0;
               });
           }));
 
@@ -2316,9 +2368,41 @@
             document.querySelector("#billetePlata").innerHTML = (
               Math.round(montoTotal * 100) / 100
             ).toFixed(2);
-            return Math.round(montoTotal * 100) / 100
+
+            /*
+            * Porcentaje Vendedor
+            **/
+            document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = (
+              Math.round(localStorage.getItem("sesion-%billete") * montoTotal * 100) / 100
+            ).toFixed(2);
+
+            document.querySelector("#tablePorcentajeCasaBillete").innerHTML = (
+              Math.round((montoTotal 
+              - Number(document.querySelector("#tablePorcentajeVendedorBillete").innerHTML)) 
+              * 100) / 100
+            ).toFixed(2);
+
+            /*
+            * Total Vendedor
+            **/
+            
+            document.querySelector("#tablePorcentajeVendedorTotal").innerHTML = 
+            (Math.round((Number(document.querySelector("#tablePorcentajeVendedorChance").innerHTML)
+            + Number(document.querySelector("#tablePorcentajeVendedorBillete").innerHTML)) 
+              * 100) / 100
+            ).toFixed(2);
+            /**
+             * Total Casa
+            */
+            document.querySelector("#tablePorcentajeCasaTotal").innerHTML = 
+            (Math.round((Number(document.querySelector("#tablePorcentajeCasaChance").innerHTML)
+            + Number(document.querySelector("#tablePorcentajeCasaBillete").innerHTML)
+            )  * 100) / 100
+            ).toFixed(2);
+            
+            return {something: Math.round(montoTotal * 100) / 100 ,montoBillete: Number(document.querySelector("#tablePorcentajeCasaBillete").innerHTML), montoCasa: Number(document.querySelector("#tablePorcentajeCasaTotal").innerHTML)}
           })
-          .then((something => {
+          .then(((object) => {
             /*Solo su tablero cuando no es admin*/
             var tableros = ""
             if (localStorage.getItem("sesion-accesos") < 2) {
@@ -2345,20 +2429,36 @@
                 document.querySelector("#BilletePremioTotal").innerHTML = (
                   Math.round(montoTotal * 100) / 100
                 ).toFixed(2);
-                let balance = something - montoTotal
+                let balance =   object.something - montoTotal
+                let balanceBillete = object.montoBillete - montoTotal
                 if (balance < 0) {
                   document.querySelector("#BilleteBalanceTotal").classList.add("text-danger");
+                  document.querySelector("#tableBalanceBillete").classList.add("text-danger");
+                  
                 } else {
                   document.querySelector("#BilleteBalanceTotal").classList.remove("text-danger");
+                  document.querySelector("#tableBalanceBillete").classList.remove("text-danger");
                 }
                 if (montoTotal == 0) {
                   balance = "----.--";
                 }
                 if (totales.resultado.length == 0) {
-                  balance = something - montoTotal;
+                  balance = object.something - montoTotal;
+                  balanceBillete = object.montoBillete - montoTotal
                 }
                 document.querySelector("#BilleteBalanceTotal").innerHTML =
                   balance || 0;
+                document.querySelector("#tableBalanceBillete").innerHTML =
+                (
+                  Math.round(balanceBillete * 100) / 100
+                ).toFixed(2) || 0;
+
+                document.querySelector("#tableBalanceTotal").innerHTML = 
+                (
+                  Math.round((Number(document.querySelector("#tableBalanceChance").innerHTML) + Number(document.querySelector("#tableBalanceBillete").innerHTML))
+                  * 100) / 100
+                ).toFixed(2);
+                
               });
           }));
 
