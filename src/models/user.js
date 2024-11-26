@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     padreUsuario_id: DataTypes.INTEGER,
     nombre: DataTypes.STRING,
     porcentajeComision:DataTypes.DOUBLE,
+    porcentajeComisionBillete:DataTypes.DOUBLE,
     contrasena: DataTypes.TEXT,
     perfil: DataTypes.ENUM('ADMIN', 'VENDEDOR'),
     ultimaConexion: DataTypes.DATE,
