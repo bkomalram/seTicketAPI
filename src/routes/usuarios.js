@@ -82,7 +82,7 @@ router.post("/log", (req,res)=>{
                         usuario:User.dataValues.nombre,
                         padreUsuario_id: User.dataValues.padreUsuario_id,
                         porcentajeChance: User.dataValues.porcentajeComision,
-                        porcentajeBillete: User.dataValues.porcentajeComision,
+                        porcentajeBillete: User.dataValues.porcentajeComisionBillete,
                         id:User.dataValues.id
                     }
                     User.ultimaConexion = Date.now()
