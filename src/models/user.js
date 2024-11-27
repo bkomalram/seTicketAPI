@@ -45,8 +45,9 @@ module.exports = (sequelize, DataTypes) => {
     return await this.save()
   }
 
-  User.prototype.changePercentage = async function(comision) {
+  User.prototype.changePercentage = async function(comision,comisionBillete) {
     this.porcentajeComision = comision;
+    this.porcentajeComisionBillete = comisionBillete;
     return await this.save()
   }
 

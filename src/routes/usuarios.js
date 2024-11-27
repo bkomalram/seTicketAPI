@@ -167,8 +167,8 @@ router.post("/changePercentage",(req,res)=>{
         return
     }
     /*Verificando que tenga todo*/
-    const { porcentajeComision, userId } = req.body
-    if (!porcentajeComision || !userId) {
+    const { porcentajeComision, porcentajeComisionBillete, userId } = req.body
+    if (!porcentajeComision || !porcentajeComisionBillete || !userId) {
         res.status(400).json({
             resultado: "Se requieren informacion del userId y porcentaje, para proceder.",
             exitoso: false
@@ -181,7 +181,7 @@ router.post("/changePercentage",(req,res)=>{
         .then((User)=>{
             console.log(User)
             /*Porceder con el cambio*/
-            User.changePercentage(porcentajeComision)                
+            User.changePercentage(porcentajeComision,porcentajeComisionBillete)                
             .then((Commit)=>{
                 res.status(201).json({
                     resultado: Commit,
@@ -202,7 +202,7 @@ router.post("/changePercentage",(req,res)=>{
  * Crear Usuario
  */
  router.post("/", (req,res)=>{
-    const { usuario, password, porcentajeComision, perfil } = req.body   
+    const { usuario, password, porcentajeComision,porcentajeComisionBillete, perfil } = req.body   
     if (req.jornada.accesos < 2) {
         res.status(401).json({
             resultado: "Privilegios insuficientes",
@@ -216,6 +216,7 @@ router.post("/changePercentage",(req,res)=>{
             padreUsuario_id: req.jornada.id,
             nombre: usuario,
             porcentajeComision:porcentajeComision,
+            porcentajeComisionBillete:porcentajeComisionBillete,
             contrasena:password,
             perfil:perfil,
             ultimaConexion:null,
