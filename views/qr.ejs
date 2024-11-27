@@ -117,15 +117,6 @@
               localStorage.setItem("sesion-usuario", data.resultado.usuario);
               localStorage.setItem("sesion-id", data.resultado.id);
 
-              if (data.resultado.perfil != "ADMIN") {
-                document
-                  .querySelector("#contenedorConfiguracion")
-                  .classList.add("d-none");
-                document.querySelector("#btnCerrar").classList.add("d-none");
-                document
-                  .querySelector("#contenedorAccionesAdministrador")
-                  .classList.add("d-none");
-              }
               document.querySelector("#loading").classList.remove("d-flex");
               document.querySelector("#loading").classList.add("d-none");
             } else {
@@ -246,6 +237,8 @@
             return "CHANCE";
           }
         },
+        chanceCount: 0,
+        billeteCount: 0
       };
 
       fetch(api + "tiquete/" + ticketId, {

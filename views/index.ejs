@@ -1799,27 +1799,6 @@
             </div>
           </div>
         </div>
-        <div
-          class="card text-body text-black-50"
-          style="background-color: #dee2e6 !important"
-          id="contenedorPorcentajes"
-        ><div class="card-body">
-          <table class="table table-bordered" id="porcentajeTable">
-            <tr><th colspan="2">Vendedor</th></tr>
-            <tr><td class="font-weight-bold">% Chances</td><td id="tablePorcentajeVendedorChance">0</td>
-            <tr><td class="font-weight-bold">% Billetes</td><td id="tablePorcentajeVendedorBillete">0</td>
-            <tr><td class="font-weight-bold">Total</td><td id="tablePorcentajeVendedorTotal">0</td>  
-            <tr><th colspan="2">Casa</th></tr>
-            <tr><td class="font-weight-bold">% Chances</td><td id="tablePorcentajeCasaChance">0</td>
-            <tr><td class="font-weight-bold">% Billetes</td><td id="tablePorcentajeCasaBillete">0</td>
-            <tr><td class="font-weight-bold">Total</td><td id="tablePorcentajeCasaTotal">0</td>
-            <tr><th colspan="2">Balance Sorteo</th></tr>
-            <tr><td class="font-weight-bold">Chances</td><td id="tableBalanceChance">0</td>
-            <tr><td class="font-weight-bold">Billetes</td><td id="tableBalanceBillete">0</td>
-            <tr><td class="font-weight-bold">Total</td><td id="tableBalanceTotal">0</td>
-          </table>
-          </div>
-        </div>
       </div>
       <div class="col-6">
         <div class="d-flex" id="estado">
@@ -1834,7 +1813,7 @@
       </div>
       <div class="col-3">
         <div class="d-flex card-border" id="estadoSorteo">
-          <div class="col-12 font-weight-bold my-2" id="totalSorteo">
+          <div class="col-12 font-weight-bold my-2 d-none" id="totalSorteo">
             <div class="d-flex">
               <div class="col-12 card-border">Ventas</div>
             </div>
@@ -1863,18 +1842,48 @@
               <div class="col-4">Billete</div>
               <div class="offset-4 col-4" id="BilletePremioTotal"></div>
             </div>
-            <div class="d-flex">
+            <div class="d-none">
               <div class="col-12 card-border">Diferencia</div>
             </div>
-            <div class="d-flex">
+            <div class="d-none">
               <div class="col-4">Chance</div>
               <div class="offset-4 col-4" id="chanceBalanceTotal"></div>
             </div>
-            <div class="d-flex">
+            <div class="d-none">
               <div class="col-4">Billete</div>
               <div class="offset-4 col-4" id="BilleteBalanceTotal"></div>
             </div>
           </div>
+          <div
+          class="card text-body text-black-50"
+          style="background-color: #dee2e6 !important"
+          id="contenedorPorcentajes"
+        ><div class="card-body">
+          <table class="table table-bordered" id="porcentajeTable">
+            <tr><th colspan="2">Venta Chances</th></tr>
+            <tr><td class="font-weight-bold">Cantidad</td><td id="tablePorcentajeCantidadChance">0</td>
+            <tr><td class="font-weight-bold">Monto</td><td id="tablePorcentajeChance">0</td>
+            <tr><th colspan="2">Venta Billete</th></tr>
+            <tr><td class="font-weight-bold">Cantidad</td><td id="tablePorcentajeCantidadBillete">0</td>
+            <tr><td class="font-weight-bold">Monto</td><td id="tablePorcentajeBillete">0</td>
+            <tr><th colspan="2">Ganadores</th></tr>
+            <tr><td class="font-weight-bold">Chance</td><td id="tablePorcentajeGanadoresChance">0</td>
+            <tr><td class="font-weight-bold">Billete</td><td id="tablePorcentajeGanadoresBillete">0</td>
+            <tr><th colspan="2">Vendedor</th></tr>
+            <tr><td class="font-weight-bold">% Chances</td><td id="tablePorcentajeVendedorChance">0</td>
+            <tr><td class="font-weight-bold">% Billetes</td><td id="tablePorcentajeVendedorBillete">0</td>
+            <tr><td class="font-weight-bold">Total</td><td id="tablePorcentajeVendedorTotal">0</td>  
+            <tr><th colspan="2">Casa</th></tr>
+            <tr><td class="font-weight-bold">% Chances</td><td id="tablePorcentajeCasaChance">0</td>
+            <tr><td class="font-weight-bold">% Billetes</td><td id="tablePorcentajeCasaBillete">0</td>
+            <tr><td class="font-weight-bold">Total</td><td id="tablePorcentajeCasaTotal">0</td>
+            <tr><th colspan="2">Balance Sorteo</th></tr>
+            <tr><td class="font-weight-bold">Chances</td><td id="tableBalanceChance">0</td>
+            <tr><td class="font-weight-bold">Billetes</td><td id="tableBalanceBillete">0</td>
+            <tr><td class="font-weight-bold">Total</td><td id="tableBalanceTotal">0</td>
+          </table>
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -2119,14 +2128,25 @@
         contenedorBillete.innerHTML = "";
 
         document.querySelector("#chanceCantidad").innerHTML = 0;
+        document.querySelector("#tablePorcentajeCantidadChance").innerHTML = 0;
         document.querySelector("#chancePlata").innerHTML = (
           Math.round(0 * 100) / 100
         ).toFixed(2);
+        document.querySelector("#tablePorcentajeChance").innerHTML = (
+          Math.round(0 * 100) / 100
+        ).toFixed(2);
+        
 
         document.querySelector("#billeteCantidad").innerHTML = 0;
+        document.querySelector("#tablePorcentajeCantidadBillete").innerHTML = 0;
+        
         document.querySelector("#billetePlata").innerHTML = (
           Math.round(0 * 100) / 100
         ).toFixed(2);
+        document.querySelector("#tablePorcentajeBillete").innerHTML = (
+          Math.round(0 * 100) / 100
+        ).toFixed(2);
+
 
         let numeroSorteo = document.querySelectorAll(
           "#select-choose-game option"
@@ -2227,30 +2247,34 @@
             });
             document.querySelector("#chanceCantidad").innerHTML =
               cantidadTotal || 0;
+            document.querySelector("#tablePorcentajeCantidadChance").innerHTML =
+              cantidadTotal || 0;
             document.querySelector("#chancePlata").innerHTML = (
+              Math.round(montoTotal * 100) / 100
+            ).toFixed(2);
+            document.querySelector("#tablePorcentajeChance").innerHTML = (
               Math.round(montoTotal * 100) / 100
             ).toFixed(2);
 
             /**
              * El porcentaje del vendedor 
             **/
-            let montoCasa
+            let porcentajeSeller = localStorage.getItem("sesion-%chance") * montoTotal
             document.querySelector("#tablePorcentajeVendedorChance").innerHTML = (
-              Math.round(localStorage.getItem("sesion-%chance") * montoTotal * 100) / 100
+              Math.round(porcentajeSeller* 100) / 100
             ).toFixed(2);
             
+            let porcentajeCasa = montoTotal - porcentajeSeller;
             document.querySelector("#tablePorcentajeCasaChance").innerHTML = (
-              Math.round((montoTotal 
-              - Number(document.querySelector("#tablePorcentajeVendedorChance").innerHTML)) 
+              Math.round((porcentajeCasa) 
               * 100) / 100
             ).toFixed(2);
-
-            
             
 
-            
-
-             return {something: Math.round(montoTotal * 100) / 100, montoChance: Number(document.querySelector("#tablePorcentajeCasaChance").innerHTML)}
+             return {something: Math.round(montoTotal * 100) / 100, montoChance: Number((
+              Math.round((porcentajeCasa) 
+              * 100) / 100
+            ).toFixed(2))}
           })
           .then((object => {
             /*Solo su tablero cuando no es admin*/
@@ -2278,6 +2302,10 @@
                 document.querySelector("#chancePremioTotal").innerHTML = (
                   Math.round(montoTotal * 100) / 100
                 ).toFixed(2);
+                document.querySelector("#tablePorcentajeGanadoresChance").innerHTML = (
+                  Math.round(montoTotal * 100) / 100
+                ).toFixed(2);
+                
                 let balance = object.something - montoTotal
                 let balanceChance = object.montoChance - montoTotal
                 if (balance < 0) {
@@ -2368,6 +2396,11 @@
             document.querySelector("#billetePlata").innerHTML = (
               Math.round(montoTotal * 100) / 100
             ).toFixed(2);
+            document.querySelector("#tablePorcentajeCantidadBillete").innerHTML =
+              cantidadTotal || 0;
+            document.querySelector("#tablePorcentajeBillete").innerHTML = (
+              Math.round(montoTotal * 100) / 100
+            ).toFixed(2);
 
             /*
             * Porcentaje Vendedor
@@ -2429,6 +2462,10 @@
                 document.querySelector("#BilletePremioTotal").innerHTML = (
                   Math.round(montoTotal * 100) / 100
                 ).toFixed(2);
+                document.querySelector("#tablePorcentajeGanadoresBillete").innerHTML = (
+                  Math.round(montoTotal * 100) / 100
+                ).toFixed(2);
+                
                 let balance =   object.something - montoTotal
                 let balanceBillete = object.montoBillete - montoTotal
                 if (balance < 0) {
@@ -2453,9 +2490,17 @@
                   Math.round(balanceBillete * 100) / 100
                 ).toFixed(2) || 0;
 
+                let balanceTotal = Number(document.querySelector("#tableBalanceChance").innerHTML) + Number(document.querySelector("#tableBalanceBillete").innerHTML)
+
+                if (balanceTotal < 0) {
+                  document.querySelector("#tableBalanceTotal").classList.add("text-danger");
+                } else {
+                  document.querySelector("#tableBalanceTotal").classList.remove("text-danger");
+                }
+
                 document.querySelector("#tableBalanceTotal").innerHTML = 
                 (
-                  Math.round((Number(document.querySelector("#tableBalanceChance").innerHTML) + Number(document.querySelector("#tableBalanceBillete").innerHTML))
+                  Math.round(balanceTotal
                   * 100) / 100
                 ).toFixed(2);
                 
@@ -2630,7 +2675,11 @@
           builder.innerHTML = "";
 
           document.querySelector("#chanceCantidad").innerHTML = 0;
+          document.querySelector("#tablePorcentajeCantidadChance").innerHTML = 0;
           document.querySelector("#chancePlata").innerHTML = (
+            Math.round(0 * 100) / 100
+          ).toFixed(2);
+          document.querySelector("#tablePorcentajeChance").innerHTML = (
             Math.round(0 * 100) / 100
           ).toFixed(2);
 
@@ -2638,6 +2687,11 @@
           document.querySelector("#billetePlata").innerHTML = (
             Math.round(0 * 100) / 100
           ).toFixed(2);
+          document.querySelector("#tablePorcentajeCantidadBillete").innerHTML = 0;
+          document.querySelector("#tablePorcentajeBillete").innerHTML = (
+            Math.round(0 * 100) / 100
+          ).toFixed(2);
+          
         });
 
       /**
