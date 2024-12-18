@@ -22,7 +22,7 @@ router.get("/", (req,res)=>{
             ]           
         },                    
         order:[
-            ["id", 'ASC'],
+            ["nombre", 'ASC'],
         ]
     })
     .then((data)=>{            

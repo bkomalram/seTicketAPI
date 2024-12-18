@@ -73,7 +73,7 @@
       </div>
       <div class="col-4">
         <div class="d-flex card-border border-top-0" id="estadoSorteo">
-          <div class="col-12 font-weight-bold my-2" id="totalSorteo">
+          <div class="col-12 font-weight-bold my-2 d-none" id="totalSorteo">
             <div class="d-flex">
               <div class="col-12 card-border">Ventas</div>
             </div>
@@ -131,6 +131,12 @@
           id="contenedorPorcentajes"
         ><div class="card-body">
           <table class="table table-bordered" id="porcentajeTable">
+            <tr><th colspan="2">Venta Chances</th></tr>
+            <tr><td class="font-weight-bold">Cantidad</td><td id="tablePorcentajeCantidadChance">0</td>
+            <tr><td class="font-weight-bold">Monto</td><td id="tablePorcentajeChance">0</td>
+            <tr><th colspan="2">Venta Billete</th></tr>
+            <tr><td class="font-weight-bold">Cantidad</td><td id="tablePorcentajeCantidadBillete">0</td>
+            <tr><td class="font-weight-bold">Monto</td><td id="tablePorcentajeBillete">0</td>
             <tr><th colspan="2">Vendedor</th></tr>
             <tr><td class="font-weight-bold">% Chances</td><td id="tablePorcentajeVendedorChance">0</td>
             <tr><td class="font-weight-bold">% Billetes</td><td id="tablePorcentajeVendedorBillete">0</td>
@@ -139,6 +145,9 @@
             <tr><td class="font-weight-bold">% Chances</td><td id="tablePorcentajeCasaChance">0</td>
             <tr><td class="font-weight-bold">% Billetes</td><td id="tablePorcentajeCasaBillete">0</td>
             <tr><td class="font-weight-bold">Total</td><td id="tablePorcentajeCasaTotal">0</td>
+            <tr><th colspan="2">Ganadores</th></tr>
+            <tr><td class="font-weight-bold">Chance</td><td id="tablePorcentajeGanadoresChance">0</td>
+            <tr><td class="font-weight-bold">Billete</td><td id="tablePorcentajeGanadoresBillete">0</td>
             <tr><th colspan="2">Balance Sorteo</th></tr>
             <tr><td class="font-weight-bold">Chances</td><td id="tableBalanceChance">0</td>
             <tr><td class="font-weight-bold">Billetes</td><td id="tableBalanceBillete">0</td>
@@ -471,8 +480,8 @@
                     seleccionados.chancesTotal + element.dineroVenta;
                   seleccionados.cantidadChances =
                     seleccionados.cantidadChances + Number(element.cantidad);
-                  chanceCantidad = document.querySelector("#chanceCantidad");
-                  chancePlata = document.querySelector("#chancePlata");
+                  chanceCantidad = document.querySelector("#tablePorcentajeCantidadChance");
+                  chancePlata = document.querySelector("#tablePorcentajeChance");
                   chanceCantidad.innerHTML = seleccionados.cantidadChances;
                   chancePlata.innerHTML = (
                     Math.round(seleccionados.chancesTotal * 100) / 100
@@ -486,8 +495,8 @@
                 if (response.length == 0) {
                   seleccionados.chancesTotal = 0
                   seleccionados.cantidadChances = 0
-                  document.querySelector("#chanceCantidad").innerHTML = 0;
-                  document.querySelector("#chancePlata").innerHTML = (
+                  document.querySelector("#tablePorcentajeCantidadChance").innerHTML = 0;
+                  document.querySelector("#tablePorcentajeChance").innerHTML = (
                     Math.round(0 * 100) / 100
                   ).toFixed(2);
                 }
@@ -499,16 +508,23 @@
                     document.querySelectorAll("#listaUsuarios input").forEach((check) => {
                       if (check.checked) {
                         multipleSeleccionado = multipleSeleccionado + 1
-                        porcentajeVendedor = check.getAttribute("comision")
+                        porcentajeVendedor = check.getAttribute("comision-chance")
                       }
                     });
                 
                 if(multipleSeleccionado == 1) {
-                  document.querySelector("#comisionChance").innerHTML = (
+                  document.querySelector("#tablePorcentajeVendedorChance").innerHTML = (
                     Math.round(seleccionados.chancesTotal * Number(porcentajeVendedor) * 100) / 100
                   ).toFixed(2);
+                  let porcentajeSeller = seleccionados.chancesTotal * Number(porcentajeVendedor)
+                  let porcentajeCasa = seleccionados.chancesTotal  - porcentajeSeller
+                  document.querySelector("#tablePorcentajeCasaChance").innerHTML = (
+                    Math.round((porcentajeCasa) 
+                    * 100) / 100
+                  ).toFixed(2);
+
                 } else {
-                  document.querySelector("#comisionChance").innerHTML = "---.--"
+                  document.querySelector("#tablePorcentajeVendedorChance").innerHTML = "---.--"
                 }
 
               } else {
@@ -534,19 +550,19 @@
                   montoTotal = montoTotal + elemento.valorganador1er + elemento.valorganador2do
                     + elemento.valorganador3ro;
                 });
-                document.querySelector("#chancePremioTotal").innerHTML = (
+                document.querySelector("#tablePorcentajeGanadoresChance").innerHTML = (
                   Math.round(montoTotal * 100) / 100
                 ).toFixed(2);
                 let balance = something - montoTotal
                 if (balance < 0) {
-                  document.querySelector("#chanceBalanceTotal").classList.add("text-danger");
+                  document.querySelector("#tableBalanceChance").classList.add("text-danger");
                 } else {
-                  document.querySelector("#chanceBalanceTotal").classList.remove("text-danger");
+                  document.querySelector("#tableBalanceChance").classList.remove("text-danger");
                 }
                 if (montoTotal == 0) {
                   balance = "----.--";
                 }
-                document.querySelector("#chanceBalanceTotal").innerHTML =
+                document.querySelector("#tableBalanceChance").innerHTML =
                   balance || 0;
               });
           }));
@@ -609,9 +625,9 @@
               }
 
                 billeteCantidad = document.querySelector(
-                  "div[id=billeteCantidad]"
+                  "#tablePorcentajeCantidadBillete"
                 );
-                billetePlata = document.querySelector("div[id=billetePlata]");
+                billetePlata = document.querySelector("#tablePorcentajeBillete");
 
                 billeteCantidad.innerHTML = seleccionados.cantidadBilletes;
                 billetePlata.innerHTML = (
@@ -621,19 +637,26 @@
                 //Comision Billete
                     //Si hay mas de uno seleccionado no calcula comision
                     let multipleSeleccionado = 0
-                    let porcentajeVendedor = 0
+                    let porcentajeVendedorB = 0
                     document.querySelectorAll("#listaUsuarios input").forEach((check) => {
                       if (check.checked) {
                         multipleSeleccionado = multipleSeleccionado + 1
-                        porcentajeVendedor = check.getAttribute("comision")
+                        porcentajeVendedorB = check.getAttribute("comision-billete")
                       }
                     });
                 if(multipleSeleccionado == 1) {
-                  document.querySelector("#comisionBillete").innerHTML = (
-                    Math.round(seleccionados.billetesTotal * Number(porcentajeVendedor) * 100) / 100
+                  document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = (
+                    Math.round(seleccionados.billetesTotal * Number(porcentajeVendedorB) * 100) / 100
                   ).toFixed(2);
+                  let porcentajeSeller = seleccionados.billetesTotal * Number(porcentajeVendedorB)
+                  let porcentajeCasa = seleccionados.billetesTotal  - porcentajeSeller
+                  document.querySelector("#tablePorcentajeCasaBillete").innerHTML = (
+                    Math.round((porcentajeCasa) 
+                    * 100) / 100
+                  ).toFixed(2);
+
                 } else {
-                  document.querySelector("#comisionBillete").innerHTML = "---.--"
+                  document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = "---.--"
                 }
 
               } else {
@@ -661,20 +684,35 @@
                     + elemento.valorganador3ro;
                 });
 
-                document.querySelector("#BilletePremioTotal").innerHTML = (
+                document.querySelector("#tablePorcentajeGanadoresBillete").innerHTML = (
                   Math.round(montoTotal * 100) / 100
                 ).toFixed(2);
                 let balance = something - montoTotal
                 if (balance < 0) {
-                  document.querySelector("#BilleteBalanceTotal").classList.add("text-danger");
+                  document.querySelector("#tableBalanceBillete").classList.add("text-danger");
                 } else {
-                  document.querySelector("#BilleteBalanceTotal").classList.remove("text-danger");
+                  document.querySelector("#tableBalanceBillete").classList.remove("text-danger");
                 }
                 if (montoTotal == 0) {
                   balance = "----.--";
                 }
-                document.querySelector("#BilleteBalanceTotal").innerHTML =
+                document.querySelector("#tableBalanceBillete").innerHTML =
                   balance || 0;
+
+                //Calculando Balance Total
+                let balanceTotal = Number(document.querySelector("#tableBalanceChance").innerHTML) + Number(document.querySelector("#tableBalanceBillete").innerHTML)
+
+                if (balanceTotal < 0) {
+                  document.querySelector("#tableBalanceTotal").classList.add("text-danger");
+                } else {
+                  document.querySelector("#tableBalanceTotal").classList.remove("text-danger");
+                }
+
+                document.querySelector("#tableBalanceTotal").innerHTML = 
+                (
+                  Math.round(balanceTotal
+                  * 100) / 100
+                ).toFixed(2);
               });
           }));
         } catch {
@@ -696,8 +734,11 @@
             '" name="',
             registro.id,
             '"',
-            ' comision="',
+            ' comision-chance="',
             registro.porcentajeComision,
+            '"',
+            ' comision-billete="',
+            registro.porcentajeComisionBillete,
             '"',
             '<label class="form-check-label" for="flexCheckDefault">',
             registro.nombre,
