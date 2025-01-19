@@ -221,7 +221,8 @@ router.get("/:tiqueteId", (req,res)=>{
     try {              
         DB.GameTicketRecord.findAll({
             where:{                
-                gameTicketId:tiqueteId
+                gameTicketId:tiqueteId,
+                esValido: "SI"
             },
             include:[{
                 model:DB.GameTicket,                
@@ -245,6 +246,33 @@ router.get("/:tiqueteId", (req,res)=>{
         console.log(error)
         res.status(400).json({resultado:error,exitoso:false}) 
     } 
+})
+
+router.patch("/", (req,res)=>{
+    const { tiqueteId } = req.body
+    if (req.jornada.accesos < 2) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+
+    /*Refactor v3.0
+    Sequelize ORM
+    BK*/
+    try {
+        DB.GameTicketRecord.update({            
+            esValido: "NO"
+        },{ 
+            where: { gameTicketId:tiqueteId }
+        })
+        .then((Game)=>{
+            res.status(201).json({resultado:{mensaje:"Ticket eliminado"},exitoso:true})       
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error eliminando ticket",error:error},exitoso:false})
+    }    
 })
 
 /*

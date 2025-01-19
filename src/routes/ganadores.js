@@ -866,17 +866,20 @@ router.get("/", (req,res)=>{
     if (accion == "chance") {
         var whereCondition = {                                                
             ganador: "SI",
-            tipo: "CHANCE"
+            tipo: "CHANCE",
+            esValido: "SI"
         }
     } else if(accion == "billete") {
         var whereCondition = {                                                
             ganador: "SI",
-            tipo: "BILLETE"
+            tipo: "BILLETE",
+            esValido: "SI"
         }
     }
     else {
         var whereCondition = {                                                
-            ganador: "SI"            
+            ganador: "SI",
+            esValido: "SI"            
         }
     }
 
@@ -949,17 +952,20 @@ router.get("/:sorteoId", (req,res)=>{
     if (accion == "chance") {
         var whereCondition = {                                                
             ganador: "SI",
-            tipo: "CHANCE"
+            tipo: "CHANCE",
+            esValido: "SI"
         }
     } else if(accion == "billete") {
         var whereCondition = {                                                
             ganador: "SI",
-            tipo: "BILLETE"
+            tipo: "BILLETE",
+            esValido: "SI"
         }
     }
     else {
         var whereCondition = {                                                
-            ganador: "SI"            
+            ganador: "SI",
+            esValido: "SI"            
         }
     }
 
@@ -968,12 +974,14 @@ router.get("/:sorteoId", (req,res)=>{
         var leftwhereCondition = {                                    
             game_id:sorteoId,
             userId: only.split(","),
-            cambio: "NO"
+            cambio: "NO",
+            esValido: "SI"
         }
     } else {
         var leftwhereCondition = {                                    
             game_id:sorteoId,
-            cambio: "NO"
+            cambio: "NO",
+            esValido: "SI"
         }
     }
     
