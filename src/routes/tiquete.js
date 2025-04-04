@@ -221,8 +221,7 @@ router.get("/:tiqueteId", (req,res)=>{
     try {              
         DB.GameTicketRecord.findAll({
             where:{                
-                gameTicketId:tiqueteId,
-                esValido: "SI"
+                gameTicketId:tiqueteId
             },
             include:[{
                 model:DB.GameTicket,                
@@ -231,7 +230,7 @@ router.get("/:tiqueteId", (req,res)=>{
                     ["valorcompra","total"],
                     ["cambio","cambio"]
                 ], //Nada de GameTicket en la respuesta
-                where: {userId : req.jornada.id}
+                where: {userId : req.jornada.id, esValido: "SI"}
             }                            
             ],            
             order:[
@@ -262,10 +261,10 @@ router.patch("/", (req,res)=>{
     Sequelize ORM
     BK*/
     try {
-        DB.GameTicketRecord.update({            
+        DB.GameTicket.update({            
             esValido: "NO"
         },{ 
-            where: { gameTicketId:tiqueteId }
+            where: { id:tiqueteId }
         })
         .then((Game)=>{
             res.status(201).json({resultado:{mensaje:"Ticket eliminado"},exitoso:true})       

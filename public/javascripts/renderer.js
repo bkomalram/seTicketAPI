@@ -293,135 +293,6 @@ document.querySelector("#goChance").addEventListener("click",function (event) {
   showChance()
 })
 
-/*document.querySelector("#saveConfiguration").addEventListener("click",function (event) {  
-  setConfiguration()  
-})*/
-
-/*document.querySelector("#btnImprimirTicket").addEventListener("click", async function (event) {  
-  if (bag.items.length>0) {
-    
-    var objetoSorteo = {
-      sorteoId:globalChance.gameId,
-      usuarioId:globalChance.userId,
-      tipo:bag.type(),
-      valor:bag.total
-    }
-
-    console.log(JSON.stringify(objetoSorteo))
-
-    let requestCrearTiquete = await fetch("http://"+globalChance.host+":3000/sorteo/tiquete/crear",{
-        method: 'POST',            
-      headers: {
-        'Content-Type': 'application/json'      
-      },        
-      body: JSON.stringify(objetoSorteo)
-      })
-  
-    let response = await requestCrearTiquete.json()
-    console.log(response)
-    if (response.termino){
-      globalChance.receiptCount = response.resultado.TIQUETE_ID
-    }
-    bag.render()
-    
-    /*Agregando bolsa a base de datos
-    
-    var objetoRegistro = {
-    tiqueteId:globalChance.receiptCount,
-    tipo: null,
-    numero:null,
-    cantidad:null,
-    valor:null
-    }
-
-    var objetoChance = {
-    sorteoId:globalChance.gameId,
-    usuarioId:globalChance.userId,
-    chance:null,
-    cantidad:null,
-    precio:null
-    }
-
-    bag.items.forEach(async element => {      
-      
-      if (element.number.length == 2) {
-        objetoChance.chance = element.number
-        objetoChance.cantidad = element.qty
-
-        let requestActualizarCantidadChance = await fetch("http://"+globalChance.host+":3000/sorteo/cantidad/chance",{
-          method: 'POST',            
-        headers: {
-          'Content-Type': 'application/json'      
-        },        
-        body: JSON.stringify(objetoChance)
-        })
-      }
-      
-      if (element.number.length == 2)
-        objetoRegistro.tipo = 1
-      else
-        objetoRegistro.tipo = 2
-      
-
-      objetoRegistro.numero = element.number
-      objetoRegistro.cantidad = element.qty
-      objetoRegistro.valor = element.total
-      objetoRegistro.precio = element.price
-
-      let requestAgregarRegistros = await fetch("http://"+globalChance.host+":3000/sorteo/tiquete",{
-        method: 'POST',            
-      headers: {
-        'Content-Type': 'application/json'      
-      },        
-      body: JSON.stringify(objetoRegistro)
-      })
-
-    });
-    
-    document.querySelector('#outPut1').innerHTML = document.querySelector('#ticketOutput').innerHTML + "<div class='mt-4'></div>" + document.querySelector('#ticketOutput').innerHTML + "<div class='mt-2'></div>"
-    generarQR("http://"+globalChance.host+":3000/tiquete/"+globalChance.receiptCount)
-    window.print()
-
-    await clearChance()
-  }
-})
-*/
-
-/*document.querySelector("#saveGame").addEventListener("click", async function (event) {
-  if (document.querySelector("#gameName").value === "" || document.querySelector("#gameDate").value === "")
-    return false
-
-  document.querySelector("#saveGame").setAttribute('disabled','true') 
-  var objetoSorteo = {
-    usuarioId:globalChance.userId,
-    nombreSorteo: document.querySelector("#gameName").value
-  }
-  let requestCreateGame = await fetch("http://"+globalChance.host+":3000/sorteo/crear",{
-      method: 'POST',            
-    headers: {
-      'Content-Type': 'application/json'      
-    },        
-    body: JSON.stringify(objetoSorteo)
-    })
-
-  let response = await requestCreateGame.json()
-  
-  if (response.termino){
-    document.querySelector("#gameName").value = ''
-    document.querySelector("#gameDate").value = ''
-    document.querySelector("#saveGame").removeAttribute('disabled')
-    loadConfiguration()
-  }
-})*/
-
-/*document.querySelector("#btnLimpiar").addEventListener("click",function (event) {  
-  clearChance()  
-})*/
-
-/*document.querySelector("#btn-print-game").addEventListener("click",function (event) {  
-  imprimirSorteo()    
-})*/
-
 document.querySelector("#btn-winner-game").addEventListener("click",function (event) {  
   window.location = '/generar'  
 })
@@ -429,136 +300,54 @@ document.querySelector("#btn-winner-game").addEventListener("click",function (ev
 document.querySelector("#btn-bill-game").addEventListener("click",function (event) {  
   window.location = '/cuentas'
 })
-/*
-document.querySelector("#btnSalir").addEventListener("click",function (event) {  
-  document.cookie="usuario=; perfil=; id="
-  window.location = '/'
-})
 
-document.querySelector("#btn-close-game").addEventListener("click", async function (event) { 
-  objetoCerrar = {
-    sorteoId:globalChance.gameId
-  }
-  let requestCerrar = await fetch("http://"+globalChance.host+":3000/sorteo/cerrar",{
-      method: 'POST',            
-    headers: {
-      'Content-Type': 'application/json'      
-    },        
-    body: JSON.stringify(objetoCerrar)
-    })
-
-  let response = await requestCerrar.json() 
-  if(response.termino)    
-    await loadConfiguration()
-})
-
-document.querySelector("#btnReImprimir").addEventListener("click", async function (event) {  
-  let no = document.querySelector('#noOldTicket').value
-  if (!isNaN(no))
-    await loadOldTicket(no)    
-  document.querySelector('#noOldTicket').value = ''   
-})*/
-
-/*document.body.addEventListener("keydown", async function (event) {      
-  if (event.key===" ") {  
-    if (!document.querySelector("#venta").classList.contains('d-none')) {
-      event.preventDefault()    
-      document.querySelector("#search").focus()
-      document.querySelector("#search").value=''      
-    }      
-  } else if (event.key==="p" || event.key==="P") {
-    if (!document.querySelector("#venta").classList.contains('d-none')) {
-      event.preventDefault()    
-      document.body.focus()
-      if (bag.items.length>0) {
-
-        var objetoSorteo = {
-          sorteoId:globalChance.gameId,
-          usuarioId:globalChance.userId,
-          tipo:bag.type(),
-          valor:bag.total
-        }
-    
-        console.log(JSON.stringify(objetoSorteo))
-    
-        let requestCrearTiquete = await fetch("http://"+globalChance.host+":3000/sorteo/tiquete/crear",{
-            method: 'POST',            
-          headers: {
-            'Content-Type': 'application/json'      
-          },        
-          body: JSON.stringify(objetoSorteo)
-          })
-      
-        let response = await requestCrearTiquete.json()
-        console.log(response)
-        if (response.termino){
-          globalChance.receiptCount = response.resultado.TIQUETE_ID
-        }
-        bag.render()
-        
-        
-        
-        var objetoRegistro = {
-        tiqueteId:globalChance.receiptCount,
-        tipo: null,
-        numero:null,
-        cantidad:null,
-        valor:null        
-        }
-    
-        var objetoChance = {
-        sorteoId:globalChance.gameId,
-        usuarioId:globalChance.userId,
-        chance:null,
-        cantidad:null,
-        precio:null
-        }
-    
-        bag.items.forEach(async element => {      
-          
-          if (element.number.length == 2) {
-            objetoChance.chance = element.number
-            objetoChance.cantidad = element.qty            
-    
-            let requestActualizarCantidadChance = await fetch("http://"+globalChance.host+":3000/sorteo/cantidad/chance",{
-              method: 'POST',            
-            headers: {
-              'Content-Type': 'application/json'      
-            },        
-            body: JSON.stringify(objetoChance)
-            })
-          }
-
-          if (element.number.length == 2)
-            objetoRegistro.tipo = 1
-          else
-            objetoRegistro.tipo = 2
-          
-          objetoRegistro.numero = element.number
-          objetoRegistro.cantidad = element.qty
-          objetoRegistro.valor = element.total
-          objetoRegistro.precio = element.price
-    
-          let requestAgregarRegistros = await fetch("http://"+globalChance.host+":3000/sorteo/tiquete",{
-            method: 'POST',            
-          headers: {
-            'Content-Type': 'application/json'      
-          },        
-          body: JSON.stringify(objetoRegistro)
-          })
-    
-        });
-
-        document.querySelector('#outPut1').innerHTML = document.querySelector('#ticketOutput').innerHTML  
-        generarQR("http://"+globalChance.host+":3000/tiquete/"+globalChance.receiptCount)              
-        window.print()
-        window.print()
-        await clearChance()    
-      } 
-      return false
-    }    
+/**Mobile Functions */
+//Add
+function addTicketItem() {
+  //Validate Fields
+  let number = document.querySelector("#mobile-filler-number").value
+  if (isNaN(number) || ![2,4].includes(number.length)) {    
+    document.querySelector("#mobile-filler-number").focus()
+    return false
   } 
-})*/
+  let qty = document.querySelector("#mobile-filler-qty").value
+  if (isNaN(qty) || !qty) {    
+    document.querySelector("#mobile-filler-qty").focus()
+    return false
+  }
+
+  //Add
+
+  let newItem = {
+    number:"",
+    qty:0,
+    price:0,
+    total:0
+  }
+  newItem.number = number
+  newItem.qty = Number(qty)
+  newItem.price = number.length == 2 ? globalChance.price : globalChance.bprice
+  newItem.total = newItem.price * qty      
+  let indexItem = bag.items.findIndex(object=>object.number === newItem.number)
+  
+  if (indexItem>-1) {
+    if (newItem.qty==0) {
+      bag.update(indexItem,newItem)
+    } else {
+      bag.push(indexItem,newItem)
+    }
+  } else {
+    if (newItem.qty>0) {
+      bag.add(newItem) 
+    }                    
+  }
+  
+  document.querySelector('#mobile-filler-number').value = ''
+  document.querySelector('#mobile-filler-qty').value = ''
+  document.querySelector('#mobile-filler-number').focus()
+
+}
+
 
 /*Build In*/
 chanceBuilder()

@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/images/espacio.png" type="image/png">
     <title><%= enviroment.VERSION %></title>
     <meta
@@ -20,7 +21,7 @@
       <div id="outPut1" class="pt-2"></div>
     </div>
     <div class="row d-none" id="venta">
-      <div class="col-3 d-print-none mt-2"
+      <div class="d-none d-md-block col-md-3 d-print-none mt-2"
         style="background-color: #dee2e6 !important"
       >
         <div class="row" id="chanceBuilder">
@@ -1234,7 +1235,7 @@
           </div>
         </div>
       </div>
-      <div class="col-6 d-print-none">
+      <div class="d-none d-md-block col-md-6 d-print-none">
         <div class="row d-print-none">
           <div class="col-6 mt-2">
             <button class="btn btn-sm btn-secondary col-12" id="btn-throw-ping">
@@ -1428,7 +1429,7 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <form id="form-config">
+                    <form id="form-config-3">
                       <div class="modal-body text-center">
                         <h5 id="text-error-ticket"></h5>
                       </div>
@@ -1460,6 +1461,12 @@
                 >
                   <h6>Editar</h6>
                 </button>
+                <button
+                  class="btn btn-sm btn-secondary offset-1 col-7 d-none"
+                  id="btnEliminarEditar"
+                >
+                  <h6>Eliminar</h6>
+                </button>
               </div>
             </div>
           </div>
@@ -1473,11 +1480,101 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-12 col-md-3">
+        <div
+              class="d-block d-md-none d-print-none col-12 mt-1 card text-black-50 p-3"
+              style="background-color: #dee2e6 !important"
+              id="singleChanceBuilder"
+            >
+              <div class="row px-4">
+                <h3></h3>
+              </div>
+              <div class="row px-4 input-group-xs">
+                <h4>Numero:</h4>
+                <input
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                  id="mobile-filler-number"
+                />
+              </div>
+              <div class="row px-4 input-group-xs">
+                <h4>Cantidad:</h4>
+                <input
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                  id="mobile-filler-qty"
+                />
+              </div>
+              <div class="button-group mt-2">
+                <button class="btn btn-sm btn-secondary col-5" onclick="addTicketItem()">Agregar</button>
+                <button class="btn btn-sm btn-secondary offset-1 col-5" onclick="limpiarTicket()">Limpiar</button>
+            </div>
+            </div>
         <div
           id="ticketOutput"
           class="font-weight-bold bg-white text-body d-print-none mt-2"
         ></div>
+        
+        <div class="d-sm-block d-md-none d-print-none col-12 mt-1 p-0">
+          <button
+            class="btn btn-sm btn-secondary col-12"
+            id="btn-print-ticket-mobile"
+            onclick="imprimirTiquete()"
+          >
+            <h6 id="text-print-ticket">Imprimir</h6>
+            <div
+              class="spinner-grow d-none"
+              role="status"
+              id="spinner-print-ticket"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+          <div
+            class="modal fade"
+            id="modalErrorTicket"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="errorTicketModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div
+                class="modal-content card text-black-50"
+                style="background-color: #dee2e6 !important"
+              >
+                <div class="modal-header">
+                  <h5
+                    class="modal-title font-weight-bolder"
+                    id="errorTicketModalLabel"
+                  >
+                    Ups!? no puedes continuar vendiendo
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form id="form-config-4">
+                  <div class="modal-body text-center">
+                    <h5 id="text-error-ticket"></h5>
+                  </div>
+                  <div
+                    class="modal-footer"
+                    style="justify-content: center !important"
+                  ></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="row d-none d-print-none" id="configuracion">
@@ -1664,7 +1761,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <form id="form-config">
+                      <form id="form-config-1">
                         <div class="modal-body text-center">
                           <input type="password" id="inPingLock" />
                           <h5 id="text-message-lock"></h5>
@@ -1728,7 +1825,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <form id="form-config">
+                      <form id="form-config-2">
                         <div class="modal-body text-center">
                           <input type="text" id="inTicket" />
                         </div>
@@ -3202,11 +3299,64 @@
             bag.render()
             document.querySelector("#btnEditar").classList.add("d-none")
             document.querySelector("#btnAceptarEditar").classList.remove("d-none")
+            document.querySelector("#btnEliminarEditar").classList.remove("d-none")
             return data
           })
           .then((data) => {
             
           })
+      })
+
+      //Eliminar en la BD el ticket
+      document.querySelector("#btnEliminarEditar")
+      .addEventListener("click",function () {
+
+        var objetoSorteo = {
+            sorteoId: localStorage.getItem("choose-game"),
+            userId:localStorage.getItem("sesion-id"),
+            tiqueteId: localStorage.getItem("edit-ticket-number")
+          };
+
+        fetch(api + "tiquete/", {
+            method: "PATCH",
+            body: JSON.stringify(objetoSorteo),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exitoso) {
+                limpiarTablero();
+              } else {
+                /*Agregar Modal
+                 * Mensaje no exitoso
+                 */
+                document.querySelector("#text-error-ticket").innerHTML =
+                  data.resultado;
+
+                $("#modalErrorTicket").modal("show");
+              }
+
+              document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+            })
+            .then((response) => {
+              document.querySelector("#btnEditar").classList.remove("d-none")
+              document.querySelector("#btnAceptarEditar").classList.add("d-none")
+              document.querySelector("#btnEliminarEditar").classList.add("d-none")        
+              globalChance.receiptCount = 0
+              localStorage.removeItem("edit-ticket-number")
+              bag.render()
+              
+              document.querySelector("#noOldTicket").value = ""
+            });
+
       })
       
       //Editar en la BD el ticket
@@ -3285,6 +3435,7 @@
             .then((response) => {
               document.querySelector("#btnEditar").classList.remove("d-none")
               document.querySelector("#btnAceptarEditar").classList.add("d-none")
+              document.querySelector("#btnEliminarEditar").classList.add("d-none")        
               globalChance.receiptCount = 0
               localStorage.removeItem("edit-ticket-number")
               bag.render()
