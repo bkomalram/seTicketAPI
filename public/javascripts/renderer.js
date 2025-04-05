@@ -348,6 +348,110 @@ function addTicketItem() {
 
 }
 
+function limpiarTicket() {
+  bag.clear()
+  bag.calc();
+  bag.render()
+}
+
+//UX - Enter
+document.getElementById('mobile-filler-number').addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    const inputValue = this.value.trim();
+    if (inputValue.length === 2 || inputValue.length === 4 ) {
+      const nextInput = document.getElementById('mobile-filler-qty');
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+  }
+});
+
+document.getElementById('mobile-filler-qty').addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    addTicketItem()
+  }
+});
+
+//UX - Navigation
+
+function home2sell() {
+  document.querySelector("#mobile-home").classList.remove("d-block")
+  document.querySelector("#mobile-home").classList.add("d-none")
+  document.querySelector("#mobile-sell").classList.remove("d-none")
+  document.querySelector("#mobile-sell").classList.add("d-block")
+}
+
+function sell2home() {
+  document.querySelector("#mobile-home").classList.add("d-block")
+  document.querySelector("#mobile-home").classList.remove("d-none")
+  document.querySelector("#mobile-sell").classList.add("d-none")
+  document.querySelector("#mobile-sell").classList.remove("d-block")
+}
+
+function home2status() {
+  document.querySelector("#mobile-home").classList.remove("d-block")
+  document.querySelector("#mobile-home").classList.add("d-none")
+  document.querySelector("#mobile-status").classList.remove("d-none")
+  document.querySelector("#mobile-status").classList.add("d-block")
+}
+
+function status2home() {
+  document.querySelector("#mobile-home").classList.add("d-block")
+  document.querySelector("#mobile-home").classList.remove("d-none")
+  document.querySelector("#mobile-status").classList.add("d-none")
+  document.querySelector("#mobile-status").classList.remove("d-block")
+}
+
+function home2reedem() {
+  document.querySelector("#mobile-home").classList.remove("d-block")
+  document.querySelector("#mobile-home").classList.add("d-none")
+  document.querySelector("#mobile-reedem").classList.remove("d-none")
+  document.querySelector("#mobile-reedem").classList.add("d-block")
+}
+
+function reedem2home() {
+  document.querySelector("#mobile-home").classList.add("d-block")
+  document.querySelector("#mobile-home").classList.remove("d-none")
+  document.querySelector("#mobile-reedem").classList.add("d-none")
+  document.querySelector("#mobile-reedem").classList.remove("d-block")
+}
+
+function home2finantial() {
+  document.querySelector("#mobile-home").classList.remove("d-block")
+  document.querySelector("#mobile-home").classList.add("d-none")
+  document.querySelector("#mobile-finantial").classList.remove("d-none")
+  document.querySelector("#mobile-finantial").classList.add("d-block")
+}
+
+function finantial2home() {
+  document.querySelector("#mobile-home").classList.add("d-block")
+  document.querySelector("#mobile-home").classList.remove("d-none")
+  document.querySelector("#mobile-finantial").classList.add("d-none")
+  document.querySelector("#mobile-finantial").classList.remove("d-block")
+}
+
+function home2config() {
+  document.querySelector("#mobile-home").classList.remove("d-block")
+  document.querySelector("#mobile-home").classList.add("d-none")
+  document.querySelector("#mobile-config").classList.remove("d-none")
+  document.querySelector("#mobile-config").classList.add("d-block")
+}
+
+function config2home() {
+  document.querySelector("#mobile-home").classList.add("d-block")
+  document.querySelector("#mobile-home").classList.remove("d-none")
+  document.querySelector("#mobile-config").classList.add("d-none")
+  document.querySelector("#mobile-config").classList.remove("d-block")
+}
+
+function mobileExit() {
+  localStorage.clear();
+  window.location = "/";
+}
+
+
+
 
 /*Build In*/
 chanceBuilder()
