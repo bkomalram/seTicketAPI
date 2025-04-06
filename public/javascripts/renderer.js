@@ -355,9 +355,10 @@ function limpiarTicket() {
 }
 
 //UX - Enter
-document.getElementById('mobile-filler-number').addEventListener('keydown', function (event) {
+
+function mobileNumber(event) {
   if (event.key === 'Enter') {
-    const inputValue = this.value.trim();
+    const inputValue = event.target.value.trim();
     if (inputValue.length === 2 || inputValue.length === 4 ) {
       const nextInput = document.getElementById('mobile-filler-qty');
       if (nextInput) {
@@ -365,13 +366,13 @@ document.getElementById('mobile-filler-number').addEventListener('keydown', func
       }
     }
   }
-});
+}
 
-document.getElementById('mobile-filler-qty').addEventListener('keydown', function (event) {
+function mobileQty(event) {
   if (event.key === 'Enter') {
     addTicketItem()
   }
-});
+}
 
 //UX - Navigation
 
@@ -450,7 +451,117 @@ function mobileExit() {
   window.location = "/";
 }
 
+//UX - Reedemm
 
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("Ejecutado Loader de QR")
+  const scanButton = document.getElementById('scan-button');
+  const closeButton = document.getElementById('close-scanner');
+  const scannerContainer = document.getElementById('scanner-container');
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const canvasContext = canvas.getContext('2d');
+  
+  let scanning = false;
+  let videoStream = null;
+  
+  // Función que se llamará con el dato escaneado
+  function procesarCodigoQR(datos) {
+    console.log("Código QR escaneado:", datos);
+    // Aquí puedes llamar a tu función que procesa el código QR
+    // Por ejemplo: tuFuncion(datos);
+  }
+  
+  // Iniciar el escáner
+  scanButton.addEventListener('click', function() {
+    scannerContainer.style.display = 'block';
+    startScanner();
+  });
+  
+  // Cerrar el escáner
+  closeButton.addEventListener('click', function() {
+    stopScanner();
+    scannerContainer.style.display = 'none';
+  });
+  
+  // Iniciar la cámara y el proceso de escaneo
+  function startScanner() {
+    // Verificar si la API de getUserMedia está disponible
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      // Solicitar acceso a la cámara
+      navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: "environment" } // Usar cámara trasera preferentemente
+      })
+      .then(function(stream) {
+        videoStream = stream;
+        video.srcObject = stream;
+        video.setAttribute('playsinline', true); // Requerido para iOS
+        video.play();
+        
+        // Iniciar escaneo
+        scanning = true;
+        requestAnimationFrame(tick);
+      })
+      .catch(function(error) {
+        console.error("Error al acceder a la cámara: ", error);
+        alert("No se pudo acceder a la cámara. Por favor, verifica los permisos.");
+      });
+    } else {
+      alert("Lo sentimos, tu navegador no soporta acceso a la cámara.");
+    }
+  }
+  
+  // Detener el escáner
+  function stopScanner() {
+    if (videoStream) {
+      videoStream.getTracks().forEach(track => {
+        track.stop();
+      });
+      video.srcObject = null;
+      videoStream = null;
+    }
+    scanning = false;
+  }
+  
+  // Función que se ejecuta en cada frame para buscar códigos QR
+  function tick() {
+    if (video.readyState === video.HAVE_ENOUGH_DATA && scanning) {
+      // Configurar el canvas al tamaño del video
+      canvas.height = video.videoHeight;
+      canvas.width = video.videoWidth;
+      
+      // Dibujar el frame actual en el canvas
+      canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // Obtener los datos de la imagen
+      const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+      
+      // Escanear la imagen en busca de códigos QR
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "dontInvert", // Para QR oscuros en fondos claros
+      });
+      
+      // Si se encontró un código QR
+      if (code) {
+        console.log("¡QR encontrado!", code.data);
+        
+        // Llamar a tu función con los datos escaneados
+        procesarCodigoQR(code.data);
+        
+        // Cerrar el escáner automáticamente después de escanear
+        stopScanner();
+        scannerContainer.style.display = 'none';
+      }
+      
+      // Continuar el escaneo en el próximo frame
+      if (scanning) {
+        requestAnimationFrame(tick);
+      }
+    } else if (scanning) {
+      requestAnimationFrame(tick);
+    }
+  }
+});
 
 
 /*Build In*/
