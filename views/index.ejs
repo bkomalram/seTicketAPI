@@ -1653,7 +1653,7 @@
           </div>
           <span>Inicio</span>
         </button>
-        Estamos trabajando para mostrar todos los tickets vendidos ...
+
       </div>
 
       <div id="mobile-reedem" class="d-none d-md-none col-12">
@@ -3005,7 +3005,7 @@
           element.value = "";
         });
       }
-      function imprimirTiquete(event) {
+      function imprimirTiquete(event) { 
         document.querySelector("#text-print-ticket").classList.add("d-none");
         document
           .querySelector("#spinner-print-ticket")
@@ -3125,6 +3125,9 @@
               if (data.exitoso) {
                 globalChance.receiptCount = data.resultado.id;
                 bag.render();
+                //UX - Mobile
+                document.querySelector('[name="mobile-input-ux"]').remove()
+
                 document.querySelector("#outPut1").innerHTML =
                   document.querySelector("#ticketOutput").innerHTML;
                 generarQR(

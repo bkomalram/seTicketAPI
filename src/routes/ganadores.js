@@ -866,20 +866,17 @@ router.get("/", (req,res)=>{
     if (accion == "chance") {
         var whereCondition = {                                                
             ganador: "SI",
-            tipo: "CHANCE",
-            esValido: "SI"
+            tipo: "CHANCE"
         }
     } else if(accion == "billete") {
         var whereCondition = {                                                
             ganador: "SI",
-            tipo: "BILLETE",
-            esValido: "SI"
+            tipo: "BILLETE"
         }
     }
     else {
         var whereCondition = {                                                
-            ganador: "SI",
-            esValido: "SI"            
+            ganador: "SI"
         }
     }
 
@@ -895,7 +892,8 @@ router.get("/", (req,res)=>{
                 model:DB.GameTicket,                
                 required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
                 where:{                                                        
-                    cambio: "NO"
+                    cambio: "NO",
+                    esValido: "SI"
                 },
                 attributes:[] //Nada de GameTicket en la respuesta
             }                            
@@ -952,20 +950,17 @@ router.get("/:sorteoId", (req,res)=>{
     if (accion == "chance") {
         var whereCondition = {                                                
             ganador: "SI",
-            tipo: "CHANCE",
-            esValido: "SI"
+            tipo: "CHANCE"
         }
     } else if(accion == "billete") {
         var whereCondition = {                                                
             ganador: "SI",
-            tipo: "BILLETE",
-            esValido: "SI"
+            tipo: "BILLETE"
         }
     }
     else {
         var whereCondition = {                                                
-            ganador: "SI",
-            esValido: "SI"            
+            ganador: "SI"
         }
     }
 

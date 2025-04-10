@@ -305,14 +305,14 @@ document.querySelector("#btn-bill-game").addEventListener("click",function (even
 //Add
 function addTicketItem() {
   //Validate Fields
-  let number = document.querySelector("#mobile-filler-number").value
+  let number = document.querySelector('[name="mobile-filler-number"]').value
   if (isNaN(number) || ![2,4].includes(number.length)) {    
-    document.querySelector("#mobile-filler-number").focus()
+    document.querySelector('[name="mobile-filler-number"]').focus()
     return false
   } 
-  let qty = document.querySelector("#mobile-filler-qty").value
+  let qty = document.querySelector('[name="mobile-filler-qty"]').value
   if (isNaN(qty) || !qty) {    
-    document.querySelector("#mobile-filler-qty").focus()
+    document.querySelector('[name="mobile-filler-qty"]').focus()
     return false
   }
 
@@ -342,9 +342,9 @@ function addTicketItem() {
     }                    
   }
   
-  document.querySelector('#mobile-filler-number').value = ''
-  document.querySelector('#mobile-filler-qty').value = ''
-  document.querySelector('#mobile-filler-number').focus()
+  document.querySelector('[name="mobile-filler-number"]').value = ''
+  document.querySelector('[name="mobile-filler-qty"]').value = ''
+  document.querySelector('[name="mobile-filler-number"]').focus()
 
 }
 
@@ -360,7 +360,7 @@ function mobileNumber(event) {
   if (event.key === 'Enter') {
     const inputValue = event.target.value.trim();
     if (inputValue.length === 2 || inputValue.length === 4 ) {
-      const nextInput = document.getElementById('mobile-filler-qty');
+      const nextInput = document.querySelector('[name="mobile-filler-qty"]');
       if (nextInput) {
         nextInput.focus();
       }
@@ -562,6 +562,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
+//UX - Status
 
 
 /*Build In*/

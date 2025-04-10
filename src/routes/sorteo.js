@@ -95,6 +95,33 @@ router.lock("/", (req,res)=>{
     }    
 })
 
+router.unlock("/", (req,res)=>{
+    const { sorteoId } = req.body
+    if (req.jornada.accesos < 2) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+
+    /*Refactor v3.0
+    Sequelize ORM
+    BK*/
+    try {
+        DB.Game.update({            
+            enVenta: "SI"
+        },{ 
+            where: { id: sorteoId }
+        })
+        .then((Game)=>{
+            res.status(201).json({resultado:{mensaje:"Venta reactiva."},exitoso:true})       
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error reactivando la venta en sorteo",error:error},exitoso:false})
+    }    
+})
+
 router.get("/", (req,res)=>{        
     if (req.jornada.accesos == 0) {
         res.json({
@@ -124,7 +151,26 @@ router.get("/", (req,res)=>{
             ]
         })
         .then((Game)=>{
-            res.status(200).json({resultado:Game,exitoso:true})       
+            if (!Game[0]) {
+                // Busca el sorteo del lider de su padre
+                DB.User.findOne({where:{id:req.jornada.padreUsuario_id,esActivo:'SI'}})
+                .then((data)=>{            
+                    
+                    //Buscar nuevamente si hay sorteo.
+                    DB.Game.findAll({
+                        where:{         
+                            usuario_id: [data.padreUsuario_id],
+                            esActivo: "SI"
+                        },
+                        order:[
+                            [DB.sequelize.literal('id'), 'DESC'],
+                        ]
+                    })
+                    .then((Game)=>{ res.status(200).json({resultado:Game,exitoso:true}) })   
+                })
+            } else {
+                res.status(200).json({resultado:Game,exitoso:true})
+            }     
         })        
     } catch (error) {
         res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando todos los sorteos",error:error},exitoso:false})

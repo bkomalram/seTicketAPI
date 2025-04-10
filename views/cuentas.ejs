@@ -658,6 +658,25 @@
                 } else {
                   document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = "---.--"
                 }
+                /*
+                * Total Vendedor
+                **/
+                
+                document.querySelector("#tablePorcentajeVendedorTotal").innerHTML = 
+                (Math.round((Number(document.querySelector("#tablePorcentajeVendedorChance").innerHTML)
+                + Number(document.querySelector("#tablePorcentajeVendedorBillete").innerHTML)) 
+                  * 100) / 100
+                ).toFixed(2);
+                
+                /**
+                 * Total Casa
+                */
+                document.querySelector("#tablePorcentajeCasaTotal").innerHTML = 
+                  (Math.round((Number(document.querySelector("#tablePorcentajeCasaChance").innerHTML)
+                  + Number(document.querySelector("#tablePorcentajeCasaBillete").innerHTML)
+                  )  * 100) / 100
+                  ).toFixed(2);
+
 
               } else {
                 document.querySelector("#error-loading-game").innerHTML =
@@ -713,6 +732,8 @@
                   Math.round(balanceTotal
                   * 100) / 100
                 ).toFixed(2);
+
+                
               });
           }));
         } catch {

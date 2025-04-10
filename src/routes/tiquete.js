@@ -201,6 +201,42 @@ router.post("/mq", async (req,res)=>{
 
 })
 
+router.get("/", (req,res)=>{
+
+    const users = req.query.users
+    
+    const usersArray = users.split(",").map(id => parseInt(id.trim(), 10));
+
+    if (req.jornada.accesos == 0) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }   
+
+    try {              
+        DB.GameTicket.findAll({
+            where:{                
+                userId: {
+                    [DB.Sequelize.Op.in]: usersArray,
+                },
+                game_id: req.query.game
+            },           
+            order:[
+                ["userId", 'ASC'],
+            ]
+        })
+        .then((response)=>{            
+            res.status(200).json({resultado:response,exitoso:true})       
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({resultado:error,exitoso:false}) 
+    } 
+})
+
 /*
     Refactor v3.0
     Sequelize - ORM
@@ -246,6 +282,9 @@ router.get("/:tiqueteId", (req,res)=>{
         res.status(400).json({resultado:error,exitoso:false}) 
     } 
 })
+
+
+
 
 router.patch("/", (req,res)=>{
     const { tiqueteId } = req.body
