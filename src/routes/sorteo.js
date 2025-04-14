@@ -306,6 +306,13 @@ router.get("/:sorteoId/chances", (req,res)=>{
             game_id: sorteoId,
             userId: only.split(",")
         }
+    } else if (req.jornada.accesos == 2) {   
+        //Supervisor
+        let tempList = req.jornada.id+','+req.jornada.hijos        
+        var objectWhere = {         
+            game_id: sorteoId,
+            userId: tempList.split(",")
+        }
     } else {
         var objectWhere = {         
             game_id: sorteoId,
@@ -389,6 +396,13 @@ router.get("/:sorteoId/billetes", (req,res)=>{
         var objectWhere = {         
             game_id: sorteoId,
             userId: only.split(",")
+        }
+    } else if (req.jornada.accesos == 2) {   
+        //Supervisor
+        let tempList = req.jornada.id+','+req.jornada.hijos        
+        var objectWhere = {         
+            game_id: sorteoId,
+            userId: tempList.split(",")
         }
     } else {
         var objectWhere = {         

@@ -35,7 +35,7 @@ router.get("/token", (req,res)=>{
         perfil:"Invitado",
         accesos:0
     }
-    const generado = jwt.sign(initialToken,process.env.SALT,{ expiresIn: '1h' })
+    const generado = jwt.sign(initialToken,process.env.SALT,{ expiresIn: '2h' })
     res.status(200).json({
         token:generado
     })
@@ -63,6 +63,7 @@ router.post("/log", (req,res)=>{
     
     DB.User.findOne({where:{nombre:usuario,esActivo:'SI'}})
     .then((User)=>{
+        var acceso
         if(!User){
             res.status(401).json({
                 resultado: "Acceso denegado",
@@ -75,9 +76,19 @@ router.post("/log", (req,res)=>{
                         resultado: "Acceso denegado",
                         exitoso:false
                     })
-                } else {                    
+                } else {    
+                    //Perfil
+                    if (User.dataValues.perfil=="ADMIN") {
+                       acceso = 3 
+                    } else if(User.dataValues.perfil=="SUPERVISOR") {
+                        acceso = 2
+                    } else {
+                        acceso = 1
+                    }
+                    //Obtener hijos
+                    
                     let objeto = {
-                        accesos: User.dataValues.perfil=="ADMIN"? 2 : 1,                
+                        accesos: acceso,                
                         perfil:User.dataValues.perfil,
                         usuario:User.dataValues.nombre,
                         padreUsuario_id: User.dataValues.padreUsuario_id,
@@ -86,11 +97,16 @@ router.post("/log", (req,res)=>{
                         id:User.dataValues.id
                     }
                     User.ultimaConexion = Date.now()
-                    User.save()
-                    .then((Commit)=>{
-                        res.status(200).json({
-                            resultado:{ token: jwt.sign(objeto,process.env.SALT,{ expiresIn: '24h' }) },
-                            exitoso:true
+                    User.getChild()
+                    .then(stringChild => {
+                        // asignacion de hijos
+                        objeto.hijos = stringChild
+                        User.save()
+                        .then((Commit)=>{
+                            res.status(200).json({
+                                resultado:{ token: jwt.sign(objeto,process.env.SALT,{ expiresIn: '24h' }) },
+                                exitoso:true
+                            })
                         })
                     })                    
                 }

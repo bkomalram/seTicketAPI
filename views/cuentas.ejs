@@ -226,6 +226,7 @@
               localStorage.setItem("sesion-perfil", data.resultado.perfil);
               localStorage.setItem("sesion-usuario", data.resultado.usuario);
               localStorage.setItem("sesion-id", data.resultado.id);
+              localStorage.setItem("sesion-hijos", data.resultado.hijos);
 
               if (data.resultado.perfil != "ADMIN") {
                 document
@@ -531,7 +532,7 @@
                 document.querySelector("#error-loading-game").innerHTML =
                   "Error cargando chances en cuentas, contacte el administrador.";
               }
-              return Math.round(seleccionados.chancesTotal * 100) / 100;
+              return Math.round(porcentajeCasa) / 100;
             })
             .then((something => {
             /* Ganadores Chance*/
@@ -682,7 +683,7 @@
                 document.querySelector("#error-loading-game").innerHTML =
                   "Error cargando billetes en cuentas, contacte el administrador.";
               }
-              return Math.round(seleccionados.billetesTotal * 100) / 100;
+              return Math.round(porcentajeCasa) / 100;
             })
             .then((something => {
             /* Ganadores Billetes */

@@ -1654,6 +1654,8 @@
           <span>Inicio</span>
         </button>
 
+        <div class="d-md-none col-12 mt-3" id="table-mobile-status"></div>
+
       </div>
 
       <div id="mobile-reedem" class="d-none d-md-none col-12">
@@ -1677,7 +1679,7 @@
           </div>
           <span>Inicio</span>
         </button>
-        Estamos trabajando para mostrar la cuenta del vendedor ...
+        <div class="d-md-none col-12 mt-3" id="table-mobile-finantial"></div>
       </div>
 
       <div id="mobile-config" class="d-none d-md-none col-12">
@@ -2010,10 +2012,74 @@
                 </button>
               </div>
             </div>
+            <div class="row">
+              <div class="col-6">
+                <button
+                  class="btn btn-sm btn-secondary col-12"
+                  id="btn-reactive-game"
+                >
+                  <h6 id="text-reactive-game" style="font-size: 0.9rem;">Activar venta</h6>
+                  <div
+                    class="spinner-grow d-none"
+                    role="status"
+                    id="spinner-reactive-game"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+                <div
+                  class="modal fade"
+                  id="modalunLock"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="unlockModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog" role="document">
+                    <div
+                      class="modal-content card text-black-50"
+                      style="background-color: #dee2e6 !important"
+                    >
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="lockModalLabel">
+                          Ping de seguridad
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form id="form-config-27">
+                        <div class="modal-body text-center">
+                          <input type="password" id="inPingunLock" />
+                          <h5 id="text-message-unlock"></h5>
+                        </div>
+                        <div
+                          class="modal-footer"
+                          style="justify-content: center !important"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-secondary col-6"
+                            id="btn-unlock-game"
+                          >
+                            Aceptar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-6" id="desktop-status">
         <div class="d-flex" id="estado">
           <table class="table table-bordered" id="numberTable"></table>
         </div>
@@ -2162,8 +2228,33 @@
               localStorage.setItem("sesion-id", data.resultado.id);
               localStorage.setItem("sesion-%chance", data.resultado.porcentajeChance);
               localStorage.setItem("sesion-%billete", data.resultado.porcentajeBillete);
+              localStorage.setItem("sesion-hijos", data.resultado.hijos);
 
-              if (data.resultado.perfil != "ADMIN") {
+              if (data.resultado.perfil == "SUPERVISOR") {
+                document
+                  .querySelector("#contenedorSorteos")
+                  .classList.add("d-none");
+
+                document.querySelector("#btn-close-game").classList.add("d-none");
+                document.querySelector("#btn-balance-game").classList.add("d-none");
+
+                document.querySelector("#btn-stop-game").classList.add("d-none");
+                document.querySelector("#btn-winner-game").classList.add("d-none");
+
+                document
+                  .querySelector("#btn-reactive-game")
+                  .classList.add("d-none");
+
+                
+                /*document
+                  .querySelector("#contenedorAccionesAdministrador")
+                  .classList.add("d-none");*/
+                  document.querySelector("#select-seller").classList.add("d-none")
+                  document.querySelector("#row-optional-sacado").classList.add("d-none")
+                  document.querySelector("#estadoSacado").classList.remove("d-flex")
+                  document.querySelector("#estadoSacado").classList.add("d-none")
+                  document.querySelector("#form-set-config button").classList.add("d-none")
+              } else if (data.resultado.perfil != "ADMIN") {
                 document
                   .querySelector("#contenedorSorteos")
                   .classList.add("d-none");
@@ -2332,6 +2423,10 @@
        * Cargando estado de sorteo
        */
       function cargarEstadoSorteo() {
+        //Nueva UX Mobile
+        document.querySelector("#table-mobile-status").innerHTML = ""
+        document.querySelector("#table-mobile-finantial").innerHTML = ""
+        
         let builder = document.querySelector("#estado");
         builder.innerHTML = '<table class="table table-bordered" id="numberTable"></table>';
 
@@ -2495,6 +2590,8 @@
             var tableros = ""
             if (localStorage.getItem("sesion-accesos") < 2) {
               tableros = "&only="+localStorage.getItem("sesion-id") 
+            } else if (localStorage.getItem("sesion-accesos") == 2) {
+              tableros = "&only="+localStorage.getItem("sesion-id")+","+localStorage.getItem("sesion-hijos")
             }
             
             /* Ganadores Chance*/
@@ -2545,10 +2642,9 @@
                 (
                   Math.round(balanceChance * 100) / 100
                 ).toFixed(2) || 0;
-              });
-          }));
-
-        /*Billetes*/
+              })
+              .then(()=>{
+                /*Billetes*/
         fetch(api + "sorteo/" + numeroSorteo + "/billetes", {
           method: "GET",
           headers: {
@@ -2654,6 +2750,8 @@
             var tableros = ""
             if (localStorage.getItem("sesion-accesos") < 2) {
               tableros = "&only="+localStorage.getItem("sesion-id") 
+            } else if (localStorage.getItem("sesion-accesos") == 2) {
+              tableros = "&only="+localStorage.getItem("sesion-id")+","+localStorage.getItem("sesion-hijos")
             }
             /* Ganadores Billetes */
             fetch(api + "ganadores/" + numeroSorteo + "?accion=billete"+tableros, {
@@ -2718,16 +2816,26 @@
                   * 100) / 100
                 ).toFixed(2);
                 
+              })
+              .then((something)=>{
+                //Copia de status a mobile-status
+                document.querySelector("#table-mobile-status").innerHTML = document
+                .querySelector("#desktop-status").innerHTML
+                document.querySelector("#table-mobile-finantial").innerHTML = document
+                .querySelector("#contenedorPorcentajes").innerHTML
               });
-          }));
+              
+              }));
+              })
+        }));
 
       }
 
-        /**
-       *
-       *  Cargar Vendedores
-       *
-       * * */
+/**
+ *
+ *  Cargar Vendedores
+ *
+ * * */
 
       function cargarUsuarios() {
         fetch(api + "usuarios", {
@@ -3238,6 +3346,52 @@
           } else {
             document.querySelector("#inPingLock").value = "";
             document.querySelector("#text-message-lock").innerHTML  =
+              "Datos incorrectos.";
+          }
+        });
+
+        /***
+       * Reactivar venta
+       * */
+      document
+        .querySelector("#btn-reactive-game")
+        .addEventListener("click", function (event) {
+          document.querySelector("#text-message-unlock").innerHTML  = "";
+          document.querySelector("#inPingunLock").value = "";
+          $("#modalunLock").modal("show");
+        });
+      document
+        .querySelector("#btn-unlock-game")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+
+          let ping = document.querySelector("#inPingunLock").value;
+          /*Ping para acceder a configuracion*/
+          if (ping == "<%= enviroment.LOCK_PASSWORD %>") {
+            document.querySelector("#inPingunLock").value = "";
+            $("#modalunLock").modal("hide");
+
+            var objetoSorteo = {
+              sorteoId: localStorage.getItem("choose-game"),
+            };
+            fetch(api + "sorteo", {
+              method: "UNLOCK",
+              body: JSON.stringify(objetoSorteo),
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+              },
+            })
+              .then((response) => response.json())
+              .then((response) => {
+                if (response.exitoso) {
+                  document.querySelector("#text-message-unlock").innerHTML  =
+                    "Venta reactiva.";
+                }
+              });
+          } else {
+            document.querySelector("#inPingunLock").value = "";
+            document.querySelector("#text-message-unlock").innerHTML  =
               "Datos incorrectos.";
           }
         });

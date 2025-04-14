@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.GameTicket)
+      this.hasMany(models.User, { foreignKey: 'padreUsuario_id', as: 'hijos' });
+      this.belongsTo(models.User, { foreignKey: 'padreUsuario_id', as: 'padre' });
+
     }
   };
   User.init({
@@ -50,6 +53,12 @@ module.exports = (sequelize, DataTypes) => {
     this.porcentajeComisionBillete = comisionBillete;
     return await this.save()
   }
+
+  User.prototype.getChild = async function () {
+    const hijos = await this.getHijos(); // Usa el alias definido en la asociación
+    return hijos.map(h => h.id).join(', ');
+  };
+  
 
 
   return User;
