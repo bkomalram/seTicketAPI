@@ -381,6 +381,9 @@ function home2sell() {
   document.querySelector("#mobile-home").classList.add("d-none")
   document.querySelector("#mobile-sell").classList.remove("d-none")
   document.querySelector("#mobile-sell").classList.add("d-block")
+  document.querySelector("#mobile-btn-kit-1").classList.remove("d-none")
+  document.querySelector("#mobile-btn-kit-2").classList.add("d-none")
+  document.querySelector("[name='mobile-edit-ticket']").classList.remove("d-none")
 }
 
 function sell2home() {
@@ -562,8 +565,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
-
-//UX - Status
 
 
 /*Build In*/

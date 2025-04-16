@@ -1400,47 +1400,6 @@
                   <span class="sr-only">Loading...</span>
                 </div>
               </button>
-              <div
-                class="modal fade"
-                id="modalErrorTicket"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="errorTicketModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog" role="document">
-                  <div
-                    class="modal-content card text-black-50"
-                    style="background-color: #dee2e6 !important"
-                  >
-                    <div class="modal-header">
-                      <h5
-                        class="modal-title font-weight-bolder"
-                        id="errorTicketModalLabel"
-                      >
-                        Ups!? no puedes continuar vendiendo
-                      </h5>
-                      <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <form id="form-config-3">
-                      <div class="modal-body text-center">
-                        <h5 id="text-error-ticket"></h5>
-                      </div>
-                      <div
-                        class="modal-footer"
-                        style="justify-content: center !important"
-                      ></div>
-                    </form>
-                  </div>
-                </div>
-              </div>
             </div>
             <div class="col-12 mt-2">
               <div class="row">
@@ -1559,8 +1518,8 @@
       
       <div id="mobile-sell" class="d-none d-md-block col-12 col-md-3">
         
-        <div class="row">
-          <button class="menu-button vender d-print-none d-md-none col-4 offset-1" onclick="sell2home()">
+        <div class="row" id="mobile-btn-kit-1">
+          <button class="menu-button vender d-print-none d-md-none col-3 offset-1" onclick="sell2home()">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
                 <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
@@ -1568,7 +1527,7 @@
             </div>
             <span>Inicio</span>
           </button>
-          <button class="menu-button vender d-print-none d-md-none col-4 offset-2" onclick="limpiarTicket()">
+          <button class="menu-button vender d-print-none d-md-none col-3 mx-3" onclick="limpiarTicket()">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
@@ -1576,6 +1535,45 @@
               </svg>
             </div>
             <span>Limpiar</span>
+          </button>
+          <button class="menu-button vender d-print-none d-md-none col-3" onclick="mobileBuscar()">
+            <div class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+            </div>
+            <span>Buscar</span>
+          </button>
+        </div>
+        <input type="number" class="d-md-none form-control col-8 offset-2 mt-2" autocomplete="off" name="mobile-edit-ticket">
+
+        <div class="row d-none" id="mobile-btn-kit-2">
+          <button class="menu-button vender d-print-none d-md-none col-3 offset-1" onclick="mobileEditar()">
+            <div class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+              </svg>
+            </div>
+            <span>Editar</span>
+          </button>
+          <button class="menu-button vender d-print-none d-md-none col-3 mx-3" onclick="mobileEliminar()">
+            <div class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+              </svg>
+            </div>
+            <span>Eliminar</span>
+          </button>
+          <button class="menu-button vender d-print-none d-md-none col-3" onclick="mobileCancelarEditar()">
+            <div class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace" viewBox="0 0 16 16">
+                <path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
+                <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
+              </svg>
+            </div>
+            <span>Regresar</span>
           </button>
         </div>
 
@@ -1599,47 +1597,6 @@
               <span class="sr-only">Loading...</span>
             </div>
           </button>
-          <div
-            class="modal fade"
-            id="modalErrorTicket"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="errorTicketModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog" role="document">
-              <div
-                class="modal-content card text-black-50"
-                style="background-color: #dee2e6 !important"
-              >
-                <div class="modal-header">
-                  <h5
-                    class="modal-title font-weight-bolder"
-                    id="errorTicketModalLabel"
-                  >
-                    Ups!? no puedes continuar vendiendo
-                  </h5>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <form id="form-config-4">
-                  <div class="modal-body text-center">
-                    <h5 id="text-error-ticket"></h5>
-                  </div>
-                  <div
-                    class="modal-footer"
-                    style="justify-content: center !important"
-                  ></div>
-                </form>
-              </div>
-            </div>
-          </div>
         </div>
 
       </div>
@@ -2194,6 +2151,48 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+
+    <div
+            class="modal fade"
+            id="modalErrorTicket"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="errorTicketModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div
+                class="modal-content card text-black-50"
+                style="background-color: #dee2e6 !important"
+              >
+                <div class="modal-header">
+                  <h5
+                    class="modal-title font-weight-bolder"
+                    id="errorTicketModalLabel"
+                  >
+                    Ups!? no puedes continuar vendiendo
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form id="form-config-4">
+                  <div class="modal-body text-center">
+                    <h5 id="text-error-ticket"></h5>
+                  </div>
+                  <div
+                    class="modal-footer"
+                    style="justify-content: center !important"
+                  ></div>
+                </form>
+              </div>
+            </div>
+          </div>
 
     <script src="/javascripts/qrcode.min.js"></script>
     <script src="/javascripts/modules/output.js"></script>
@@ -3500,9 +3499,38 @@
         }
       })
 
+      //UX Mobile - Editar
+      document.querySelector("[name='mobile-edit-ticket']")
+      .addEventListener("keydown", function ({key}) {
+        if (key==="Enter") {
+          document.querySelector("#noOldTicket").value = document.querySelector("[name='mobile-edit-ticket']").value
+          document.querySelector("#btnEditar").click()
+        }
+      })
+      
+      //UX Mobile - Cancelar Editar
+      function mobileCancelarEditar() {
+        bag.clear()
+        bag.render()
+        document.querySelector("#mobile-btn-kit-1").classList.remove("d-none")
+        document.querySelector("#mobile-btn-kit-2").classList.add("d-none")
+        document.querySelector("[name='mobile-edit-ticket']").classList.remove("d-none")
+        document.querySelector("[name='mobile-edit-ticket']").value = ""
+        globalChance.receiptCount = 0
+        localStorage.removeItem("edit-ticket-number")
+        bag.render()
+        document.querySelector("#noOldTicket").value = ""
+      }
+
+      function mobileBuscar() {
+        document.querySelector("#noOldTicket").value = document.querySelector("[name='mobile-edit-ticket']").value
+        document.querySelector("#btnEditar").click()
+      }
+
       document.querySelector("#btnEditar")
       .addEventListener("click",function() {
         localStorage.removeItem("edit-ticket-number")
+        bag.clear()
         //Traer el ticket de la BD
         if (isNaN(document.querySelector("#noOldTicket").value) || document.querySelector("#noOldTicket").value == ""){
           //Mensaje
@@ -3574,12 +3602,23 @@
             document.querySelector("#btnEditar").classList.add("d-none")
             document.querySelector("#btnAceptarEditar").classList.remove("d-none")
             document.querySelector("#btnEliminarEditar").classList.remove("d-none")
+
+            //UX Mobile - Editar
+            document.querySelector("#mobile-btn-kit-1").classList.add("d-none")
+            document.querySelector("#mobile-btn-kit-2").classList.remove("d-none")
+            document.querySelector("[name='mobile-edit-ticket']").classList.add("d-none")
+            
             return data
           })
           .then((data) => {
             
           })
       })
+
+      //UX Mobile - Aceptar Eliminar
+      function mobileEliminar() {
+        document.querySelector("#btnEliminarEditar").click()
+      }
 
       //Eliminar en la BD el ticket
       document.querySelector("#btnEliminarEditar")
@@ -3623,7 +3662,12 @@
             .then((response) => {
               document.querySelector("#btnEditar").classList.remove("d-none")
               document.querySelector("#btnAceptarEditar").classList.add("d-none")
-              document.querySelector("#btnEliminarEditar").classList.add("d-none")        
+              document.querySelector("#btnEliminarEditar").classList.add("d-none") 
+              //UX Mobile - Editar
+              document.querySelector("#mobile-btn-kit-1").classList.remove("d-none")
+              document.querySelector("#mobile-btn-kit-2").classList.add("d-none")
+              document.querySelector("[name='mobile-edit-ticket']").classList.remove("d-none")   
+
               globalChance.receiptCount = 0
               localStorage.removeItem("edit-ticket-number")
               bag.render()
@@ -3632,6 +3676,11 @@
             });
 
       })
+
+      //UX Mobile - Aceptar Editar
+      function mobileEditar() {
+        document.querySelector("#btnAceptarEditar").click()
+      }
       
       //Editar en la BD el ticket
       document.querySelector("#btnAceptarEditar")
@@ -3709,11 +3758,18 @@
             .then((response) => {
               document.querySelector("#btnEditar").classList.remove("d-none")
               document.querySelector("#btnAceptarEditar").classList.add("d-none")
-              document.querySelector("#btnEliminarEditar").classList.add("d-none")        
+              document.querySelector("#btnEliminarEditar").classList.add("d-none")    
+              //UX Mobile - Editar
+              document.querySelector("#mobile-btn-kit-1").classList.remove("d-none")
+              document.querySelector("#mobile-btn-kit-2").classList.add("d-none")
+              document.querySelector("[name='mobile-edit-ticket']").classList.remove("d-none")
+
+
               globalChance.receiptCount = 0
               localStorage.removeItem("edit-ticket-number")
               bag.render()
               
+              document.querySelector("#outPut1").innerHTML = ""
               document.querySelector("#noOldTicket").value = ""
             });
         }

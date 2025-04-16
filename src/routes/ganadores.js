@@ -69,7 +69,8 @@ router.post("/", (req,res)=>{
                 gTR.ganador = 'SI',
                 gTR.primer_premio = 'ULTIMO_NUMERO',
                 gTR.valorganador1er = gTR.cantidad *` +montoPremio+`              
-                WHERE gTR.tipo = 'BILLETE' 
+                WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI' 
                 AND gT.game_Id =` +sorteoId+`
                 AND SUBSTR(gTR.NUMERO,4,1)  = ` + numeroGanador1er.substr(3,4)
 
@@ -116,6 +117,7 @@ router.post("/", (req,res)=>{
                 gTR.primer_premio = 'DOS_ULTIMOS',                
                 gTR.valorganador1er = gTR.cantidad *`+montoPremio+`
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,3,2)  = `+ numeroGanador1er.substr(2,4)                
                 /*Ejecutando*/
@@ -160,6 +162,7 @@ router.post("/", (req,res)=>{
                 gTR.primer_premio = 'DOS_PRIMEROS',                
                 gTR.valorganador1er = gTR.cantidad * `+montoPremio+ `
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,1,2)  = `+ numeroGanador1er.substr(0,2)
                 /*Ejecutando*/
@@ -207,6 +210,7 @@ router.post("/", (req,res)=>{
                 gTR.primer_premio = 'DOS_PRIMEROS_ULTIMO_NUMERO',                
                 gTR.valorganador1er = gTR.cantidad * `+montoPremio+ `
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,1,2)  = `+ numeroGanador1er.substr(0,2)+`
                 AND SUBSTR(gTR.NUMERO,4,1)  = `+ numeroGanador1er.substr(3,4)
@@ -252,6 +256,7 @@ router.post("/", (req,res)=>{
                 gTR.primer_premio = 'TRES_ULTIMOS',                
                 gTR.valorganador1er = gTR.cantidad * `+montoPremio+ `
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`                
                 AND SUBSTR(gTR.NUMERO,2,3)  = `+ numeroGanador1er.substr(1,3)
                 /*Ejecutando*/
@@ -297,6 +302,7 @@ router.post("/", (req,res)=>{
                 gTR.primer_premio = 'TRES_PRIMEROS',                
                 gTR.valorganador1er = gTR.cantidad * `+montoPremio+ `
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`                
                 AND SUBSTR(gTR.NUMERO,1,3)  = `+ numeroGanador1er.substr(0,3)
                 /*Ejecutando*/
@@ -341,6 +347,7 @@ router.post("/", (req,res)=>{
                 gTR.primer_premio = 'CUATRO_NUMEROS',                
                 gTR.valorganador1er = gTR.cantidad * `+montoPremio+ `
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`                
                 AND SUBSTR(gTR.NUMERO,1,4)  = `+ numeroGanador1er
                 /*Ejecutando*/
@@ -404,6 +411,7 @@ router.post("/", (req,res)=>{
                 gTR.segundo_premio = 'DOS_ULTIMOS',
                 gTR.valorganador2do = gTR.cantidad *`+montoPremio+`                
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,3,2)  = `+ numeroGanador2do.substr(2,4)
                 
@@ -442,6 +450,7 @@ router.post("/", (req,res)=>{
                 gTR.segundo_premio = 'TRES_ULTIMOS',                
                 gTR.valorganador2do = gTR.cantidad *`+montoPremio+`
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,2,3)  = `+ numeroGanador2do.substr(1,3)
                 
@@ -480,6 +489,7 @@ router.post("/", (req,res)=>{
                 gTR.segundo_premio = 'TRES_PRIMEROS',                
                 gTR.valorganador2do = gTR.cantidad *`+montoPremio+`
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,1,3)  = `+ numeroGanador2do.substr(0,3)
                 
@@ -518,6 +528,7 @@ router.post("/", (req,res)=>{
                 gTR.segundo_premio = 'CUATRO_NUMEROS',                
                 gTR.valorganador2do = gTR.cantidad *`+montoPremio+`
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,1,4)  = `+ numeroGanador2do
                 
@@ -577,6 +588,7 @@ router.post("/", (req,res)=>{
                 gTR.tercer_premio = 'DOS_ULTIMOS',                
                 gTR.valorganador3ro = gTR.cantidad *`+montoPremio+`
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,3,2)  = `+ numeroGanador3er.substr(2,2)
                 
@@ -615,6 +627,7 @@ router.post("/", (req,res)=>{
                 gTR.tercer_premio = 'TRES_ULTIMOS',                
                 gTR.valorganador3ro = gTR.cantidad *`+montoPremio+`
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,2,3)  = `+ numeroGanador3er.substr(1,3)
                 
@@ -653,6 +666,7 @@ router.post("/", (req,res)=>{
                 gTR.tercer_premio = 'TRES_PRIMEROS',                
                 gTR.valorganador3ro = gTR.cantidad *`+montoPremio+`
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,1,3)  = `+ numeroGanador3er.substr(0,3)
                 
@@ -691,6 +705,7 @@ router.post("/", (req,res)=>{
                 gTR.tercer_premio = 'CUATRO_NUMEROS',                
                 gTR.valorganador3ro = gTR.cantidad *`+montoPremio+`
                 WHERE gTR.tipo = 'BILLETE'
+                AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
                 AND SUBSTR(gTR.NUMERO,1,4)  = `+ numeroGanador3er
                 
@@ -745,6 +760,7 @@ router.post("/", (req,res)=>{
     gTR.primer_premio = 'CHANCE_GANADOR',                
     gTR.valorganador1er = gTR.cantidad *`+montoPremio+`
     WHERE gTR.tipo = 'CHANCE'
+    AND gT.esValido = 'SI'
     AND gT.game_Id = `+sorteoId+`
     AND gTR.NUMERO  = `+ numeroGanador1er.substr(2,2)
     
@@ -785,6 +801,7 @@ router.post("/", (req,res)=>{
     gTR.segundo_premio = 'CHANCE_GANADOR',                
     gTR.valorganador2do = gTR.cantidad *`+montoPremio+`
     WHERE gTR.tipo = 'CHANCE'
+    AND gT.esValido = 'SI'
     AND gT.game_Id = `+sorteoId+`
     AND gTR.NUMERO  = `+ numeroGanador2do.substr(2,2)
     
@@ -825,6 +842,7 @@ router.post("/", (req,res)=>{
     gTR.tercer_premio = 'CHANCE_GANADOR',                
     gTR.valorganador3ro = gTR.cantidad *`+montoPremio+`
     WHERE gTR.tipo = 'CHANCE'
+    AND gT.esValido = 'SI'
     AND gT.game_Id = `+sorteoId+`
     AND gTR.NUMERO  = `+ numeroGanador3er.substr(2,2)
     

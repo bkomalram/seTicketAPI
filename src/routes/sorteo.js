@@ -295,27 +295,32 @@ router.get("/:sorteoId/chances", (req,res)=>{
     if (req.jornada.accesos < 2) {
         var objectWhere = {         
             game_id: sorteoId,
-            userId: req.jornada.id
+            userId: req.jornada.id,
+            esValido: 'SI'
         }
     } else if (all) {            
         var objectWhere = {         
-            game_id: sorteoId
+            game_id: sorteoId,
+            esValido: 'SI'
         }
     } else if (only) {            
         var objectWhere = {         
             game_id: sorteoId,
-            userId: only.split(",")
+            userId: only.split(","),
+            esValido: 'SI'
         }
     } else if (req.jornada.accesos == 2) {   
         //Supervisor
         let tempList = req.jornada.id+','+req.jornada.hijos        
         var objectWhere = {         
             game_id: sorteoId,
-            userId: tempList.split(",")
+            userId: tempList.split(","),
+            esValido: 'SI'
         }
     } else {
         var objectWhere = {         
             game_id: sorteoId,
+            esValido: 'SI'
             //userId: req.jornada.id
         }
     }    
@@ -386,27 +391,32 @@ router.get("/:sorteoId/billetes", (req,res)=>{
     if (req.jornada.accesos < 2) {
         var objectWhere = {         
             game_id: sorteoId,
-            userId: req.jornada.id
+            userId: req.jornada.id,
+            esValido: 'SI'
         }
     } else if (all) {            
         var objectWhere = {         
-            game_id: sorteoId
+            game_id: sorteoId,
+            esValido: 'SI'
         }
     } else if (only) {            
         var objectWhere = {         
             game_id: sorteoId,
-            userId: only.split(",")
+            userId: only.split(","),
+            esValido: 'SI'
         }
     } else if (req.jornada.accesos == 2) {   
         //Supervisor
         let tempList = req.jornada.id+','+req.jornada.hijos        
         var objectWhere = {         
             game_id: sorteoId,
-            userId: tempList.split(",")
+            userId: tempList.split(","),
+            esValido: 'SI'
         }
     } else {
         var objectWhere = {         
             game_id: sorteoId,
+            esValido: 'SI'
             //userId: req.jornada.id
         }
     }

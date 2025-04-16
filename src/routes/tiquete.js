@@ -221,7 +221,8 @@ router.get("/", (req,res)=>{
                 userId: {
                     [DB.Sequelize.Op.in]: usersArray,
                 },
-                game_id: req.query.game
+                game_id: req.query.game,
+                esValido: 'SI'
             },           
             order:[
                 ["userId", 'ASC'],
@@ -288,7 +289,7 @@ router.get("/:tiqueteId", (req,res)=>{
 
 router.patch("/", (req,res)=>{
     const { tiqueteId } = req.body
-    if (req.jornada.accesos < 2) {
+    if (req.jornada.accesos == 0) {
         res.json({
             resultado: "Privilegios insuficientes",
             exitoso:false
@@ -303,7 +304,7 @@ router.patch("/", (req,res)=>{
         DB.GameTicket.update({            
             esValido: "NO"
         },{ 
-            where: { id:tiqueteId }
+            where: { id:tiqueteId, userId : req.jornada.id }
         })
         .then((Game)=>{
             res.status(201).json({resultado:{mensaje:"Ticket eliminado"},exitoso:true})       
