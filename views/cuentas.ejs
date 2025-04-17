@@ -228,15 +228,6 @@
               localStorage.setItem("sesion-id", data.resultado.id);
               localStorage.setItem("sesion-hijos", data.resultado.hijos);
 
-              if (data.resultado.perfil != "ADMIN") {
-                document
-                  .querySelector("#contenedorConfiguracion")
-                  .classList.add("d-none");
-                document.querySelector("#btnCerrar").classList.add("d-none");
-                document
-                  .querySelector("#contenedorAccionesAdministrador")
-                  .classList.add("d-none");
-              }
               document.querySelector("#loading").classList.remove("d-flex");
               document.querySelector("#loading").classList.add("d-none");
             } else {
@@ -513,12 +504,14 @@
                       }
                     });
                 
+                    console.log("seleccionados: "+multipleSeleccionado)
                 if(multipleSeleccionado == 1) {
                   document.querySelector("#tablePorcentajeVendedorChance").innerHTML = (
                     Math.round(seleccionados.chancesTotal * Number(porcentajeVendedor) * 100) / 100
                   ).toFixed(2);
-                  let porcentajeSeller = seleccionados.chancesTotal * Number(porcentajeVendedor)
-                  let porcentajeCasa = seleccionados.chancesTotal  - porcentajeSeller
+                  var porcentajeSeller = seleccionados.chancesTotal * Number(porcentajeVendedor)
+                  var porcentajeCasa = seleccionados.chancesTotal  - porcentajeSeller
+                  console.log("seleccionados: "+porcentajeCasa)
                   document.querySelector("#tablePorcentajeCasaChance").innerHTML = (
                     Math.round((porcentajeCasa) 
                     * 100) / 100
@@ -532,7 +525,12 @@
                 document.querySelector("#error-loading-game").innerHTML =
                   "Error cargando chances en cuentas, contacte el administrador.";
               }
-              return Math.round(porcentajeCasa) / 100;
+
+              return (
+              Math.round((porcentajeCasa) 
+              * 100) / 100
+            ).toFixed(2);
+              
             })
             .then((something => {
             /* Ganadores Chance*/
@@ -564,7 +562,9 @@
                   balance = "----.--";
                 }
                 document.querySelector("#tableBalanceChance").innerHTML =
-                  balance || 0;
+                (
+                  Math.round(balance * 100) / 100
+                ).toFixed(2) || 0;
               });
           }));
 
@@ -649,8 +649,8 @@
                   document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = (
                     Math.round(seleccionados.billetesTotal * Number(porcentajeVendedorB) * 100) / 100
                   ).toFixed(2);
-                  let porcentajeSeller = seleccionados.billetesTotal * Number(porcentajeVendedorB)
-                  let porcentajeCasa = seleccionados.billetesTotal  - porcentajeSeller
+                  var porcentajeSeller = seleccionados.billetesTotal * Number(porcentajeVendedorB)
+                  var porcentajeCasa = seleccionados.billetesTotal  - porcentajeSeller
                   document.querySelector("#tablePorcentajeCasaBillete").innerHTML = (
                     Math.round((porcentajeCasa) 
                     * 100) / 100
@@ -678,12 +678,16 @@
                   )  * 100) / 100
                   ).toFixed(2);
 
-
               } else {
                 document.querySelector("#error-loading-game").innerHTML =
                   "Error cargando billetes en cuentas, contacte el administrador.";
               }
-              return Math.round(porcentajeCasa) / 100;
+
+              return (
+              Math.round((porcentajeCasa) 
+              * 100) / 100
+            ).toFixed(2);
+
             })
             .then((something => {
             /* Ganadores Billetes */
@@ -717,7 +721,9 @@
                   balance = "----.--";
                 }
                 document.querySelector("#tableBalanceBillete").innerHTML =
-                  balance || 0;
+                (
+                  Math.round(balance * 100) / 100
+                ).toFixed(2) || 0;
 
                 //Calculando Balance Total
                 let balanceTotal = Number(document.querySelector("#tableBalanceChance").innerHTML) + Number(document.querySelector("#tableBalanceBillete").innerHTML)
