@@ -1545,7 +1545,7 @@
             <span>Buscar</span>
           </button>
         </div>
-        <input type="number" class="d-md-none form-control col-8 offset-2 mt-2" autocomplete="off" name="mobile-edit-ticket">
+        <input type="number" class="d-md-none d-print-none form-control col-8 offset-2 mt-2" autocomplete="off" name="mobile-edit-ticket">
 
         <div class="row d-none" id="mobile-btn-kit-2">
           <button class="menu-button vender d-print-none d-md-none col-3 offset-1" onclick="mobileEditar()">
@@ -2124,7 +2124,7 @@
       </div>
     </div>
     <div
-      class="alert alert-danger d-none offset-4 col-4 mt-5 p-5"
+      class="alert alert-danger d-none offset-md-4 col-md-4 mt-5 p-5"
       role="alert"
       id="alertSession"
     >
@@ -3769,7 +3769,8 @@
               localStorage.removeItem("edit-ticket-number")
               bag.render()
               
-              document.querySelector("#outPut1").innerHTML = ""
+              //UX - Mobile
+              document.querySelector('[name="mobile-input-ux"]').remove()
               document.querySelector("#noOldTicket").value = ""
             });
         }
