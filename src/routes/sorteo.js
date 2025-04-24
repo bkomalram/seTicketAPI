@@ -177,6 +177,43 @@ router.get("/", (req,res)=>{
     }    
 })
 
+router.get("/ultimo-sorteo", async (req, res) => {
+    const usuarioId = 2; // Usuario fijo según lo que pediste
+
+    try {
+        const ultimoSorteo = await DB.Game.findOne({
+            where: {
+                usuario_id: usuarioId,
+                esActivo: "SI"
+            },
+            order: [
+                [DB.sequelize.literal('id'), 'DESC']
+            ]
+        });
+
+        if (!ultimoSorteo) {
+            return res.status(404).json({
+                resultado: "No se encontró ningún sorteo activo para el usuario.",
+                exitoso: false
+            });
+        }
+
+        res.status(200).json({
+            resultado: ultimoSorteo,
+            exitoso: true
+        });
+    } catch (error) {
+        res.status(500).json({
+            resultado: {
+                mensaje: "Ocurrió un error al buscar el último sorteo",
+                error: error
+            },
+            exitoso: false
+        });
+    }
+});
+
+
 
 router.get("/:sorteoId", (req,res)=>{     
     
@@ -448,6 +485,59 @@ router.get("/:sorteoId/billetes", (req,res)=>{
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
             ],
             group:['numero'],
+            order:[
+                [DB.sequelize.literal('cantidad'), 'DESC'],
+            ]
+
+        })
+        .then((LeftJoin)=>{
+            res.status(200).json({resultado:LeftJoin,exitoso:true})       
+        })
+
+        
+    } catch (error) {
+        res.status(400).json({resultado:[],exitoso:false}) 
+    }    
+})
+
+
+router.get("/:sorteoId/billetes-publico", (req,res)=>{
+    const {sorteoId} = req.params
+    const {ord,all,only} = req.query
+
+    var objectWhere = {         
+        game_id: sorteoId,
+        esValido: 'SI'
+    }
+
+    try {              
+        DB.GameTicketRecord.findAll({
+            where:{                
+                tipo:"BILLETE"
+            },
+            include:[{
+                model:DB.GameTicket,
+                where:objectWhere,
+                required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                attributes:[],
+                include:[{
+                    model:DB.User,                    
+                    required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                    attributes:[]
+                }]
+            }                                        
+            ],
+            attributes:[
+                'numero',
+                //[DB.sequelize.col('GameTicket->User.nombre'),'vendedor'], 
+                [DB.sequelize.literal('SUM(cantidad) - 1'), 'cantidad'],                
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador1er')), 'dineroPremio1er'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador2do')), 'dineroPremio2do'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
+            ],
+            group:['numero'],
+            having: DB.sequelize.literal('SUM(cantidad) - 1 > 0'),
             order:[
                 [DB.sequelize.literal('cantidad'), 'DESC'],
             ]

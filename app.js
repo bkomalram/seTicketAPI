@@ -16,10 +16,11 @@ var configuracionRouter = require('./src/routes/configuracion');
 /*Utility*/
 function verificaToken(req,res,next) {  
   console.log(req.originalUrl)
-  if (['/usuarios/token','/','/ventas','/generar','/cambiar','/cuentas','/balance'].indexOf(req.originalUrl) >= 0 
-  || /^\/cambiar.+$/.test(req.originalUrl)){
+  if (['/usuarios/token','/','/ventas','/generar','/cambiar','/cuentas','/balance','/estadoBillete','/sorteo/ultimo-sorteo'].indexOf(req.originalUrl) >= 0 
+  || /^\/cambiar.+$/.test(req.originalUrl)
+  || /^\/sorteo\/\d+\/billetes-publico$/.test(req.originalUrl)){
     console.log("No requiere JWT")
-    next()
+    return next()
   }    
   const bearerHeader = req.headers["authorization"]
   if (typeof bearerHeader !== "undefined") {
@@ -27,7 +28,7 @@ function verificaToken(req,res,next) {
       const token = bearer[1]
       req.token = token
       req.jornada = jwt.verify(req.token,process.env.SALT)      
-      next()
+      return next()
   } else {
       res.json({
           respuesta:"Acceso Denegado",

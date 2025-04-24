@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/espacio.png" type="image/png">
+    <title><%= enviroment.VERSION %></title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';"
+    />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
+  </head>
+  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
+    <div class="row">
+      <div class="col-12 mt-2">
+        <div class="row">
+          <div class="col-3 mb-2">
+            <button class="btn btn-sm btn-secondary col-12 d-none" id="btn-back">
+              <h5>Regresar</h5>
+            </button>
+          </div>
+          <div class="col-6 mb-2">
+            <h2 class="text-center">Estado de Billetes</h2>
+          </div>
+          <div class="col-3 mb-2">
+            <button
+              class="btn btn-sm btn-secondary col-12"
+              id="btn-refresh"
+            >
+              <h5 id="text-refresh">Actualizar</h5>
+              <div
+                class="spinner-grow d-none"
+                role="status"
+                id="spinner-refresh"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex" id="estadoBillete"></div>
+      </div>
+    </div>
+    
+    <div
+      class="alert alert-danger d-none offset-md-4 col-md-4 mt-5 p-5"
+      role="alert"
+      id="alertSession"
+    >
+      <h4 class="alert-heading">Su sesión caduco!</h4>
+      <p>Oh si! debes ingresar nuevamente</p>
+      <hr />
+      <p class="mb-0" id="txtTimer">Seras redireccionado en 2 segundos . . .</p>
+    </div>
+    
+    <div
+      class="d-flex justify-content-center"
+      style="margin-top: 20%"
+      id="loading"
+    >
+      <div
+        class="spinner-grow"
+        role="status"
+        style="
+          width: 10rem;
+          height: 10rem;
+          background-color: #dee2e6 !important;
+        "
+        id="spinnerLog"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <script src="/javascripts/jquery-3.2.1.slim.min.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script>
+      var api = "<%= enviroment.URL_API %>";
+
+      // Botón de regresar
+      document.querySelector("#btn-back").addEventListener("click", function() {
+        window.location = "/";
+      });
+
+      // Botón de actualizar
+      document.querySelector("#btn-refresh").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.querySelector("#text-refresh").classList.add("d-none");
+        document.querySelector("#spinner-refresh").classList.remove("d-none");
+        
+        cargarEstadoBillete();
+
+        document.querySelector("#text-refresh").classList.remove("d-none");
+        document.querySelector("#spinner-refresh").classList.add("d-none");
+      });
+      
+      fetch(api + "sorteo/ultimo-sorteo", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
+        .then((response) => response.json())
+        .then((data)=>{
+          console.log(data)
+          localStorage.setItem("choose-game",data.resultado.id)
+          cargarEstadoBillete();
+        })
+        
+      // Función para cargar el estado de billetes
+      function cargarEstadoBillete() {
+ 
+        if (!localStorage.getItem("choose-game")) {
+          alert("No hay sorteo seleccionado. Por favor seleccione un sorteo en la pantalla principal.");
+          return;
+        }
+
+        let contenedorBillete = document.querySelector("div[id=estadoBillete]");
+        contenedorBillete.innerHTML = "";
+
+        let numeroSorteo = localStorage.getItem("choose-game");
+
+        fetch(api + "sorteo/" + numeroSorteo + "/billetes-publico", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            contenedorBillete = document.querySelector("div[id=estadoBillete]");
+            contenedorBillete.innerHTML = '<table class="table table-bordered" id="billeteTable"></table>';
+            const table = document.getElementById("billeteTable");
+            const columns = 4;
+
+            // Header
+            const trheader = document.createElement("tr");
+            const th = document.createElement("th");
+            th.textContent = "Billetes";
+            th.setAttribute('colspan', '8');
+            trheader.appendChild(th);
+            table.appendChild(trheader); 
+
+            const columnQty = data.resultado.length / 4;
+            
+            var number = 0;
+            for (let row = 0; row < columnQty; row++) {
+              if (number >= data.resultado.length)
+                continue;
+              const tr = document.createElement("tr");
+              for (let col = 0; col < columns; col++) { // Crear columnas para cada fila
+                  if (number >= data.resultado.length)
+                    continue;
+                  const td = document.createElement("td");
+                  var cantidadIterable = 0;
+                  td.textContent = data.resultado[number].numero;
+                  td.classList.add("font-weight-bold");
+                  tr.appendChild(td);
+
+                  const tdCant = document.createElement("td");
+                  tdCant.textContent = data.resultado[number].cantidad;
+                  tr.appendChild(tdCant);
+                  number = number + 1;
+              }
+              table.appendChild(tr); // Añadir la fila a la tabla
+            }
+
+            document.querySelector("#loading").classList.add("d-none");
+            document.querySelector("#loading").classList.remove("d-flex");
+            
+            return data.resultado;
+          })
+          .catch(error => {
+            console.error("Error al cargar los datos:", error);
+            contenedorBillete.innerHTML = '<div class="alert alert-danger">Error al cargar los datos. Por favor intente nuevamente.</div>';
+          });
+      }
+    </script>
+  </body>
+</html>

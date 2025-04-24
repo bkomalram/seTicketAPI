@@ -28,4 +28,8 @@ router.get('/cambiar', function(req, res, next) {
   res.render('qr', { title: 'Cambiar' , enviroment: env.parsed, ID: id});
 });
 
+router.get('/estadoBillete', function(req, res, next) {  
+  res.render('estadoBillete', { title: 'Estado de Billetes', enviroment: env.parsed });
+});
+
 module.exports = router;
