@@ -14,17 +14,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
   </head>
   <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
-    <div class="row">
+    <div class="row d-print-none">
       <div class="col-12 mt-2">
         <div class="row">
-          <div class="col-3 mb-2">
-            <button class="btn btn-sm btn-secondary col-12 d-none" id="btn-back">
-              <h5>Regresar</h5>
-            </button>
-          </div>
-          <div class="col-6 mb-2">
-            <h2 class="text-center">Estado de Billetes</h2>
-          </div>
+        
           <div class="col-12 col-md-3 mb-2">
             <button
               class="btn btn-sm btn-secondary col-12"
@@ -40,13 +33,37 @@
               </div>
             </button>
           </div>
+          <div class="col-6 mb-2">
+            <h2 class="text-center">Estado de Billetes</h2>
+          </div>
+          <div class="col-12 col-md-3 mb-2">
+            <button
+              class="btn btn-sm btn-secondary col-12"
+              id="btn-print"
+              onclick="window.print()"
+            >
+              <h5>Imprimir</h5>
+            </button>
+          </div>
+          
         </div>
       </div>
     </div>
     
-    <div class="row">
+    <!-- Vista normal -->
+    <div class="row d-print-none">
       <div class="col-12">
         <div class="d-flex" id="estadoBillete"></div>
+      </div>
+    </div>
+
+    <!-- Vista de impresión -->
+    <div class="d-none d-print-block pa output80">
+      <div class="print-content">
+        <h3 class="text-center mb-4">Estado de Billetes</h3>
+        <div id="printView" class="table-print">
+          <!-- La tabla para imprimir se generará aquí -->
+        </div>
       </div>
     </div>
     
@@ -86,11 +103,6 @@
     <script>
       var api = "<%= enviroment.URL_API %>";
 
-      // Botón de regresar
-      document.querySelector("#btn-back").addEventListener("click", function() {
-        window.location = "/";
-      });
-
       // Botón de actualizar
       document.querySelector("#btn-refresh").addEventListener("click", function(event) {
         event.preventDefault();
@@ -118,14 +130,15 @@
         
       // Función para cargar el estado de billetes
       function cargarEstadoBillete() {
- 
         if (!localStorage.getItem("choose-game")) {
           alert("No hay sorteo seleccionado. Por favor seleccione un sorteo en la pantalla principal.");
           return;
         }
 
         let contenedorBillete = document.querySelector("div[id=estadoBillete]");
+        let contenedorPrint = document.querySelector("div[id=printView]");
         contenedorBillete.innerHTML = "";
+        contenedorPrint.innerHTML = "";
 
         let numeroSorteo = localStorage.getItem("choose-game");
 
@@ -138,6 +151,7 @@
         })
           .then((response) => response.json())
           .then((data) => {
+            // Vista normal
             contenedorBillete = document.querySelector("div[id=estadoBillete]");
             contenedorBillete.innerHTML = '<table class="table table-bordered" id="billeteTable"></table>';
             const table = document.getElementById("billeteTable");
@@ -175,6 +189,18 @@
               table.appendChild(tr); // Añadir la fila a la tabla
             }
 
+            // Vista de impresión
+            contenedorPrint = document.querySelector("div[id=printView]");
+            let printTable = '<table>';
+            data.resultado.forEach(item => {
+              printTable += `<tr>
+                <td class="font-weight-bold" >${item.numero}</td>
+                <td>${item.cantidad}</td>
+              </tr>`;
+            });
+            printTable += '</table>';
+            contenedorPrint.innerHTML = printTable;
+
             document.querySelector("#loading").classList.add("d-none");
             document.querySelector("#loading").classList.remove("d-flex");
             
@@ -186,5 +212,6 @@
           });
       }
     </script>
+
   </body>
 </html>
