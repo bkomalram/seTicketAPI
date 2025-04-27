@@ -127,6 +127,14 @@
           localStorage.setItem("choose-game",data.resultado.id)
           cargarEstadoBillete();
         })
+
+      // Add auto-refresh every minute (60000 milliseconds)
+      setInterval(() => {
+        console.log("Auto-refreshing estado billete...");
+        document.querySelector("#loading").classList.remove("d-none");
+        document.querySelector("#loading").classList.add("d-flex");
+        cargarEstadoBillete();
+      }, 60000);
         
       // Función para cargar el estado de billetes
       function cargarEstadoBillete() {
@@ -160,6 +168,7 @@
             // Header
             const trheader = document.createElement("tr");
             const th = document.createElement("th");
+            th.setAttribute('id', 'headerBilletes');
             th.textContent = "Billetes";
             th.setAttribute('colspan', '8');
             trheader.appendChild(th);
@@ -192,13 +201,16 @@
             // Vista de impresión
             contenedorPrint = document.querySelector("div[id=printView]");
             let printTable = '<table>';
+            let cantidadTotal = 0;
             data.resultado.forEach(item => {
               printTable += `<tr>
                 <td class="font-weight-bold" >${item.numero}</td>
                 <td>${item.cantidad}</td>
               </tr>`;
+              cantidadTotal += Number(item.cantidad);
             });
             printTable += '</table>';
+            document.querySelector('#headerBilletes').textContent = "Billetes: " + cantidadTotal;
             contenedorPrint.innerHTML = printTable;
 
             document.querySelector("#loading").classList.add("d-none");

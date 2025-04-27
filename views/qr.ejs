@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= enviroment.VERSION %></title>
     <meta
       http-equiv="Content-Security-Policy"
@@ -12,7 +13,7 @@
   </head>
   <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
     <div class="row d-print-none">
-      <div class="col-6 offset-3 mt-5" id="contenedorCanjeo">
+      <div class="col-md-6 offset-md-3 mt-5" id="contenedorCanjeo">
         <div
           id="ticketOutput"
           class="font-weight-bold bg-white text-body d-print-none mt-2"
@@ -47,7 +48,7 @@
             </button>
           </div>
           <div class="modal-body text-center">
-            <input type="text" id="inPing" />
+            <input type="password" id="inPing" />
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="btnCanjear">
@@ -174,8 +175,8 @@
         id: () => {
           return globalChance.gameId
             .toString()
-            .padStart(18, "0")
-            .padStart(19, "1");
+            .padStart(8, "0")
+            .padStart(9, "0");
         },
         items: [],
         total: 0,
@@ -408,7 +409,13 @@
                   document
                     .querySelector("#btnLanzarModal")
                     .classList.add("btn-success");                    
-                }                  
+                }
+                //UX-Mobile
+                document.querySelector('[name="mobile-input-ux"]').remove()  
+                document.querySelector('[name="customer-name"]').remove()     
+                            
+                document.querySelector('#chanceCount').remove()
+                document.querySelector('#billeteCount').remove()
               }
             });
           }

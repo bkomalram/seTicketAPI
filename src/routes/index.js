@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var env = require("dotenv").config();
+const crypto = require('crypto');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {  
@@ -25,7 +26,38 @@ router.get('/ventas', function(req, res, next) {
 
 router.get('/cambiar', function(req, res, next) {  
   const {id} = req.query
-  res.render('qr', { title: 'Cambiar' , enviroment: env.parsed, ID: id});
+  
+  if (!isNaN(id)) {
+    res.render('qr', { title: 'Cambiar' , enviroment: env.parsed, ID: id});
+    return
+  }
+
+  function decrypt(text, key) {
+    try {
+        const [ivHex, encryptedHex, authTagHex] = text.split('-');
+        const iv = Buffer.from(ivHex, 'hex');
+        const encryptedText = Buffer.from(encryptedHex, 'hex');
+        const authTag = Buffer.from(authTagHex, 'hex');
+        
+        const decipher = crypto.createDecipheriv('aes-256-gcm', Buffer.from(key), iv);
+        decipher.setAuthTag(authTag);
+        
+        let decrypted = decipher.update(encryptedText);
+        decrypted = Buffer.concat([decrypted, decipher.final()]);
+        return decrypted.toString();
+    } catch (error) {
+        console.error('Decryption error:', error);
+        throw new Error('Invalid encryption format or corrupted data');
+    }
+  }
+
+  const key = env.parsed.CRYPTO_SALT.slice(0, 32); // Must be 32 bytes for AES-256
+  const decrypted = decrypt(id, key);
+
+  res.render('qr', { title: 'Cambiar' , enviroment: env.parsed, ID: decrypted});
+
+  return
+
 });
 
 router.get('/estadoBillete', function(req, res, next) {  

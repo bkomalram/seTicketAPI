@@ -471,6 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Función que se llamará con el dato escaneado
   function procesarCodigoQR(datos) {
     console.log("Código QR escaneado:", datos);
+    window.location = '/'+datos
     // Aquí puedes llamar a tu función que procesa el código QR
     // Por ejemplo: tuFuncion(datos);
   }

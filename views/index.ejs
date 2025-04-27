@@ -3237,11 +3237,35 @@
 
                 document.querySelector("#outPut1").innerHTML =
                   document.querySelector("#ticketOutput").innerHTML;
-                generarQR(
-                  qrURL + "cambiar?id=" + globalChance.receiptCount.toString()
-                );
-                window.print();
-                limpiarTablero();
+
+                //Necesito consumir el endpoint de cifrar el id del tiquete
+                fetch(api + "tiquete/cifrar?id="+globalChance.receiptCount.toString(), {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+                  },
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.exitoso) {
+                    //con el token generado debo generar el QR
+                    generarQR(api+ "cambiar?id="+data.token.toString());
+                    window.print();
+                    limpiarTablero();
+                  } else {
+                    /*Agregar Modal
+                     * Mensaje no exitoso
+                     */
+                    document.querySelector("#text-error-ticket").innerHTML =
+                      data.resultado;
+
+                    $("#modalErrorTicket").modal("show");
+                    window.print();
+                    limpiarTablero();
+                  }
+                });
+                
               } else {
                 /*Agregar Modal
                  * Mensaje no exitoso
@@ -3422,7 +3446,21 @@
         .addEventListener("click", function (event) {
           event.preventDefault();
           let ticket = document.querySelector("#inTicket").value;
-          window.location = "/cambiar?id=" + ticket;
+          //Cifrar el ticket
+          fetch(api + "tiquete/cifrar?id="+ticket.toString(), {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+            },
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.exitoso) {
+              window.location = "/cambiar?id=" + data.token.toString();              
+            }
+          });
+          
         });
 
       document
@@ -3733,11 +3771,37 @@
                 bag.render();
                 document.querySelector("#outPut1").innerHTML =
                   document.querySelector("#ticketOutput").innerHTML;
-                generarQR(
-                  qrURL + "cambiar?id=" + globalChance.receiptCount.toString()
-                );
-                window.print();
-                limpiarTablero();
+                
+                  
+                  //Necesito consumir el endpoint de cifrar el id del tiquete
+                fetch(api + "tiquete/cifrar?id="+globalChance.receiptCount.toString(), {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+                  },
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.exitoso) {
+                    //con el token generado debo generar el QR
+                    generarQR(api+ "cambiar?id="+data.token.toString());
+                    window.print();
+                    limpiarTablero();
+                  } else {
+                    /*Agregar Modal
+                     * Mensaje no exitoso
+                     */
+                    document.querySelector("#text-error-ticket").innerHTML =
+                      data.resultado;
+
+                    $("#modalErrorTicket").modal("show");
+                    window.print();
+                    limpiarTablero();
+                  }
+                });
+
+
               } else {
                 /*Agregar Modal
                  * Mensaje no exitoso
