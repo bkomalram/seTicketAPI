@@ -138,6 +138,7 @@ const chanceOutput = function () {
   
     output.innerHTML = header + body + total + fecha + footer    
     document.querySelector('#outPut1').innerHTML = document.querySelector('#ticketOutput').innerHTML                
+
     generarQR(qrURL+"cambiar?id="+arrayItems[0].ID)
     window.print()
     clearChance()

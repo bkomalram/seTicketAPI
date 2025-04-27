@@ -177,6 +177,61 @@ router.get("/", (req,res)=>{
     }    
 })
 
+router.get("/ultimo-cerrado", (req,res)=>{        
+    if (req.jornada.accesos == 0) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }       
+
+    /*Refactor v3.0
+    Sequelize ORM
+    BK
+    url/sorteo POST Crear
+    url/sorteo PATCH Cierra
+    url/sorteo GET Obtiene todos
+    url/sorteo/:id GET Obtiene especifico
+    url/sorteo/:id/chances GET Obtiene Chances de sorteo especifico para usuario en sesion
+    */
+    try {
+        DB.Game.findAll({
+            where:{         
+                usuario_id: [req.jornada.padreUsuario_id, req.jornada.id],
+                esActivo: "NO"
+            },
+            order:[
+                [DB.sequelize.literal('id'), 'DESC'],
+            ]
+        })
+        .then((Game)=>{
+            if (!Game[0]) {
+                // Busca el sorteo del lider de su padre
+                DB.User.findOne({where:{id:req.jornada.padreUsuario_id,esActivo:'SI'}})
+                .then((data)=>{            
+                    
+                    //Buscar nuevamente si hay sorteo.
+                    DB.Game.findAll({
+                        where:{         
+                            usuario_id: [data.padreUsuario_id],
+                            esActivo: "NO"
+                        },
+                        order:[
+                            [DB.sequelize.literal('id'), 'DESC'],
+                        ]
+                    })
+                    .then((Game)=>{ res.status(200).json({resultado:Game[0],exitoso:true}) })   
+                })
+            } else {
+                res.status(200).json({resultado:Game[0],exitoso:true})
+            }     
+        })        
+    } catch (error) {
+        res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando todos los sorteos",error:error},exitoso:false})
+    }    
+})
+
 router.get("/ultimo-sorteo", async (req, res) => {
     const usuarioId = 2; // Usuario fijo según lo que pediste
 

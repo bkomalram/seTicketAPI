@@ -288,6 +288,25 @@
                 option.setAttribute("name", element.id);
                 select.add(option);
               });
+
+              fetch(api + "sorteo/ultimo-cerrado", {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+                },
+              })
+                .then((response) => response.json())
+                .then((element) => {
+                  if (element.exitoso){
+                    let select = document.querySelector("#select-choose-game");
+                    let option = document.createElement("option");
+                    option.text = element.resultado.nombre;
+                    option.value = element.resultado.id;
+                    option.setAttribute("name", element.resultado.id);
+                    select.add(option);
+                  }
+                })
             } else {
               document.querySelector("#error-loading-game").innerHTML =
                 "Error cargando sorteos, contacte el administrador.";
@@ -558,9 +577,9 @@
                 } else {
                   document.querySelector("#tableBalanceChance").classList.remove("text-danger");
                 }
-                if (montoTotal == 0) {
-                  balance = "----.--";
-                }
+                //if (montoTotal == 0) {
+                //  balance = "----.--";
+                //}
                 document.querySelector("#tableBalanceChance").innerHTML =
                 (
                   Math.round(balance * 100) / 100
@@ -717,9 +736,9 @@
                 } else {
                   document.querySelector("#tableBalanceBillete").classList.remove("text-danger");
                 }
-                if (montoTotal == 0) {
-                  balance = "----.--";
-                }
+                //if (montoTotal == 0) {
+                //  balance = "----.--";
+                //}
                 document.querySelector("#tableBalanceBillete").innerHTML =
                 (
                   Math.round(balance * 100) / 100
