@@ -417,8 +417,8 @@ const imprimirSorteo = async function () {
 const generarQR = function (valor = "Tiquete en creación") {
 
   const opciones = {
-    width: "100",
-    height: "100"
+    width: "200",
+    height: "200"
   };
 
   QRCode.toCanvas(document.querySelector("#ticketOutput canvas"), valor, opciones,function (error) {
