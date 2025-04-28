@@ -1441,6 +1441,17 @@
       </div>
       <div id="mobile-home" class="d-sm-block d-print-none d-md-none container">
         <header class="mobile-header">
+            <!-- Fragmento de perfil de usuario solo con Bootstrap -->
+            <div class="d-flex align-items-center">
+              <!-- Icono de usuario utilizando clases de texto de Bootstrap -->
+              <div class="bg-secondary  mt-2 rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+                <span class="text-white fw-bold">U</span>
+              </div>
+              <!-- Nombre del usuario -->
+              <div class="mt-2">
+                <span class="ml-3" name="mobile-user-name"> Principal</span>
+              </div>
+            </div>
             <h1><%= enviroment.VERSION %></h1>
             <p>Gestión de ventas y tickets</p>
         </header>
@@ -1517,7 +1528,18 @@
       </div>
       
       <div id="mobile-sell" class="d-none d-md-block col-12 col-md-3">
-        
+        <!-- Fragmento de perfil de usuario solo con Bootstrap -->
+        <div class="d-flex align-items-center">
+          <!-- Icono de usuario utilizando clases de texto de Bootstrap -->
+          <div class="bg-secondary  mt-2 rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+            <span class="text-white fw-bold">U</span>
+          </div>
+          <!-- Nombre del usuario -->
+          <div class="mt-2">
+            <span class="ml-3" name="user-md-name"> Principal</span>
+          </div>
+        </div>
+
         <div class="row" id="mobile-btn-kit-1">
           <button class="menu-button vender d-print-none d-md-none col-3 offset-1" onclick="sell2home()">
             <div class="icon">
@@ -2032,6 +2054,14 @@
                   </div>
                 </div>
               </div>
+              <div class="col-6">
+                <button
+                  class="btn btn-sm btn-secondary col-12"
+                  id="btn-admin-area"
+                >
+                  <h6 id="text-admin-area" style="font-size: 0.9rem;">Admin Area</h6>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2228,6 +2258,13 @@
               localStorage.setItem("sesion-%chance", data.resultado.porcentajeChance);
               localStorage.setItem("sesion-%billete", data.resultado.porcentajeBillete);
               localStorage.setItem("sesion-hijos", data.resultado.hijos);
+
+              //Pintar usuario
+              document.getElementsByName("mobile-user-name")[0].innerHTML =
+                data.resultado.usuario;
+              
+              document.getElementsByName("user-md-name")[0].innerHTML =
+                data.resultado.usuario;
 
               if (data.resultado.perfil == "SUPERVISOR") {
                 document
@@ -3371,6 +3408,12 @@
             document.querySelector("#text-message-lock").innerHTML  =
               "Datos incorrectos.";
           }
+        });
+
+        document
+        .querySelector("#btn-admin-area")
+        .addEventListener("click", function (event) {
+          window.location = "/admin-area"
         });
 
         /***

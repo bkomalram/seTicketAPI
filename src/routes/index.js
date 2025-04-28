@@ -64,4 +64,8 @@ router.get('/estadoBillete', function(req, res, next) {
   res.render('estadoBillete', { title: 'Estado de Billetes', enviroment: env.parsed });
 });
 
+router.get('/admin-area', function(req, res, next) {  
+  res.render('admin-area', { title: 'Gestión de Usuarios', enviroment: env.parsed });
+});
+
 module.exports = router;

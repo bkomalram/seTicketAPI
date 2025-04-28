@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/espacio.png" type="image/png">
+    <title><%= enviroment.VERSION %></title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+  </head>
+  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
+    <div class="row d-print-none mt-3">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12 col-md-3 mb-2">
+            <button
+              class="btn btn-sm btn-secondary col-12"
+              id="btn-back"
+            >
+              <h5 id="text-back">Regresar</h5>
+              <div
+                class="spinner-grow d-none"
+                role="status"
+                id="spinner-back"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+          </div>
+          <h2 class="text-center col-md-6">Gestión de Usuarios</h2>
+        </div>
+        
+        <div id="unauthorized" class="alert alert-danger d-none">
+          No tienes permisos suficientes para ver esta página.
+        </div>
+
+        <!-- Form for creating/editing users -->
+        <div class="card mb-4 col-md-8 offset-md-2">
+          <div class="card-body">
+            <h4 class="card-title" id="formTitle">Crear Nuevo Usuario</h4>
+            <form id="userForm">
+              <input type="hidden" id="userId" />
+              <div class="form-group">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" class="form-control" id="username" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" class="form-control" id="password">
+              </div>
+              <div class="form-group">
+                <label for="perfil">Perfil:</label>
+                <select class="form-control" id="perfil" required>
+                  <option value="VENDEDOR">VENDEDOR</option>
+                  <option value="SUPERVISOR">SUPERVISOR</option>
+                  <option value="ADMIN">ADMIN</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="porcentajeComision">Porcentaje Comisión (Chances):</label>
+                <input type="number" class="form-control" id="porcentajeComision" step="0.01" required>
+              </div>
+              <div class="form-group">
+                <label for="porcentajeComisionBillete">Porcentaje Comisión (Billetes):</label>
+                <input type="number" class="form-control" id="porcentajeComisionBillete" step="0.01" required>
+              </div>
+              <button type="submit" class="btn btn-secondary col-12">Guardar</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Users list -->
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Usuarios</h4>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Perfil</th>
+                    <th>Comisión Chances</th>
+                    <th>Comisión Billetes</th>
+                    <th>Última Conexión</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="usersList">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var api = "<%= enviroment.URL_API %>";
+      
+      // Check if user is logged in
+      if (!localStorage.getItem("tokenSSO")) {
+        window.location = "/";
+      }
+
+      // Load users on page load
+      document.addEventListener('DOMContentLoaded', loadUsers);
+
+      function loadUsers() {
+        fetch(api + "usuarios", {
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("tokenSSO")
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (!data.exitoso) {
+            document.getElementById('unauthorized').classList.remove('d-none');
+            return;
+          }
+          
+          const usersList = document.getElementById('usersList');
+          usersList.innerHTML = '';
+          
+          data.resultado.forEach(user => {
+
+            if (user.id === Number(localStorage.getItem("sesion-id"))) {
+              return; // Skip the logged-in user
+            }
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${user.id}</td>
+              <td>${user.nombre}</td>
+              <td>${user.perfil}</td>
+              <td>${user.porcentajeComision}%</td>
+              <td>${user.porcentajeComisionBillete}%</td>
+              <td>${user.ultimaConexion ? new Intl.DateTimeFormat('es-CR', {
+                      month: 'short',
+                      day: 'numeric',
+                      hour: 'numeric',
+                      minute: 'numeric'
+                  }).format(new Date(user.ultimaConexion)) : 'Nunca'}</td>
+              <td class="align-content-center">
+                <button class="btn btn-sm btn-secondary" onclick="editUser(${JSON.stringify(user).replace(/"/g, '&quot;')})">Editar</button>
+              </td>
+            `;
+            usersList.appendChild(row);
+          });
+        });
+      }
+
+      function editUser(user) {
+        document.getElementById('userId').value = user.id;
+        document.getElementById('username').value = user.nombre;
+        document.getElementById('password').value = '';
+        document.getElementById('perfil').value = user.perfil;
+        document.getElementById('porcentajeComision').value = user.porcentajeComision;
+        document.getElementById('porcentajeComisionBillete').value = user.porcentajeComisionBillete;
+        document.getElementById('formTitle').textContent = 'Editar Usuario';
+      }
+
+      document.getElementById('userForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const userId = document.getElementById('userId').value;
+        const userData = {
+          usuario: document.getElementById('username').value,
+          password: document.getElementById('password').value,
+          perfil: document.getElementById('perfil').value,
+          porcentajeComision: parseFloat(document.getElementById('porcentajeComision').value),
+          porcentajeComisionBillete: parseFloat(document.getElementById('porcentajeComisionBillete').value)
+        };
+
+        if (userId) {
+          // Update existing user
+          fetch(api + "usuarios/changePercentage", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              "Authorization": "Bearer " + localStorage.getItem("tokenSSO")
+            },
+            body: JSON.stringify({
+              userId: userId,
+              porcentajeComision: userData.porcentajeComision,
+              porcentajeComisionBillete: userData.porcentajeComisionBillete
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.exitoso) {
+              if (userData.password) {
+                return fetch(api + "usuarios/admin-changePassword", {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("tokenSSO")
+                  },
+                  body: JSON.stringify({
+                    userId: userId,
+                    password: userData.password
+                  })
+                });
+              }
+              return data;
+            }
+          })
+          .then(() => {
+            loadUsers();
+            resetForm();
+          });
+        } else {
+          if (!userData.password) {
+            alert("La contraseña es obligatoria para crear un nuevo usuario.");
+            return;
+          }
+          // Create new user
+          fetch(api + "usuarios", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              "Authorization": "Bearer " + localStorage.getItem("tokenSSO")
+            },
+            body: JSON.stringify(userData)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.exitoso) {
+              loadUsers();
+              resetForm();
+            }
+          });
+        }
+      });
+
+      function resetForm() {
+        document.getElementById('userForm').reset();
+        document.getElementById('userId').value = '';
+        document.getElementById('formTitle').textContent = 'Crear Nuevo Usuario';
+      }
+
+      document.getElementById('btn-back').addEventListener('click', function() {
+        window.location = "/ventas";
+      });
+    </script>
+  </body>
+</html>

@@ -170,6 +170,45 @@ router.post("/changePassword",(req,res)=>{
     }    
 })
 
+router.post("/admin-changePassword",(req,res)=>{
+    /*Evalulando Accesos*/
+    if (req.jornada.accesos < 2) {
+        res.status(401).json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+    /*Verificando que tenga todo*/
+    const { password, userId} = req.body
+    if (!password || !userId) {
+        res.status(400).json({
+            resultado: "Se requieren las credenciales actuales y nuevas, para proceder.",
+            exitoso: false
+        })
+        return
+    }    
+    /*Evaluando información*/
+    try {
+        DB.User.findOne({where:{nombre:userId,esActivo:'SI'}})
+        .then((User)=>{
+            /*Porceder con el cambio*/
+            User.changePassword(password)                
+            .then((Commit)=>{
+                res.status(201).json({
+                    resultado: Commit,
+                    exitoso:true
+                })
+                return
+            })                        
+        })        
+    } catch (error) {
+        res.status(500).json({
+            resultado: error,
+            exitoso:false
+        })
+    }    
+})
 /**
  * Cambiar Porcentaje
  */
@@ -256,4 +295,5 @@ router.post("/changePercentage",(req,res)=>{
     }
            
 })
+
 module.exports = router;

@@ -16,7 +16,7 @@ var configuracionRouter = require('./src/routes/configuracion');
 /*Utility*/
 function verificaToken(req,res,next) {  
   console.log(req.originalUrl)
-  if (['/usuarios/token','/','/ventas','/generar','/cambiar','/cuentas','/balance','/estadoBillete','/sorteo/ultimo-sorteo'].indexOf(req.originalUrl) >= 0 
+  if (['/usuarios/token','/','/ventas','/generar','/cambiar','/cuentas','/balance','/estadoBillete','/sorteo/ultimo-sorteo','/admin-area'].indexOf(req.originalUrl) >= 0 
   || /^\/cambiar.+$/.test(req.originalUrl)
   || /^\/sorteo\/\d+\/billetes-publico$/.test(req.originalUrl)){
     console.log("No requiere JWT")
