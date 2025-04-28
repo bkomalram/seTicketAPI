@@ -12,7 +12,7 @@ const chanceOutput = function () {
             '<p name="customer-name" id="display-customer-name" class="col-12 p-0 m-0 text-sm" style="font-size: smaller;">'+bag.customerName+'</p>',
           '</div>',
         '</div>',
-        '<canvas id="canvas" class="mt-2 col-3 w-50 h-50 p-0"></canvas>',
+        '<img src="/images/buena-suerte.png" class="col-3 mt-4 w-50 h-50">',
       '</div>',     
         '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
           '<div class="col-3 px-0 text-center">CF</div>',
@@ -42,6 +42,7 @@ const chanceOutput = function () {
     let footer = [
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
         '<h1 name="outputId" id="outId" class="text-center col-12"> No: '+bag.receipt()+'</h1>',
+        '<canvas id="canvas"></canvas>',
       '</div>',      
     ].join('')
     var body =[    
