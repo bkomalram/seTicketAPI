@@ -388,6 +388,13 @@
               }
 
               chanceOutput();
+              //UX-Mobile
+              document.querySelector('[name="mobile-input-ux"]').remove()  
+              document.querySelector('[name="customer-name"]').remove()  
+                          
+              document.querySelector('#chanceCount').remove()
+              document.querySelector('#billeteCount').remove()
+              
               document
                 .querySelector("#contenedorCanjeo")
                 .classList.remove("d-none");
@@ -410,12 +417,7 @@
                     .querySelector("#btnLanzarModal")
                     .classList.add("btn-success");                    
                 }
-                //UX-Mobile
-                document.querySelector('[name="mobile-input-ux"]').remove()  
-                document.querySelector('[name="customer-name"]').remove()     
-                            
-                document.querySelector('#chanceCount').remove()
-                document.querySelector('#billeteCount').remove()
+                
               }
             });
           }
