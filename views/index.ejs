@@ -3617,7 +3617,7 @@
           //Mensaje
           return
         }    
-        fetch(api + "tiquete/"+document.querySelector("#noOldTicket").value, {
+        fetch(api + "tiquete/"+document.querySelector("#noOldTicket").value+"?accion=editar", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

@@ -4,15 +4,11 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class GameTicket extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here      
       this.hasMany(models.GameTicketRecord)
       this.belongsTo(models.User)
+      this.belongsTo(models.Game, { foreignKey: 'game_id' }) // Add Game association
     }
   };
   GameTicket.init({
@@ -42,6 +38,14 @@ module.exports = (sequelize, DataTypes) => {
   GameTicket.prototype.setValid = async function() {    
     this.esValido = "SI";
     return await this.save()
+  }
+
+  GameTicket.prototype.validateGame = async function() {
+    const game = await this.getGame();
+    if (!game) {
+      throw new Error('Game not found');
+    }
+    return game.esActivo === 'SI' && game.enVenta === 'SI';
   }
 
   return GameTicket;

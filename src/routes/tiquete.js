@@ -346,6 +346,7 @@ router.get("/decifrar", (req,res)=>{
 */
 router.get("/:tiqueteId", (req,res)=>{
     const {tiqueteId} = req.params
+    const accion = req.query.accion
 
     if (req.jornada.accesos == 0) {
         res.json({
@@ -353,10 +354,33 @@ router.get("/:tiqueteId", (req,res)=>{
             exitoso:false
         })
         return
-    }   
+    }
 
     /*Puede ver los ticket de su grupo y los suyos*/
     var tempList = req.jornada.id+','+req.jornada.hijos        
+
+    if (accion == "editar") {
+        var includeGame = [{
+            model: DB.Game,
+            required: true,
+            where: { esActivo: "SI", enVenta:"SI" },
+            attributes: []
+        }]
+    } else {
+        var includeGame = [{
+            model: DB.Game,
+            required: true,
+            where: { 
+                esActivo: {
+                    [DB.Sequelize.Op.in]: ["SI", "NO"],
+                },
+                enVenta: {
+                    [DB.Sequelize.Op.in]: ["SI", "NO"],
+                }
+            },
+            attributes: []
+        }]
+    }
 
     try {              
         DB.GameTicketRecord.findAll({
@@ -365,20 +389,27 @@ router.get("/:tiqueteId", (req,res)=>{
             },
             include:[{
                 model:DB.GameTicket,                
-                required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
+                required:true,
                 attributes:[
                     ["valorcompra","total"],
                     ["cambio","cambio"]
-                ], //Nada de GameTicket en la respuesta
-                where: {userId : tempList.split(","), esValido: "SI"}
-            }                            
-            ],            
+                ],
+                where: {userId : tempList.split(","), esValido: "SI"},
+                include: includeGame
+            }],            
             order:[
                 ["numero", 'ASC'],
             ]
         })
         .then((LeftJoin)=>{            
             res.status(200).json({resultado:LeftJoin,exitoso:true})       
+        })
+        .catch((error) => {
+            console.log(error)
+            res.status(400).json({
+                resultado: "El sorteo no está activo o ha ocurrido un error",
+                exitoso:false
+            })
         })
         
     } catch (error) {

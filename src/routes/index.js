@@ -26,11 +26,6 @@ router.get('/ventas', function(req, res, next) {
 
 router.get('/cambiar', function(req, res, next) {  
   const {id} = req.query
-  
-  if (!isNaN(id)) {
-    res.render('qr', { title: 'Cambiar' , enviroment: env.parsed, ID: id});
-    return
-  }
 
   function decrypt(text, key) {
     try {
