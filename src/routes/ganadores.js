@@ -898,8 +898,17 @@ router.get("/", (req,res)=>{
         }
     }
 
-    if (only) {            
-        whereCondition.userId = only.split(",")
+    if (only) {       
+        var whereGameCondition = {                                                
+            cambio: "NO",
+            esValido: "SI",
+            userId: only.split(",")
+        } 
+    } else {
+        var whereGameCondition = {                                                
+            cambio: "NO",
+            esValido: "SI"
+        } 
     }
     
     
@@ -909,10 +918,7 @@ router.get("/", (req,res)=>{
             include:[{
                 model:DB.GameTicket,                
                 required:true, //false = LEFT OUTER JOIN || true = INNER JOIN
-                where:{                                                        
-                    cambio: "NO",
-                    esValido: "SI"
-                },
+                where:whereGameCondition,
                 attributes:[] //Nada de GameTicket en la respuesta
             }                            
             ],                        

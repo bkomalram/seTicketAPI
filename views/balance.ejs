@@ -126,7 +126,7 @@
       /**
        * Carga automatica
        */
-       fetch(api + "ganadores", {
+       fetch(api + "ganadores?only="+localStorage.getItem("sesion-id")+","+localStorage.getItem("sesion-hijos"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
