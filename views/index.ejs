@@ -7,7 +7,7 @@
     <title><%= enviroment.VERSION %></title>
     <meta
       http-equiv="Content-Security-Policy"
-      content="script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';"
+      content="script-src 'self' https://cdn.jsdelivr.net https://html2canvas.hertzen.com 'unsafe-inline';"
     />
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
@@ -1460,7 +1460,7 @@
             <button class="menu-button vender" onclick="home2sell()">
                 <div class="icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
-                    <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"/>
+                    <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"/>
                     <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
                   </svg>
                 </div>
@@ -1574,7 +1574,7 @@
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
               </svg>
             </div>
             <span>Editar</span>
@@ -1605,20 +1605,40 @@
         ></div>
         
         <div class="d-sm-block d-md-none d-print-none col-12 mt-1 p-0">
-          <button
-            class="btn btn-sm btn-secondary col-12"
-            id="btn-print-ticket-mobile"
-            onclick="imprimirTiquete()"
-          >
-            <h6 id="text-print-ticket">Imprimir</h6>
-            <div
-              class="spinner-grow d-none"
-              role="status"
-              id="spinner-print-ticket"
-            >
-              <span class="sr-only">Loading...</span>
+          <div class="row">
+            <div class="col-6 px-1">
+              <button
+                class="btn btn-sm btn-secondary col-12"
+                id="btn-print-ticket-mobile"
+                onclick="imprimirTiquete()"
+              >
+                <h6 id="text-print-ticket">Imprimir</h6>
+                <div
+                  class="spinner-grow d-none"
+                  role="status"
+                  id="spinner-print-ticket"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
             </div>
-          </button>
+            <div class="col-6 px-1">
+              <button 
+                class="btn btn-sm btn-success col-12"
+                id="btn-whatsapp-ticket-mobile"
+                onclick="compartirPorWhatsapp()"
+              >
+                <h6 id="text-whatsapp-ticket">WhatsApp</h6>
+                <div
+                  class="spinner-grow d-none"
+                  role="status"
+                  id="spinner-whatsapp-ticket"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -1673,7 +1693,7 @@
         Estamos trabajando para mostrar la configuracion, sorteo elegido y titulo del ticket ...
       </div>
 
-    </div>
+</div>
     <div class="row d-none d-print-none" id="configuracion">
       <div class="col-12 mt-2">
         <div class="row">
@@ -2231,6 +2251,7 @@
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
       var api = "<%= enviroment.URL_API %>";
       var qrURL = "<%= enviroment.URL_QR %>";
@@ -3284,10 +3305,29 @@
                   },
                 })
                 .then((response) => response.json())
-                .then((data) => {
+                .then(async (data) => {
                   if (data.exitoso) {
                     //con el token generado debo generar el QR
                     generarQR(api+ "cambiar?id="+data.token.toString());
+
+                    // Capturar el elemento del ticket
+                    const ticketElement = document.querySelector("#ticketOutput");
+                    
+                    // Convertir a imagen usando html2canvas
+                    const canvas = await html2canvas(ticketElement, {
+                      backgroundColor: '#ffffff',
+                      scale: 2 // Mejor calidad
+                    });
+                    
+                    // Convertir el canvas a una URL de datos (base64)
+                    const imageData = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    // Descargar la imagen temporalmente
+                    const link = document.createElement('a');
+                    link.download = 'ticket-'+globalChance.receiptCount.toString()+'.jpg';
+                    link.href = imageData;
+                    link.click();
+
                     window.print();
                     limpiarTablero();
                   } else {
@@ -3320,6 +3360,200 @@
                 .querySelector("#text-print-ticket")
                 .classList.remove("d-none");
             });
+        }
+      }
+
+      async function compartirPorWhatsapp() {
+        try {
+          // Mostrar spinner
+          document.querySelector("#text-whatsapp-ticket").classList.add("d-none");
+          document.querySelector("#spinner-whatsapp-ticket").classList.remove("d-none");
+          
+          if (!localStorage.getItem("choose-game")) {
+          /**
+           * 
+           * Removiendo transicion
+           * */
+           document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+          /*
+          * Agregar Modal
+          * Mensaje no exitoso
+          */
+          document.querySelector("#text-error-ticket").innerHTML =
+          "Debes seleccionar un sorteo activo para poder vender";
+
+          $("#modalErrorTicket").modal("show");
+
+          return;
+        }
+
+
+        // Edicion Activa
+        if (localStorage.getItem("edit-ticket-number")) {
+          /**
+           * 
+           * Removiendo transicion
+           * */
+           document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+          /*
+          * Agregar Modal
+          * Mensaje no exitoso
+          */
+          document.querySelector("#text-error-ticket").innerHTML =
+          "Debes completar la edicion solicitada antes de poder vender";
+
+          $("#modalErrorTicket").modal("show");
+
+          return;
+        }
+
+        if (!localStorage.getItem("title-ticket")) {
+          /**
+           * 
+           * Removiendo transicion
+           * */
+           document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+          /*
+          * Agregar Modal
+          * Mensaje no exitoso
+          */
+          document.querySelector("#text-error-ticket").innerHTML =
+          "Debes seleccionar un titulo para los ticketes";
+
+          $("#modalErrorTicket").modal("show");
+          return;
+        }
+
+        if (bag.items.length > 0) {
+          var arregloRegistros = [];
+
+          bag.items.forEach((element) => {
+            var objetoRegistro = {
+              tipo: null,
+              numero: null,
+              cantidad: null,
+              valor: null,
+              precio: null,
+            };
+
+            if (element.number.length == 2) objetoRegistro.tipo = "CHANCE";
+            else objetoRegistro.tipo = "BILLETE";
+
+            objetoRegistro.numero = element.number;
+            objetoRegistro.cantidad = element.qty;
+            objetoRegistro.valor = element.total;
+            objetoRegistro.precio = element.price;
+
+            arregloRegistros.push(objetoRegistro);
+          });
+
+          var objetoSorteo = {
+            sorteoId: localStorage.getItem("choose-game"),
+            userId:localStorage.getItem("sesion-id"),
+            valor: bag.total,
+            registros: arregloRegistros,
+          };
+
+          fetch(api + "tiquete/mq", {
+            method: "POST",
+            body: JSON.stringify(objetoSorteo),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exitoso) {
+                globalChance.receiptCount = data.resultado.id;
+                bag.render();
+                //UX - Mobile
+                document.querySelector('[name="mobile-input-ux"]').remove()
+
+                document.querySelector("#outPut1").innerHTML =
+                  document.querySelector("#ticketOutput").innerHTML;
+
+                //Necesito consumir el endpoint de cifrar el id del tiquete
+                fetch(api + "tiquete/cifrar?id="+globalChance.receiptCount.toString(), {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+                  },
+                })
+                .then((response) => response.json())
+                .then(async (data) => {
+                  if (data.exitoso) {
+                    //con el token generado debo generar el QR
+                    generarQR(api+ "cambiar?id="+data.token.toString());
+                    //window.print();
+                    // Capturar el elemento del ticket
+                    const ticketElement = document.querySelector("#ticketOutput");
+                    
+                    // Convertir a imagen usando html2canvas
+                    const canvas = await html2canvas(ticketElement, {
+                      backgroundColor: '#ffffff',
+                      scale: 2 // Mejor calidad
+                    });
+                    
+                    // Convertir el canvas a una URL de datos (base64)
+                    const imageData = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    // Descargar la imagen temporalmente
+                    const link = document.createElement('a');
+                    link.download = 'ticket-'+globalChance.receiptCount.toString()+'.jpg';
+                    link.href = imageData;
+                    link.click();
+                    
+                    // Abrir WhatsApp con un mensaje predeterminado
+                    const message = "Su ticket es el "+globalChance.receiptCount.toString()+" y el monto es de "+bag.total+" \n\n";
+                    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+
+                    limpiarTablero();
+                  } 
+                });
+                
+              } else {
+                /*Agregar Modal
+                 * Mensaje no exitoso
+                 */
+                document.querySelector("#text-error-ticket").innerHTML =
+                  data.resultado;
+
+                $("#modalErrorTicket").modal("show");
+              }
+
+              document
+                .querySelector("#spinner-print-ticket")
+                .classList.add("d-none");
+              document
+                .querySelector("#text-print-ticket")
+                .classList.remove("d-none");
+            });
+        }
+
+        } catch (error) {
+          console.error('Error al compartir por WhatsApp:', error);
+          alert('Hubo un error al intentar compartir por WhatsApp. Por favor, intente nuevamente.');
+        } finally {
+          // Ocultar spinner
+          document.querySelector("#spinner-whatsapp-ticket").classList.add("d-none");
+          document.querySelector("#text-whatsapp-ticket").classList.remove("d-none");
         }
       }
 
@@ -3817,7 +4051,7 @@
                 
                   
                   //Necesito consumir el endpoint de cifrar el id del tiquete
-                fetch(api + "tiquete/cifrar?id="+globalChance.receiptCount.toString(), {
+                fetch(api + "tiquete/cifrar?id="+objetoSorteo.editar.toString(), {
                   method: "GET",
                   headers: {
                     "Content-Type": "application/json",
@@ -3825,10 +4059,45 @@
                   },
                 })
                 .then((response) => response.json())
-                .then((data) => {
+                .then(async (data) => {
+
+                  function getPanamaDateTime() {
+                    // Crear fecha con timezone de Panamá
+                    const panamaDate = new Date().toLocaleString("en-US", {timeZone: "America/Panama"});
+                    const date = new Date(panamaDate);
+                    
+                    // Formatear fecha en DDHH24MISS
+                    const day = date.getDate().toString().padStart(2,'0');
+                    const hours = date.getHours().toString().padStart(2,'0');
+                    const minutes = date.getMinutes().toString().padStart(2,'0'); 
+                    const seconds = date.getSeconds().toString().padStart(2,'0');
+
+                    return `${day}${hours}${minutes}${seconds}`;
+                  }
+
                   if (data.exitoso) {
                     //con el token generado debo generar el QR
                     generarQR(api+ "cambiar?id="+data.token.toString());
+
+                    // Capturar el elemento del ticket
+                    const ticketElement = document.querySelector("#ticketOutput");
+                    
+                    // Convertir a imagen usando html2canvas
+                    const canvas = await html2canvas(ticketElement, {
+                      backgroundColor: '#ffffff',
+                      scale: 2 // Mejor calidad
+                    });
+                    
+                    // Convertir el canvas a una URL de datos (base64)
+                    const imageData = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    // Descargar la imagen temporalmente
+                    const link = document.createElement('a');
+                    const timestamp = getPanamaDateTime();
+                    link.download = 'ticket-'+objetoSorteo.editar.toString()+'-'+timestamp+'.jpg';
+                    link.href = imageData;
+                    link.click();
+
                     window.print();
                     limpiarTablero();
                   } else {
@@ -3883,6 +4152,40 @@
         }
         
       })
+
+      async function compartirPorWhatsapp_v1() {
+        // Mostrar spinner
+        document.querySelector("#text-whatsapp-ticket").classList.add("d-none");
+        document.querySelector("#spinner-whatsapp-ticket").classList.remove("d-none");
+        
+        try {
+          // Capturar el contenido del ticket
+          const ticketElement = document.querySelector("#ticketOutput");
+          
+          // Usar html2canvas para convertir el contenido a imagen
+          const canvas = await html2canvas(ticketElement, {
+            backgroundColor: '#ffffff',
+            scale: 2
+          });
+          
+          // Convertir canvas a imagen base64
+          const imageData = canvas.toDataURL('image/jpeg', 0.8);
+          
+          // Crear enlace de WhatsApp con la imagen
+          const message = "Mi ticket";
+          const whatsappURL = `whatsapp://send?text=${encodeURIComponent(message)}&data-action=share/whatsapp/share`;
+          
+          // Abrir WhatsApp
+          window.location.href = whatsappURL;
+        } catch (error) {
+          console.error('Error al compartir por WhatsApp:', error);
+          alert('Hubo un error al intentar compartir por WhatsApp');
+       } finally {
+          // Ocultar spinner
+          document.querySelector("#spinner-whatsapp-ticket").classList.add("d-none");
+          document.querySelector("#text-whatsapp-ticket").classList.remove("d-none");
+        }
+      }
 
     </script>
   </body>
