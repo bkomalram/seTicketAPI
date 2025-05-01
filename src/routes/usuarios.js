@@ -190,7 +190,7 @@ router.post("/admin-changePassword",(req,res)=>{
     }    
     /*Evaluando información*/
     try {
-        DB.User.findOne({where:{nombre:userId,esActivo:'SI'}})
+        DB.User.findOne({where:{id:userId,esActivo:'SI'}})
         .then((User)=>{
             /*Porceder con el cambio*/
             User.changePassword(password)                
@@ -253,6 +253,47 @@ router.post("/changePercentage",(req,res)=>{
     }    
     })
 
+
+router.post("/changeName",(req,res)=>{
+    /*Evalulando Accesos*/
+    if (req.jornada.accesos < 2) {
+        res.status(401).json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+    /*Verificando que tenga todo*/
+    const { name, userId } = req.body
+    if (!name || !userId) {
+        res.status(400).json({
+            resultado: "Se requieren informacion del userId y nombre, para proceder.",
+            exitoso: false
+        })
+        return
+    }    
+    /*Evaluando información*/
+    try {
+        DB.User.findOne({where:{id:userId,esActivo:'SI'}})
+        .then((User)=>{
+            console.log(User)
+            /*Porceder con el cambio*/
+            User.changeName(name)                
+            .then((Commit)=>{
+                res.status(201).json({
+                    resultado: Commit,
+                    exitoso:true
+                })
+                return
+            })                        
+        })        
+    } catch (error) {
+        res.status(500).json({
+            resultado: error,
+            exitoso:false
+        })
+    }    
+    })
 /**
  * Crear Usuario
  */

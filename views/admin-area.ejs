@@ -206,8 +206,24 @@
                   })
                 });
               }
+
               return data;
             }
+          })
+          .then(data => {
+            if (userData.usuario) {
+                return fetch(api + "usuarios/changeName", {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("tokenSSO")
+                  },
+                  body: JSON.stringify({
+                    userId: userId,
+                    name: userData.usuario
+                  })
+                });
+              }
           })
           .then(() => {
             loadUsers();

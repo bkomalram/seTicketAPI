@@ -54,6 +54,11 @@ module.exports = (sequelize, DataTypes) => {
     return await this.save()
   }
 
+  User.prototype.changeName = async function(name) {
+    this.nombre = name;
+    return await this.save()
+  }
+
   User.prototype.getChild = async function () {
     const hijos = await this.getHijos(); // Usa el alias definido en la asociación
     return hijos.map(h => h.id).join(', ');
