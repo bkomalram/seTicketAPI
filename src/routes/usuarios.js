@@ -58,6 +58,56 @@ router.get("/decode", (req,res)=>{
     
 })
 
+router.get("/renew", async (req, res) => {
+  try {
+    // Obtener datos del usuario actual
+    const user = await DB.User.findOne({
+      where: { 
+        id: req.jornada.id,
+        esActivo: 'SI'
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        exitoso: false,
+        mensaje: "Usuario no encontrado"
+      });
+    }
+
+    // Crear objeto con datos del usuario
+    const objeto = {
+      accesos: req.jornada.accesos,
+      perfil: user.perfil,
+      usuario: user.nombre,
+      padreUsuario_id: user.padreUsuario_id,
+      porcentajeChance: user.porcentajeComision,
+      porcentajeBillete: user.porcentajeComisionBillete,
+      id: user.id,
+      hijos: await user.getChild()
+    };
+
+    // Generar nuevo token
+    const token = jwt.sign(objeto, process.env.SALT, { expiresIn: '24h' });
+
+    // Actualizar última conexión
+    user.ultimaConexion = Date.now();
+    await user.save();
+
+    res.status(200).json({
+      exitoso: true,
+      token: token
+    });
+
+  } catch (error) {
+    console.error('Error al renovar token:', error);
+    res.status(500).json({
+      exitoso: false,
+      mensaje: "Error al renovar el token"
+    });
+  }
+})
+
 router.post("/log", (req,res)=>{
     const { usuario, password } = req.body
     

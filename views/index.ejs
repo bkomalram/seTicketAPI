@@ -2258,6 +2258,49 @@
 
       /*Verificar si tiene sesión*/
       if (localStorage.getItem("tokenSSO")) {
+        // Función para verificar y renovar el token
+        function checkAndRenewToken() {
+          const token = localStorage.getItem("tokenSSO");
+          if (!token) return;
+
+          // Decodificar el token para obtener la fecha de expiración
+          const tokenData = JSON.parse(atob(token.split('.')[1]));
+          const expirationTime = tokenData.exp * 1000; // Convertir a milisegundos
+          const currentTime = Date.now();
+          const timeRemaining = expirationTime - currentTime;
+          const thirtyMinutesInMs = 30 * 60 * 1000;
+
+          console.log("Tiempo restante para el token:", timeRemaining);
+          console.log("Tiempo restante en minutos:", timeRemaining / (1000 * 60));
+          console.log("Tiempo restante en horas:", timeRemaining / (1000 * 60 * 60));
+          // Si quedan menos de 30 minutos, renovar el token
+          if (timeRemaining < thirtyMinutesInMs) {
+            fetch(api + "usuarios/renew", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exitoso && data.token) {
+                localStorage.setItem("tokenSSO", data.token);
+                console.log("Token renovado exitosamente");
+              }
+            })
+            .catch(error => {
+              console.error("Error al renovar el token:", error);
+            });
+          }
+        }
+
+        // Verificar el token cada 5 minutos
+        setInterval(checkAndRenewToken, 5 * 60 * 1000);
+        
+        // Verificación inicial del token
+        checkAndRenewToken();
+
         /*Verificando token*/
         fetch(api + "usuarios/decode", {
           method: "GET",
