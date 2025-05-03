@@ -221,10 +221,14 @@ router.get("/ultimo-cerrado", (req,res)=>{
                             [DB.sequelize.literal('id'), 'DESC'],
                         ]
                     })
-                    .then((Game)=>{ res.status(200).json({resultado:Game[0],exitoso:true}) })   
+                    .then((Game)=>{ 
+                        //Armare un array con los 4 primeros
+                        //Game = Game.slice(0,4)
+                        res.status(200).json({resultado:Game.slice(0,4),exitoso:true}) 
+                    })   
                 })
             } else {
-                res.status(200).json({resultado:Game[0],exitoso:true})
+                res.status(200).json({resultado:Game.slice(0,4),exitoso:true})
             }     
         })        
     } catch (error) {

@@ -300,11 +300,15 @@
                 .then((element) => {
                   if (element.exitoso){
                     let select = document.querySelector("#select-choose-game");
-                    let option = document.createElement("option");
-                    option.text = element.resultado.nombre;
-                    option.value = element.resultado.id;
-                    option.setAttribute("name", element.resultado.id);
-                    select.add(option);
+
+                    //recorrer el arreglo
+                    element.resultado.forEach(element => {
+                      let option = document.createElement("option");
+                      option.text = "Cerrado - "+element.nombre;
+                      option.value = element.id;
+                      option.setAttribute("name", element.id);
+                      select.add(option);
+                    });
                   }
                 })
             } else {
