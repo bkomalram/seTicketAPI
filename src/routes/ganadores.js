@@ -304,7 +304,7 @@ router.post("/", (req,res)=>{
                 WHERE gTR.tipo = 'BILLETE'
                 AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`                
-                AND SUBSTR(gTR.NUMERO,1,3)  = `+ numeroGanador1er.substr(0,3)
+                AND SUBSTR(gTR.NUMERO,1,3)  = '`+ numeroGanador1er.substr(0,3)+`'` 
                 /*Ejecutando*/
                 try {
                     p6 = DB.sequelize.query(sentencia) 
