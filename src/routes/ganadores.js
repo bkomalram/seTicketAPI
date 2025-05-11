@@ -865,7 +865,15 @@ router.post("/", (req,res)=>{
             resultado: respuesta,
             exitoso:true            
         });
-      });         
+      })
+      .catch(function(reason) {
+        console.log(reason)
+        res.json({
+            resultado: respuesta,                        
+            exitoso:false            
+        })
+        return
+    });         
 })
 
 router.get("/", (req,res)=>{
