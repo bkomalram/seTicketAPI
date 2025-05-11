@@ -72,7 +72,7 @@ router.post("/", (req,res)=>{
                 WHERE gTR.tipo = 'BILLETE'
                 AND gT.esValido = 'SI' 
                 AND gT.game_Id =` +sorteoId+`
-                AND SUBSTR(gTR.NUMERO,4,1)  = ` + numeroGanador1er.substr(3,4)
+                AND SUBSTR(gTR.NUMERO,4,1)  = '` + numeroGanador1er.substr(3,4)+`'`
 
                 //Ejecuntando SQL
                 try {
@@ -119,7 +119,7 @@ router.post("/", (req,res)=>{
                 WHERE gTR.tipo = 'BILLETE'
                 AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
-                AND SUBSTR(gTR.NUMERO,3,2)  = `+ numeroGanador1er.substr(2,4)                
+                AND SUBSTR(gTR.NUMERO,3,2)  = '`+ numeroGanador1er.substr(2,4)+`'`                
                 /*Ejecutando*/
                 try {
                     p2 = DB.sequelize.query(sqlDosUltimos) 
@@ -164,7 +164,7 @@ router.post("/", (req,res)=>{
                 WHERE gTR.tipo = 'BILLETE'
                 AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`
-                AND SUBSTR(gTR.NUMERO,1,2)  = `+ numeroGanador1er.substr(0,2)
+                AND SUBSTR(gTR.NUMERO,1,2)  = '`+ numeroGanador1er.substr(0,2)+`'`
                 /*Ejecutando*/
                 try {
                     p3 = DB.sequelize.query(sentencia) 
@@ -258,7 +258,7 @@ router.post("/", (req,res)=>{
                 WHERE gTR.tipo = 'BILLETE'
                 AND gT.esValido = 'SI'
                 AND gT.game_Id = `+sorteoId+`                
-                AND SUBSTR(gTR.NUMERO,2,3)  = `+ numeroGanador1er.substr(1,3)
+                AND SUBSTR(gTR.NUMERO,2,3)  = '`+ numeroGanador1er.substr(1,3)+`'`
                 /*Ejecutando*/
                 try {
                     p5 = DB.sequelize.query(sentencia) 
