@@ -635,7 +635,41 @@ router.get("/:sorteoId/billetes-publico", (req,res)=>{
 
         })
         .then((LeftJoin)=>{
-            res.status(200).json({resultado:LeftJoin,exitoso:true})       
+            //res.status(200).json({resultado:LeftJoin,exitoso:true}) 
+            
+            // Procesar los resultados
+            const processedResults = LeftJoin.map(record => {
+                const item = record.toJSON();
+                
+                // Restar una instancia del valor del premio correspondiente
+                if (item.primer_premio && objValoresPremios.primer[item.primer_premio]) {
+                    item.dineroPremio1er -= objValoresPremios.primer[item.primer_premio];
+                }
+                if (item.segundo_premio && objValoresPremios.segundo[item.segundo_premio]) {
+                    item.dineroPremio2do -= objValoresPremios.segundo[item.segundo_premio];
+                }
+                if (item.tercer_premio && objValoresPremios.tercero[item.tercer_premio]) {
+                    item.dineroPremio3ro -= objValoresPremios.tercero[item.tercer_premio];
+                }
+
+                // Calcular el total de premios
+                item.totalPremios = (
+                    (item.dineroPremio1er || 0) + 
+                    (item.dineroPremio2do || 0) + 
+                    (item.dineroPremio3ro || 0)
+                );
+
+                return item;
+            });
+
+            // Calcular el total general de premios
+            const totalGeneralPremios = processedResults.reduce((sum, item) => sum + item.totalPremios, 0);
+
+            res.status(200).json({
+                resultado: processedResults,
+                totalGeneralPremios,
+                exitoso: true
+            });
         })
 
         

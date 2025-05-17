@@ -192,6 +192,10 @@
 
                   const tdCant = document.createElement("td");
                   tdCant.textContent = data.resultado[number].cantidad;
+
+                  if(data.resultado[number].totalPremios > 0)
+                    tdCant.classList.add("bg-success")
+                  
                   tr.appendChild(tdCant);
                   number = number + 1;
               }
@@ -202,15 +206,19 @@
             contenedorPrint = document.querySelector("div[id=printView]");
             let printTable = '<table>';
             let cantidadTotal = 0;
+            var ganadoresTotal = 0;
             data.resultado.forEach(item => {
               printTable += `<tr>
                 <td class="font-weight-bold" >${item.numero}</td>
                 <td>${item.cantidad}</td>
               </tr>`;
               cantidadTotal += Number(item.cantidad);
+              ganadoresTotal += Number(item.totalPremios);
             });
             printTable += '</table>';
-            document.querySelector('#headerBilletes').textContent = "Billetes: " + cantidadTotal;
+            document.querySelector('#headerBilletes').textContent = "Billetes: " + cantidadTotal + " |       Dinero Total de Ganadores: " + (
+              Math.round(ganadoresTotal * 100) / 100
+            ).toFixed(2);;
             contenedorPrint.innerHTML = printTable;
 
             document.querySelector("#loading").classList.add("d-none");
