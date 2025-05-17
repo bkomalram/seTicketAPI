@@ -569,6 +569,35 @@ router.get("/:sorteoId/billetes-publico", (req,res)=>{
         esValido: 'SI'
     }
 
+
+    var objValoresPremios = {
+        primer: {
+            "ULTIMO_NUMERO": 1,
+            "DOS_ULTIMOS": 3,
+            "DOS_PRIMEROS": 3,
+            "DOS_PRIMEROS_ULTIMO_NUMERO": 4,
+            "TRES_ULTIMOS": 50,
+            "TRES_PRIMEROS": 50,
+            "CUATRO_NUMEROS": 2000,
+            "CHANCE_GANADOR": 14
+          },
+        segundo: {
+            "DOS_ULTIMOS": 2,
+            "TRES_ULTIMOS": 20,
+            "TRES_PRIMEROS": 20,
+            "CUATRO_NUMEROS": 600,
+            "CHANCE_GANADOR": 3
+          },
+        tercero: {
+            "DOS_ULTIMOS": 1,
+            "TRES_ULTIMOS": 10,
+            "TRES_PRIMEROS": 10,
+            "CUATRO_NUMEROS": 300,
+            "CHANCE_GANADOR": 2
+          }
+    }
+    
+
     try {              
         DB.GameTicketRecord.findAll({
             where:{                
@@ -588,6 +617,9 @@ router.get("/:sorteoId/billetes-publico", (req,res)=>{
             ],
             attributes:[
                 'numero',
+                'primer_premio',
+                'segundo_premio',
+                'tercer_premio',
                 //[DB.sequelize.col('GameTicket->User.nombre'),'vendedor'], 
                 [DB.sequelize.literal('SUM(cantidad) - 1'), 'cantidad'],                
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
@@ -595,7 +627,7 @@ router.get("/:sorteoId/billetes-publico", (req,res)=>{
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador2do')), 'dineroPremio2do'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
             ],
-            group:['numero'],
+            group:['numero','primer_premio','segundo_premio','tercer_premio'],
             having: DB.sequelize.literal('SUM(cantidad) - 1 > 0'),
             order:[
                 [DB.sequelize.literal('cantidad'), 'DESC'],
