@@ -306,71 +306,6 @@ router.get("/:sorteoId", (req,res)=>{
         res.status(500).json({resultado:{mensaje:"Ocurrio un error buscando todos los sorteos",error:error},exitoso:false})
     }  
 })
-
-/*
-    Refactor v3.0
-    Sequelize - ORM
-    BK*/
-/*Chances*/
-/*No es necesario hacer esto, se puede hacer cuando se crea el tickete y lo controlamos desde el Back 
-@@ Se creo la función updateChanceQuantity linea 8 para Reemplazar esto.
-router.post("/cantidad/chance", (req,res)=>{
-    const { sorteoId, usuarioId, chance, cantidad } = req.body
-    const accion = "CALL rActualizaCantidadChance(?,?,?,?);"   
-    
-    if (req.jornada.accesos == 0) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
-    }    
-        
-    con.query(accion,[sorteoId,usuarioId,chance,cantidad],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows[1][0]})
-        } else {
-            console.log(err)
-        }
-    })
-})
-*/
-
-    /*
-    Refactor v3.0
-    Sequelize - ORM
-    BK
-    Reemplazar
-No es necesario calcular los totales de una lista de valores, podemos hacerlo desde API ahora.
-Se reemplazará
-router.get("/chances/total/:sorteoId/:usuarioId", (req,res)=>{
-    const {sorteoId, usuarioId} = req.params
-    const accion = `
-    SELECT SUM(CABEZA.CANTIDAD) CANTIDAD, SUM(CABEZA.VALOR) PLATA  FROM tSorteoTiquetesRegistros CABEZA
-    LEFT JOIN tSorteoTiquetes OJOS ON OJOS.ID = CABEZA.TIQUETE_ID
-    LEFT JOIN tSorteos VOCA ON VOCA.ID = OJOS.SORTEO_ID
-    WHERE VOCA.ID = ?
-    AND OJOS.VENDEDOR_ID = ?
-    AND LENGTH(CABEZA.NUMERO) < 3
-    `    
-    if (req.jornada.accesos == 0) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
-    }
-
-    con.query(accion,[sorteoId, usuarioId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows[0]})
-        } else {
-            console.log(err)
-        }
-    })
-})
-*/
-
     /*
     Refactor v3.0
     Sequelize - ORM
@@ -560,7 +495,7 @@ router.get("/:sorteoId/billetes", (req,res)=>{
 })
 
 
-router.get("/:sorteoId/billetes-publico", (req,res)=>{
+router.get("/:sorteoId/billetes-publico", async (req,res)=>{
     const {sorteoId} = req.params
     const {ord,all,only} = req.query
 
@@ -598,7 +533,17 @@ router.get("/:sorteoId/billetes-publico", (req,res)=>{
     }
     
 
-    try {              
+    try {    
+        
+        // Primero obtenemos el valor de sacado-chance de la configuración
+        const config = await DB.Config.findOne({
+            where: {
+                propiedad: 'sacado-billetes'
+            }
+        });
+
+        const sacadoBilletes = config ? parseFloat(config.valor) : 0;
+
         DB.GameTicketRecord.findAll({
             where:{                
                 tipo:"BILLETE"
@@ -621,14 +566,14 @@ router.get("/:sorteoId/billetes-publico", (req,res)=>{
                 'segundo_premio',
                 'tercer_premio',
                 //[DB.sequelize.col('GameTicket->User.nombre'),'vendedor'], 
-                [DB.sequelize.literal('SUM(cantidad) - 1'), 'cantidad'],                
+                [DB.sequelize.literal('SUM(cantidad) - '+ sacadoBilletes), 'cantidad'],                
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador1er')), 'dineroPremio1er'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador2do')), 'dineroPremio2do'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
             ],
             group:['numero','primer_premio','segundo_premio','tercer_premio'],
-            having: DB.sequelize.literal('SUM(cantidad) - 1 > 0'),
+            having: DB.sequelize.literal('SUM(cantidad) - '+sacadoBilletes+' > 0'),
             order:[
                 [DB.sequelize.literal('cantidad'), 'DESC'],
             ]
@@ -725,7 +670,10 @@ router.get("/:sorteoId/chances-publico", async (req,res)=>{
                 }]
             }],
             attributes:[
-                'numero',             
+                'numero',
+                'primer_premio',
+                'segundo_premio',
+                'tercer_premio',         
                 [DB.sequelize.fn('sum', DB.sequelize.col('cantidad')), 'cantidad'],                
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador1er')), 'dineroPremio1er'],

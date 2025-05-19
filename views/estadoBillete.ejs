@@ -17,7 +17,7 @@
     <div class="row d-print-none">
       <div class="col-12 mt-2">
         <div class="row">
-        
+  
           <div class="col-12 col-md-3 mb-2">
             <button
               class="btn btn-sm btn-secondary col-12"
@@ -54,6 +54,14 @@
     <div class="row d-print-none">
       <div class="col-12">
         <div class="d-flex" id="estadoBillete"></div>
+      </div>
+    </div>
+
+    <!-- Nueva sección para Chances -->
+    <div class="row d-print-none mt-4">
+      <div class="col-12">
+        <h3 class="text-center mb-3">Estado de Chances</h3>
+        <div class="d-flex" id="estadoChances"></div>
       </div>
     </div>
 
@@ -110,6 +118,7 @@
         document.querySelector("#spinner-refresh").classList.remove("d-none");
         
         cargarEstadoBillete();
+        cargarEstadoChances();
 
         document.querySelector("#text-refresh").classList.remove("d-none");
         document.querySelector("#spinner-refresh").classList.add("d-none");
@@ -123,9 +132,9 @@
         })
         .then((response) => response.json())
         .then((data)=>{
-          console.log(data)
           localStorage.setItem("choose-game",data.resultado.id)
           cargarEstadoBillete();
+          cargarEstadoChances();
         })
 
       // Add auto-refresh every minute (60000 milliseconds)
@@ -134,6 +143,7 @@
         document.querySelector("#loading").classList.remove("d-none");
         document.querySelector("#loading").classList.add("d-flex");
         cargarEstadoBillete();
+        cargarEstadoChances();
       }, 60000);
         
       // Función para cargar el estado de billetes
@@ -231,7 +241,90 @@
             contenedorBillete.innerHTML = '<div class="alert alert-danger">Error al cargar los datos. Por favor intente nuevamente.</div>';
           });
       }
-    </script>
 
+      // Función para cargar el estado de chances
+      function cargarEstadoChances() {
+        if (!localStorage.getItem("choose-game")) {
+          return;
+        }
+
+        let contenedorChances = document.querySelector("div[id=estadoChances]");
+        contenedorChances.innerHTML = "";
+
+        let numeroSorteo = localStorage.getItem("choose-game");
+
+        fetch(api + "sorteo/" + numeroSorteo + "/chances-publico", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            contenedorChances.innerHTML = '<table class="table table-bordered" id="chancesTable"></table>';
+            const table = document.getElementById("chancesTable");
+            const columns = 4;
+
+            // Header
+            const trheader = document.createElement("tr");
+            const th = document.createElement("th");
+            th.setAttribute('id', 'headerChances');
+            th.textContent = "Chances";
+            th.setAttribute('colspan', '8');
+            trheader.appendChild(th);
+            table.appendChild(trheader);
+
+            const columnQty = Math.ceil(data.resultado.length / 4);
+            var number = 0;
+
+
+            for (let row = 0; row < 25; row++) { // Crear 10 filas
+              const tr = document.createElement("tr");
+              for (let col = 0; col < columns; col++) { // Crear columnas para cada fila
+                  const td = document.createElement("td");
+                  var cantidadIterable = 0;
+                  const number = (col * 25 + row).toString().padStart(2, '0'); // Formatear número como "00", "01", etc.
+                  td.textContent = number;
+                  td.classList.add("font-weight-bold")
+                  tr.appendChild(td);
+                  let numeroTemporal = data.resultado.find(
+                    (elemento) => elemento.numero == number.toString().padStart(2, 0)
+                  );
+                  let cantidadSacada = 0
+                  let primer_premio = null
+                  let segundo_premio = null
+                  let tercer_premio = null
+
+                  if (numeroTemporal) {
+                    cantidadSacada = numeroTemporal.cantidad;
+                    primer_premio = numeroTemporal.primer_premio;
+                    segundo_premio = numeroTemporal.segundo_premio;
+                    tercer_premio = numeroTemporal.tercer_premio;
+                  }
+                  const tdCant = document.createElement("td");
+                  tdCant.textContent = cantidadSacada
+                  if( primer_premio || segundo_premio || tercer_premio )
+                    tdCant.classList.add("bg-success")
+
+                  tr.appendChild(tdCant);
+              }
+              table.appendChild(tr); // Añadir la fila a la tabla
+          }
+
+            // Actualizar el header con totales
+            let cantidadTotal = data.resultado.reduce((acc, item) => acc + Number(item.cantidad), 0);
+            let ganadoresTotal = data.resultado.reduce((acc, item) => acc + Number(item.totalPremios || 0), 0);
+            
+            document.querySelector('#headerChances').textContent = "Chances: " + cantidadTotal + 
+              " | Dinero Total de Ganadores: " + (Math.round(ganadoresTotal * 100) / 100).toFixed(2);
+
+          })
+          .catch(error => {
+            console.error("Error al cargar los chances:", error);
+            contenedorChances.innerHTML = '<div class="alert alert-danger">Error al cargar los chances. Por favor intente nuevamente.</div>';
+          });
+      }
+    </script>
   </body>
 </html>
