@@ -19,7 +19,9 @@ function verificaToken(req,res,next) {
   console.log(req.originalUrl)
   if (['/usuarios/token','/','/ventas','/generar','/cambiar','/cuentas','/balance','/estadoBillete','/sorteo/ultimo-sorteo','/admin-area'].indexOf(req.originalUrl) >= 0 
   || /^\/cambiar.+$/.test(req.originalUrl)
-  || /^\/sorteo\/\d+\/billetes-publico$/.test(req.originalUrl)){
+  || /^\/sorteo\/\d+\/billetes-publico$/.test(req.originalUrl)
+  || /^\/sorteo\/\d+\/chances-publico$/.test(req.originalUrl)
+  ){
     console.log("No requiere JWT")
     return next()
   }    
