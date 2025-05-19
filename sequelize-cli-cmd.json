@@ -16,6 +16,7 @@
         "seeds":{
             "crear":"npx sequelize-cli seed:generate --name developer-config",
             "correr":"npx sequelize-cli db:seed:all",
+            "correrEspecifica":"npx sequelize-cli db:seed --seed 20250518200123-sacado-config.js",
             "regresar":"npx sequelize-cli db:seed:undo",
             "regresarTodas":"npx sequelize-cli db:seed:undo:all",
             "regresarEspecifica":"npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data esto no sirve"

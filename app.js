@@ -11,7 +11,8 @@ var sorteoRouter = require('./src/routes/sorteo');
 var ganadoresRouter = require('./src/routes/ganadores');
 var tiqueteRouter = require('./src/routes/tiquete');
 var usuariosRouter = require('./src/routes/usuarios');
-var configuracionRouter = require('./src/routes/configuracion');
+//var configuracionRouter = require('./src/routes/configuracion');
+const sacadosRouter = require("./src/routes/sacados");
 
 /*Utility*/
 function verificaToken(req,res,next) {  
@@ -57,8 +58,7 @@ app.use('/sorteo', sorteoRouter);
 app.use('/tiquete', tiqueteRouter);
 app.use('/ganadores', ganadoresRouter);
 app.use('/usuarios', usuariosRouter);
-app.use('/configuracion', configuracionRouter);
-
+app.use("/sacados", sacadosRouter);
 
 
 // catch 404 and forward to error handler

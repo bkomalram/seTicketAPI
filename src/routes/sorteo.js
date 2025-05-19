@@ -678,56 +678,114 @@ router.get("/:sorteoId/billetes-publico", (req,res)=>{
     }    
 })
 
-/*
-
-/*
-    Refactor v3.0
-    Sequelize - ORM
-    BK
-    Reemplazar
-No es necesario calcular los totales de una lista de valores, podemos hacerlo desde API ahora.
-Se reemplazó por el endpoint anterior a este url/sorteo/:sorteoId/billetes
-router.get("/billetes/total/:sorteoId/:usuarioId", (req,res)=>{
-    const {sorteoId, usuarioId} = req.params
-    const accion = `
-    SELECT SUM(CABEZA.CANTIDAD) CANTIDAD, SUM(CABEZA.VALOR) PLATA  FROM tSorteoTiquetesRegistros CABEZA
-    LEFT JOIN tSorteoTiquetes OJOS ON OJOS.ID = CABEZA.TIQUETE_ID
-    LEFT JOIN tSorteos VOCA ON VOCA.ID = OJOS.SORTEO_ID
-    WHERE VOCA.ID = ?
-    AND OJOS.VENDEDOR_ID = ?
-    AND LENGTH(CABEZA.NUMERO) > 3
-    `
-    if (req.jornada.accesos == 0) {
-        res.json({
-            resultado: "Privilegios insuficientes",
-            exitoso:false
-        })
-        return
+router.get("/:sorteoId/chances-publico", async (req,res)=>{    
+    const {sorteoId} = req.params
+    const {ord,all,only} = req.query    
+    
+    var objectWhere = {         
+        game_id: sorteoId,
+        esValido: 'SI'
     }
-    con.query(accion,[sorteoId, usuarioId],function (err,rows,fields) {
-        if (!err) {
-            res.json({termino:true,resultado:rows[0]})
-        } else {
-            console.log(err)
+
+    const premiosChances = {
+        primer: {
+            "CHANCE_GANADOR": 14
+        },
+        segundo: {
+            "CHANCE_GANADOR": 3
+        },
+        tercero: {
+            "CHANCE_GANADOR": 2
         }
-    })
-})
-*/
+    }
 
-/*Tiquete*/
-/*
-    Refactor v3.0
-    Sequelize - ORM
-    BK
-    @@Se mueven todos los endpoints relacionado con tiquete a su propio API
-*/
+    try {
+        // Primero obtenemos el valor de sacado-chance de la configuración
+        const config = await DB.Config.findOne({
+            where: {
+                propiedad: 'sacado-chance'
+            }
+        });
 
-/*Configuracion*/
-/*
-    Refactor v3.0
-    Sequelize - ORM
-    BK
-    @@Se mueven todos los endpoints relacionado con configuracion a su propio API
-*/
+        const sacadoChance = config ? parseFloat(config.valor) : 0;
+
+        const results = await DB.GameTicketRecord.findAll({
+            where:{                
+                tipo:"CHANCE"
+            },
+            include:[{
+                model:DB.GameTicket,
+                where:objectWhere,
+                required:true,
+                attributes:[],
+                include:[{
+                    model:DB.User,                    
+                    required:true,
+                    attributes:[]
+                }]
+            }],
+            attributes:[
+                'numero',             
+                [DB.sequelize.fn('sum', DB.sequelize.col('cantidad')), 'cantidad'],                
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorcompra')), 'dineroVenta'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador1er')), 'dineroPremio1er'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador2do')), 'dineroPremio2do'],
+                [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
+            ],
+            group:['numero']            
+        });
+
+        // Procesamos los resultados para aplicar el descuento
+        const processedResults = results.map(record => {
+            const item = record.toJSON();
+            // Quiero restar el valor de la item.cantidad y el valor de sacadoChance
+            if (item.cantidad) {
+                //Si la cantidad es mayor a a sacadoChance
+                if (item.cantidad > sacadoChance) {
+                    item.cantidad -= sacadoChance;
+                    // Buscar el valor del premio correspondiente
+                    if (item.primer_premio && premiosChances.primer[item.primer_premio]) {
+                        item.dineroPremio1er -= sacadoChance * premiosChances.primer[item.primer_premio];
+                    }
+                    if (item.segundo_premio && premiosChances.segundo[item.segundo_premio]) {
+                        item.dineroPremio2do -= sacadoChance * premiosChances.segundo[item.segundo_premio];
+                    }
+                    if (item.tercer_premio && premiosChances.tercero[item.tercer_premio]) {
+                        item.dineroPremio3ro -= sacadoChance * premiosChances.tercero[item.tercer_premio];
+                    }
+                } else {
+                    // Si la cantidad es menor o igual a sacadoChance, lo dejamos en 0
+                    item.cantidad = 0;
+                    item.dineroPremio1er = 0;
+                    item.dineroPremio2do = 0;
+                    item.dineroPremio3ro = 0;
+                }
+            }   
+
+            // Calculamos el total de premios con el descuento aplicado
+            item.totalPremios = (
+                (item.dineroPremio1er || 0) + 
+                (item.dineroPremio2do || 0) + 
+                (item.dineroPremio3ro || 0)
+            );
+
+            return item;
+        });
+
+        res.status(200).json({
+            resultado: processedResults,
+            exitoso: true
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            resultado: {
+                mensaje: "Ocurrio un error buscando el estado de cuenta",
+                error: error
+            },
+            exitoso: false
+        });
+    } 
+});
 
 module.exports = router

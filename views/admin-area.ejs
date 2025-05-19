@@ -38,6 +38,48 @@
           No tienes permisos suficientes para ver esta página.
         </div>
 
+        <!-- Configuración de Sacados -->
+        <div class="card mb-4 col-md-8 offset-md-2" id="sacadosConfig">
+          <div class="card-body">
+            <h4 class="card-title">Configuración de Sacados</h4>
+            
+            <!-- Tabla de valores actuales -->
+            <div class="table-responsive mb-4">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Valor Actual</th>
+                  </tr>
+                </thead>
+                <tbody id="sacadosTable">
+                  <tr>
+                    <td>Sacado Billete</td>
+                    <td id="sacadoBilleteActual">-</td>
+                  </tr>
+                  <tr>
+                    <td>Sacado Chance</td>
+                    <td id="sacadoChanceActual">-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Formulario de configuración -->
+            <form id="sacadosForm">
+              <div class="form-group">
+                <label for="sacadoBillete">Sacado Billete:</label>
+                <input type="number" class="form-control" id="sacadoBillete" step="0.01" required>
+              </div>
+              <div class="form-group">
+                <label for="sacadoChance">Sacado Chance:</label>
+                <input type="number" class="form-control" id="sacadoChance" step="0.01" required>
+              </div>
+              <button type="submit" class="btn btn-secondary col-12">Actualizar Configuración</button>
+            </form>
+          </div>
+        </div>
+
         <!-- Form for creating/editing users -->
         <div class="card mb-4 col-md-8 offset-md-2">
           <div class="card-body">
@@ -106,6 +148,12 @@
       if (!localStorage.getItem("tokenSSO")) {
         window.location = "/";
       }
+
+      // Solo mostrar sacadoConfig si el usuario es ADMIN y es principal
+      if (localStorage.getItem("sesion-perfil") !== "ADMIN" || localStorage.getItem("sesion-usuario") !== "principal") {
+        document.getElementById('sacadosConfig').classList.add('d-none');
+      }
+
 
       // Load users on page load
       document.addEventListener('DOMContentLoaded', loadUsers);
@@ -261,6 +309,50 @@
 
       document.getElementById('btn-back').addEventListener('click', function() {
         window.location = "/ventas";
+      });
+
+      // Load sacados configuration
+      function loadSacadosConfig() {
+        fetch(api + "sacados/configuracion", {
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("tokenSSO")
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.exitoso) {
+            document.getElementById('sacadoBilleteActual').textContent = data.resultado.sacadoBillete;
+            document.getElementById('sacadoChanceActual').textContent = data.resultado.sacadoChance;
+          }
+        });
+      }
+
+      loadSacadosConfig();
+
+      document.getElementById('sacadosForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const sacadoBillete = parseFloat(document.getElementById('sacadoBillete').value);
+        const sacadoChance = parseFloat(document.getElementById('sacadoChance').value);
+
+        fetch(api + "sacados/configuracion", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("tokenSSO")
+          },
+          body: JSON.stringify({
+            sacadoBillete: sacadoBillete,
+            sacadoChance: sacadoChance
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.exitoso) {
+            loadSacadosConfig();
+            alert("Configuración actualizada exitosamente.");
+          }
+        });
       });
     </script>
   </body>
