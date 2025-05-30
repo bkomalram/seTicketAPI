@@ -385,7 +385,13 @@ router.post("/", (req,res)=>{
     * Refactor Sequelice 3.0
     */
    var p8,p9,p10,p11
-    for (let index = 5; index > 1; index--) {        
+   var indexSegundoPremio = 5
+   if (numeroGanador2do.substr(0,2) == "XX") {
+    //Si las dos primeras posiciones son XX, no se ejecuta el segundo premio
+    indexSegundoPremio = 1  
+   }
+
+    for (let index = indexSegundoPremio; index > 1; index--) {        
         switch (index) {
             case 5:                
                 var montoPremio= 2
@@ -563,7 +569,14 @@ router.post("/", (req,res)=>{
 
     //Tercer Premio    
     var p12,p13,p14,p15
-    for (let index = 5; index > 1; index--) {        
+
+    var indexTercerPremio = 5
+   if (numeroGanador2do.substr(0,2) == "XX") {
+    //Si las dos primeras posiciones son XX, no se ejecuta el tercer premio
+    indexTercerPremio = 1  
+   }
+
+    for (let index = indexTercerPremio; index > 1; index--) {        
         switch (index) {
             case 5:                
                 var montoPremio= 1
