@@ -443,6 +443,10 @@
           });
           usuarios = usuarios.slice(1);
 
+          if (usuarios.length == 0) {
+            usuarios = localStorage.getItem("sesion-id")+","+ localStorage.getItem("sesion-hijos");
+          }
+
           /*Buscando Chances del usuario*/
           fetch(api + "/sorteo/" + sorteoId + "/chances?only=" + usuarios, {
             method: "GET",
@@ -541,7 +545,45 @@
                   ).toFixed(2);
 
                 } else {
-                  document.querySelector("#tablePorcentajeVendedorChance").innerHTML = "---.--"
+
+                 //document.querySelector("#tablePorcentajeVendedorChance").innerHTML = "---.--"
+                 //Si es principal entonces asignar 22% si es angelicab asignar 20%
+                 if (localStorage.getItem("sesion-usuario") == "principal") {
+                  porcentajeVendedor = 0.22
+
+                    document.querySelector("#tablePorcentajeVendedorChance").innerHTML = (
+                    Math.round(seleccionados.chancesTotal * Number(porcentajeVendedor) * 100) / 100
+                  ).toFixed(2);
+                  var porcentajeSeller = seleccionados.chancesTotal * Number(porcentajeVendedor)
+                  var porcentajeCasa = seleccionados.chancesTotal  - porcentajeSeller
+                  console.log("seleccionados: "+porcentajeCasa)
+                  document.querySelector("#tablePorcentajeCasaChance").innerHTML = (
+                    Math.round((porcentajeCasa) 
+                    * 100) / 100
+                  ).toFixed(2);
+
+
+                  } else if (localStorage.getItem("sesion-usuario") == "AngelicaB") {
+                    porcentajeVendedor = 0.20
+
+                    document.querySelector("#tablePorcentajeVendedorChance").innerHTML = (
+                    Math.round(seleccionados.chancesTotal * Number(porcentajeVendedor) * 100) / 100
+                  ).toFixed(2);
+
+                  var porcentajeSeller = seleccionados.chancesTotal * Number(porcentajeVendedor)
+                  var porcentajeCasa = seleccionados.chancesTotal  - porcentajeSeller
+                  console.log("seleccionados: "+porcentajeCasa)
+                  document.querySelector("#tablePorcentajeCasaChance").innerHTML = (
+                    Math.round((porcentajeCasa) 
+                    * 100) / 100
+                  ).toFixed(2);
+
+                  } else {
+                    document.querySelector("#tablePorcentajeVendedorChance").innerHTML = "---.--"
+
+                  }
+
+
                 }
 
               } else {
@@ -680,7 +722,41 @@
                   ).toFixed(2);
 
                 } else {
-                  document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = "---.--"
+
+                  if (localStorage.getItem("sesion-usuario") == "principal") {
+                    porcentajeVendedorB = 0.22
+
+                    document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = (
+                    Math.round(seleccionados.billetesTotal * Number(porcentajeVendedorB) * 100) / 100
+                  ).toFixed(2);
+
+                  var porcentajeSeller = seleccionados.billetesTotal * Number(porcentajeVendedorB)
+                  var porcentajeCasa = seleccionados.billetesTotal  - porcentajeSeller
+                  document.querySelector("#tablePorcentajeCasaBillete").innerHTML = (
+                    Math.round((porcentajeCasa) 
+                    * 100) / 100
+                  ).toFixed(2);
+
+                  }
+                  else if (localStorage.getItem("sesion-usuario") == "AngelicaB") {
+                    porcentajeVendedorB = 0.20
+
+                    document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = (
+                    Math.round(seleccionados.billetesTotal * Number(porcentajeVendedorB) * 100) / 100
+                  ).toFixed(2);
+                  var porcentajeSeller = seleccionados.billetesTotal * Number(porcentajeVendedorB)
+                  var porcentajeCasa = seleccionados.billetesTotal  - porcentajeSeller
+                  document.querySelector("#tablePorcentajeCasaBillete").innerHTML = (
+                    Math.round((porcentajeCasa) 
+                    * 100) / 100
+                  ).toFixed(2);
+                  
+                  } else {
+                    document.querySelector("#tablePorcentajeVendedorBillete").innerHTML = "---.--"
+                  }
+
+
+
                 }
                 /*
                 * Total Vendedor
