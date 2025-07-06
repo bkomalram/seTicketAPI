@@ -1605,7 +1605,6 @@
               <button
                 class="btn btn-sm btn-secondary col-12"
                 id="btn-print-ticket-mobile"
-                onclick="imprimirTiquete()"
               >
                 <h6 id="text-print-ticket">Imprimir</h6>
                 <div
@@ -3214,7 +3213,16 @@
           element.value = "";
         });
       }
-      function imprimirTiquete(event) { 
+      
+      let isProcessingTicket = false;
+
+      function imprimirTiquete(event) {
+        if (isProcessingTicket) {
+          // Opcional: mostrar mensaje al usuario
+          return;
+        }
+        isProcessingTicket = true;
+
         document.querySelector("#text-print-ticket").classList.add("d-none");
         document
           .querySelector("#spinner-print-ticket")
@@ -3239,8 +3247,11 @@
           document.querySelector("#text-error-ticket").innerHTML =
           "Debes seleccionar un sorteo activo para poder vender";
 
-        $("#modalErrorTicket").modal("show");
-
+          $("#modalErrorTicket").modal("show");
+          isProcessingTicket = false; // Liberar el bloqueo al finalizar
+          //Remueve atributo disabled de boton imprimir
+          document.querySelector("#btn-print-ticket").removeAttribute("disabled");
+          document.querySelector("#btn-print-ticket-mobile").removeAttribute("disabled");
           return;
         }
 
@@ -3264,8 +3275,11 @@
           document.querySelector("#text-error-ticket").innerHTML =
           "Debes completar la edicion solicitada antes de poder vender";
 
-        $("#modalErrorTicket").modal("show");
-
+          $("#modalErrorTicket").modal("show");
+          isProcessingTicket = false; // Liberar el bloqueo al finalizar
+          //Remueve atributo disabled de boton imprimir
+          document.querySelector("#btn-print-ticket").removeAttribute("disabled");
+          document.querySelector("#btn-print-ticket-mobile").removeAttribute("disabled");
           return;
         }
 
@@ -3287,7 +3301,11 @@
           document.querySelector("#text-error-ticket").innerHTML =
           "Debes seleccionar un titulo para los ticketes";
 
-        $("#modalErrorTicket").modal("show");
+          $("#modalErrorTicket").modal("show");
+          isProcessingTicket = false; // Liberar el bloqueo al finalizar
+          //Remueve atributo disabled de boton imprimir
+          document.querySelector("#btn-print-ticket").removeAttribute("disabled");
+          document.querySelector("#btn-print-ticket-mobile").removeAttribute("disabled");
           return;
         }
 
@@ -3320,7 +3338,7 @@
             valor: bag.total,
             registros: arregloRegistros,
           };
-
+          
           fetch(api + "tiquete/mq", {
             method: "POST",
             body: JSON.stringify(objetoSorteo),
@@ -3385,6 +3403,11 @@
                     window.print();
                     limpiarTablero();
                   }
+                }).finally(() => {
+                  isProcessingTicket = false; // Liberar el bloqueo al finalizar
+                  //Remueve atributo disabled de boton imprimir
+                  document.querySelector("#btn-print-ticket").removeAttribute("disabled");
+                  document.querySelector("#btn-print-ticket-mobile").removeAttribute("disabled");
                 });
                 
               } else {
@@ -3404,6 +3427,11 @@
                 .querySelector("#text-print-ticket")
                 .classList.remove("d-none");
             });
+        } else {
+          isProcessingTicket = false; // Liberar el bloqueo al finalizar
+          //Remueve atributo disabled de boton imprimir
+          document.querySelector("#btn-print-ticket").removeAttribute("disabled");
+          document.querySelector("#btn-print-ticket-mobile").removeAttribute("disabled");
         }
       }
 
@@ -3610,6 +3638,18 @@
       document
         .querySelector("#btn-print-ticket")
         .addEventListener("click", function (event) {
+          // Coloca Disabled el boton de imprimir
+          document.querySelector("#btn-print-ticket").setAttribute("disabled", true);
+          document.querySelector("#btn-print-ticket-mobile").setAttribute("disabled", true);
+          imprimirTiquete();
+        });
+
+      document
+        .querySelector("#btn-print-ticket-mobile")
+        .addEventListener("click", function (event) {
+          // Coloca Disabled el boton de imprimir
+          document.querySelector("#btn-print-ticket").setAttribute("disabled", true);
+          document.querySelector("#btn-print-ticket-mobile").setAttribute("disabled", true);
           imprimirTiquete();
         });
 
