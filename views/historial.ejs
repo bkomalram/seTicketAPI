@@ -73,8 +73,17 @@
           }
         });
       function editarTicket(id) {
-        alert('Funcionalidad de edición para el ticket ' + id);
-        // Aquí puedes redirigir a una pantalla de edición o abrir un modal
+        // Guardar el ID del ticket en localStorage para mantenerlo entre páginas
+        localStorage.setItem('ticketToEdit', id);
+        // Redirigir a la página de venta
+        window.location.href = '/ventas';
+      }
+
+      // Si venimos de la página de venta, limpiar el ticket guardado
+      window.onload = function() {
+        if (window.location.pathname === '/historial') {
+          localStorage.removeItem('ticketToEdit');
+        }
       }
       function eliminarTicket(id) {
         if (confirm('¿Seguro que deseas eliminar el ticket ' + id + '?')) {

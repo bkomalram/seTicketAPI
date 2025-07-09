@@ -382,6 +382,16 @@ router.get("/:tiqueteId", (req,res)=>{
         }]
     }
 
+    //Si el usuario es principal, puede editar todos los tickets
+    if (req.jornada.usuario == "principal") {
+        var userWhere = { esValido: "SI"}
+    } else {
+        var userWhere = { 
+            userId : tempList.split(","),
+            esValido: "SI"
+        }
+    }
+
     try {              
         DB.GameTicketRecord.findAll({
             where:{                
@@ -394,7 +404,7 @@ router.get("/:tiqueteId", (req,res)=>{
                     ["valorcompra","total"],
                     ["cambio","cambio"]
                 ],
-                where: {userId : tempList.split(","), esValido: "SI"},
+                where: userWhere,
                 include: includeGame
             }],            
             order:[
