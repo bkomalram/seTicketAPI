@@ -19,6 +19,8 @@
                         localStorage.removeItem('ticketToEdit');
                     }, 500); // Pequeño delay para asegurar que todo esté listo
                 }
+
+                home2sell()
             }
         });
     }

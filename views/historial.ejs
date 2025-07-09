@@ -2,26 +2,56 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Historial de Ventas</title>
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
+    <style>
+      @media (max-width: 576px) {
+        h3 { font-size: 1.2rem; }
+        .table th, .table td { font-size: 0.85rem; padding: 0.4rem; }
+        .btn { font-size: 0.8rem; padding: 0.25rem 0.5rem; }
+        .mt-4 { margin-top: 1rem !important; }
+        .container-fluid { padding-left: 0.5rem; padding-right: 0.5rem; }
+      }
+    </style>
   </head>
   <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
     <div class="row mt-4">
       <div class="col-12">
-        <h3>Historial de Ventas</h3>
-        <table class="table table-bordered" id="tablaTickets">
-          <thead>
-            <tr>
-              <th>Ticket ID</th>
-              <th>Monto Total</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Aquí se llenarán los tickets -->
-          </tbody>
-        </table>
+        <div class="row">
+          <div class="col-12 col-md-3 mb-2">
+            <button
+              class="btn btn-sm btn-secondary col-12"
+              id="btn-back"
+            >
+              <h5 id="text-back">Regresar</h5>
+              <div
+                class="spinner-grow d-none"
+                role="status"
+                id="spinner-back"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+          </div>
+          <h3 class="text-center col-md-6 col-12">Historial de Ventas</h3>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-sm mb-0" id="tablaTickets">
+            <thead class="thead-light">
+              <tr>
+                <th>Ticket ID</th>
+                <th>Monto Total</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Aquí se llenarán los tickets -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <div class="d-flex justify-content-center d-none" id="loading">
@@ -30,6 +60,11 @@
       </div>
     </div>
     <script>
+
+      document.getElementById('btn-back').addEventListener('click', function() {
+        window.location = "/ventas";
+      });
+
       document.getElementById('loading').classList.remove('d-none');
       const api = "<%= enviroment.URL_API %>";
       const token = localStorage.getItem("tokenSSO");
@@ -51,7 +86,7 @@
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          
           document.getElementById('loading').classList.add('d-none');
           if (data.exitoso) {
             const tbody = document.querySelector("#tablaTickets tbody");
@@ -62,8 +97,25 @@
                 <td>${ticket.id}</td>
                 <td>${ticket.valorcompra.toFixed(2)}</td>
                 <td>
-                  <button class="btn btn-sm btn-secondary" onclick="editarTicket('${ticket.id}')">Editar</button>
-                  <button class="btn btn-sm btn-danger" onclick="eliminarTicket('${ticket.id}')">Eliminar</button>
+                  <div class="col-12" role="group">
+          
+                  <button class="btn btn-sm btn-secondary" onclick="editarTicket('${ticket.id}')">
+                  <div class="icon-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+              </svg>
+            </div>  
+                  </button>
+                  <button class="btn btn-sm btn-danger" onclick="eliminarTicket('${ticket.id}')">
+                    <div class="icon-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+              </svg>
+            </div>
+            </button>
+            </div>
                 </td>
               `;
               tbody.appendChild(tr);

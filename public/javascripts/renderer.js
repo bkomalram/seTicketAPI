@@ -438,10 +438,11 @@ function finantial2home() {
 }
 
 function home2config() {
-  document.querySelector("#mobile-home").classList.remove("d-block")
-  document.querySelector("#mobile-home").classList.add("d-none")
-  document.querySelector("#mobile-config").classList.remove("d-none")
-  document.querySelector("#mobile-config").classList.add("d-block")
+  window.location = "/historial"
+  //document.querySelector("#mobile-home").classList.remove("d-block")
+  //document.querySelector("#mobile-home").classList.add("d-none")
+  //document.querySelector("#mobile-config").classList.remove("d-none")
+  //document.querySelector("#mobile-config").classList.add("d-block")
 }
 
 function config2home() {

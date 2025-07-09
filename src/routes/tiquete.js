@@ -256,6 +256,7 @@ router.get("/", (req,res)=>{
                 esValido: 'SI'
             },           
             order:[
+                ["id", 'DESC'],
                 ["userId", 'ASC'],
             ]
         })
