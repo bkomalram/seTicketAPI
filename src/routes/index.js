@@ -63,4 +63,8 @@ router.get('/admin-area', function(req, res, next) {
   res.render('admin-area', { title: 'Gestión de Usuarios', enviroment: env.parsed });
 });
 
+router.get('/historial', function(req, res, next) {  
+  res.render('historial', { title: 'Historial de Ventas', enviroment: env.parsed });
+});
+
 module.exports = router;

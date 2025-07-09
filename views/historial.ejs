@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Historial de Ventas</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+  </head>
+  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
+    <div class="row mt-4">
+      <div class="col-12">
+        <h3>Historial de Ventas</h3>
+        <table class="table table-bordered" id="tablaTickets">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Monto Total</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Aquí se llenarán los tickets -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center d-none" id="loading">
+      <div class="spinner-grow" role="status" style="width: 5rem; height: 5rem; background-color: #dee2e6 !important;">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <script>
+      document.getElementById('loading').classList.remove('d-none');
+      const api = "<%= enviroment.URL_API %>";
+      const token = localStorage.getItem("tokenSSO");
+      const usuario = localStorage.getItem("sesion-id");
+      const identificadorJuego = localStorage.getItem("choose-game");
+      /*Verificar si tiene sesión*/
+      // Check if user is logged in
+      if (!localStorage.getItem("tokenSSO")) {
+        window.location = "/";
+      }
+
+
+      fetch(api + "/tiquete?users=" + usuario + "&game=" + identificadorJuego, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          document.getElementById('loading').classList.add('d-none');
+          if (data.exitoso) {
+            const tbody = document.querySelector("#tablaTickets tbody");
+            tbody.innerHTML = "";
+            data.resultado.forEach(ticket => {
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+                <td>${ticket.id}</td>
+                <td>${ticket.valorcompra.toFixed(2)}</td>
+                <td>
+                  <button class="btn btn-sm btn-secondary" onclick="editarTicket('${ticket.id}')">Editar</button>
+                  <button class="btn btn-sm btn-danger" onclick="eliminarTicket('${ticket.id}')">Eliminar</button>
+                </td>
+              `;
+              tbody.appendChild(tr);
+            });
+          } else {
+            alert("Error cargando tickets");
+          }
+        });
+      function editarTicket(id) {
+        alert('Funcionalidad de edición para el ticket ' + id);
+        // Aquí puedes redirigir a una pantalla de edición o abrir un modal
+      }
+      function eliminarTicket(id) {
+        if (confirm('¿Seguro que deseas eliminar el ticket ' + id + '?')) {
+          fetch(api + "/tiquete", {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ tiqueteId: id })
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exitoso) {
+                alert('Ticket eliminado');
+                location.reload();
+              } else {
+                alert('No se pudo eliminar el ticket');
+              }
+            });
+        }
+      }
+    </script>
+  </body>
+</html>
