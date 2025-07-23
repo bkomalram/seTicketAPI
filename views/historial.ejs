@@ -138,25 +138,42 @@
         }
       }
       function eliminarTicket(id) {
-        if (confirm('¿Seguro que deseas eliminar el ticket ' + id + '?')) {
-          fetch(api + "/tiquete", {
-            method: "PATCH",
+
+        //obtener el ticket a eliminar para confirmar que es posible eliminar
+        fetch(api + "tiquete/"+id+"?accion=editar", {
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
+              Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
             },
-            body: JSON.stringify({ tiqueteId: id })
           })
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.exitoso) {
-                alert('Ticket eliminado');
-                location.reload();
-              } else {
-                alert('No se pudo eliminar el ticket');
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.resultado.length < 1) {
+              alert('No se puede eliminar el ticket');
+            } else {
+              
+              if (confirm('¿Seguro que deseas eliminar el ticket ' + id + '?')) {
+                fetch(api + "/tiquete", {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                  },
+                  body: JSON.stringify({ tiqueteId: id })
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    if (data.exitoso) {
+                      alert('Ticket eliminado');
+                      location.reload();
+                    } else {
+                      alert('No se pudo eliminar el ticket');
+                    }
+                  });
               }
-            });
-        }
+            }
+          });
       }
     </script>
   </body>
