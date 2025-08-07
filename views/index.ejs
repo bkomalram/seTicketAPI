@@ -3404,7 +3404,7 @@
                     
                     // Descargar la imagen temporalmente
                     const link = document.createElement('a');
-                    link.download = 'ticket-'+globalChance.receiptCount.toString()+'.jpg';
+                    link.download = 'ticket-'+bag.seller+'-'+globalChance.receiptCount.toString()+'.jpg';
                     link.href = imageData;
                     link.click();
 
@@ -3606,7 +3606,7 @@
                     
                     // Descargar la imagen temporalmente
                     const link = document.createElement('a');
-                    link.download = 'ticket-'+globalChance.receiptCount.toString()+'.jpg';
+                    link.download = 'ticket-'+bag.seller+'-'+globalChance.receiptCount.toString()+'.jpg';
                     link.href = imageData;
                     link.click();
                     
@@ -4202,7 +4202,7 @@
                     // Descargar la imagen temporalmente
                     const link = document.createElement('a');
                     const timestamp = getPanamaDateTime();
-                    link.download = 'ticket-'+objetoSorteo.editar.toString()+'-'+timestamp+'.jpg';
+                    link.download = 'ticket-'+bag.seller+'-'+objetoSorteo.editar.toString()+'-'+timestamp+'.jpg';
                     link.href = imageData;
                     link.click();
 
