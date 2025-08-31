@@ -191,5 +191,88 @@
           });
       }
     </script>
+    <!-- Modal para ver información del ticket -->
+    <div class="modal fade" id="modalVerTicket" tabindex="-1" role="dialog" aria-labelledby="modalVerTicketLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalVerTicketLabel">Información del Ticket</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrarModalVerTicket()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modalVerTicketBody">
+            <!-- Aquí se llenará la información del ticket -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="cerrarModalVerTicket()">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function verTicket(id) {
+        // Mostrar spinner en el modal mientras carga
+        document.getElementById('modalVerTicketBody').innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Cargando...</span></div></div>';
+        mostrarModalVerTicket();
+        fetch(api + "/tiquete/" + id, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.exitoso && data.resultado) {
+              const ticket = data.resultado;
+              let html = '<ul class="list-group">';
+              for (const key in ticket) {
+                if (Object.prototype.hasOwnProperty.call(ticket, key)) {
+                  html += `<li class='list-group-item'><strong>${key}:</strong> ${ticket[key]}</li>`;
+                }
+              }
+              html += '</ul>';
+              document.getElementById('modalVerTicketBody').innerHTML = html;
+            } else {
+              document.getElementById('modalVerTicketBody').innerHTML = '<div class="alert alert-danger">No se pudo cargar la información del ticket.</div>';
+            }
+          })
+          .catch(() => {
+            document.getElementById('modalVerTicketBody').innerHTML = '<div class="alert alert-danger">Error al consultar el ticket.</div>';
+          });
+      }
+
+      // Funciones para mostrar y cerrar el modal
+      function mostrarModalVerTicket() {
+        const modal = document.getElementById('modalVerTicket');
+        modal.classList.add('show');
+        modal.style.display = 'block';
+        modal.removeAttribute('aria-hidden');
+        modal.setAttribute('aria-modal', 'true');
+        document.body.classList.add('modal-open');
+        // Agregar backdrop manualmente
+        if (!document.getElementById('modalVerTicket-backdrop')) {
+          const backdrop = document.createElement('div');
+          backdrop.className = 'modal-backdrop fade show';
+          backdrop.id = 'modalVerTicket-backdrop';
+          document.body.appendChild(backdrop);
+        }
+      }
+      function cerrarModalVerTicket() {
+        const modal = document.getElementById('modalVerTicket');
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        modal.removeAttribute('aria-modal');
+        document.body.classList.remove('modal-open');
+        // Quitar backdrop manualmente
+        const backdrop = document.getElementById('modalVerTicket-backdrop');
+        if (backdrop) {
+          backdrop.parentNode.removeChild(backdrop);
+        }
+      }
+    </script>
   </body>
 </html>
