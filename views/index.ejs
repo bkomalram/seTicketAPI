@@ -1583,7 +1583,9 @@
             <span>Buscar</span>
           </button>
         </div>
-        <input type="number" class="d-md-none d-print-none form-control col-8 offset-2 mt-2" autocomplete="off" name="mobile-edit-ticket">
+        <input type="number" class="form-control col-8 offset-2 mt-2" autocomplete="off" name="mobile-edit-ticket" id="mobile-edit-ticket" placeholder="Número de ticket">
+        <input type="text" class="form-control col-10 offset-1 mt-2" autocomplete="off" id="optional-customer-name-mobile"  name="optional-customer-name-mobile" placeholder="Nombre del cliente (opcional)">
+
 
         <div class="row d-none" id="mobile-btn-kit-2">
           <button class="menu-button vender d-print-none d-md-none col-3 offset-1" onclick="mobileEditar()">
@@ -3904,6 +3906,14 @@
           bag.render()
       });
 
+      const inputCustomerNameMobile = document.getElementById("optional-customer-name-mobile");
+       const displayCustomerNameMobile = document.getElementById("display-customer-name");
+       inputCustomerNameMobile.addEventListener("input", function() {
+          bag.customerName = inputCustomerNameMobile.value;
+          console.log(inputCustomerNameMobile.value)
+          bag.render()
+      });
+
       /***
        * Sacado
        * */
@@ -3939,6 +3949,8 @@
         document.querySelector("#mobile-btn-kit-2").classList.add("d-none")
         document.querySelector("[name='mobile-edit-ticket']").classList.remove("d-none")
         document.querySelector("[name='mobile-edit-ticket']").value = ""
+        document.querySelector("[name='optional-customer-name-mobile']").classList.remove("d-none")
+        document.querySelector("[name='optional-customer-name-mobile']").value = ""
         globalChance.receiptCount = 0
         localStorage.removeItem("edit-ticket-number")
         bag.render()
@@ -4030,7 +4042,8 @@
             document.querySelector("#mobile-btn-kit-1").classList.add("d-none")
             document.querySelector("#mobile-btn-kit-2").classList.remove("d-none")
             document.querySelector("[name='mobile-edit-ticket']").classList.add("d-none")
-            
+            document.querySelector("[name='optional-customer-name-mobile']").classList.add("d-none")
+
             return data
           })
           .then((data) => {
@@ -4090,6 +4103,7 @@
               document.querySelector("#mobile-btn-kit-1").classList.remove("d-none")
               document.querySelector("#mobile-btn-kit-2").classList.add("d-none")
               document.querySelector("[name='mobile-edit-ticket']").classList.remove("d-none")   
+              document.querySelector("[name='optional-customer-name-mobile']").classList.remove("d-none")
 
               globalChance.receiptCount = 0
               localStorage.removeItem("edit-ticket-number")
@@ -4247,7 +4261,7 @@
               document.querySelector("#mobile-btn-kit-1").classList.remove("d-none")
               document.querySelector("#mobile-btn-kit-2").classList.add("d-none")
               document.querySelector("[name='mobile-edit-ticket']").classList.remove("d-none")
-
+              document.querySelector("[name='optional-customer-name-mobile']").classList.remove("d-none")
 
               globalChance.receiptCount = 0
               localStorage.removeItem("edit-ticket-number")
