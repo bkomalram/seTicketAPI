@@ -226,14 +226,27 @@
           .then((response) => response.json())
           .then((data) => {
             if (data.exitoso && data.resultado) {
-              const ticket = data.resultado;
-              let html = '<ul class="list-group">';
-              for (const key in ticket) {
-                if (Object.prototype.hasOwnProperty.call(ticket, key)) {
-                  html += `<li class='list-group-item'><strong>${key}:</strong> ${ticket[key]}</li>`;
-                }
-              }
-              html += '</ul>';
+              let tickets = Array.isArray(data.resultado) ? data.resultado : [data.resultado];
+              let html = '';
+              html += `<div class="list-group">`;
+              html += `<div class="list-group-item active d-flex justify-content-between">
+                <span><strong>Tipo</strong></span>
+                <span><strong>Número</strong></span>
+                <span><strong>Cantidad</strong></span>
+                <span><strong>Total</strong></span>
+                <span><strong>Fecha</strong></span>
+              </div>`;
+              tickets.forEach(ticket => {
+                let fecha = ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : '';
+                html += `<div class="list-group-item d-flex justify-content-between">
+                  <span>${ticket.tipo || ''}</span>
+                  <span>${ticket.numero || ''}</span>
+                  <span>${ticket.cantidad || ''}</span>
+                  <span>$${ticket.valorcompra != null ? ticket.valorcompra.toFixed(2) : ''}</span>
+                  <span>${fecha}</span>
+                </div>`;
+              });
+              html += `</div>`;
               document.getElementById('modalVerTicketBody').innerHTML = html;
             } else {
               document.getElementById('modalVerTicketBody').innerHTML = '<div class="alert alert-danger">No se pudo cargar la información del ticket.</div>';
