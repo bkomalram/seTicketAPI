@@ -236,12 +236,18 @@
                 let fecha = ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : '';
                 let calcularPremio = ticket.ganador === "SI" ? (ticket.valorganador1er + ticket.valorganador2do + ticket.valorganador3ro).toFixed(2) : '0.00';
 
+                var tdBGcolor = "";
+              //Si ticket.ganador es "SI" colocar color verde a tr
+              if (ticket.ganador === "SI") {
+                tdBGcolor = "style='background-color: green;'";
+              }
+
                 html += `<tr>
-                  <td>${calcularPremio || ''}</td>
-                  <td>${ticket.numero || ''}</td>
-                  <td>${ticket.cantidad || ''}</td>
-                  <td>$${ticket.valorcompra != null ? ticket.valorcompra.toFixed(2) : ''}</td>
-                  <td>${fecha}</td>
+                  <td ${tdBGcolor}>${calcularPremio || ''}</td>
+                  <td ${tdBGcolor}>${ticket.numero || ''}</td>
+                  <td ${tdBGcolor}>${ticket.cantidad || ''}</td>
+                  <td ${tdBGcolor}>$${ticket.valorcompra != null ? ticket.valorcompra.toFixed(2) : ''}</td>
+                  <td ${tdBGcolor}>${fecha}</td>
                 </tr>`;
               });
               html += `</tbody></table></div>`;
