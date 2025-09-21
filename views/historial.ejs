@@ -234,7 +234,7 @@
                 <tbody>`;
               tickets.forEach(ticket => {
                 let fecha = ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : '';
-                let calcularPremio = ticket.ganador === "SI" ? (ticket.valorganador1er + ticket.valorganador2do + ticket.valorganador3er).toFixed(2) : '0.00';
+                let calcularPremio = ticket.ganador === "SI" ? (ticket.valorganador1er + ticket.valorganador2do + ticket.valorganador3ro).toFixed(2) : '0.00';
 
                 html += `<tr>
                   <td>${calcularPremio || ''}</td>
