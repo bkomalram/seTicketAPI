@@ -30,6 +30,53 @@ router.get("/", (req,res)=>{
     })
 })
 
+router.get("/:userId/hijos", async (req,res)=>{
+    try {
+        /*Evalulando Accesos*/
+        if (req.jornada.accesos < 1) {
+            return res.status(401).json({
+                resultado: "Privilegios insuficientes",
+                exitoso:false
+            })
+        }
+        
+        /*Obtener usuario*/
+        const usuario = await DB.User.findOne({
+            where:{
+                id: req.params.userId,
+                esActivo:'SI'
+            }
+        })
+
+        if (!usuario) {
+            return res.status(404).json({
+                resultado: "Usuario no encontrado",
+                exitoso:false
+            })
+        }
+
+        /*Obtener hijos*/
+        const hijos = await usuario.getHijos({
+            where:{ esActivo:'SI' },
+            order:[["nombre", 'ASC']]
+        })
+
+        res.status(200).json({
+            resultado: hijos,
+            lista:hijos.getChild(),
+            exitoso:true
+        })
+
+    } catch (error) {
+        console.error('Error al obtener hijos:', error);
+        res.status(500).json({
+            resultado: error.message,
+            lista:'',
+            exitoso:false
+        })
+    }
+})
+
 router.get("/token", (req,res)=>{
     const initialToken = {
         perfil:"Invitado",
