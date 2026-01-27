@@ -25,7 +25,8 @@ router.get("/", (req,res)=>{
             ["nombre", 'ASC'],
         ]
     })
-    .then((data)=>{            
+    .then((data)=>{          
+        data.hijos = data.getChild()  
         res.status(200).json({resultado:data,exitoso:true})       
     })
 })
