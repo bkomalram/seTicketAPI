@@ -26,10 +26,17 @@ router.get("/", (req,res)=>{
         ]
     })
     .then(async (data)=>{          
+        const resultado = [];
         for (let user of data) {
-            user.hijos = await user.getChild();
+            const usuarioObj = user.toJSON();
+            usuarioObj.hijos = await user.getChild();
+            resultado.push(usuarioObj);
         }
-        res.status(200).json({resultado:data,exitoso:true})       
+        res.status(200).json({resultado:resultado,exitoso:true})       
+    })
+    .catch(error => {
+        console.error('Error al obtener usuarios:', error);
+        res.status(500).json({resultado:error.message,exitoso:false})
     })
 })
 
