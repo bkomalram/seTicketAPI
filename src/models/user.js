@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.prototype.getChild = async function () {
     const hijos = await this.getHijos(); // Usa el alias definido en la asociación
-    return hijos.map(h => h.id).join(', ');
+    return hijos.map(h => h.id).join(',');
   };
   
 
