@@ -25,8 +25,10 @@ router.get("/", (req,res)=>{
             ["nombre", 'ASC'],
         ]
     })
-    .then((data)=>{          
-        data.hijos = data.getChild()  
+    .then(async (data)=>{          
+        for (let user of data) {
+            user.hijos = await user.getChild();
+        }
         res.status(200).json({resultado:data,exitoso:true})       
     })
 })
