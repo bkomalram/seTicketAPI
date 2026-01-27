@@ -438,7 +438,7 @@
           document.querySelectorAll("#listaUsuarios input").forEach((check) => {
             if (check.checked) {
               usuarios = usuarios + ",";
-              usuarios = usuarios + check.name;
+              usuarios = usuarios + check.name + check.hijos;
             }
           });
           usuarios = usuarios.slice(1);
@@ -866,6 +866,9 @@
             '"',
             ' comision-billete="',
             registro.porcentajeComisionBillete,
+            '"',
+            ' hijos="',
+            registro.hijos,
             '"',
             '<label class="form-check-label" for="flexCheckDefault">',
             registro.nombre,
