@@ -438,7 +438,7 @@
           document.querySelectorAll("#listaUsuarios input").forEach((check) => {
             if (check.checked) {
               usuarios = usuarios + ",";
-              usuarios = usuarios + check.name + check.hijos;
+              usuarios = usuarios + check.name +""+ check.getAttribute("hijos");
             }
           });
           usuarios = usuarios.slice(1);
