@@ -1107,12 +1107,27 @@ router.post("/calcular", async (req,res)=>{
         return
     }
 
-    const [rows] = await DB.sequelize.query(
-    "CALL sp_actualiza_ganadores(?,?,?,?,@ok,@msg); SELECT @ok AS ok, @msg AS message;",
-    { replacements: [sorteoId, numeroGanador1er, numeroGanador2do, numeroGanador3er], type: DB.sequelize.QueryTypes.SELECT }
-    );
-    // rows contiene ok/message después de la ejecución
-    res.json({ resultado: rows, exitoso: true });
+    try {
+        // Ejecutar el stored procedure
+        await DB.sequelize.query("CALL sp_actualiza_ganadores(?, ?, ?, ?, @ok, @msg)", {
+            replacements: [sorteoId, numeroGanador1er, numeroGanador2do, numeroGanador3er]
+        });
+
+        // Obtener los valores de salida
+        const [rows] = await DB.sequelize.query("SELECT @ok AS ok, @msg AS message", {
+            type: DB.sequelize.QueryTypes.SELECT
+        });
+
+        // Responder con el resultado
+        res.json({ resultado: rows, exitoso: true });
+    } catch (error) {
+        console.error("Error al ejecutar el stored procedure:", error);
+        res.status(500).json({
+            resultado: "Error interno del servidor",
+            exitoso: false,
+            detalle: error.message
+        });
+    }
 })
 
 
