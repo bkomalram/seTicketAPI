@@ -343,7 +343,7 @@
           .then((response) => response.json())
           .then((data) => {
             /*Invoka funcion de generar ganadores*/
-            fetch(api + "ganadores", {
+            fetch(api + "ganadores/calcular", {
           method: "POST",
           body: JSON.stringify(objetoGanadores),
           headers: {

@@ -1096,5 +1096,24 @@ router.put("/", (req,res)=>{
     }
 })
 
+router.post("/calcular", async (req,res)=>{
+
+    const { sorteoId, numeroGanador1er, numeroGanador2do, numeroGanador3er} = req.body
+    if (req.jornada.accesos < 2) {
+        res.json({
+            resultado: "Privilegios insuficientes",
+            exitoso:false
+        })
+        return
+    }
+
+    const [rows] = await DB.sequelize.query(
+    "CALL sp_actualiza_ganadores(?,?,?,?,@ok,@msg); SELECT @ok AS ok, @msg AS message;",
+    { replacements: [sorteoId, numeroGanador1er, numeroGanador2do, numeroGanador3er], type: DB.sequelize.QueryTypes.SELECT }
+    );
+    // rows contiene ok/message después de la ejecución
+    res.json({ resultado: rows, exitoso: true });
+})
+
 
 module.exports = router
