@@ -382,7 +382,8 @@ router.get("/:sorteoId/chances", (req,res)=>{
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador2do')), 'dineroPremio2do'],
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
             ],
-            group:['numero']            
+            group:['numero'],
+            having: DB.sequelize.literal('SUM(cantidad) > 0')           
         })
         .then((LeftJoin)=>{
             res.status(200).json({resultado:LeftJoin,exitoso:true})       
@@ -479,6 +480,7 @@ router.get("/:sorteoId/billetes", (req,res)=>{
                 [DB.sequelize.fn('sum', DB.sequelize.col('GameTicketRecord.valorganador3ro')), 'dineroPremio3ro'],
             ],
             group:['numero'],
+            having: DB.sequelize.literal('SUM(cantidad) > 0'),
             order:[
                 [DB.sequelize.literal('cantidad'), 'DESC'],
             ]
