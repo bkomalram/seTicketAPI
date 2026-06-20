@@ -509,20 +509,20 @@ router.get("/:sorteoId/billetes-publico", async (req,res)=>{
 
     var objValoresPremios = {
         primer: {
-            "ULTIMO_NUMERO": 1,
+            "ULTIMO_NUMERO": 0,
             "DOS_ULTIMOS": 3,
             "DOS_PRIMEROS": 3,
-            "DOS_PRIMEROS_ULTIMO_NUMERO": 4,
+            "DOS_PRIMEROS_ULTIMO_NUMERO": 0,
             "TRES_ULTIMOS": 50,
             "TRES_PRIMEROS": 50,
-            "CUATRO_NUMEROS": 2000,
+            "CUATRO_NUMEROS": 2500,
             "CHANCE_GANADOR": 14
           },
         segundo: {
             "DOS_ULTIMOS": 2,
             "TRES_ULTIMOS": 20,
             "TRES_PRIMEROS": 20,
-            "CUATRO_NUMEROS": 600,
+            "CUATRO_NUMEROS": 700,
             "CHANCE_GANADOR": 3
           },
         tercero: {
