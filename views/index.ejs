@@ -2625,15 +2625,10 @@
           Math.round(0 * 100) / 100
         ).toFixed(2);
 
-        if (document.querySelectorAll(
-          "#select-choose-game option"
-        )[document.querySelector("#select-choose-game").selectedIndex].value){
-          return
-        } else {
-          let numeroSorteo = document.querySelectorAll(
+
+        let numeroSorteo = document.querySelectorAll(
           "#select-choose-game option"
         )[document.querySelector("#select-choose-game").selectedIndex].value;
-        }
 
         fetch(api + "sorteo/" + numeroSorteo + "/chances?ord=numero", {
           method: "GET",
