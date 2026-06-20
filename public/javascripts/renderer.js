@@ -23,7 +23,17 @@ var bag = {
   total:0,
   date:function () {
     let date = new Date()
-    return date.toLocaleString('en-US', { hour12: true })
+    //return date.toLocaleString('en-US', { hour12: true })
+    return date.toLocaleString('es-ES', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    }).toUpperCase();
   },
   receipt: () => {return (Number(globalChance.receiptCount)).toString().padStart(6,'0') },
   add: function (item) {

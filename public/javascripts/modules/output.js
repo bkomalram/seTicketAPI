@@ -155,6 +155,7 @@ const loadOldTicket = async function (num) {
 }
 
 const showConfiguracion = function () {
+    cargarEstadoSorteo();
     document.querySelector("#venta").classList.add('d-none')    
     document.querySelector("#configuracion").classList.remove('d-none')    
 }

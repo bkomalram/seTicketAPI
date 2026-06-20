@@ -17,17 +17,17 @@ BEGIN
     START TRANSACTION;
 
     -- Primer Premio
-    UPDATE GameTickets gT
+    /*UPDATE GameTickets gT
     JOIN GameTicketRecords gTR ON gT.Id = gTR.gameTicketId
     SET gT.ganador = 'SI',
         gT.valorganador = 0,
         gTR.ganador = 'SI',
         gTR.primer_premio = 'ULTIMO_NUMERO',
-        gTR.valorganador1er = gTR.cantidad * 0
+        gTR.valorganador1er = gTR.cantidad * 1
     WHERE gTR.tipo = 'BILLETE'
       AND gT.esValido = 'SI'
       AND gT.game_Id = p_game_id
-      AND SUBSTR(gTR.NUMERO, 4, 1) = SUBSTR(p_numero1er, 4, 1);
+      AND SUBSTR(gTR.NUMERO, 4, 1) = SUBSTR(p_numero1er, 4, 1);*/
 
     UPDATE GameTickets gT
     JOIN GameTicketRecords gTR ON gT.Id = gTR.gameTicketId
