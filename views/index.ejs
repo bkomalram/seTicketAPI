@@ -2012,6 +2012,57 @@
                     <span class="sr-only">Loading...</span>
                   </div>
                 </button>
+
+                
+                <div
+                  class="modal fade"
+                  id="modalCerrar"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="cerrarModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog" role="document">
+                    <div
+                      class="modal-content card text-black-50"
+                      style="background-color: #dee2e6 !important"
+                    >
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="cerrarModalLabel">
+                          Ping de seguridad
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form id="form-config-1">
+                        <div class="modal-body text-center">
+                          <input type="password" id="inPingCerrar" />
+                          <h5 id="text-message-cerrar"></h5>
+                        </div>
+                        <div
+                          class="modal-footer"
+                          style="justify-content: center !important"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-secondary col-6"
+                            id="btn-modal-cerrar-game"
+                          >
+                            Aceptar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
               <div class="col-6">
                 <button
@@ -3084,53 +3135,75 @@
           },
         })
           .then((response) => response.json())
-          .then((data) => {})
+          .then((data) => {console.log({msg: "Sorteo Borrado", data: data})})
           .finally(() => {});
       }
+
 
       document
         .querySelector("#btn-close-game")
         .addEventListener("click", function (event) {
+          document.querySelector("#text-message-cerrar").innerHTML  = "";
+          document.querySelector("#inPingCerrar").value = "";
+          $("#modalCerrar").modal("show");
+        });
+
+      document
+        .querySelector("#btn-modal-cerrar-game")
+        .addEventListener("click", function (event) {
           event.preventDefault();
-          document.querySelector("#text-close-game").classList.add("d-none");
-          document
-            .querySelector("#spinner-close-game")
-            .classList.remove("d-none");
+          let ping = document.querySelector("#inPingCerrar").value;
+          /*Ping para acceder a configuracion*/
+          if (ping == "<%= enviroment.LOCK_PASSWORD %>") {
 
-          cerrarSorteo();
+            document.querySelector("#text-close-game").classList.add("d-none");
+            document
+              .querySelector("#spinner-close-game")
+              .classList.remove("d-none");
 
-          document.querySelector("#text-close-game").classList.remove("d-none");
-          document.querySelector("#spinner-close-game").classList.add("d-none");
+            cerrarSorteo();
 
-          cargarSorteos();
+            document.querySelector("#text-close-game").classList.remove("d-none");
+            document.querySelector("#spinner-close-game").classList.add("d-none");
 
-          document
-            .querySelector("#inputName-title-ticket")
-            .removeAttribute("disabled");
-          document
-            .querySelector("#select-choose-game")
-            .removeAttribute("disabled");
+            cargarSorteos();
 
-          let builder = document.querySelector("#estado");
-          builder.innerHTML = "";
+            document
+              .querySelector("#inputName-title-ticket")
+              .removeAttribute("disabled");
+            document
+              .querySelector("#select-choose-game")
+              .removeAttribute("disabled");
 
-          document.querySelector("#chanceCantidad").innerHTML = 0;
-          document.querySelector("#tablePorcentajeCantidadChance").innerHTML = 0;
-          document.querySelector("#chancePlata").innerHTML = (
-            Math.round(0 * 100) / 100
-          ).toFixed(2);
-          document.querySelector("#tablePorcentajeChance").innerHTML = (
-            Math.round(0 * 100) / 100
-          ).toFixed(2);
+            let builder = document.querySelector("#estado");
+            builder.innerHTML = "";
 
-          document.querySelector("#billeteCantidad").innerHTML = 0;
-          document.querySelector("#billetePlata").innerHTML = (
-            Math.round(0 * 100) / 100
-          ).toFixed(2);
-          document.querySelector("#tablePorcentajeCantidadBillete").innerHTML = 0;
-          document.querySelector("#tablePorcentajeBillete").innerHTML = (
-            Math.round(0 * 100) / 100
-          ).toFixed(2);
+            document.querySelector("#chanceCantidad").innerHTML = 0;
+            document.querySelector("#tablePorcentajeCantidadChance").innerHTML = 0;
+            document.querySelector("#chancePlata").innerHTML = (
+              Math.round(0 * 100) / 100
+            ).toFixed(2);
+            document.querySelector("#tablePorcentajeChance").innerHTML = (
+              Math.round(0 * 100) / 100
+            ).toFixed(2);
+
+            document.querySelector("#billeteCantidad").innerHTML = 0;
+            document.querySelector("#billetePlata").innerHTML = (
+              Math.round(0 * 100) / 100
+            ).toFixed(2);
+            document.querySelector("#tablePorcentajeCantidadBillete").innerHTML = 0;
+            document.querySelector("#tablePorcentajeBillete").innerHTML = (
+              Math.round(0 * 100) / 100
+            ).toFixed(2);
+
+            document.querySelector("#inPingCerrar").value = "";
+            $("#modalCerrar").modal("hide");
+
+          } else {
+            document.querySelector("#inPingCerrar").value = "";
+            document.querySelector("#text-message-cerrar").innerHTML  =
+              "Datos incorrectos.";
+          }
           
         });
 

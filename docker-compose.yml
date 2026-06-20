@@ -9,7 +9,9 @@ services:
       depends_on:
         - queue
       networks:
-        - backend     
+        - backend  
+      ports:
+        - "3000:3000"   
       links:
         - database
         - queue     
