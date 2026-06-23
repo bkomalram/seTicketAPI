@@ -2478,9 +2478,10 @@
        * Carga automatica
        */
       // Remueve el Flag de edicion al recaragar
-       localStorage.removeItem("edit-ticket-number")
+      localStorage.removeItem("edit-ticket-number")
       // Colocamos Titulo por defecto
-      localStorage.setItem("title-ticket", "*Lucky's Seven*");
+      if (!localStorage.getItem("title-ticket"))
+        localStorage.setItem("title-ticket", "*Lucky's Seven*");
       globalChance.person = localStorage.getItem("title-ticket")
       /**
        * Datos de sorteos
