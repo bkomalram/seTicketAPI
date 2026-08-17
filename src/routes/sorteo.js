@@ -589,14 +589,14 @@ router.get("/:sorteoId/billetes-publico", async (req,res)=>{
                 const item = record.toJSON();
                 
                 // Restar una instancia del valor del premio correspondiente
-                if (item.primer_premio && objValoresPremios.primer[item.primer_premio]) {
-                    item.dineroPremio1er -= objValoresPremios.primer[item.primer_premio];
+                if (item.primer_premio && objValoresPremios.primer[item.primer_premio] && sacadoBilletes > 0) {
+                    item.dineroPremio1er -= objValoresPremios.primer[item.primer_premio] * sacadoBilletes;
                 }
-                if (item.segundo_premio && objValoresPremios.segundo[item.segundo_premio]) {
-                    item.dineroPremio2do -= objValoresPremios.segundo[item.segundo_premio];
+                if (item.segundo_premio && objValoresPremios.segundo[item.segundo_premio] && sacadoBilletes > 0) {
+                    item.dineroPremio2do -= objValoresPremios.segundo[item.segundo_premio] * sacadoBilletes;
                 }
-                if (item.tercer_premio && objValoresPremios.tercero[item.tercer_premio]) {
-                    item.dineroPremio3ro -= objValoresPremios.tercero[item.tercer_premio];
+                if (item.tercer_premio && objValoresPremios.tercero[item.tercer_premio] && sacadoBilletes > 0) {
+                    item.dineroPremio3ro -= objValoresPremios.tercero[item.tercer_premio] * sacadoBilletes;
                 }
 
                 // Calcular el total de premios
