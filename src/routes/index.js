@@ -55,7 +55,7 @@ router.get('/cambiar', function(req, res, next) {
 
 });
 
-router.get('/estadoBillete', function(req, res, next) {  
+router.get('/status', function(req, res, next) {  
   res.render('estadoBillete', { title: 'Estado de Billetes', enviroment: env.parsed });
 });
 
