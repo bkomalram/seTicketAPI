@@ -13,8 +13,8 @@ services:
         containers:
           aliases:
             - ticket-1-api
-      ports:
-        - "3000:3000"       
+      #ports:
+      # - "3000:3000"       
       links:
         - database
         - queue     
