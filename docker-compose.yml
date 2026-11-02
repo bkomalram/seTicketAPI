@@ -1,15 +1,19 @@
+name: "ticket-2"
 version: "3"
-
 services:
     app:
-      container_name: lsapi
+      container_name: lsapi-2
       restart: always
       build: .
       #command: bash -c "./src/mq/run-commands.sh 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-verification-ticketrecords.js'"
       depends_on:
         - queue
+        - database
       networks:
-        - backend     
+        backend:
+        containers:
+          aliases:
+            - ticket-2-api     
       links:
         - database
         - queue     
@@ -17,37 +21,38 @@ services:
         - .:/code
         - /code/node_modules  #Volumen dedicado al node_modules para que quede intacto #bcrypt issue  https://bobcares.com/blog/install-bcrypt-in-docker/       
     database:
-      container_name: lsdb
+      container_name: lsdb-2
       image: mariadb:10.6.4-focal
       command: '--default-authentication-plugin=mysql_native_password'
       restart: always
       networks:
         - backend  
       ports:
-        - "6000:3306"    
+        - "6002:3306"    
       environment:
-        MYSQL_ROOT_PASSWORD: b4s34p1
+        MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?required}
         MYSQL_DATABASE: loteriadb
       volumes:
-        - db-data-sandbox:/var/lib/mysql
+        - db-data-2:/var/lib/mysql
     queue:
-      container_name: lsmq
+      container_name: lsmq-2
       image: rabbitmq:3-management
-      restart: always
+      restart: unless-stopped
+      volumes:
+        - rabbitmq-data:/var/lib/rabbitmq
       networks:
         - backend
       ports:
-        - "5672:5672"
-        - "5671:5671"
-        - "4369:4369"
-        - "15672:15672"
+        - "5673:5672"
+        - "5674:5671"
+        - "15673:15672"
       healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:15672"]
+        test: ["CMD", "curl", "-f", "http://localhost:15673"]
         interval: 30s
         timeout: 10s
         retries: 5
     workers:
-      container_name: lsworkers
+      container_name: lsworkers-2
       restart: always
       build: .
       command: bash -c "./src/mq/run-commands.sh 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-create-ticketrecords.js' 'node src/mq/worker-verification-ticketrecords.js'"
@@ -65,11 +70,14 @@ networks:
   backend:
     external:
       name: seTicketNetwork
+  containers:
+    external:
+      name: internalNetwork
 volumes:
-  db-data-sandbox:
-  certbot-etc-sandbox:
-  certbot-var-sandbox:
-  web-static-sandbox:
+  db-data-sandbox-2:
+  certbot-etc-sandbox-2:
+  certbot-var-sandbox-2:
+  web-static-sandbox-2:
     driver: local
     driver_opts:
       type: none

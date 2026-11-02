@@ -183,7 +183,7 @@ router.post("/mq", async (req,res)=>{
          * Necesitas crear un network para comunicar los contenedores,
          * asi poder tener una aplicación completa.
          *  */
-         amqp.connect('amqp://lsmq', function(error0, connection) {
+         amqp.connect('amqp://queue', function(error0, connection) {
             if (error0) {
               throw error0;
             }

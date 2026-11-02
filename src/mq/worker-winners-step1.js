@@ -17,7 +17,7 @@ const DB = require ("../models/index")
  * Migrando a ejecucion sincrona
  */
 
- amqp.connect('amqp://lsmq', function(error0, connection) {
+ amqp.connect('amqp://queue', function(error0, connection) {
     if (error0) {
       throw error0;
     }
