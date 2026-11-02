@@ -59,6 +59,7 @@ app.use(require("./src/middleware/active-user"))
 app.use('/', indexRouter);
 app.use('/sorteo', sorteoRouter);
 app.use('/tiquete', tiqueteRouter);
+app.use('/limites', require('./src/routes/limites'));
 app.use('/ganadores', ganadoresRouter);
 app.use('/usuarios', usuariosRouter);
 app.use("/sacados", sacadosRouter);

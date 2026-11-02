@@ -156,7 +156,12 @@ const loadOldTicket = async function (num) {
 
 const showConfiguracion = function () {
     document.querySelector("#venta").classList.add('d-none')    
-    document.querySelector("#configuracion").classList.remove('d-none')    
+    document.querySelector("#configuracion").classList.remove('d-none')
+    // Actualiza los datos cada vez que se abre Configuración.
+    const sorteo = document.querySelector("#select-choose-game");
+    if (sorteo && sorteo.selectedIndex >= 0 && sorteo.value) {
+      cargarEstadoSorteo();
+    }
 }
 
 const showChance = function () {

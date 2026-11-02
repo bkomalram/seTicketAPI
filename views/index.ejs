@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/stylesheets/mobile.css" />
     <link rel="stylesheet" href="/stylesheets/theme.css" />
     <script src="/javascripts/theme.js"></script>
+  <link rel="stylesheet" href="/stylesheets/sale-limits.css" />
   </head>
   <body class="container-fluid sales-page">
     <div
@@ -32,7 +33,7 @@
       <div class="workspace-intro d-none d-md-flex d-print-none"><div><p class="workspace-eyebrow">TU ESPACIO DE TRABAJO</p><h1>Mesa de ventas</h1></div><p>Prepara tu ticket y revisa el detalle antes de imprimir.</p></div>
       <div class="d-none d-md-block col-md-3 d-print-none mt-2 number-panel"
         >
-        <div class="panel-heading"><h2>Tablero de chances</h2><span>00 — 99</span></div><div class="row" id="chanceBuilder">
+        <button type="button" class="btn btn-sm btn-secondary d-print-none" data-open-limits hidden>Límites de venta</button><p id="sale-limit-status" role="status" aria-live="polite"></p><div class="panel-heading"><h2>Tablero de chances</h2><span>00 — 99</span></div><div class="row" id="chanceBuilder">
           <div class="col-3 px-0">
             <div class="input-group input-group-xs pr-0">
               <div class="input-group-prepend">
@@ -1766,6 +1767,7 @@
           id="contenedordatosGlobales"
         >
           <div class="card-body" id="datosGlobales">
+<button type="button" class="btn btn-secondary" id="open-sale-limits" data-open-limits hidden>Límites de venta</button>
             <h2>Datos del sorteo</h2>
             <form id="form-set-config">
               <div class="input-group-xs mb-1 pr-0">
@@ -2459,8 +2461,10 @@
        */
       // Remueve el Flag de edicion al recaragar
        localStorage.removeItem("edit-ticket-number")
-      // Colocamos Titulo por defecto
-      localStorage.setItem("title-ticket", "*Lucky's Seven*");
+      // Conserva el título personalizado al recargar la página.
+      if (localStorage.getItem("title-ticket") === null) {
+        localStorage.setItem("title-ticket", "*Lucky's Seven*");
+      }
       globalChance.person = localStorage.getItem("title-ticket")
       /**
        * Datos de sorteos
@@ -4374,5 +4378,25 @@
 
     </script>
     <script src="/javascripts/edit-ticket.js"></script>
+
+    <dialog id="sale-limit-dialog" aria-labelledby="limit-title">
+      <form id="sale-limit-form">
+        <p class="workspace-eyebrow" id="limit-draw"></p>
+        <h2 id="limit-title">Límites de venta</h2>
+        <p>Configura cuánto puede vender cada usuario de cada número en este sorteo. Las excepciones reemplazan el límite general.</p>
+        <div class="limit-fields">
+          <div class="limit-user-field"><label for="limit-user">Usuario</label><select id="limit-user" required></select></div>
+          <div><label for="limit-chance">Máximo por cada chance</label><input id="limit-chance" type="number" min="0" max="2147483647" step="1" placeholder="Sin límite"></div>
+          <div><label for="limit-billete">Máximo por cada billete</label><input id="limit-billete" type="number" min="0" max="2147483647" step="1" placeholder="Sin límite"></div>
+        </div>
+        <h3 style="font-size:17px">Excepciones por número</h3>
+        <p>Deja un límite general vacío para vender sin límite. Usa 0 para bloquear la venta. Las cantidades ya vendidas cuentan para el cupo.</p>
+        <div id="limit-exceptions"></div>
+        <button id="limit-add" type="button" class="btn btn-secondary">Agregar excepción</button>
+        <p id="limit-feedback" role="status" aria-live="polite"></p>
+        <div class="limit-actions"><button id="limit-cancel" type="button" class="btn btn-secondary">Cerrar</button><button id="limit-save" class="btn btn-success" type="submit">Guardar límites</button></div>
+      </form>
+    </dialog>
+    <script src="/javascripts/sale-limits.js"></script>
   </body>
 </html>
