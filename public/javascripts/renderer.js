@@ -453,7 +453,9 @@ function config2home() {
 }
 
 function mobileExit() {
-  localStorage.clear();
+  const preferredTheme = localStorage.getItem('lotomanager-theme');
+          localStorage.clear();
+          if (preferredTheme) localStorage.setItem('lotomanager-theme', preferredTheme);
   window.location = "/";
 }
 

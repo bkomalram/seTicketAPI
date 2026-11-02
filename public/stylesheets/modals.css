@@ -26,3 +26,8 @@
 @media (prefers-reduced-motion: reduce) {
   .sales-page .modal.fade .modal-dialog, .sales-page .modal-backdrop.fade { transition: none; }
 }
+
+@media screen {
+  .sales-page .modal .notification-cancel { color: #52685a; background: transparent; border: 1px solid #dce6df; }
+  :root[data-theme=dark] .sales-page .modal .notification-cancel { color: #c4d4ca; border-color: #4b6453; }
+}

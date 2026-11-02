@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="/stylesheets/desktop.css" />
     <link rel="stylesheet" href="/stylesheets/modals.css" />
     <link rel="stylesheet" href="/stylesheets/mobile.css" />
+    <link rel="stylesheet" href="/stylesheets/theme.css" />
+    <script src="/javascripts/theme.js"></script>
   </head>
   <body class="container-fluid sales-page">
     <div
@@ -2279,6 +2281,16 @@
             </div>
           </div>
 
+    <div class="modal fade" id="modalCloseGame" tabindex="-1" role="dialog" aria-labelledby="closeGameModalLabel" aria-describedby="closeGameDescription" aria-hidden="true">
+      <div class="modal-dialog" role="document"><div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="closeGameModalLabel">Cerrar sorteo</h5><button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button></div>
+        <form id="form-close-game">
+          <div class="modal-body"><p id="closeGameDescription">Ingresa el PIN de autorización para cerrar el sorteo seleccionado.</p><label for="inPingClose">PIN de autorización</label><input type="password" id="inPingClose" autocomplete="off" required /><p class="text-danger" id="text-message-close" role="alert" aria-live="polite"></p></div>
+          <div class="modal-footer"><button type="button" class="btn notification-cancel" data-dismiss="modal">Cancelar</button><button type="submit" class="btn notification-primary" id="btn-confirm-close-game">Cerrar sorteo</button></div>
+        </form>
+      </div></div>
+    </div>
+
     <script src="/javascripts/qrcode.min.js"></script>
     <script src="/javascripts/modules/output.js"></script>
     <script src="/javascripts/renderer.js"></script>
@@ -3089,38 +3101,60 @@
        *
        */
 
-      function cerrarSorteo() {
-        var data = {
-          sorteoId: localStorage.getItem("choose-game"),
-        };
-
-        fetch(api + "sorteo", {
+      function cerrarSorteo(sorteoId) {
+        return fetch(api + "sorteo", {
           method: "PATCH",
-          body: JSON.stringify(data),
+          body: JSON.stringify({ sorteoId: sorteoId }),
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {})
-          .finally(() => {});
+            Authorization: "Bearer " + localStorage.getItem("tokenSSO")
+          }
+        }).then(async function (response) {
+          const data = await response.json();
+          if (!response.ok || !data.exitoso) throw new Error((typeof data.resultado === 'string' ? data.resultado : data.resultado && data.resultado.mensaje) || 'No se pudo cerrar el sorteo.');
+          return data;
+        });
       }
 
-      document
-        .querySelector("#btn-close-game")
-        .addEventListener("click", function (event) {
-          event.preventDefault();
-          document.querySelector("#text-close-game").classList.add("d-none");
-          document
-            .querySelector("#spinner-close-game")
-            .classList.remove("d-none");
-
-          cerrarSorteo();
-
-          document.querySelector("#text-close-game").classList.remove("d-none");
-          document.querySelector("#spinner-close-game").classList.add("d-none");
-
+      let pendingCloseGame = null;
+      const closeGameForm = document.querySelector('#form-close-game');
+      const closeGamePin = document.querySelector('#inPingClose');
+      const closeGameMessage = document.querySelector('#text-message-close');
+      const confirmCloseGame = document.querySelector('#btn-confirm-close-game');
+      document.querySelector('#btn-close-game').addEventListener('click', function (event) {
+        event.preventDefault();
+        pendingCloseGame = localStorage.getItem('choose-game');
+        closeGamePin.value = '';
+        closeGameMessage.textContent = '';
+        if (!pendingCloseGame) {
+          document.querySelector('#text-error-ticket').textContent = 'Selecciona un sorteo antes de cerrarlo.';
+          $('#modalErrorTicket').modal('show');
+          return;
+        }
+        $('#modalCloseGame').modal('show');
+      });
+      $('#modalCloseGame').on('shown.bs.modal', function () { closeGamePin.focus(); });
+      $('#modalCloseGame').on('hidden.bs.modal', function () {
+        closeGamePin.value = '';
+        closeGameMessage.textContent = '';
+      });
+      closeGameForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        if (confirmCloseGame.disabled) return;
+        if (closeGamePin.value !== "<%= enviroment.LOCK_PASSWORD %>") {
+          closeGamePin.value = '';
+          closeGameMessage.textContent = 'PIN incorrecto. Inténtalo de nuevo.';
+          closeGamePin.focus();
+          return;
+        }
+        closeGamePin.value = '';
+        closeGameMessage.textContent = '';
+        confirmCloseGame.disabled = true;
+        confirmCloseGame.textContent = 'Cerrando…';
+        document.querySelector('#btn-close-game').disabled = true;
+        try {
+          await cerrarSorteo(pendingCloseGame);
+          $('#modalCloseGame').modal('hide');
           cargarSorteos();
 
           document
@@ -3151,7 +3185,15 @@
             Math.round(0 * 100) / 100
           ).toFixed(2);
           
-        });
+
+        } catch (error) {
+          closeGameMessage.textContent = error.message || 'No pudimos conectar. Inténtalo de nuevo.';
+        } finally {
+          confirmCloseGame.disabled = false;
+          confirmCloseGame.textContent = 'Cerrar sorteo';
+          document.querySelector('#btn-close-game').disabled = false;
+        }
+      });
 
       /**
        *
@@ -3717,7 +3759,9 @@
       document
         .querySelector("#btn-exit-app")
         .addEventListener("click", function (event) {
+          const preferredTheme = localStorage.getItem('lotomanager-theme');
           localStorage.clear();
+          if (preferredTheme) localStorage.setItem('lotomanager-theme', preferredTheme);
           window.location = "/";
         });
 

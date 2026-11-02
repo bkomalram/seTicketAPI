@@ -1,0 +1,62 @@
+@media screen {
+  .theme-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; padding: 9px 12px; border: 1px solid #dce6df; border-radius: 9px; color: #52685a; background: #fff; font: 500 12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; cursor: pointer; flex-shrink: 0; }
+  .theme-toggle svg { width: 18px; height: 18px; }
+  .theme-toggle:focus-visible { outline: 2px solid #397b59; outline-offset: 3px; }
+  .workspace-header { gap: 12px; }
+  .workspace-header .workspace-brand { margin-right: auto; }
+  .mobile-header, .mobile-sale-title { position: relative; }
+  .mobile-header > .theme-toggle { position: absolute; left: 0; top: 20px; }
+  .mobile-sale-title > .theme-toggle { position: absolute; right: 0; top: 20px; }
+  .mobile-sale-title > .theme-toggle span { display: none; }
+  .login-card .brand > .theme-toggle { margin-left: auto; padding: 8px; min-width: 36px; }
+  .login-card .brand > .theme-toggle span { display: none; }
+  .login-card .brand > .theme-toggle .button-arrow { display: none; }
+  :root[data-theme=dark] { color-scheme: dark; background: #111a17; color: #e3ece6; }
+  :root[data-theme=dark] body { background: #111a17 !important; color: #e3ece6 !important; }
+  :root[data-theme=dark] :is(.login-card,.sales-page .card,.number-panel,.entry-panel,#mobile-sell,.accounts-card,.winners-card,.redeem-card,.balance-card,.history-card,#desktop-status,.config-summary,#mobile-home .menu-button) { background: #1b2721 !important; border-color: #35473b !important; color: #e3ece6 !important; box-shadow: none !important; }
+  :root[data-theme=dark] :is(.workspace-header,.workspace-divider,.prizes-divider,.results-heading,.redeem-preview-heading,.entry-panel > .row:first-child,.receipt-profile,.accounts-users-title) { border-color: #35473b !important; }
+  :root[data-theme=dark] :is(.workspace-divider) { background: #35473b; }
+  :root[data-theme=dark] :is(.workspace-brand,.workspace-intro h1,.mobile-header h1,.mobile-sale-title h1,.login-card h1,.sales-page h2,.sales-page h3,.sales-page label,.menu-label) { color: #e3ece6 !important; }
+  :root[data-theme=dark] :is(.workspace-section,.workspace-intro > p,.workspace-eyebrow,.intro,.eyebrow,.panel-description,.admin-description,.accounts-description,.balance-panel-heading p,.history-panel-heading p,.redeem-info p,.redeem-preview-heading > span,.mobile-header > p:last-child,.mobile-sale-title > span,.mobile-ticket-hint,.config-header-note,.panel-heading > span,.optional-label,.redeem-pin-hint,.config-empty p,.winners-empty p,.users-empty p,.balance-metrics p,.balance-metrics span,#balance-status,#history-status,#mobile-home small,footer,.footer) { color: #a6b9ac !important; }
+  :root[data-theme=dark] :is(.workspace-mark,.brand-mark,.empty-icon,.config-empty-mark,.users-empty > span,.prize-index,.redeem-step > span,#mobile-home .icon,.workspace-account,.receipt-profile > .rounded-circle) { background: #2a4032 !important; color: #a6dbba !important; border-color: #405c49 !important; }
+  :root[data-theme=dark] .theme-toggle { background: #223329; border-color: #4c6955; color: #c1e5cd; }
+  :root[data-theme=dark] :is(.form-control,.custom-select,.login-card input,.sales-page .modal-body input) { color: #e3ece6 !important; background-color: #142019 !important; border-color: #4b6453 !important; }
+  :root[data-theme=dark] input::placeholder { color: #9aafa1 !important; }
+  :root[data-theme=dark] :is(input,select):focus { border-color: #86d5a5 !important; box-shadow: 0 0 0 3px #86d5a526 !important; }
+  :root[data-theme=dark] :is(input,select):disabled { background-color: #26352c !important; color: #b0beb5 !important; opacity: 1; }
+  :root[data-theme=dark] :is(.sales-page .btn-secondary,#mobile-sell .menu-button) { color: #d3e1d8 !important; background: #283a2e !important; border-color: #465e4e !important; }
+  :root[data-theme=dark] :is(.login-card button[type=submit],#btn-print-ticket,#btn-print-ticket-mobile,#btnLanzarModal,#btnCanjear,.winner-primary,#admin-workspace button[type=submit],#btnActualizar,#btn-refresh-game,#form-set-config button[type=submit],#form-create-game button[type=submit],#mobile-home .button-grid > .vender,.sales-page .modal .notification-primary,.sales-page .modal .btn-secondary) { background: #80c99c !important; border-color: #80c99c !important; color: #102519 !important; }
+  :root[data-theme=dark] #mobile-home .button-grid > .vender :is(.menu-label,small) { color: #102519 !important; }
+  :root[data-theme=dark] #mobile-home .button-grid > .vender .icon { background: #1025191a !important; color: #102519 !important; }
+  :root[data-theme=dark] :is(.btn-info,.btn-success,.metric-primary,.winning-cell,.user-action-message,#listaUsuarios .form-check:has(:checked)) { background: #223d2c !important; color: #b3e3c3 !important; border-color: #4a6e56 !important; }
+  :root[data-theme=dark] :is(.btn-danger,.btn-deactivate,#btn-stop-game,#btn-close-game) { background: #412923 !important; color: #ffc0ac !important; border-color: #805549 !important; }
+  :root[data-theme=dark] .metric-primary strong { color: #a6e0ba !important; }
+  :root[data-theme=dark] .sales-page :is(td,th) { border-color: #3c5043 !important; background: #1b2721 !important; color: #d3e1d8 !important; }
+  :root[data-theme=dark] .sales-page :is(th,.thead-light th,td.font-weight-bold,.input-group-text) { background: #293f31 !important; color: #bfddc9 !important; border-color: #405648 !important; }
+  :root[data-theme=dark] .sales-page :is(td.winning-cell,#porcentajeTable tr:last-child td) { background: #284b35 !important; color: #c2edcf !important; }
+  :root[data-theme=dark] .sales-page :is(.text-danger,td.text-danger,#deactivate-error,.balance-error,.history-error) { color: #ffb6a5 !important; }
+  :root[data-theme=dark] :is(.sales-page .modal .modal-content,#deactivate-user-dialog) { background: #1b2721 !important; color: #e3ece6 !important; border-color: #4b6453 !important; }
+  :root[data-theme=dark] :is(.modal-title,.sales-page .modal .modal-body,#text-error-ticket,#deactivate-description) { color: #c4d4ca !important; }
+  :root[data-theme=dark] .notification-symbol { background: #443c26; color: #efd18c; }
+  /* Keep receipts and QR codes on paper-white for legibility and scanning. */
+  :root[data-theme=dark] .sales-page #ticketOutput { color: #26362e !important; background: #fff !important; border-color: #dfe6e0 !important; color-scheme: light; }
+  :root[data-theme=dark] .sales-page #ticketOutput input { background: #fff !important; color: #26362e !important; border-color: #abbfb1 !important; }
+  :root[data-theme=dark] .sales-page #ticketOutput input::placeholder { color: #64796b !important; }
+  :root[data-theme=dark] #mobile-sell .mobile-ticket-actions { background: #142019f5 !important; border-color: #405648 !important; }
+  :root[data-theme=dark] #listaUsuarios .form-check:hover { background: #293f31; }
+}
+@media screen and (max-width: 767px) {
+  .workspace-header .theme-toggle { padding: 9px; min-width: 40px; }
+  .workspace-header .theme-toggle span { display: none; }
+}
+@media print { .theme-toggle { display: none !important; } }
+@media screen {
+  .login-card .brand > .theme-toggle { width: auto; margin-top: 0; font-size: 12px; }
+  .theme-toggle::after { display: none; }
+}
+@media screen {
+  :root[data-theme=dark] :is(.mobile-header .mobile-brand,#mobile-user-container,.mobile-header > p:not(.mobile-brand),.mobile-sale-title > p,.redeem-ticket-label) { color: #afcbb9 !important; }
+  :root[data-theme=dark] #mobile-user-container > .rounded-circle { background: #2a4032 !important; }
+  :root[data-theme=dark] #mobile-user-container .text-white { color: #bfddc9 !important; }
+  :root[data-theme=dark] #btnLanzarModal:disabled { background: #2a4032 !important; border-color: #4b6453 !important; color: #bfddc9 !important; }
+}
