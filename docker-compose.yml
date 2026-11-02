@@ -38,7 +38,7 @@ services:
       image: rabbitmq:3-management
       restart: unless-stopped
       volumes:
-        - rabbitmq-data:/var/lib/rabbitmq
+        - rabbitmq-data-2:/var/lib/rabbitmq
       networks:
         - backend
       ports:
@@ -76,6 +76,7 @@ volumes:
   db-data-2:
   certbot-etc-2:
   certbot-var-2:
+  rabbitmq-data-2:
   web-static-2:
     driver: local
     driver_opts:
