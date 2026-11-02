@@ -1,0 +1,74 @@
+/* Mobile workspace: preserve desktop and printed ticket styling. */
+@media screen and (max-width: 767px) {
+  body.sales-page { margin: 0; padding: 0 18px; background: #f5f7f5; color: #26362e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  #venta { margin: 0; }
+  #mobile-home { max-width: 480px; padding: 0; margin: 0 auto; }
+  .mobile-header { display: flex; flex-direction: column; align-items: start; text-align: left; padding: 24px 0 26px; margin: 0; }
+  #mobile-user-container { align-self: flex-end; font-size: 12px; color: #6e8074; }
+  #mobile-user-container > .rounded-circle { width: 28px !important; height: 28px !important; margin: 0 !important; background: #e5efe8 !important; }
+  #mobile-user-container .text-white { color: #4e795d !important; font-size: 11px; }
+  #mobile-user-container > div { margin-top: 0 !important; }
+  #mobile-user-container [name=mobile-user-name] { margin-left: 8px !important; }
+  .mobile-header .mobile-brand { font-size: 14px; font-weight: 650; letter-spacing: -.3px; color: #397252; margin: 14px 0 12px; }
+  .mobile-header h1 { font-size: 28px; font-weight: 650; letter-spacing: -.9px; margin: 0 0 10px; }
+  .mobile-header > p:last-child { font-size: 14px; color: #87938b; margin: 0; }
+  #mobile-home .button-grid { gap: 12px; margin: 0; }
+  #mobile-home .menu-button { position: relative; padding: 20px; height: auto; min-height: 130px; align-items: start; justify-content: start; border: 1px solid #e1e8e2; border-radius: 14px; box-shadow: none; color: #26362e; text-align: left; }
+  #mobile-home .menu-button:hover, #mobile-home .menu-button:focus { transform: none; background: #f0f5f1; box-shadow: none; }
+  #mobile-home .menu-button .icon { width: 34px; height: 34px; border-radius: 10px; margin: 0 0 14px; background: #eef4ef; color: #62836e; }
+  #mobile-home .menu-button .icon svg { width: 20px; height: 20px; }
+  #mobile-home .menu-button .menu-label { font-size: 15px; font-weight: 600; margin: 0; }
+  #mobile-home .menu-button small { display: block; color: #87938b; font-size: 11px; line-height: 1.6; margin-top: 5px; }
+  #mobile-home .button-grid > .vender { grid-column: 1 / -1; min-height: 108px; background: #2d654b; color: white; padding: 22px 22px 22px 82px; justify-content: center; }
+  #mobile-home .button-grid > .vender .icon { position: absolute; left: 22px; top: 31px; background: #ffffff1a; color: white; width: 40px; height: 40px; }
+  #mobile-home .button-grid > .vender .menu-label { font-size: 19px; }
+  #mobile-home .button-grid > .vender small { color: #d1e2d7; font-size: 12px; }
+  #mobile-home .button-grid > .salir { grid-column: 1 / -1; min-height: 60px; display: grid; grid-template-columns: 28px 1fr; padding: 16px 20px; align-items: center; gap: 10px; background: transparent; }
+  #mobile-home .button-grid > .salir .icon { margin: 0; width: 28px; height: 28px; background: transparent; }
+  #mobile-home .button-grid > .salir small { display: none; }
+  #mobile-home .footer { padding: 24px 0 max(20px, env(safe-area-inset-bottom)); font-size: 11px; color: #97a199; }
+  .sales-page button:focus-visible { outline: 2px solid #397b59; outline-offset: 3px; }
+  #mobile-sell { max-width: 480px; margin: 0 auto; padding: 0 0 max(24px, env(safe-area-inset-bottom)); }
+  .mobile-sale-title { padding: 28px 0 22px; }
+  .mobile-sale-title p { font-size: 10px; letter-spacing: 1.4px; color: #7b8c80; margin: 0 0 10px; }
+  .mobile-sale-title h1 { font-size: 26px; font-weight: 650; letter-spacing: -.8px; margin: 0 0 8px; }
+  .mobile-sale-title > span { font-size: 13px; color: #87938b; }
+  #mobile-btn-kit-1, #mobile-btn-kit-2 { margin: 0 0 16px; gap: 8px; flex-wrap: nowrap; }
+  #mobile-sell .menu-button { flex: 1; max-width: none; margin: 0 !important; min-height: 48px; height: auto; padding: 12px 8px; flex-direction: row; gap: 7px; border: 1px solid #e1e8e2; border-radius: 9px; box-shadow: none; background: white; color: #52685a; }
+  #mobile-sell .menu-button:hover, #mobile-sell .menu-button:focus { transform: none; }
+  #mobile-sell .menu-button .icon { background: transparent; color: #62836e; width: 18px; height: 18px; margin: 0; }
+  #mobile-sell .menu-button .icon svg { width: 18px; height: 18px; }
+  #mobile-sell .menu-button span { font-size: 12px; margin: 0; }
+  #mobile-sell > input.form-control { width: 100%; max-width: none; margin: 12px 0 0 !important; height: 48px; padding: 12px 14px; border: 1px solid #dfe6e0; border-radius: 9px; font-size: 16px; }
+  #mobile-sell input:focus { border-color: #508265; outline: none; box-shadow: 0 0 0 3px #397b5915; }
+  #mobile-sell > .col-12.p-0 { margin: 18px 0 0 !important; }
+  #mobile-sell > .col-12.p-0 > .row { margin: 0; gap: 8px; flex-wrap: nowrap; }
+  #mobile-sell > .col-12.p-0 > .row > .col-6 { flex: 1; max-width: none; padding: 0 !important; }
+  #mobile-sell .btn { min-height: 48px; font-size: 13px; border-radius: 9px; padding: 12px; }
+  #mobile-sell .btn h6 { font: inherit; margin: 0; }
+  #btn-print-ticket-mobile { background: #2d654b; border-color: #2d654b; color: white; }
+  #btn-whatsapp-ticket-mobile { background: #edf5ef; border-color: #dce9df; color: #397252; }
+  #mobile-sell #ticketOutput { margin-top: 20px !important; padding: 16px 10px; border: 1px solid #e1e8e2; border-radius: 12px; color: #26362e !important; font: 600 12px/1.5 "Courier New", monospace; overflow-wrap: anywhere; }
+  #mobile-sell #ticketOutput h1 { font-size: 22px; }
+  #mobile-sell #ticketOutput .border { border-color: #e3e8e3 !important; }
+  #mobile-sell #ticketOutput canvas { max-width: 100%; }
+  #mobile-sell #ticketOutput [name=mobile-input-ux] { display: flex !important; padding: 10px 0; gap: 0; }
+  #mobile-sell #ticketOutput input { min-height: 48px; font-size: 16px; border-radius: 7px; border-color: #dfe6e0; text-align: center; }
+  #mobile-status, #mobile-finantial { padding: 20px 0; }
+  #mobile-status > .menu-button, #mobile-finantial > .menu-button { min-height: 48px; height: auto; padding: 12px; box-shadow: none; border: 1px solid #e1e8e2; flex-direction: row; gap: 8px; border-radius: 9px; }
+  #mobile-status > .menu-button .icon, #mobile-finantial > .menu-button .icon { width: 18px; height: 18px; margin: 0; background: transparent; color: #62836e; }
+  #mobile-status > .menu-button span, #mobile-finantial > .menu-button span { margin: 0; font-size: 13px; }
+  #table-mobile-status, #table-mobile-finantial { padding: 16px 0 0; }
+  #table-mobile-status table, #table-mobile-finantial table { font-size: 11px; color: #43594b; }
+  #table-mobile-status td, #table-mobile-status th, #table-mobile-finantial td, #table-mobile-finantial th { border-color: #e1e8e2; padding: 5px 2px !important; }
+  #table-mobile-status th, #table-mobile-finantial th { background: #edf5ef; }
+}
+@media (prefers-reduced-motion: reduce) { .sales-page .menu-button { transition: none; } }
+@media screen and (max-width: 767px) {
+  #mobile-home .button-grid > .salir .menu-label { text-align: left; }
+  #mobile-sell { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+  #mobile-sell .mobile-ticket-actions { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; padding: 12px 18px calc(12px + env(safe-area-inset-bottom)) !important; margin: 0 !important; background: #f5f7f5f5; border-top: 1px solid #e1e8e2; z-index: 20; }
+  .mobile-ticket-hint { margin: 20px 0 0; font-size: 12px; line-height: 1.7; color: #87938b; }
+  #mobile-sell #ticketOutput input::placeholder { font-size: 11px; color: #87938b; }
+  #mobile-sell #ticketOutput canvas { width: 128px !important; height: 128px !important; }
+}

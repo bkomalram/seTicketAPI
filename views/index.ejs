@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/stylesheets/app.css" />
     <link rel="stylesheet" href="/stylesheets/desktop.css" />
     <link rel="stylesheet" href="/stylesheets/modals.css" />
+    <link rel="stylesheet" href="/stylesheets/mobile.css" />
   </head>
   <body class="container-fluid sales-page">
     <div
@@ -1468,8 +1469,8 @@
                 <span class="ml-3" name="mobile-user-name"> Principal</span>
               </div>
             </div>
-            <h1><%= enviroment.VERSION %></h1>
-            <p>Gestión de ventas y tickets</p>
+            <p class="mobile-brand"><%= enviroment.TITLE %></p><h1>Tu gestión, a mano.</h1>
+            <p>¿Qué quieres hacer hoy?</p>
         </header>
         
         <div class="button-grid">
@@ -1480,7 +1481,7 @@
                     <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
                   </svg>
                 </div>
-                <span>Vender</span>
+                <span class="menu-label">Vender</span><small>Prepara un nuevo ticket</small>
             </button>
             
             <button class="menu-button estado" onclick="home2status()">
@@ -1489,7 +1490,7 @@
                         <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                     </svg>
                 </div>
-                <span>Estado</span>
+                <span class="menu-label">Estado</span><small>Consulta el sorteo</small>
             </button>
             
             <button class="menu-button canjear" id="scan-button" ondblclick="home2reedem()">
@@ -1500,7 +1501,7 @@
                     <line x1="8" y1="5" x2="8" y2="5"/>
                   </svg>
                 </div>
-                <span>Canjear</span>
+                <span class="menu-label">Canjear</span><small>Escanea un ticket</small>
             </button>
             <!-- Contenedor para el video de la cámara (inicialmente oculto) -->
             <div id="scanner-container" style="display: none;">
@@ -1515,7 +1516,7 @@
                       <circle cx="12" cy="7" r="4"></circle>
                   </svg>
               </div>
-              <span>Cuentas</span>
+              <span class="menu-label">Cuentas</span><small>Revisa tus importes</small>
             </button>
             <button class="menu-button config" onclick="home2config()">
                 <div class="icon">
@@ -1529,7 +1530,7 @@
                     <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"/>
                   </svg>
                 </div>
-                <span>Historial</span>
+                <span class="menu-label">Historial</span><small>Consulta tus ventas</small>
             </button>
             <button class="menu-button salir" onclick="mobileExit()">
               <div class="icon">
@@ -1539,16 +1540,17 @@
                   <line x1="21" y1="12" x2="9" y2="12"/>
                 </svg>
               </div>
-              <span>Salir</span>
+              <span class="menu-label">Salir</span><small>Cierra tu sesión</small>
           </button>
         </div>
         
         <footer class="footer">
-            <p>© 2025 <%= enviroment.VERSION %></p>
+            <p><%= enviroment.TITLE %> · Tu espacio de trabajo</p>
         </footer>
       </div>
       
       <div id="mobile-sell" class="d-none d-md-block col-12 col-md-3">
+        <header class="mobile-sale-title d-md-none d-print-none"><p>NUEVO TICKET</p><h1>Prepara tu venta</h1><span>Agrega números y revisa el detalle.</span></header>
         <div class="panel-heading receipt-heading d-none d-md-flex d-print-none"><h2>Vista del ticket</h2><span>Vista previa</span></div>
         <!-- Fragmento de perfil de usuario solo con Bootstrap -->
         <div class="receipt-profile d-none d-md-flex align-items-center d-print-none">
@@ -1589,8 +1591,8 @@
             <span>Buscar</span>
           </button>
         </div>
-        <input type="number" class="form-control d-print-none d-md-none col-8 offset-2 mt-2" autocomplete="off" name="mobile-edit-ticket" id="mobile-edit-ticket" placeholder="Número de ticket">
-        <input type="text" class="form-control d-print-none d-md-none col-10 offset-1 mt-2" autocomplete="off" id="optional-customer-name-mobile"  name="optional-customer-name-mobile" placeholder="Nombre del cliente (opcional)">
+        <input type="number" class="form-control d-print-none d-md-none col-8 offset-2 mt-2" autocomplete="off" name="mobile-edit-ticket" id="mobile-edit-ticket" aria-label="Número de ticket para buscar" placeholder="Número de ticket">
+        <input type="text" class="form-control d-print-none d-md-none col-10 offset-1 mt-2" autocomplete="off" id="optional-customer-name-mobile" aria-label="Nombre del cliente, opcional" name="optional-customer-name-mobile" placeholder="Nombre del cliente (opcional)">
 
 
         <div class="row d-none" id="mobile-btn-kit-2">
@@ -1623,7 +1625,7 @@
           </button>
         </div>
 
-        <div class="d-sm-block d-md-none d-print-none col-12 mt-1 p-0">
+        <div class="d-sm-block d-md-none d-print-none col-12 mt-1 p-0 mobile-ticket-actions">
           <div class="row">
             <div class="col-6 px-1">
               <button
@@ -1659,6 +1661,7 @@
           </div>
         </div>
 
+        <p class="mobile-ticket-hint d-md-none d-print-none">Ingresa el número y la cantidad en el ticket. Pulsa Enter para agregar.</p>
         <div
           id="ticketOutput"
           class="font-weight-bold bg-white text-body d-print-none mt-2"
