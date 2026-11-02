@@ -18,6 +18,7 @@
     <script src="/javascripts/theme.js"></script>
   <link rel="stylesheet" href="/stylesheets/sale-limits.css" />
   <link rel="stylesheet" href="/stylesheets/repeat-ticket.css">
+  <link rel="stylesheet" href="/stylesheets/photo-import.css">
   </head>
   <body class="container-fluid sales-page">
     <div
@@ -1411,7 +1412,7 @@
                 </div>
               </button>
             </div>
-            <div class="col-12"><details class="repeat-ticket-panel d-print-none " data-repeat-ticket>
+            <div class="col-12"><button type="button" class="btn btn-secondary photo-launch d-print-none" data-open-photo>Cargar lista desde foto</button><p data-photo-result role="status" class="small d-print-none"></p><details class="repeat-ticket-panel d-print-none " data-repeat-ticket>
   <summary>Repetir ticket</summary>
   <p>Trae los números y cantidades de un ticket anterior al sorteo actual, con los precios actuales. El original se conserva.</p>
   <label for="repeat-ticket-desktop">Número del ticket anterior</label>
@@ -1605,6 +1606,7 @@
             <span>Buscar</span>
           </button>
         </div>
+<button type="button" class="btn btn-secondary photo-launch-mobile d-print-none d-md-none" data-open-photo>Cargar lista desde foto</button><p data-photo-result role="status" class="small d-md-none d-print-none"></p>
 <details class="repeat-ticket-panel d-print-none d-md-none repeat-ticket-mobile" data-repeat-ticket>
   <summary>Repetir ticket</summary>
   <p>Trae los números y cantidades de un ticket anterior al sorteo actual, con los precios actuales. El original se conserva.</p>
@@ -4420,5 +4422,37 @@
     </dialog>
     <script src="/javascripts/sale-limits.js"></script>
     <script src="/javascripts/repeat-ticket.js"></script>
+<dialog id="photo-import-dialog" aria-labelledby="photo-import-title">
+  <header class="photo-heading"><div><p class="workspace-eyebrow">PREPARA TU TICKET</p><h2 id="photo-import-title">Cargar lista desde foto</h2></div><button type="button" id="photo-close" class="btn btn-secondary" aria-label="Cerrar carga de foto">Cerrar</button></header>
+  <p>Sube una foto, revisa cada número y cantidad y pásalos al ticket. La venta se registra después, con los botones habituales.</p>
+  <p id="photo-availability" role="status"></p>
+  <div class="photo-controls">
+    <div><label for="photo-file">Foto de la lista</label><input id="photo-file" type="file" accept="image/jpeg,image/png,image/webp"></div>
+    <div><label for="photo-type">Tipo de lista</label><select id="photo-type"><option value="BILLETE">Billetes · 4 dígitos</option><option value="CHANCE">Chances · 2 dígitos</option></select></div>
+  </div>
+  <div class="photo-workspace">
+    <section class="photo-preview" aria-label="Foto para comparar con los números">
+      <div class="photo-tools"><button type="button" class="btn btn-secondary" id="photo-rotate" disabled>Girar 90°</button><button type="button" class="btn btn-secondary" id="photo-crop" disabled>Recortar selección</button><button type="button" class="btn btn-secondary" id="photo-restore" disabled>Restaurar foto</button></div>
+      <p id="photo-help">Elige una foto JPG, PNG o WebP de hasta 12 MB. Arrastra sobre la foto para seleccionar el área que quieres recortar.</p>
+      <div id="photo-stage"><canvas id="photo-canvas" hidden aria-label="Vista de la lista cargada"></canvas><div id="photo-selection" hidden></div></div>
+      <p class="photo-disclosure">Al pulsar Analizar foto, la imagen visible se envía a Google Cloud Vision para leerla.</p>
+      <button type="button" class="btn btn-success" id="photo-analyze" disabled>Analizar foto</button>
+    </section>
+    <section aria-label="Revisión de los números detectados">
+      <div class="photo-review-heading"><h3>Revisión de la lista</h3><button type="button" class="btn btn-secondary" id="photo-add">Agregar fila</button></div>
+      <p>Las filas marcadas requieren especial atención. No corregimos dígitos automáticamente.</p>
+      <div class="photo-table-scroll"><table class="photo-table"><thead><tr><th scope="col">Número</th><th scope="col">Cantidad</th><th scope="col">Lectura</th><th scope="col"><span class="sr-only">Acciones</span></th></tr></thead><tbody id="photo-rows"></tbody></table></div>
+      <details id="photo-unread" hidden><summary>Texto sin interpretar: revísalo en la foto</summary><pre></pre></details>
+      <p id="photo-summary" aria-live="polite">Todavía no hay números para revisar.</p>
+      <label class="photo-reviewed"><input type="checkbox" id="photo-reviewed"> He comparado toda la lista con la foto, corregido las dudas y revisado las cantidades.</label>
+      <p id="photo-feedback" role="status" aria-live="polite"></p>
+      <div id="photo-replace" hidden><p>Ya hay un ticket en preparación. ¿Quieres reemplazar sus números por esta lista?</p><button type="button" class="btn btn-success" id="photo-confirm">Reemplazar contenido</button><button type="button" class="btn btn-secondary" id="photo-keep">Conservar actual</button></div>
+      <button type="button" class="btn btn-success" id="photo-apply" disabled>Pasar al ticket</button>
+    </section>
+  </div>
+</dialog>
+
+<script src="/javascripts/photo-list.js"></script>
+<script src="/javascripts/photo-import.js"></script>
   </body>
 </html>

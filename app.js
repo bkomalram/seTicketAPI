@@ -47,7 +47,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
-app.use(express.json());
+const parseJson = express.json();
+app.use((req, res, next) => /^\/importar-foto\/?$/.test(req.path) ? next() : parseJson(req, res, next));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -60,6 +61,7 @@ app.use('/', indexRouter);
 app.use('/sorteo', sorteoRouter);
 app.use('/tiquete', tiqueteRouter);
 app.use('/limites', require('./src/routes/limites'));
+app.use('/importar-foto', require('./src/routes/photo-import'));
 app.use('/ganadores', ganadoresRouter);
 app.use('/usuarios', usuariosRouter);
 app.use("/sacados", sacadosRouter);

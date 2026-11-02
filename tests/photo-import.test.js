@@ -1,0 +1,27 @@
+'use strict';
+const assert=require('assert'),vm=require('vm'),fs=require('fs'),EventEmitter=require('events');
+const list=require('../public/javascripts/photo-list');
+const rules=require('../src/services/limit-rules');
+let parsed=list.parse([{text:'1-0031 2-0114',confidence:.98},{text:'Cliente Juan',confidence:.99},{text:'1-O031',confidence:.6},{text:'11/11/26',confidence:.99}],'BILLETE');
+assert.equal(parsed.rows.length,3);assert.equal(parsed.rows[0].numero,'0031');assert.equal(parsed.rows[0].dudoso,false);assert.equal(parsed.rows[2].numero,'O031');assert(parsed.rows[2].dudoso);assert(parsed.unread.includes('11/11/26'));
+assert.equal(list.parse([{text:'2-15',confidence:.99}],'CHANCE').rows[0].numero,'15');
+assert(list.parse([{text:'1-031',confidence:.99}],'BILLETE').rows[0].dudoso,'Do not infer missing zero');
+const draft=list.draft([{numero:'0031',cantidad:'2'},{numero:'0031',cantidad:'3'},{numero:'0114',cantidad:'1'}],'BILLETE',2);
+assert.equal(draft.items[0].number,'0031');assert.equal(draft.items[0].qty,5);assert.equal(draft.units,6);assert.equal(draft.duplicates,1);assert.equal(draft.total,12);
+assert.throws(()=>list.draft([{numero:'O031',cantidad:'1'}],'BILLETE',1),/número/);
+assert.throws(()=>list.draft([{numero:'15',cantidad:'0'}],'CHANCE',.25),/cantidad/);
+assert.throws(()=>list.draft([{numero:'15',cantidad:'1.5'}],'CHANCE',.25),/cantidad/);
+assert.throws(()=>list.draft([{numero:'15',cantidad:'2147483647'},{numero:'15',cantidad:'1'}],'CHANCE',.25),/acumulada/);
+const env={},sandbox={module:{exports:{}},process:{env},Buffer,require(name){if(name==='./limit-rules')return rules;if(name==='../../public/javascripts/photo-list')return list;if(name==='https')return {request(options,callback){assert.equal(options.hostname,'vision.googleapis.com');assert.equal(options.headers['X-Goog-Api-Key'],'unit-test-key');const request=new EventEmitter();request.setTimeout=()=>{};request.end=body=>{const payload=JSON.parse(body);assert.equal(payload.requests[0].features[0].type,'DOCUMENT_TEXT_DETECTION');const response=new EventEmitter();response.statusCode=200;callback(response);response.emit('data',JSON.stringify({responses:[{fullTextAnnotation:{text:'1-0031\n2-0114'}}]}));response.emit('end');};return request;}};throw Error(name);}};
+vm.runInNewContext(fs.readFileSync(require.resolve('../src/services/photo-ocr'),'utf8'),sandbox);
+const ocr=sandbox.module.exports;
+const image='data:image/png;base64,'+Buffer.from([137,80,78,71,13,10,26,10,0]).toString('base64');
+assert.throws(()=>ocr.validate('https://example.com/image.png'),/JPG/);
+assert.throws(()=>ocr.validate('data:image/png;base64,YWJjZGVmZ2hp'),/contenido/);
+assert.throws(()=>ocr.validate('a'.repeat(8400001)),/grande/);
+(async()=>{
+ await assert.rejects(ocr.extract(image,'BILLETE'),e=>e.status===503);
+ env.GOOGLE_VISION_API_KEY='unit-test-key';
+ const result=await ocr.extract(image,'BILLETE');assert.equal(result.rows.length,2);assert.equal(result.rows[0].numero,'0031');assert(result.rows[0].dudoso,'Unknown confidence must require review');
+ console.log('OK: handwritten-list parser fixtures, unparsed text, no digit guessing, leading zeros, duplicate totals, draft validation, image validation, missing setup and mocked Vision response.');
+})().catch(e=>{console.error(e);process.exit(1);});
