@@ -1,5 +1,4 @@
 name: "ticket-2"
-version: "3"
 services:
     app:
       container_name: lsapi-2
@@ -74,10 +73,10 @@ networks:
     external:
       name: internalNetwork
 volumes:
-  db-data-sandbox-2:
-  certbot-etc-sandbox-2:
-  certbot-var-sandbox-2:
-  web-static-sandbox-2:
+  db-data-2:
+  certbot-etc-2:
+  certbot-var-2:
+  web-static-2:
     driver: local
     driver_opts:
       type: none

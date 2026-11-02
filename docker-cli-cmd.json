@@ -11,7 +11,8 @@
     "ejecutar_prevent_duplicate":"docker exec -it lsapi node src/mq/worker-prevent-create-ticketrecords.js",
     "process #1":"docker exec -it lsapi node src/mq/worker-create-ticketrecords.js",
     "process #2":"docker exec -it lsapi  node src/mq/worker-prevent-create-ticketrecords.js",
-    "process #3":"docker exec -it lsapi node src/mq/worker-verification-ticketrecords.js"
+    "process #3":"docker exec -it lsapi node src/mq/worker-verification-ticketrecords.js",
+    "check_compose":"docker compose config --quiet"
 
 
 
