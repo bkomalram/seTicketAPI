@@ -1,7 +1,7 @@
-name: "ticket-2"
+name: "ticket-1"
 services:
     app:
-      container_name: lsapi-2
+      container_name: lsapi-1
       restart: always
       build: .
       #command: bash -c "./src/mq/run-commands.sh 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-verification-ticketrecords.js'"
@@ -12,9 +12,9 @@ services:
         backend:
         containers:
           aliases:
-            - ticket-2-api
+            - ticket-1-api
       ports:
-        - "3002:3000"       
+        - "3000:3000"       
       links:
         - database
         - queue     
@@ -22,7 +22,7 @@ services:
         - .:/code
         - /code/node_modules  #Volumen dedicado al node_modules para que quede intacto #bcrypt issue  https://bobcares.com/blog/install-bcrypt-in-docker/       
     database:
-      container_name: lsdb-2
+      container_name: lsdb-1
       image: mariadb:10.6.4-focal
       command: '--default-authentication-plugin=mysql_native_password'
       restart: always
@@ -34,26 +34,26 @@ services:
         MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?required}
         MYSQL_DATABASE: loteriadb
       volumes:
-        - db-data-2:/var/lib/mysql
+        - db-data-1:/var/lib/mysql
     queue:
-      container_name: lsmq-2
+      container_name: lsmq-1
       image: rabbitmq:3-management
       restart: unless-stopped
       volumes:
-        - rabbitmq-data-2:/var/lib/rabbitmq
+        - rabbitmq-data-1:/var/lib/rabbitmq
       networks:
         - backend
       ports:
-        - "5673:5672"
-        - "5674:5671"
-        - "15673:15672"
+        - "5672:5672"
+        - "5671:5671"
+        - "15672:15672"
       healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:15673"]
+        test: ["CMD", "curl", "-f", "http://localhost:15672"]
         interval: 30s
         timeout: 10s
         retries: 5
     workers:
-      container_name: lsworkers-2
+      container_name: lsworkers-1
       restart: always
       build: .
       command: bash -c "./src/mq/run-commands.sh 'node src/mq/worker-prevent-create-ticketrecords.js' 'node src/mq/worker-create-ticketrecords.js' 'node src/mq/worker-verification-ticketrecords.js'"
@@ -75,11 +75,11 @@ networks:
     external:
       name: internalNetwork
 volumes:
-  db-data-2:
-  certbot-etc-2:
-  certbot-var-2:
-  rabbitmq-data-2:
-  web-static-2:
+  db-data-1:
+  certbot-etc-1:
+  certbot-var-1:
+  rabbitmq-data-1:
+  web-static-1:
     driver: local
     driver_opts:
       type: none
