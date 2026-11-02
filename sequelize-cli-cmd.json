@@ -6,6 +6,9 @@
         "models":{
             "crearTabla":"npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string"
         },
+        "procedures":{
+            "crearProcedimiento":"npx sequelize-cli migration:generate --name create-sp-actualiza-ganadores"
+        },
         "migracion":{
             "correr":"npx sequelize-cli db:migrate",
             "regresar":"npx sequelize-cli db:migrate:undo",
@@ -20,7 +23,6 @@
             "regresar":"npx sequelize-cli db:seed:undo",
             "regresarTodas":"npx sequelize-cli db:seed:undo:all",
             "regresarEspecifica":"npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data esto no sirve"
-
         },
         "git":{
             "subir":"git push -u nubeGitHub main"

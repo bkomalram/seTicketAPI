@@ -1,0 +1,68 @@
+@media screen {
+  body.accounts-page { background: #f5f7f5; color: #26362e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 0 28px 28px; }
+  #accounts-workspace { max-width: 1600px; margin: 0 auto; display: grid; grid-template-columns: 280px minmax(320px,1fr) 290px; gap: 20px; align-items: start; }
+  #accounts-workspace .workspace-header, #accounts-workspace .workspace-intro { display: flex; grid-column: 1 / -1; }
+  .accounts-card { min-width: 0; border: 1px solid #e1e8e2; background: white; border-radius: 14px; padding: 20px; }
+  #accounts-workspace h2 { font-size: 14px; font-weight: 650; letter-spacing: -.1px; margin: 0 0 10px; }
+  #accounts-workspace .panel-heading h2 { margin: 0; }
+  .accounts-description { font-size: 12px; line-height: 1.7; color: #87938b; margin-bottom: 24px; }
+  .accounts-filters label, .accounts-users-title { font-size: 12px; font-weight: 600; margin-bottom: 9px; }
+  .accounts-filters .custom-select { height: 40px; border-color: #dfe6e0; border-radius: 7px; color: #26362e; font-size: 13px; }
+  .accounts-filters .custom-select:focus { border-color: #508265; box-shadow: 0 0 0 3px #397b5915; }
+  .accounts-users-title { margin: 24px 0 12px; padding-top: 20px; border-top: 1px solid #edf1ed; }
+  #listaUsuarios { max-height: 340px; overflow-y: auto; scrollbar-width: thin; }
+  #listaUsuarios .form-check { padding: 0; display: flex; align-items: center; min-height: 40px; gap: 10px; border-radius: 7px; margin-bottom: 4px; }
+  #listaUsuarios .form-check:hover { background: #f5f8f5; }
+  #listaUsuarios .form-check:has(:checked) { background: #eef5ef; }
+  #listaUsuarios .form-check-input { position: static; margin: 0 0 0 10px; width: 15px; height: 15px; accent-color: #2d654b; cursor: pointer; flex-shrink: 0; }
+  #listaUsuarios .form-check-label { padding: 10px 8px 10px 0; margin: 0; cursor: pointer; font-weight: 400; flex: 1; overflow-wrap: anywhere; }
+  .accounts-filters > .rows > .col-12 { padding: 0 !important; margin-top: 20px; }
+  #accounts-workspace .btn { font-size: 12px; border-radius: 7px; padding: 9px 16px; min-height: 36px; }
+  #accounts-workspace .btn-secondary { background: #f5f7f5; border-color: #e1e8e2; color: #52685a; }
+  #accounts-workspace .btn-secondary:hover { background: #e8f0ea; border-color: #b5c7ba; }
+  #accounts-workspace .btn:focus-visible { outline: 2px solid #397b59; outline-offset: 2px; }
+  #accounts-workspace #btnActualizar { min-height: 42px; background: #2d654b; border-color: #2d654b; color: white; }
+  #accounts-workspace #btnActualizar:hover { background: #23543d; }
+  #error-loading-game { font-size: 12px; line-height: 1.6; margin: 14px 0 0; padding: 0 !important; }
+  #error-loading-game:empty { display: none; }
+  #estadoTitulo { padding: 0; color: #6e8074; }
+  #estadoTitulo h5 { font-size: 14px; font-weight: 600; }
+  #estadoTitulo p { font-size: 12px; line-height: 1.8; color: #87938b; margin: 0; max-width: 270px; }
+  .accounts-detail:not(:has(#estado :first-child)) #estadoTitulo { min-height: 360px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 7px; }
+  .accounts-detail:has(#estado :first-child) #estadoTitulo p { display: none; }
+  #accounts-workspace #estado, #accounts-workspace #estadoBillete { overflow-x: auto; }
+  #accounts-workspace #estadoBillete:not(:empty) { margin-top: 20px; }
+  #accounts-workspace table { margin: 0; font-size: 12px; color: #43594b; font-variant-numeric: tabular-nums; }
+  #accounts-workspace td, #accounts-workspace th { padding: 6px 8px !important; border-color: #e7ece7; width: auto; font-weight: 400; }
+  #accounts-workspace th { background: #f0f5f1; color: #42664e; font-size: 11px; font-weight: 650; }
+  #accounts-workspace td.font-weight-bold { background: #f7f9f7; font-weight: 500 !important; }
+  #accounts-workspace #estadoSorteo { border: none; display: block !important; }
+  #accounts-workspace #contenedorPorcentajes { border: none; color: #26362e !important; }
+  #accounts-workspace #contenedorPorcentajes .card-body { padding: 0; }
+  #porcentajeTable td:first-child { text-align: left; }
+  #porcentajeTable td:last-child { text-align: right; }
+  #porcentajeTable tr:last-child td { background: #eaf3ed; color: #2d654b; font-weight: 650 !important; }
+  #porcentajeTable tr:last-child td.text-danger { color: #b64646 !important; }
+  #accounts-workspace #totalSorteo { padding: 0; font-size: 12px; }
+  #accounts-workspace #totalSorteo > .d-flex { padding: 7px 0; border-bottom: 1px solid #e7ece7; }
+  #accounts-workspace #totalSorteo .card-border { background: #f0f5f1; border: none; padding: 6px; }
+}
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  #accounts-workspace { grid-template-columns: 250px minmax(0,1fr); gap: 14px; }
+  .accounts-summary { grid-column: 2; }
+  .accounts-filters { grid-row: 3 / 5; }
+}
+@media screen and (max-width: 767px) {
+  body.accounts-page { padding: 0 18px 24px; }
+  #accounts-workspace { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  #accounts-workspace .workspace-header { min-height: 70px; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8e2; gap: 10px; }
+  .workspace-brand { font-size: 16px; font-weight: 650; }
+  .workspace-mark, .workspace-divider, .workspace-section { display: none; }
+  #accounts-workspace .workspace-intro { display: block; padding: 12px 0; }
+  .workspace-eyebrow { font-size: 10px; color: #7b8c80; letter-spacing: 1.2px; }
+  .workspace-intro h1 { font-size: 26px; }
+  .workspace-intro > p { font-size: 12px; color: #87938b; margin: 0; }
+}
+@media screen {
+  .accounts-detail:has(#estado :first-child) #estadoTitulo { display: none; }
+}

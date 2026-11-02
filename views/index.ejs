@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +11,10 @@
     />
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/stylesheets/desktop.css" />
+    <link rel="stylesheet" href="/stylesheets/modals.css" />
   </head>
-  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
+  <body class="container-fluid sales-page">
     <div
       class="d-none d-print-block print-style font-weight-bold pa output80"
       id="outDimention"
@@ -21,17 +22,21 @@
       <div id="outPut1" class="pt-2"></div>
     </div>
     <div class="row d-none" id="venta">
-      <div class="d-none d-md-block col-md-3 d-print-none mt-2"
-        style="background-color: #dee2e6 !important"
-      >
-        <div class="row" id="chanceBuilder">
+      <header class="workspace-header d-none d-md-flex d-print-none">
+        <div class="workspace-brand"><span class="workspace-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v5a2 2 0 0 0 0 4v5H4v-5a2 2 0 0 0 0-4V5Z"/><path d="M15 5v3m0 3v2m0 3v3"/></svg></span><span><%= enviroment.TITLE %></span><span class="workspace-divider"></span><span class="workspace-section">Ventas</span></div>
+        <div class="workspace-account"><span class="session-dot" aria-hidden="true"></span><span name="desktop-session-name">Mi cuenta</span></div>
+      </header>
+      <div class="workspace-intro d-none d-md-flex d-print-none"><div><p class="workspace-eyebrow">TU ESPACIO DE TRABAJO</p><h1>Mesa de ventas</h1></div><p>Prepara tu ticket y revisa el detalle antes de imprimir.</p></div>
+      <div class="d-none d-md-block col-md-3 d-print-none mt-2 number-panel"
+        >
+        <div class="panel-heading"><h2>Tablero de chances</h2><span>00 — 99</span></div><div class="row" id="chanceBuilder">
           <div class="col-3 px-0">
             <div class="input-group input-group-xs pr-0">
               <div class="input-group-prepend">
                 <span class="input-group-text font-weight-bold">00</span>
               </div>
               <input
-                id="i00"
+                id="i00" aria-label="Cantidad para el 00" inputmode="numeric"
                 name="00"
                 type="text"
                 class="form-control"
@@ -43,7 +48,7 @@
                 <span class="input-group-text font-weight-bold">01</span>
               </div>
               <input
-                id="i01"
+                id="i01" aria-label="Cantidad para el 01" inputmode="numeric"
                 name="01"
                 type="text"
                 class="form-control"
@@ -55,7 +60,7 @@
                 <span class="input-group-text font-weight-bold">02</span>
               </div>
               <input
-                id="i02"
+                id="i02" aria-label="Cantidad para el 02" inputmode="numeric"
                 name="02"
                 type="text"
                 class="form-control"
@@ -67,7 +72,7 @@
                 <span class="input-group-text font-weight-bold">03</span>
               </div>
               <input
-                id="i03"
+                id="i03" aria-label="Cantidad para el 03" inputmode="numeric"
                 name="03"
                 type="text"
                 class="form-control"
@@ -79,7 +84,7 @@
                 <span class="input-group-text font-weight-bold">04</span>
               </div>
               <input
-                id="i04"
+                id="i04" aria-label="Cantidad para el 04" inputmode="numeric"
                 name="04"
                 type="text"
                 class="form-control"
@@ -91,7 +96,7 @@
                 <span class="input-group-text font-weight-bold">05</span>
               </div>
               <input
-                id="i05"
+                id="i05" aria-label="Cantidad para el 05" inputmode="numeric"
                 name="05"
                 type="text"
                 class="form-control"
@@ -103,7 +108,7 @@
                 <span class="input-group-text font-weight-bold">06</span>
               </div>
               <input
-                id="i06"
+                id="i06" aria-label="Cantidad para el 06" inputmode="numeric"
                 name="06"
                 type="text"
                 class="form-control"
@@ -115,7 +120,7 @@
                 <span class="input-group-text font-weight-bold">07</span>
               </div>
               <input
-                id="i07"
+                id="i07" aria-label="Cantidad para el 07" inputmode="numeric"
                 name="07"
                 type="text"
                 class="form-control"
@@ -127,7 +132,7 @@
                 <span class="input-group-text font-weight-bold">08</span>
               </div>
               <input
-                id="i08"
+                id="i08" aria-label="Cantidad para el 08" inputmode="numeric"
                 name="08"
                 type="text"
                 class="form-control"
@@ -139,7 +144,7 @@
                 <span class="input-group-text font-weight-bold">09</span>
               </div>
               <input
-                id="i09"
+                id="i09" aria-label="Cantidad para el 09" inputmode="numeric"
                 name="09"
                 type="text"
                 class="form-control"
@@ -151,7 +156,7 @@
                 <span class="input-group-text font-weight-bold">10</span>
               </div>
               <input
-                id="i10"
+                id="i10" aria-label="Cantidad para el 10" inputmode="numeric"
                 name="10"
                 type="text"
                 class="form-control"
@@ -163,7 +168,7 @@
                 <span class="input-group-text font-weight-bold">11</span>
               </div>
               <input
-                id="i11"
+                id="i11" aria-label="Cantidad para el 11" inputmode="numeric"
                 name="11"
                 type="text"
                 class="form-control"
@@ -175,7 +180,7 @@
                 <span class="input-group-text font-weight-bold">12</span>
               </div>
               <input
-                id="i12"
+                id="i12" aria-label="Cantidad para el 12" inputmode="numeric"
                 name="12"
                 type="text"
                 class="form-control"
@@ -187,7 +192,7 @@
                 <span class="input-group-text font-weight-bold">13</span>
               </div>
               <input
-                id="i13"
+                id="i13" aria-label="Cantidad para el 13" inputmode="numeric"
                 name="13"
                 type="text"
                 class="form-control"
@@ -199,7 +204,7 @@
                 <span class="input-group-text font-weight-bold">14</span>
               </div>
               <input
-                id="i14"
+                id="i14" aria-label="Cantidad para el 14" inputmode="numeric"
                 name="14"
                 type="text"
                 class="form-control"
@@ -211,7 +216,7 @@
                 <span class="input-group-text font-weight-bold">15</span>
               </div>
               <input
-                id="i15"
+                id="i15" aria-label="Cantidad para el 15" inputmode="numeric"
                 name="15"
                 type="text"
                 class="form-control"
@@ -223,7 +228,7 @@
                 <span class="input-group-text font-weight-bold">16</span>
               </div>
               <input
-                id="i16"
+                id="i16" aria-label="Cantidad para el 16" inputmode="numeric"
                 name="16"
                 type="text"
                 class="form-control"
@@ -235,7 +240,7 @@
                 <span class="input-group-text font-weight-bold">17</span>
               </div>
               <input
-                id="i17"
+                id="i17" aria-label="Cantidad para el 17" inputmode="numeric"
                 name="17"
                 type="text"
                 class="form-control"
@@ -247,7 +252,7 @@
                 <span class="input-group-text font-weight-bold">18</span>
               </div>
               <input
-                id="i18"
+                id="i18" aria-label="Cantidad para el 18" inputmode="numeric"
                 name="18"
                 type="text"
                 class="form-control"
@@ -259,7 +264,7 @@
                 <span class="input-group-text font-weight-bold">19</span>
               </div>
               <input
-                id="i19"
+                id="i19" aria-label="Cantidad para el 19" inputmode="numeric"
                 name="19"
                 type="text"
                 class="form-control"
@@ -271,7 +276,7 @@
                 <span class="input-group-text font-weight-bold">20</span>
               </div>
               <input
-                id="i20"
+                id="i20" aria-label="Cantidad para el 20" inputmode="numeric"
                 name="20"
                 type="text"
                 class="form-control"
@@ -283,7 +288,7 @@
                 <span class="input-group-text font-weight-bold">21</span>
               </div>
               <input
-                id="i21"
+                id="i21" aria-label="Cantidad para el 21" inputmode="numeric"
                 name="21"
                 type="text"
                 class="form-control"
@@ -295,7 +300,7 @@
                 <span class="input-group-text font-weight-bold">22</span>
               </div>
               <input
-                id="i22"
+                id="i22" aria-label="Cantidad para el 22" inputmode="numeric"
                 name="22"
                 type="text"
                 class="form-control"
@@ -307,7 +312,7 @@
                 <span class="input-group-text font-weight-bold">23</span>
               </div>
               <input
-                id="i23"
+                id="i23" aria-label="Cantidad para el 23" inputmode="numeric"
                 name="23"
                 type="text"
                 class="form-control"
@@ -319,7 +324,7 @@
                 <span class="input-group-text font-weight-bold">24</span>
               </div>
               <input
-                id="i24"
+                id="i24" aria-label="Cantidad para el 24" inputmode="numeric"
                 name="24"
                 type="text"
                 class="form-control"
@@ -333,7 +338,7 @@
                 <span class="input-group-text font-weight-bold">25</span>
               </div>
               <input
-                id="i25"
+                id="i25" aria-label="Cantidad para el 25" inputmode="numeric"
                 name="25"
                 type="text"
                 class="form-control"
@@ -345,7 +350,7 @@
                 <span class="input-group-text font-weight-bold">26</span>
               </div>
               <input
-                id="i26"
+                id="i26" aria-label="Cantidad para el 26" inputmode="numeric"
                 name="26"
                 type="text"
                 class="form-control"
@@ -357,7 +362,7 @@
                 <span class="input-group-text font-weight-bold">27</span>
               </div>
               <input
-                id="i27"
+                id="i27" aria-label="Cantidad para el 27" inputmode="numeric"
                 name="27"
                 type="text"
                 class="form-control"
@@ -369,7 +374,7 @@
                 <span class="input-group-text font-weight-bold">28</span>
               </div>
               <input
-                id="i28"
+                id="i28" aria-label="Cantidad para el 28" inputmode="numeric"
                 name="28"
                 type="text"
                 class="form-control"
@@ -381,7 +386,7 @@
                 <span class="input-group-text font-weight-bold">29</span>
               </div>
               <input
-                id="i29"
+                id="i29" aria-label="Cantidad para el 29" inputmode="numeric"
                 name="29"
                 type="text"
                 class="form-control"
@@ -393,7 +398,7 @@
                 <span class="input-group-text font-weight-bold">30</span>
               </div>
               <input
-                id="i30"
+                id="i30" aria-label="Cantidad para el 30" inputmode="numeric"
                 name="30"
                 type="text"
                 class="form-control"
@@ -405,7 +410,7 @@
                 <span class="input-group-text font-weight-bold">31</span>
               </div>
               <input
-                id="i31"
+                id="i31" aria-label="Cantidad para el 31" inputmode="numeric"
                 name="31"
                 type="text"
                 class="form-control"
@@ -417,7 +422,7 @@
                 <span class="input-group-text font-weight-bold">32</span>
               </div>
               <input
-                id="i32"
+                id="i32" aria-label="Cantidad para el 32" inputmode="numeric"
                 name="32"
                 type="text"
                 class="form-control"
@@ -429,7 +434,7 @@
                 <span class="input-group-text font-weight-bold">33</span>
               </div>
               <input
-                id="i33"
+                id="i33" aria-label="Cantidad para el 33" inputmode="numeric"
                 name="33"
                 type="text"
                 class="form-control"
@@ -441,7 +446,7 @@
                 <span class="input-group-text font-weight-bold">34</span>
               </div>
               <input
-                id="i34"
+                id="i34" aria-label="Cantidad para el 34" inputmode="numeric"
                 name="34"
                 type="text"
                 class="form-control"
@@ -453,7 +458,7 @@
                 <span class="input-group-text font-weight-bold">35</span>
               </div>
               <input
-                id="i35"
+                id="i35" aria-label="Cantidad para el 35" inputmode="numeric"
                 name="35"
                 type="text"
                 class="form-control"
@@ -465,7 +470,7 @@
                 <span class="input-group-text font-weight-bold">36</span>
               </div>
               <input
-                id="i36"
+                id="i36" aria-label="Cantidad para el 36" inputmode="numeric"
                 name="36"
                 type="text"
                 class="form-control"
@@ -477,7 +482,7 @@
                 <span class="input-group-text font-weight-bold">37</span>
               </div>
               <input
-                id="i37"
+                id="i37" aria-label="Cantidad para el 37" inputmode="numeric"
                 name="37"
                 type="text"
                 class="form-control"
@@ -489,7 +494,7 @@
                 <span class="input-group-text font-weight-bold">38</span>
               </div>
               <input
-                id="i38"
+                id="i38" aria-label="Cantidad para el 38" inputmode="numeric"
                 name="38"
                 type="text"
                 class="form-control"
@@ -501,7 +506,7 @@
                 <span class="input-group-text font-weight-bold">39</span>
               </div>
               <input
-                id="i39"
+                id="i39" aria-label="Cantidad para el 39" inputmode="numeric"
                 name="39"
                 type="text"
                 class="form-control"
@@ -513,7 +518,7 @@
                 <span class="input-group-text font-weight-bold">40</span>
               </div>
               <input
-                id="i40"
+                id="i40" aria-label="Cantidad para el 40" inputmode="numeric"
                 name="40"
                 type="text"
                 class="form-control"
@@ -525,7 +530,7 @@
                 <span class="input-group-text font-weight-bold">41</span>
               </div>
               <input
-                id="i41"
+                id="i41" aria-label="Cantidad para el 41" inputmode="numeric"
                 name="41"
                 type="text"
                 class="form-control"
@@ -537,7 +542,7 @@
                 <span class="input-group-text font-weight-bold">42</span>
               </div>
               <input
-                id="i42"
+                id="i42" aria-label="Cantidad para el 42" inputmode="numeric"
                 name="42"
                 type="text"
                 class="form-control"
@@ -549,7 +554,7 @@
                 <span class="input-group-text font-weight-bold">43</span>
               </div>
               <input
-                id="i43"
+                id="i43" aria-label="Cantidad para el 43" inputmode="numeric"
                 name="43"
                 type="text"
                 class="form-control"
@@ -561,7 +566,7 @@
                 <span class="input-group-text font-weight-bold">44</span>
               </div>
               <input
-                id="i44"
+                id="i44" aria-label="Cantidad para el 44" inputmode="numeric"
                 name="44"
                 type="text"
                 class="form-control"
@@ -573,7 +578,7 @@
                 <span class="input-group-text font-weight-bold">45</span>
               </div>
               <input
-                id="i45"
+                id="i45" aria-label="Cantidad para el 45" inputmode="numeric"
                 name="45"
                 type="text"
                 class="form-control"
@@ -585,7 +590,7 @@
                 <span class="input-group-text font-weight-bold">46</span>
               </div>
               <input
-                id="i46"
+                id="i46" aria-label="Cantidad para el 46" inputmode="numeric"
                 name="46"
                 type="text"
                 class="form-control"
@@ -597,7 +602,7 @@
                 <span class="input-group-text font-weight-bold">47</span>
               </div>
               <input
-                id="i47"
+                id="i47" aria-label="Cantidad para el 47" inputmode="numeric"
                 name="47"
                 type="text"
                 class="form-control"
@@ -609,7 +614,7 @@
                 <span class="input-group-text font-weight-bold">48</span>
               </div>
               <input
-                id="i48"
+                id="i48" aria-label="Cantidad para el 48" inputmode="numeric"
                 name="48"
                 type="text"
                 class="form-control"
@@ -621,7 +626,7 @@
                 <span class="input-group-text font-weight-bold">49</span>
               </div>
               <input
-                id="i49"
+                id="i49" aria-label="Cantidad para el 49" inputmode="numeric"
                 name="49"
                 type="text"
                 class="form-control"
@@ -635,7 +640,7 @@
                 <span class="input-group-text font-weight-bold">50</span>
               </div>
               <input
-                id="i50"
+                id="i50" aria-label="Cantidad para el 50" inputmode="numeric"
                 name="50"
                 type="text"
                 class="form-control"
@@ -647,7 +652,7 @@
                 <span class="input-group-text font-weight-bold">51</span>
               </div>
               <input
-                id="i51"
+                id="i51" aria-label="Cantidad para el 51" inputmode="numeric"
                 name="51"
                 type="text"
                 class="form-control"
@@ -659,7 +664,7 @@
                 <span class="input-group-text font-weight-bold">52</span>
               </div>
               <input
-                id="i52"
+                id="i52" aria-label="Cantidad para el 52" inputmode="numeric"
                 name="52"
                 type="text"
                 class="form-control"
@@ -671,7 +676,7 @@
                 <span class="input-group-text font-weight-bold">53</span>
               </div>
               <input
-                id="i53"
+                id="i53" aria-label="Cantidad para el 53" inputmode="numeric"
                 name="53"
                 type="text"
                 class="form-control"
@@ -683,7 +688,7 @@
                 <span class="input-group-text font-weight-bold">54</span>
               </div>
               <input
-                id="i54"
+                id="i54" aria-label="Cantidad para el 54" inputmode="numeric"
                 name="54"
                 type="text"
                 class="form-control"
@@ -695,7 +700,7 @@
                 <span class="input-group-text font-weight-bold">55</span>
               </div>
               <input
-                id="i55"
+                id="i55" aria-label="Cantidad para el 55" inputmode="numeric"
                 name="55"
                 type="text"
                 class="form-control"
@@ -707,7 +712,7 @@
                 <span class="input-group-text font-weight-bold">56</span>
               </div>
               <input
-                id="i56"
+                id="i56" aria-label="Cantidad para el 56" inputmode="numeric"
                 name="56"
                 type="text"
                 class="form-control"
@@ -719,7 +724,7 @@
                 <span class="input-group-text font-weight-bold">57</span>
               </div>
               <input
-                id="i57"
+                id="i57" aria-label="Cantidad para el 57" inputmode="numeric"
                 name="57"
                 type="text"
                 class="form-control"
@@ -731,7 +736,7 @@
                 <span class="input-group-text font-weight-bold">58</span>
               </div>
               <input
-                id="i58"
+                id="i58" aria-label="Cantidad para el 58" inputmode="numeric"
                 name="58"
                 type="text"
                 class="form-control"
@@ -743,7 +748,7 @@
                 <span class="input-group-text font-weight-bold">59</span>
               </div>
               <input
-                id="i59"
+                id="i59" aria-label="Cantidad para el 59" inputmode="numeric"
                 name="59"
                 type="text"
                 class="form-control"
@@ -755,7 +760,7 @@
                 <span class="input-group-text font-weight-bold">60</span>
               </div>
               <input
-                id="i60"
+                id="i60" aria-label="Cantidad para el 60" inputmode="numeric"
                 name="60"
                 type="text"
                 class="form-control"
@@ -767,7 +772,7 @@
                 <span class="input-group-text font-weight-bold">61</span>
               </div>
               <input
-                id="i61"
+                id="i61" aria-label="Cantidad para el 61" inputmode="numeric"
                 name="61"
                 type="text"
                 class="form-control"
@@ -779,7 +784,7 @@
                 <span class="input-group-text font-weight-bold">62</span>
               </div>
               <input
-                id="i62"
+                id="i62" aria-label="Cantidad para el 62" inputmode="numeric"
                 name="62"
                 type="text"
                 class="form-control"
@@ -791,7 +796,7 @@
                 <span class="input-group-text font-weight-bold">63</span>
               </div>
               <input
-                id="i63"
+                id="i63" aria-label="Cantidad para el 63" inputmode="numeric"
                 name="63"
                 type="text"
                 class="form-control"
@@ -803,7 +808,7 @@
                 <span class="input-group-text font-weight-bold">64</span>
               </div>
               <input
-                id="i64"
+                id="i64" aria-label="Cantidad para el 64" inputmode="numeric"
                 name="64"
                 type="text"
                 class="form-control"
@@ -815,7 +820,7 @@
                 <span class="input-group-text font-weight-bold">65</span>
               </div>
               <input
-                id="i65"
+                id="i65" aria-label="Cantidad para el 65" inputmode="numeric"
                 name="65"
                 type="text"
                 class="form-control"
@@ -827,7 +832,7 @@
                 <span class="input-group-text font-weight-bold">66</span>
               </div>
               <input
-                id="i66"
+                id="i66" aria-label="Cantidad para el 66" inputmode="numeric"
                 name="66"
                 type="text"
                 class="form-control"
@@ -839,7 +844,7 @@
                 <span class="input-group-text font-weight-bold">67</span>
               </div>
               <input
-                id="i67"
+                id="i67" aria-label="Cantidad para el 67" inputmode="numeric"
                 name="67"
                 type="text"
                 class="form-control"
@@ -851,7 +856,7 @@
                 <span class="input-group-text font-weight-bold">68</span>
               </div>
               <input
-                id="i68"
+                id="i68" aria-label="Cantidad para el 68" inputmode="numeric"
                 name="68"
                 type="text"
                 class="form-control"
@@ -863,7 +868,7 @@
                 <span class="input-group-text font-weight-bold">69</span>
               </div>
               <input
-                id="i69"
+                id="i69" aria-label="Cantidad para el 69" inputmode="numeric"
                 name="69"
                 type="text"
                 class="form-control"
@@ -875,7 +880,7 @@
                 <span class="input-group-text font-weight-bold">70</span>
               </div>
               <input
-                id="i70"
+                id="i70" aria-label="Cantidad para el 70" inputmode="numeric"
                 name="70"
                 type="text"
                 class="form-control"
@@ -887,7 +892,7 @@
                 <span class="input-group-text font-weight-bold">71</span>
               </div>
               <input
-                id="i71"
+                id="i71" aria-label="Cantidad para el 71" inputmode="numeric"
                 name="71"
                 type="text"
                 class="form-control"
@@ -899,7 +904,7 @@
                 <span class="input-group-text font-weight-bold">72</span>
               </div>
               <input
-                id="i72"
+                id="i72" aria-label="Cantidad para el 72" inputmode="numeric"
                 name="72"
                 type="text"
                 class="form-control"
@@ -911,7 +916,7 @@
                 <span class="input-group-text font-weight-bold">73</span>
               </div>
               <input
-                id="i73"
+                id="i73" aria-label="Cantidad para el 73" inputmode="numeric"
                 name="73"
                 type="text"
                 class="form-control"
@@ -923,7 +928,7 @@
                 <span class="input-group-text font-weight-bold">74</span>
               </div>
               <input
-                id="i74"
+                id="i74" aria-label="Cantidad para el 74" inputmode="numeric"
                 name="74"
                 type="text"
                 class="form-control"
@@ -937,7 +942,7 @@
                 <span class="input-group-text font-weight-bold">75</span>
               </div>
               <input
-                id="i75"
+                id="i75" aria-label="Cantidad para el 75" inputmode="numeric"
                 name="75"
                 type="text"
                 class="form-control"
@@ -949,7 +954,7 @@
                 <span class="input-group-text font-weight-bold">76</span>
               </div>
               <input
-                id="i76"
+                id="i76" aria-label="Cantidad para el 76" inputmode="numeric"
                 name="76"
                 type="text"
                 class="form-control"
@@ -961,7 +966,7 @@
                 <span class="input-group-text font-weight-bold">77</span>
               </div>
               <input
-                id="i77"
+                id="i77" aria-label="Cantidad para el 77" inputmode="numeric"
                 name="77"
                 type="text"
                 class="form-control"
@@ -973,7 +978,7 @@
                 <span class="input-group-text font-weight-bold">78</span>
               </div>
               <input
-                id="i78"
+                id="i78" aria-label="Cantidad para el 78" inputmode="numeric"
                 name="78"
                 type="text"
                 class="form-control"
@@ -985,7 +990,7 @@
                 <span class="input-group-text font-weight-bold">79</span>
               </div>
               <input
-                id="i79"
+                id="i79" aria-label="Cantidad para el 79" inputmode="numeric"
                 name="79"
                 type="text"
                 class="form-control"
@@ -997,7 +1002,7 @@
                 <span class="input-group-text font-weight-bold">80</span>
               </div>
               <input
-                id="i80"
+                id="i80" aria-label="Cantidad para el 80" inputmode="numeric"
                 name="80"
                 type="text"
                 class="form-control"
@@ -1009,7 +1014,7 @@
                 <span class="input-group-text font-weight-bold">81</span>
               </div>
               <input
-                id="i81"
+                id="i81" aria-label="Cantidad para el 81" inputmode="numeric"
                 name="81"
                 type="text"
                 class="form-control"
@@ -1021,7 +1026,7 @@
                 <span class="input-group-text font-weight-bold">82</span>
               </div>
               <input
-                id="i82"
+                id="i82" aria-label="Cantidad para el 82" inputmode="numeric"
                 name="82"
                 type="text"
                 class="form-control"
@@ -1033,7 +1038,7 @@
                 <span class="input-group-text font-weight-bold">83</span>
               </div>
               <input
-                id="i83"
+                id="i83" aria-label="Cantidad para el 83" inputmode="numeric"
                 name="83"
                 type="text"
                 class="form-control"
@@ -1045,7 +1050,7 @@
                 <span class="input-group-text font-weight-bold">84</span>
               </div>
               <input
-                id="i84"
+                id="i84" aria-label="Cantidad para el 84" inputmode="numeric"
                 name="84"
                 type="text"
                 class="form-control"
@@ -1057,7 +1062,7 @@
                 <span class="input-group-text font-weight-bold">85</span>
               </div>
               <input
-                id="i85"
+                id="i85" aria-label="Cantidad para el 85" inputmode="numeric"
                 name="85"
                 type="text"
                 class="form-control"
@@ -1069,7 +1074,7 @@
                 <span class="input-group-text font-weight-bold">86</span>
               </div>
               <input
-                id="i86"
+                id="i86" aria-label="Cantidad para el 86" inputmode="numeric"
                 name="86"
                 type="text"
                 class="form-control"
@@ -1081,7 +1086,7 @@
                 <span class="input-group-text font-weight-bold">87</span>
               </div>
               <input
-                id="i87"
+                id="i87" aria-label="Cantidad para el 87" inputmode="numeric"
                 name="87"
                 type="text"
                 class="form-control"
@@ -1093,7 +1098,7 @@
                 <span class="input-group-text font-weight-bold">88</span>
               </div>
               <input
-                id="i88"
+                id="i88" aria-label="Cantidad para el 88" inputmode="numeric"
                 name="88"
                 type="text"
                 class="form-control"
@@ -1105,7 +1110,7 @@
                 <span class="input-group-text font-weight-bold">89</span>
               </div>
               <input
-                id="i89"
+                id="i89" aria-label="Cantidad para el 89" inputmode="numeric"
                 name="89"
                 type="text"
                 class="form-control"
@@ -1117,7 +1122,7 @@
                 <span class="input-group-text font-weight-bold">90</span>
               </div>
               <input
-                id="i90"
+                id="i90" aria-label="Cantidad para el 90" inputmode="numeric"
                 name="90"
                 type="text"
                 class="form-control"
@@ -1129,7 +1134,7 @@
                 <span class="input-group-text font-weight-bold">91</span>
               </div>
               <input
-                id="i91"
+                id="i91" aria-label="Cantidad para el 91" inputmode="numeric"
                 name="91"
                 type="text"
                 class="form-control"
@@ -1141,7 +1146,7 @@
                 <span class="input-group-text font-weight-bold">92</span>
               </div>
               <input
-                id="i92"
+                id="i92" aria-label="Cantidad para el 92" inputmode="numeric"
                 name="92"
                 type="text"
                 class="form-control"
@@ -1153,7 +1158,7 @@
                 <span class="input-group-text font-weight-bold">93</span>
               </div>
               <input
-                id="i93"
+                id="i93" aria-label="Cantidad para el 93" inputmode="numeric"
                 name="93"
                 type="text"
                 class="form-control"
@@ -1165,7 +1170,7 @@
                 <span class="input-group-text font-weight-bold">94</span>
               </div>
               <input
-                id="i94"
+                id="i94" aria-label="Cantidad para el 94" inputmode="numeric"
                 name="94"
                 type="text"
                 class="form-control"
@@ -1177,7 +1182,7 @@
                 <span class="input-group-text font-weight-bold">95</span>
               </div>
               <input
-                id="i95"
+                id="i95" aria-label="Cantidad para el 95" inputmode="numeric"
                 name="95"
                 type="text"
                 class="form-control"
@@ -1189,7 +1194,7 @@
                 <span class="input-group-text font-weight-bold">96</span>
               </div>
               <input
-                id="i96"
+                id="i96" aria-label="Cantidad para el 96" inputmode="numeric"
                 name="96"
                 type="text"
                 class="form-control"
@@ -1201,7 +1206,7 @@
                 <span class="input-group-text font-weight-bold">97</span>
               </div>
               <input
-                id="i97"
+                id="i97" aria-label="Cantidad para el 97" inputmode="numeric"
                 name="97"
                 type="text"
                 class="form-control"
@@ -1213,7 +1218,7 @@
                 <span class="input-group-text font-weight-bold">98</span>
               </div>
               <input
-                id="i98"
+                id="i98" aria-label="Cantidad para el 98" inputmode="numeric"
                 name="98"
                 type="text"
                 class="form-control"
@@ -1225,7 +1230,7 @@
                 <span class="input-group-text font-weight-bold">99</span>
               </div>
               <input
-                id="i99"
+                id="i99" aria-label="Cantidad para el 99" inputmode="numeric"
                 name="99"
                 type="text"
                 class="form-control"
@@ -1235,11 +1240,11 @@
           </div>
         </div>
       </div>
-      <div class="d-none d-md-block col-md-6 d-print-none">
+      <div class="d-none d-md-block col-md-6 d-print-none entry-panel">
         <div class="row d-print-none">
           <div class="col-6 mt-2">
             <button class="btn btn-sm btn-secondary col-12" id="btn-throw-ping">
-              <h5>Configuracion</h5>
+              <h5>Configuración</h5>
             </button>
             <div
               class="modal fade"
@@ -1252,7 +1257,7 @@
               <div class="modal-dialog" role="document">
                 <div
                   class="modal-content card text-black-50"
-                  style="background-color: #dee2e6 !important"
+
                 >
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">
@@ -1317,9 +1322,9 @@
             </div>
 
             <div class="col-12 mt-1 card text-black-50 p-3"
-            style="background-color: #dee2e6 !important"
+
             id="select-seller">
-              <h5>Vendedor:</h5>
+              <label for="select-choose-seller">Vendedor</label>
               <select
                 id="select-choose-seller"
                 name="select-choose-seller"
@@ -1332,56 +1337,56 @@
             
             <div
               class="col-12 mt-1 card text-black-50 p-3"
-              style="background-color: #dee2e6 !important"
+
               id="singleChanceBuilder"
             >
               <div class="row px-4">
                 <h3>Chances</h3>
               </div>
               <div class="row px-4 input-group-xs">
-                <h4>Numero:</h4>
+                <h4>Número</h4>
                 <input
                   type="text"
                   class="form-control"
                   autocomplete="off"
-                  id="iSingleChance"
+                  id="iSingleChance" aria-label="Número de chance"
                 />
               </div>
               <div class="row px-4 input-group-xs">
-                <h4>Cantidad:</h4>
+                <h4>Cantidad</h4>
                 <input
                   type="text"
                   class="form-control"
                   autocomplete="off"
-                  id="iSingleChanceQty"
+                  id="iSingleChanceQty" aria-label="Cantidad de chances"
                 />
               </div>
             </div>
 
             <div
               class="col-12 mt-1 card text-black-50 p-3"
-              style="background-color: #dee2e6 !important"
+
               id="billeteBuilder"
             >
               <div class="row px-4">
                 <h3>Billetes</h3>
               </div>
               <div class="row px-4 input-group-xs">
-                <h4>Numero:</h4>
+                <h4>Número</h4>
                 <input
                   type="text"
                   class="form-control"
                   autocomplete="off"
-                  id="iBillete"
+                  id="iBillete" aria-label="Número de billete"
                 />
               </div>
               <div class="row px-4 input-group-xs">
-                <h4>Cantidad:</h4>
+                <h4>Cantidad</h4>
                 <input
                   type="text"
                   class="form-control"
                   autocomplete="off"
-                  id="iBilleteQty"
+                  id="iBilleteQty" aria-label="Cantidad de billetes"
                 />
               </div>
             </div>
@@ -1404,7 +1409,7 @@
             <div class="col-12 mt-2">
               <div class="row">
                 <input
-                  id="noOldTicket"
+                  id="noOldTicket" aria-label="Número de ticket a recargar" placeholder="N.º ticket"
                   type="text"
                   class="form-control col-4"
                 />
@@ -1431,10 +1436,10 @@
           </div>
           <div class="col-3 pr-0 d-print-none">
             <div class="col-12 mt-1 card text-black-50 p-3"
-            style="background-color: #dee2e6 !important"
+
             id="select-seller">
-              <h5>Cliente:</h5>
-              <input type="text" class="form-control" autocomplete="off" id="optional-customer-name">
+              <label for="optional-customer-name">Cliente <span class="optional-label">(opcional)</span></label>
+              <input type="text" class="form-control" autocomplete="off" id="optional-customer-name" placeholder="Nombre del cliente">
             </div>
             <div class="row">
                <div class="col-12 pt-4">
@@ -1544,8 +1549,9 @@
       </div>
       
       <div id="mobile-sell" class="d-none d-md-block col-12 col-md-3">
+        <div class="panel-heading receipt-heading d-none d-md-flex d-print-none"><h2>Vista del ticket</h2><span>Vista previa</span></div>
         <!-- Fragmento de perfil de usuario solo con Bootstrap -->
-        <div class="d-none d-md-flex align-items-center d-print-none">
+        <div class="receipt-profile d-none d-md-flex align-items-center d-print-none">
           <!-- Icono de usuario utilizando clases de texto de Bootstrap -->
           <div class="bg-secondary  mt-2 rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
             <span class="text-white fw-bold">U</span>
@@ -1713,7 +1719,12 @@
 
 </div>
     <div class="row d-none d-print-none" id="configuracion">
-      <div class="col-12 mt-2">
+      <header class="workspace-header d-none d-md-flex">
+        <div class="workspace-brand"><span class="workspace-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v5a2 2 0 0 0 0 4v5H4v-5a2 2 0 0 0 0-4V5Z"/><path d="M15 5v3m0 3v2m0 3v3"/></svg></span><span><%= enviroment.TITLE %></span><span class="workspace-divider"></span><span class="workspace-section">Configuración</span></div>
+        <span class="config-header-note">Gestión de sorteos</span>
+      </header>
+      <div class="workspace-intro d-none d-md-flex"><div><p class="workspace-eyebrow">ADMINISTRA TU OPERACIÓN</p><h1>Configuración</h1></div><p>Ajustes del sorteo y resumen de ventas.</p></div>
+      <div class="col-12 mt-2 config-toolbar">
         <div class="row">
           <div class="col-3 mb-2">
             <button class="btn btn-sm btn-secondary col-12" id="goChance">
@@ -1722,7 +1733,7 @@
           </div>
           <div class="col-6 mb-2">
             <div class="row" id="row-optional-sacado">
-              <h4 class="col-3 m-0 text-right">Sacado:</h4>
+              <label class="col-3 m-0 text-right" for="optional-sacado">Sacado</label>
               <input type="text" class="form-control col-3" autocomplete="off" id="optional-sacado">
             </div>
           </div>
@@ -1746,14 +1757,14 @@
       <div class="col-3" id="contenedorConfiguracion">
         <div
           class="card text-body p-2 text-black-50 mb-2"
-          style="background-color: #dee2e6 !important"
+          data-config-surface="true"
           id="contenedordatosGlobales"
         >
           <div class="card-body" id="datosGlobales">
-            <h5>Datos Globales</h5>
+            <h2>Datos del sorteo</h2>
             <form id="form-set-config">
               <div class="input-group-xs mb-1 pr-0">
-                <span>Titulo</span>
+                <label for="inputName-title-ticket">Título del ticket</label>
                 <input
                   id="inputName-title-ticket"
                   name="inputName-title-ticket"
@@ -1763,7 +1774,7 @@
                 />
               </div>
               <div class="input-group-xs mb-1 pr-0">
-                <span>Sorteo en venta</span>
+                <label for="select-choose-game">Sorteo en venta</label>
                 <select
                   id="select-choose-game"
                   name="select-choose-game"
@@ -1794,16 +1805,16 @@
         </div>
         <div
           class="card text-body text-black-50 mb-2"
-          style="background-color: #dee2e6 !important"
+          data-config-surface="true"
           id="contenedorSorteos"
         >
           <div class="card-body" id="sorteos">
-            <h5>Sorteos</h5>
+            <h2>Nuevo sorteo</h2>
             <form id="form-create-game">
               <div class="input-group-xs mb-1 pr-0">
-                <span>Nombre</span>
+                <label for="inputName-create-game">Nombre del sorteo</label>
                 <input
-                  id="inputName-create-game"
+                  id="inputName-create-game" placeholder="Nombre del nuevo sorteo"
                   name="inputName-create-game"
                   type="text"
                   class="form-control"
@@ -1835,11 +1846,11 @@
         </div>
         <div
           class="card text-body text-black-50"
-          style="background-color: #dee2e6 !important"
+          data-config-surface="true"
           id="contenedorOpciones"
         >
           <div class="card-body" id="sorteos">
-            <h5>Otras opciones</h5>
+            <h2>Gestión y consultas</h2>
             <div class="row">
               <div class="col-6">
                 <button
@@ -1881,7 +1892,7 @@
                   <div class="modal-dialog" role="document">
                     <div
                       class="modal-content card text-black-50"
-                      style="background-color: #dee2e6 !important"
+                      data-config-surface="true"
                     >
                       <div class="modal-header">
                         <h5 class="modal-title" id="lockModalLabel">
@@ -1898,7 +1909,7 @@
                       </div>
                       <form id="form-config-1">
                         <div class="modal-body text-center">
-                          <input type="password" id="inPingLock" />
+                          <input type="password" id="inPingLock" aria-label="PIN de seguridad" />
                           <h5 id="text-message-lock"></h5>
                         </div>
                         <div
@@ -1945,7 +1956,7 @@
                   <div class="modal-dialog" role="document">
                     <div
                       class="modal-content card text-black-50"
-                      style="background-color: #dee2e6 !important"
+                      data-config-surface="true"
                     >
                       <div class="modal-header">
                         <h5 class="modal-title" id="cambiarModalLabel">
@@ -1962,7 +1973,7 @@
                       </div>
                       <form id="form-config-2">
                         <div class="modal-body text-center">
-                          <input type="text" id="inTicket" />
+                          <input type="text" id="inTicket" aria-label="Número de tiquete" />
                         </div>
                         <div
                           class="modal-footer"
@@ -2055,7 +2066,7 @@
                   <div class="modal-dialog" role="document">
                     <div
                       class="modal-content card text-black-50"
-                      style="background-color: #dee2e6 !important"
+                      data-config-surface="true"
                     >
                       <div class="modal-header">
                         <h5 class="modal-title" id="lockModalLabel">
@@ -2072,7 +2083,7 @@
                       </div>
                       <form id="form-config-27">
                         <div class="modal-body text-center">
-                          <input type="password" id="inPingunLock" />
+                          <input type="password" id="inPingunLock" aria-label="PIN de seguridad" />
                           <h5 id="text-message-unlock"></h5>
                         </div>
                         <div
@@ -2097,7 +2108,7 @@
                   class="btn btn-sm btn-secondary col-12"
                   id="btn-admin-area"
                 >
-                  <h6 id="text-admin-area" style="font-size: 0.9rem;">Admin Area</h6>
+                  <h6 id="text-admin-area" style="font-size: 0.9rem;">Administración</h6>
                 </button>
               </div>
             </div>
@@ -2105,6 +2116,8 @@
         </div>
       </div>
       <div class="col-6" id="desktop-status">
+        <div class="panel-heading config-status-heading"><h2>Estado del sorteo</h2><span>Chances y billetes</span></div>
+        <div class="config-empty"><span class="config-empty-mark" aria-hidden="true">—</span><h3>Sin datos para mostrar</h3><p>Selecciona un sorteo y pulsa Actualizar para consultar su estado.</p></div>
         <div class="d-flex" id="estado">
           <table class="table table-bordered" id="numberTable"></table>
         </div>
@@ -2115,7 +2128,8 @@
         
         <div class="d-flex" id="estadoBillete"></div>
       </div>
-      <div class="col-3">
+      <div class="col-3 config-summary">
+        <div class="panel-heading"><h2>Resumen de ventas</h2><span>Desglose</span></div>
         <div class="d-flex card-border" id="estadoSorteo">
           <div class="col-12 font-weight-bold my-2 d-none" id="totalSorteo">
             <div class="d-flex">
@@ -2160,7 +2174,7 @@
           </div>
           <div
           class="card text-body text-black-50"
-          style="background-color: #dee2e6 !important"
+          data-config-surface="true"
           id="contenedorPorcentajes"
         ><div class="card-body">
           <table class="table table-bordered" id="porcentajeTable">
@@ -2226,37 +2240,37 @@
             tabindex="-1"
             role="dialog"
             aria-labelledby="errorTicketModalLabel"
+            aria-describedby="text-error-ticket"
             aria-hidden="true"
           >
             <div class="modal-dialog" role="document">
               <div
                 class="modal-content card text-black-50"
-                style="background-color: #dee2e6 !important"
               >
                 <div class="modal-header">
                   <h5
                     class="modal-title font-weight-bolder"
                     id="errorTicketModalLabel"
                   >
-                    Ups!? no puedes continuar vendiendo
+                    No se pudo continuar
                   </h5>
                   <button
                     type="button"
                     class="close"
                     data-dismiss="modal"
-                    aria-label="Close"
+                    aria-label="Cerrar"
                   >
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <form id="form-config-4">
-                  <div class="modal-body text-center">
-                    <h5 id="text-error-ticket"></h5>
+                  <div class="modal-body">
+                    <span class="notification-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 3v1"/></svg></span>
+                    <p id="text-error-ticket" role="status"></p>
                   </div>
                   <div
                     class="modal-footer"
-                    style="justify-content: center !important"
-                  ></div>
+                    ><button type="button" class="btn notification-primary" data-dismiss="modal">Entendido</button></div>
                 </form>
               </div>
             </div>
@@ -2340,6 +2354,8 @@
               localStorage.setItem("sesion-%chance", data.resultado.porcentajeChance);
               localStorage.setItem("sesion-%billete", data.resultado.porcentajeBillete);
               localStorage.setItem("sesion-hijos", data.resultado.hijos);
+
+              document.querySelector('[name="desktop-session-name"]').textContent = data.resultado.usuario;
 
               //Pintar usuario
               document.getElementsByName("mobile-user-name")[0].innerHTML =
@@ -3247,7 +3263,7 @@
         document
           .querySelector("#spinner-print-ticket")
           .classList.remove("d-none");
-        document.querySelector("#text-error-ticket").innerHTML = "";
+        document.querySelector("#text-error-ticket").textContent = "";
 
         if (!localStorage.getItem("choose-game")) {
           /**
@@ -3264,7 +3280,7 @@
           * Agregar Modal
           * Mensaje no exitoso
           */
-          document.querySelector("#text-error-ticket").innerHTML =
+          document.querySelector("#text-error-ticket").textContent =
           "Debes seleccionar un sorteo activo para poder vender";
 
           $("#modalErrorTicket").modal("show");
@@ -3292,7 +3308,7 @@
           * Agregar Modal
           * Mensaje no exitoso
           */
-          document.querySelector("#text-error-ticket").innerHTML =
+          document.querySelector("#text-error-ticket").textContent =
           "Debes completar la edicion solicitada antes de poder vender";
 
           $("#modalErrorTicket").modal("show");
@@ -3318,7 +3334,7 @@
           * Agregar Modal
           * Mensaje no exitoso
           */
-          document.querySelector("#text-error-ticket").innerHTML =
+          document.querySelector("#text-error-ticket").textContent =
           "Debes seleccionar un titulo para los ticketes";
 
           $("#modalErrorTicket").modal("show");
@@ -3416,7 +3432,7 @@
                     /*Agregar Modal
                      * Mensaje no exitoso
                      */
-                    document.querySelector("#text-error-ticket").innerHTML =
+                    document.querySelector("#text-error-ticket").textContent =
                       data.resultado;
 
                     $("#modalErrorTicket").modal("show");
@@ -3434,7 +3450,7 @@
                 /*Agregar Modal
                  * Mensaje no exitoso
                  */
-                document.querySelector("#text-error-ticket").innerHTML =
+                document.querySelector("#text-error-ticket").textContent =
                   data.resultado;
 
                 $("#modalErrorTicket").modal("show");
@@ -3476,7 +3492,7 @@
           * Agregar Modal
           * Mensaje no exitoso
           */
-          document.querySelector("#text-error-ticket").innerHTML =
+          document.querySelector("#text-error-ticket").textContent =
           "Debes seleccionar un sorteo activo para poder vender";
 
           $("#modalErrorTicket").modal("show");
@@ -3501,7 +3517,7 @@
           * Agregar Modal
           * Mensaje no exitoso
           */
-          document.querySelector("#text-error-ticket").innerHTML =
+          document.querySelector("#text-error-ticket").textContent =
           "Debes completar la edicion solicitada antes de poder vender";
 
           $("#modalErrorTicket").modal("show");
@@ -3524,7 +3540,7 @@
           * Agregar Modal
           * Mensaje no exitoso
           */
-          document.querySelector("#text-error-ticket").innerHTML =
+          document.querySelector("#text-error-ticket").textContent =
           "Debes seleccionar un titulo para los ticketes";
 
           $("#modalErrorTicket").modal("show");
@@ -3624,7 +3640,7 @@
                 /*Agregar Modal
                  * Mensaje no exitoso
                  */
-                document.querySelector("#text-error-ticket").innerHTML =
+                document.querySelector("#text-error-ticket").textContent =
                   data.resultado;
 
                 $("#modalErrorTicket").modal("show");
@@ -3995,7 +4011,7 @@
               * Agregar Modal
               * Mensaje no exitoso
               */
-              document.querySelector("#text-error-ticket").innerHTML =
+              document.querySelector("#text-error-ticket").textContent =
               "Recuerda solo puedes recargar ticketes que hayas vendido.";
 
               $("#modalErrorTicket").modal("show");
@@ -4082,7 +4098,7 @@
                 /*Agregar Modal
                  * Mensaje no exitoso
                  */
-                document.querySelector("#text-error-ticket").innerHTML =
+                document.querySelector("#text-error-ticket").textContent =
                   data.resultado;
 
                 $("#modalErrorTicket").modal("show");
@@ -4226,7 +4242,7 @@
                     /*Agregar Modal
                      * Mensaje no exitoso
                      */
-                    document.querySelector("#text-error-ticket").innerHTML =
+                    document.querySelector("#text-error-ticket").textContent =
                       data.resultado;
 
                     $("#modalErrorTicket").modal("show");
@@ -4240,7 +4256,7 @@
                 /*Agregar Modal
                  * Mensaje no exitoso
                  */
-                document.querySelector("#text-error-ticket").innerHTML =
+                document.querySelector("#text-error-ticket").textContent =
                   data.resultado;
 
                 $("#modalErrorTicket").modal("show");

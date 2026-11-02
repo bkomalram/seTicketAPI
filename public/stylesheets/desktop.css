@@ -1,0 +1,167 @@
+/* Desktop workspace only. Receipt printing and the mobile flow keep their own styles. */
+@media screen and (min-width: 768px) {
+  body.sales-page { background: #f5f7f5; color: #26362e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 0 28px 28px; }
+  #venta { max-width: 1600px; margin: 0 auto; display: grid; grid-template-columns: minmax(300px,1.2fr) minmax(300px,1fr) minmax(260px,.88fr); gap: 20px; align-items: start; }
+  .workspace-header { grid-column: 1 / -1; min-height: 76px; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e7e1; }
+  .workspace-brand { display: flex; align-items: center; gap: 11px; font-weight: 650; font-size: 17px; letter-spacing: -.4px; }
+  .workspace-mark { display: grid; place-items: center; width: 34px; height: 34px; background: #e7f0e9; border-radius: 9px; color: #317254; }
+  .workspace-mark svg { width: 23px; height: 23px; }
+  .workspace-divider { height: 20px; width: 1px; background: #dce4de; margin: 0 7px; }
+  .workspace-section { color: #78867d; font-size: 13px; font-weight: 400; letter-spacing: 0; }
+  .workspace-account { display: flex; align-items: center; gap: 9px; font-size: 13px; background: white; border: 1px solid #e1e8e2; padding: 8px 14px; border-radius: 24px; }
+  .session-dot { width: 7px; height: 7px; border-radius: 50%; background: #4a8964; }
+  .workspace-intro { grid-column: 1 / -1; align-items: flex-end; justify-content: space-between; padding: 6px 0 8px; }
+  .workspace-eyebrow { font-size: 10px; font-weight: 650; letter-spacing: 1.5px; color: #7b8c80; margin-bottom: 8px; }
+  .workspace-intro h1 { font-size: 28px; letter-spacing: -.8px; font-weight: 650; margin: 0; }
+  .workspace-intro > p { color: #839087; font-size: 12px; margin: 0 0 3px; }
+  #venta > .number-panel, #venta > .entry-panel, #venta > #mobile-sell { width: 100%; max-width: none; padding: 20px; margin: 0 !important; background: #fff !important; border: 1px solid #e1e8e2; border-radius: 14px; min-width: 0; }
+  .panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 18px; }
+  .panel-heading h2 { font-size: 14px; font-weight: 650; margin: 0; }
+  .panel-heading > span { font-size: 10px; color: #849087; white-space: nowrap; }
+  #chanceBuilder { margin: 0; gap: 8px; flex-wrap: nowrap; }
+  #chanceBuilder > .col-3 { flex: 1; max-width: none; min-width: 0; }
+  #chanceBuilder .input-group { margin-bottom: 4px; flex-wrap: nowrap; }
+  #chanceBuilder .input-group-text { padding: 0 6px; min-width: 29px; justify-content: center; font-weight: 600; height: 24px; font-size: 11px; border: 1px solid #e4eae5; background: #f3f6f3; color: #6d7e72; border-radius: 5px 0 0 5px; }
+  #chanceBuilder .form-control { height: 24px; min-width: 0; font-size: 12px; padding: 2px 4px; border-radius: 0 5px 5px 0; text-align: center; }
+  #venta .form-control, #venta .custom-select { border-color: #dfe6e0; color: #26362e; box-shadow: none; }
+  #venta .form-control:focus, #venta .custom-select:focus { border-color: #508265; box-shadow: 0 0 0 3px #397b5915; }
+  #venta input::placeholder { color: #9aa69e; font-size: 12px; }
+  #venta .btn { border-radius: 7px; font-size: 12px; min-height: 36px; padding: 8px; white-space: normal; }
+  #venta .btn h5, #venta .btn h6 { font: inherit !important; margin: 0; }
+  #venta .btn-secondary { background: #f5f7f5; border-color: #e1e8e2; color: #52685a; }
+  #venta .btn-secondary:hover { background: #e8f0ea; border-color: #b5c7ba; }
+  #venta .btn:focus-visible { outline: 2px solid #397b59; outline-offset: 2px; }
+  .entry-panel > .row:first-child { margin: 0 0 20px; gap: 6px; flex-wrap: nowrap; padding-bottom: 18px; border-bottom: 1px solid #e8ede9; }
+  .entry-panel > .row:first-child > div { flex: 1; max-width: none; padding: 0; margin: 0 !important; min-width: 0; }
+  .entry-panel > .row:first-child > div:first-child { flex: 1.4; }
+  .entry-panel > .row:nth-child(2) { margin: 0; display: flex; flex-direction: column; gap: 20px; }
+  .entry-panel > .row:nth-child(2) > .col-3 { display: contents; }
+  #venta .entry-panel .card { background: #fff !important; padding: 0 !important; margin: 0 !important; border: none; border-radius: 0; color: #26362e !important; }
+  .entry-panel label { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .optional-label { color: #929e96; font-weight: 400; }
+  .entry-panel .custom-select, .entry-panel .form-control { border-radius: 7px; font-size: 14px; height: 39px; }
+  #singleChanceBuilder, #billeteBuilder { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 12px; }
+  #singleChanceBuilder > .row, #billeteBuilder > .row { margin: 0; padding: 0 !important; display: block; min-width: 0; }
+  #singleChanceBuilder > .row:first-child, #billeteBuilder > .row:first-child { grid-column: 1 / -1; }
+  #singleChanceBuilder h3, #billeteBuilder h3 { font-size: 14px; font-weight: 650; margin: 0 0 2px; }
+  #singleChanceBuilder h4, #billeteBuilder h4 { font-size: 11px; color: #839087; font-weight: 400; margin: 0 0 6px; }
+  .entry-panel #btn-print-ticket { background: #2d654b; border-color: #2d654b; color: #fff; min-height: 44px; }
+  .entry-panel #btn-print-ticket:hover { background: #23543d; }
+  .entry-panel > .row:nth-child(2) > .col-3 > .col-12:not(.card):not(.d-none) { padding: 0; margin: 0 !important; }
+  .entry-panel > .row:nth-child(2) > .col-3 > .col-12 > .row { margin: 0; }
+  .entry-panel > .row:nth-child(2) > .col-3 > .row { margin: 0; }
+  .entry-panel > .row:nth-child(2) > .col-3 > .row > div { padding: 0 !important; }
+  #noOldTicket { flex: 1; max-width: none; min-width: 0; }
+  #btnEditar, #btnAceptarEditar, #btnEliminarEditar { flex: 1; max-width: none; margin-left: 8px; }
+  #btn-historial { margin-top: 0; }
+  .receipt-profile { font-size: 12px; padding-bottom: 15px; border-bottom: 1px solid #edf0ed; color: #7e8a82; }
+  .receipt-profile > .rounded-circle { width: 26px !important; height: 26px !important; background: #eaf2ec !important; margin-top: 0 !important; }
+  .receipt-profile > .rounded-circle span { color: #4f7b5e !important; font-size: 11px; }
+  .receipt-profile > div { margin-top: 0 !important; }
+  #ticketOutput { font-family: "Courier New", monospace; font-size: 12px; line-height: 1.55; padding-top: 10px; overflow-wrap: anywhere; }
+  #ticketOutput h1 { font-size: 21px; }
+  #ticketOutput .border { border-color: #e3e8e3 !important; }
+  #ticketOutput p { margin-bottom: 8px; }
+  #ticketOutput canvas { max-width: 100%; height: auto; }
+  #venta .modal-content { background: #fff !important; border-radius: 14px; color: #26362e !important; }
+}
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  body.sales-page { padding: 0 18px 24px; }
+  #venta { gap: 12px; grid-template-columns: minmax(280px,1.1fr) minmax(260px,1fr) minmax(230px,.9fr); }
+  #venta > .number-panel, #venta > .entry-panel, #venta > #mobile-sell { padding: 14px; }
+  #chanceBuilder { gap: 5px; }
+  .workspace-intro > p { max-width: 250px; text-align: right; }
+}
+@media screen and (min-width: 768px) and (max-width: 900px) {
+  #venta { grid-template-columns: minmax(280px,1fr) minmax(260px,1fr); }
+  #venta > #mobile-sell { grid-column: 2; grid-row: 4; }
+  #venta > .number-panel { grid-row: 3 / 5; }
+}
+
+@media screen and (min-width: 901px) and (max-height: 850px) {
+  .workspace-header { min-height: 62px; }
+  .workspace-intro { padding: 0; }
+  .workspace-intro h1 { font-size: 24px; }
+  #chanceBuilder .input-group { margin-bottom: 3px; }
+  #chanceBuilder .input-group-text, #chanceBuilder .form-control { height: 20px; font-size: 11px; }
+  .panel-heading { margin-bottom: 12px; }
+  .entry-panel > .row:nth-child(2) { gap: 14px; }
+  #ticketOutput canvas { max-width: 150px; }
+}
+@media screen and (min-width: 901px) and (max-height: 850px) {
+  .entry-panel .custom-select, .entry-panel .form-control { height: 36px; }
+  .entry-panel > .row:nth-child(2) { gap: 12px; }
+  .entry-panel > .row:first-child { margin-bottom: 16px; padding-bottom: 14px; }
+}
+@media screen and (min-width: 768px) {
+  #configuracion { max-width: 1600px; margin: 0 auto; display: grid; grid-template-columns: 290px minmax(320px,1fr) 270px; gap: 20px; align-items: start; }
+  .config-header-note { font-size: 12px; color: #839087; }
+  #configuracion .config-toolbar { grid-column: 1 / -1; padding: 0; margin: 0 !important; }
+  .config-toolbar > .row { margin: 0; gap: 12px; align-items: center; }
+  .config-toolbar > .row > div { flex: 0 0 auto; max-width: none; width: auto; padding: 0; margin: 0 !important; }
+  .config-toolbar > .row > div:nth-child(2) { margin-left: auto !important; }
+  #row-optional-sacado { margin: 0; align-items: center; gap: 10px; }
+  #row-optional-sacado label { flex: none; width: auto; max-width: none; padding: 0; }
+  #row-optional-sacado input { flex: none; width: 100px; max-width: none; }
+  #configuracion > #contenedorConfiguracion, #configuracion > #desktop-status, #configuracion > .config-summary { width: 100%; max-width: none; min-width: 0; padding: 0; }
+  #contenedorConfiguracion { display: flex; flex-direction: column; gap: 16px; }
+  #configuracion [data-config-surface], #desktop-status, .config-summary { background: white; border: 1px solid #e1e8e2; border-radius: 14px; }
+  #configuracion #contenedorConfiguracion > .card { padding: 0 !important; margin: 0 !important; }
+  #configuracion .card-body { padding: 20px; color: #26362e; }
+  #configuracion h2 { font-size: 14px; font-weight: 650; letter-spacing: -.1px; margin: 0 0 18px; }
+  #configuracion .panel-heading h2 { margin: 0; }
+  #configuracion label { display: block; font-size: 12px; font-weight: 500; color: #6d7e72; margin-bottom: 7px; }
+  #configuracion .form-control, #configuracion .custom-select, #configuracion .modal-body input { height: 38px; border: 1px solid #dfe6e0; border-radius: 7px; font: inherit; font-size: 13px; color: #26362e; padding: 8px 10px; }
+  #configuracion .form-control:disabled { color: #87938b; background: #f5f7f5; }
+  #configuracion input::placeholder { color: #9aa69e; font-size: 12px; }
+  #configuracion input:focus, #configuracion select:focus { outline: none; border-color: #508265; box-shadow: 0 0 0 3px #397b5915; }
+  #configuracion form > .input-group-xs { margin-bottom: 15px !important; }
+  #configuracion form > .col-8 { width: 100%; max-width: none; margin: 0; padding: 0; }
+  #configuracion .btn { border-radius: 7px; min-height: 36px; font-size: 12px; padding: 8px 12px; }
+  #configuracion .btn-secondary { background: #f5f7f5; border-color: #e1e8e2; color: #52685a; }
+  #configuracion .btn h5, #configuracion .btn h6 { font: inherit !important; margin: 0; }
+  #configuracion .btn-secondary:hover { background: #e8f0ea; border-color: #b5c7ba; }
+  #configuracion .btn:focus-visible { outline: 2px solid #397b59; outline-offset: 2px; }
+  #configuracion #btn-refresh-game, #configuracion #form-set-config button[type=submit], #configuracion #form-create-game button[type=submit] { color: white; background: #2d654b; border-color: #2d654b; }
+  #configuracion #btn-refresh-game:hover, #configuracion form button[type=submit]:hover { background: #23543d; color: white; }
+  #configuracion .card-body > h4 { font-size: 12px; line-height: 1.5; margin: 12px 0 0; padding: 0 !important; }
+  #configuracion .card-body > h4:empty { display: none; }
+  #contenedorOpciones .card-body > .row { margin: 0 -4px 8px; }
+  #contenedorOpciones .card-body > .row:last-child { margin-bottom: 0; }
+  #contenedorOpciones .card-body > .row > .col-6 { padding: 0 4px; }
+  #contenedorOpciones .btn { height: 100%; }
+  #configuracion #btn-stop-game, #configuracion #btn-close-game { color: #9b5d47; background: #faf5f1; border-color: #ede1d8; }
+  #configuracion > #desktop-status, #configuracion > .config-summary { padding: 20px; }
+  #desktop-status > .d-flex { overflow-x: auto; }
+  #configuracion table { margin: 0; color: #43594b; font-size: 12px; font-variant-numeric: tabular-nums; }
+  #configuracion td, #configuracion th { padding: 6px 8px !important; border-color: #e7ece7; font-weight: 400; width: auto; overflow-wrap: normal; }
+  #configuracion th { background: #f0f5f1; color: #42664e; font-size: 11px; font-weight: 650; }
+  #configuracion td.font-weight-bold { background: #f7f9f7; font-weight: 500 !important; }
+  #configuracion #desktop-status > .d-flex + .d-flex { margin-top: 18px; }
+  #desktop-status table:empty, #desktop-status table:not(:has(tr)) { display: none; }
+  .config-empty { display: flex; min-height: 350px; align-items: center; justify-content: center; flex-direction: column; padding: 36px; text-align: center; }
+  .config-empty-mark { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: #72917c; background: #eff5f0; margin-bottom: 18px; }
+  .config-empty h3 { font-size: 15px; font-weight: 600; margin-bottom: 9px; }
+  .config-empty p { color: #87938b; font-size: 12px; line-height: 1.7; max-width: 250px; margin: 0; }
+  #desktop-status:has(table tr) .config-empty { display: none; }
+  #configuracion #estadoSorteo { display: block !important; border: none; }
+  #configuracion #contenedorPorcentajes { border: none; border-radius: 0; width: 100%; }
+  #configuracion #contenedorPorcentajes .card-body { padding: 0; }
+  #porcentajeTable td:first-child { text-align: left; }
+  #porcentajeTable td:last-child { text-align: right; }
+  #configuracion #totalSorteo { padding: 0; font-size: 12px; }
+  #configuracion #totalSorteo .d-flex { padding: 7px 0; border-bottom: 1px solid #e7ece7; }
+  #configuracion #totalSorteo .card-border { background: #f0f5f1; border: none; padding: 6px; }
+  #configuracion .modal-content { border-radius: 14px; }
+  #configuracion .modal-title { font-size: 16px; }
+  #configuracion .modal-header, #configuracion .modal-footer { border-color: #e7ece7; }
+}
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  #configuracion { gap: 14px; grid-template-columns: 260px minmax(260px,1fr); }
+  #configuracion > .config-summary { grid-column: 2; }
+  #configuracion > #contenedorConfiguracion { grid-row: 4 / 6; }
+}
+@media screen and (max-width: 767px) {
+  #configuracion [data-config-surface] { background: #dee2e6; }
+  #configuracion .config-status-heading, #configuracion .config-summary > .panel-heading, .config-empty { display: none; }
+}

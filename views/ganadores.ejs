@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/images/espacio.png" type="image/png">
     <title><%= enviroment.VERSION %></title>
     <meta
@@ -9,84 +10,42 @@
       content="script-src 'self' 'unsafe-inline';"
     />
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
-    <link rel="stylesheet" href="/stylesheets/app.css" />   
+    <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="/stylesheets/desktop.css" />
+    <link rel="stylesheet" href="/stylesheets/ganadores.css" />
   </head>
-  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
+  <body class="container-fluid sales-page winners-page">
     <div
       class="d-none d-print-block print-style font-weight-bold pa"
       id="outDimention"
     >
       <div id="outPut1" class="pt-2"></div>
     </div>
-    <div class="row d-print-none" id="generar">   
-        <div
-          class="col-2 mx-3 mt-2 card text-body p-2 text-black-50 mb-2"
-          style="background-color: #dee2e6 !important"
-          id="contenedordatosGlobales"
-        >
-          <div class="card-body" id="datosGlobales">   
-            <div class="row">
-                <h5>Sorteo:</h5>
-                <select
-                  id="select-choose-game"
-                  name="select-choose-game"
-                  type="text"
-                  class="custom-select"
-                >
-                  <option value="" name="">Sin Sorteo Seleccionado</option>
-                </select>
-            </div>
-            <div class="row">
-                <h5>Primer Premio:</h5>
-                <input type="text" class="form-control" id="numeroGanador1erPremio">
-            </div>
-            <div class="row">
-                <h5>Segundo Premio:</h5>
-                <input type="text" class="form-control" id="numeroGanador2doPremio">
-            </div>
-            <div class="row">
-                <h5>Tercer Premio:</h5>
-                <input type="text" class="form-control" id="numeroGanador3erPremio">
-            </div>
-            <h4
-              class="text-danger text-center pt-3"
-              id="error-loading-game"
-            ></h4>
-            <button class="btn btn-sm btn-secondary col-12 mt-3" id="btnGenerarGanadores">
-                <h6 id="text-winner-generate">Generar</h6>
-                  <div
-                    class="spinner-grow d-none"
-                    role="status"
-                    id="spinner-winner-generate"
-                  >
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                </button>
-            <div class="rows">
-                <div class="py-3">
-                    <button class="btn btn-sm btn-secondary col-12" id="btnVentas">
-                      Regresar Venta
-                    </button>
-                  </div>
-            </div>
-            <div class="rows">
-                <div class="py-3">
-                    <button class="btn btn-sm btn-secondary col-12" id="btnImprimirGanadores">
-                      Imprimir
-                    </button>
-                  </div>
-            </div>
+    <main class="d-print-none" id="generar">
+      <header class="workspace-header">
+        <div class="workspace-brand"><span class="workspace-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v5a2 2 0 0 0 0 4v5H4v-5a2 2 0 0 0 0-4V5Z"/><path d="M15 5v3m0 3v2m0 3v3"/></svg></span><span><%= enviroment.TITLE %></span><span class="workspace-divider"></span><span class="workspace-section">Ganadores</span></div>
+        <button class="btn btn-secondary" id="btnVentas">Regresar a ventas</button>
+      </header>
+      <div class="workspace-intro"><div><p class="workspace-eyebrow">RESULTADOS DEL SORTEO</p><h1>Ganadores</h1></div><p>Ingresa los premios para generar el listado.</p></div>
+      <section class="winners-card" id="contenedordatosGlobales" aria-labelledby="prizes-title">
+        <div id="datosGlobales">
+          <h2 id="prizes-title">Datos del sorteo</h2>
+          <p class="panel-description">Selecciona el sorteo e ingresa los números premiados.</p>
+          <div class="winner-field"><label for="select-choose-game">Sorteo</label><select id="select-choose-game" name="select-choose-game" class="custom-select"><option value="" name="">Sin Sorteo Seleccionado</option></select></div>
+          <div class="prizes-divider"></div>
+          <div class="winner-field"><label for="numeroGanador1erPremio"><span class="prize-index" aria-hidden="true">01</span>Primer premio</label><input type="text" class="form-control" id="numeroGanador1erPremio" inputmode="numeric" autocomplete="off" placeholder="Número ganador" /></div>
+          <div class="winner-field"><label for="numeroGanador2doPremio"><span class="prize-index" aria-hidden="true">02</span>Segundo premio</label><input type="text" class="form-control" id="numeroGanador2doPremio" inputmode="numeric" autocomplete="off" placeholder="Número ganador" /></div>
+          <div class="winner-field"><label for="numeroGanador3erPremio"><span class="prize-index" aria-hidden="true">03</span>Tercer premio</label><input type="text" class="form-control" id="numeroGanador3erPremio" inputmode="numeric" autocomplete="off" placeholder="Número ganador" /></div>
+          <p class="text-danger" id="error-loading-game" role="alert" aria-live="polite"></p>
+          <button class="btn winner-primary" id="btnGenerarGanadores"><span id="text-winner-generate">Generar ganadores</span><span class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner-winner-generate"><span class="sr-only">Generando…</span></span></button>
         </div>
-        </div>      
-        <div class="col-9" id="listaGanadores">
-            <div
-              id="ticketOutput"
-              class="font-weight-bold bg-white text-body d-print-none mt-2"
-            ></div>
-        </div>
-    </div>        
-    </div>
-
+      </section>
+      <section class="winners-card results-panel" id="listaGanadores" aria-labelledby="results-title">
+        <div class="results-heading"><div><h2 id="results-title">Listado de ganadores</h2><p class="panel-description">Detalle de números y premios.</p></div><button class="btn btn-secondary" id="btnImprimirGanadores">Imprimir</button></div>
+        <div class="winners-empty"><span class="empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3h8v5a4 4 0 0 1-8 0V3ZM8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4M12 12v6m-4 3v-3h8v3H8Z"/></svg></span><h3>Los resultados aparecerán aquí</h3><p>Completa los premios y pulsa Generar ganadores para ver el listado del sorteo.</p></div>
+        <div id="ticketOutput" class="font-weight-bold bg-white text-body d-print-none mt-2" aria-live="polite"></div>
+      </section>
+    </main>
 
     <div
       class="alert alert-danger d-none offset-4 col-4 mt-5 p-5"

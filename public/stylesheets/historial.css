@@ -1,0 +1,62 @@
+@media screen {
+  body.history-page { background: #f5f7f5; color: #26362e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 0 28px 28px; }
+  #history-workspace { max-width: 1600px; margin: 0 auto; display: grid; gap: 20px; }
+  #history-workspace .workspace-header, #history-workspace .workspace-intro { display: flex; }
+  .history-card { min-width: 0; background: white; border: 1px solid #e1e8e2; border-radius: 14px; padding: 24px; }
+  .history-panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .history-panel-heading h2 { font-size: 15px; font-weight: 650; letter-spacing: -.2px; margin: 0 0 9px; }
+  .history-panel-heading p { font-size: 12px; color: #87938b; line-height: 1.7; margin: 0; }
+  .winner-legend { display: flex; align-items: center; gap: 7px; color: #718076; font-size: 11px; white-space: nowrap; }
+  .winner-legend > span { width: 8px; height: 8px; border-radius: 50%; background: #a7cbb1; }
+  .history-page .btn { font-size: 12px; border-radius: 7px; padding: 9px 14px; min-height: 36px; }
+  .history-page .btn-secondary { background: #f5f7f5; border-color: #e1e8e2; color: #52685a; }
+  .history-page .btn-secondary:hover { background: #e8f0ea; border-color: #b5c7ba; }
+  .history-page .btn-danger { color: #a34438; background: #fcf3f1; border-color: #eedbd5; }
+  .history-page .btn-danger:hover { background: #f7e5df; }
+  .history-page .btn-info { color: #397252; background: #eef5ef; border-color: #dce9df; }
+  .history-page .btn-info:hover { background: #dfeee3; }
+  .history-page .btn:focus-visible { outline: 2px solid #397b59; outline-offset: 2px; }
+  .history-page table { table-layout: auto; font-size: 13px; color: #43594b; font-variant-numeric: tabular-nums; }
+  .history-page .table-bordered { border: none; }
+  .history-page .table td, .history-page .table th { padding: 14px 16px !important; width: auto; border: none; border-bottom: 1px solid #e7ece7; text-align: left; vertical-align: middle; }
+  .history-page .table .thead-light th { background: #f0f5f1; color: #647c6b; font-size: 11px; font-weight: 600; }
+  #tablaTickets th:nth-child(2), #tablaTickets td:nth-child(2) { text-align: right; }
+  #tablaTickets th:last-child { text-align: right; }
+  #tablaTickets td:first-child { font-weight: 600; color: #26362e; }
+  #tablaTickets td:last-child { width: 310px; }
+  #tablaTickets tr:last-child td { border-bottom: none; }
+  .history-page .table .winning-cell { background: #eef6f0; color: #397252; }
+  .history-page .table-hover tbody tr:hover td { background: #f5f8f5; }
+  .history-page .table-hover tbody .winning-ticket:hover td { background: #e3f0e7; }
+  .ticket-actions { gap: 8px; }
+  .ticket-actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; margin: 0 !important; padding: 7px 11px; }
+  .ticket-actions svg { width: 14px; height: 14px; }
+  #history-status { font-size: 13px; line-height: 1.7; color: #87938b; padding: 40px 20px; text-align: center; margin: 0; }
+  #history-status[hidden] { display: none; }
+  #history-status.history-error { color: #a34438; }
+  .history-page #loading { display: none !important; }
+  .history-page .modal-content { border: 1px solid #e1e8e2; border-radius: 14px; color: #26362e; box-shadow: 0 24px 80px #1b302733; }
+  .history-page .modal-dialog { max-width: 760px; margin: 6vh auto; padding: 0 16px; }
+  .history-page .modal-title { font-size: 17px; font-weight: 650; }
+  .history-page .modal-header, .history-page .modal-footer { border-color: #e7ece7; padding: 20px; }
+  .history-page .modal-body { padding: 20px; max-height: 65vh; overflow-y: auto; }
+  .history-page .modal-backdrop { background: #1d302b; }
+  .history-page .modal-body th { white-space: nowrap; }
+}
+@media screen and (max-width: 767px) {
+  body.history-page { padding: 0 18px 24px; }
+  #history-workspace { gap: 16px; }
+  #history-workspace .workspace-header { min-height: 70px; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8e2; gap: 10px; }
+  .workspace-brand { font-size: 16px; font-weight: 650; }
+  .workspace-mark, .workspace-divider, .workspace-section { display: none; }
+  #history-workspace .workspace-intro { display: block; padding: 12px 0; }
+  .workspace-eyebrow { font-size: 10px; color: #7b8c80; letter-spacing: 1.2px; }
+  .workspace-intro h1 { font-size: 26px; }
+  .workspace-intro > p { font-size: 12px; color: #87938b; margin: 0; }
+  .history-card { padding: 16px; }
+  .history-panel-heading { align-items: start; }
+  .history-page .table td, .history-page .table th { padding: 12px 8px !important; }
+  .ticket-actions { flex-wrap: nowrap !important; gap: 5px; }
+  .ticket-actions .btn { padding: 7px; }
+  .action-label { display: none; }
+}

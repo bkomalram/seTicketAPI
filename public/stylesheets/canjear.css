@@ -1,0 +1,59 @@
+@media screen {
+  body.redeem-page { background: #f5f7f5; color: #26362e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 0 28px 28px; }
+  #redeem-workspace { max-width: 1600px; margin: 0 auto; display: grid; gap: 20px; }
+  #redeem-workspace .workspace-header, #redeem-workspace .workspace-intro { display: flex; }
+  .redeem-layout { display: grid; grid-template-columns: 310px minmax(0,1fr); gap: 20px; align-items: start; }
+  .redeem-card { min-width: 0; background: white; border: 1px solid #e1e8e2; border-radius: 14px; padding: 24px; }
+  .redeem-ticket-label { font-size: 10px; letter-spacing: 1.4px; color: #7b8c80; }
+  .redeem-info h2 { font-size: 26px; letter-spacing: -.6px; font-weight: 600; margin: 9px 0 12px; overflow-wrap: anywhere; }
+  .redeem-info p { color: #87938b; font-size: 12px; line-height: 1.8; margin: 0; }
+  .redeem-step { display: flex; gap: 12px; margin-top: 24px; }
+  .redeem-step > span { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px; color: #62836e; background: #eef5ef; font-size: 10px; }
+  .redeem-step h3 { font-size: 13px; font-weight: 600; margin-bottom: 7px; }
+  .redeem-preview-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid #edf1ed; padding-bottom: 18px; margin-bottom: 24px; }
+  .redeem-preview-heading h2 { font-size: 15px; font-weight: 650; margin: 0; }
+  .redeem-preview-heading > span { font-size: 11px; color: #87938b; }
+  .redeem-page .btn { font-size: 12px; border-radius: 7px; padding: 9px 16px; min-height: 36px; }
+  .redeem-page .btn-secondary { background: #f5f7f5; border-color: #e1e8e2; color: #52685a; }
+  .redeem-page .btn-secondary:hover { background: #e8f0ea; border-color: #b5c7ba; }
+  .redeem-page .btn:focus-visible { outline: 2px solid #397b59; outline-offset: 2px; }
+  #btnLanzarModal { display: block; max-width: 440px; margin: 24px auto 0 !important; min-height: 44px; background: #2d654b; border-color: #2d654b; color: white; font-size: 14px; }
+  #btnLanzarModal:hover { background: #23543d; }
+  #btnLanzarModal:disabled { opacity: 1; background: #edf5ef; border-color: #dce9df; color: #62836e; }
+  .redeem-page #ticketOutput { font: 600 13px/1.65 "Courier New", monospace; max-width: 440px; margin: 0 auto !important; overflow-wrap: anywhere; }
+  .redeem-page #ticketOutput h1 { font-size: 24px; }
+  .redeem-page #ticketOutput .border { border-color: #e3e8e3 !important; }
+  .redeem-page #ticketOutput canvas { width: 160px !important; height: 160px !important; max-width: 100%; }
+  .redeem-page .modal-content { border: 1px solid #e1e8e2; border-radius: 14px; color: #26362e; }
+  .redeem-page .modal-title { font-size: 18px; font-weight: 650; }
+  .redeem-page .modal-header, .redeem-page .modal-footer { border-color: #e7ece7; padding: 20px; }
+  .redeem-page .modal-body { padding: 20px; text-align: left !important; }
+  .redeem-pin-hint { color: #87938b; font-size: 13px; line-height: 1.7; margin-bottom: 20px; }
+  .redeem-page label { font-size: 12px; font-weight: 600; margin-bottom: 9px; }
+  .redeem-page .form-control { border-color: #dfe6e0; border-radius: 7px; height: 42px; }
+  .redeem-page .form-control:focus { border-color: #508265; box-shadow: 0 0 0 3px #397b5915; }
+  #btnCanjear { background: #2d654b; color: white; border-color: #2d654b; }
+}
+@media screen and (max-width: 767px) {
+  body.redeem-page { padding: 0 18px 24px; }
+  #redeem-workspace { gap: 16px; }
+  #redeem-workspace .workspace-header { min-height: 70px; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8e2; gap: 10px; }
+  .workspace-brand { font-size: 16px; font-weight: 650; }
+  .workspace-mark, .workspace-divider, .workspace-section { display: none; }
+  #redeem-workspace .workspace-intro { display: block; padding: 12px 0; }
+  .workspace-eyebrow { font-size: 10px; color: #7b8c80; letter-spacing: 1.2px; }
+  .workspace-intro h1 { font-size: 26px; }
+  .workspace-intro > p { font-size: 12px; color: #87938b; margin: 0; }
+  .redeem-layout { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .redeem-card { padding: 20px; }
+  .redeem-step { display: none; }
+}
+@media screen and (min-width: 768px) and (max-height: 850px) {
+  .redeem-page #ticketOutput { max-width: 360px; font-size: 12px; line-height: 1.45; }
+  .redeem-page #ticketOutput p { margin-bottom: 8px; }
+  .redeem-page #ticketOutput img { max-height: 60px; object-fit: contain; height: auto !important; margin-top: 12px !important; }
+  .redeem-page #ticketOutput canvas { width: 96px !important; height: 96px !important; }
+  .redeem-page #ticketOutput h1 { font-size: 20px; }
+  .redeem-preview-heading { margin-bottom: 16px; }
+  #btnLanzarModal { max-width: 360px; margin-top: 18px !important; }
+}

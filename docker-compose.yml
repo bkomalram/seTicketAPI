@@ -12,7 +12,9 @@ services:
         backend:
         containers:
           aliases:
-            - ticket-2-api     
+            - ticket-2-api
+      ports:
+        - "3002:3000"       
       links:
         - database
         - queue     

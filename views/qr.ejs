@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,21 +10,30 @@
     />
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="/stylesheets/desktop.css" />
+    <link rel="stylesheet" href="/stylesheets/canjear.css" />
+    <link rel="icon" href="/images/espacio.png" type="image/png" />
+    <link rel="stylesheet" href="/stylesheets/modals.css" />
   </head>
-  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
-    <div class="row d-print-none">
-      <div class="col-md-6 offset-md-3 mt-5" id="contenedorCanjeo">
+  <body class="container-fluid sales-page redeem-page">
+    <main class="d-print-none" id="redeem-workspace">
+      <header class="workspace-header"><div class="workspace-brand"><span class="workspace-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v5a2 2 0 0 0 0 4v5H4v-5a2 2 0 0 0 0-4V5Z"/><path d="M15 5v3m0 3v2m0 3v3"/></svg></span><span><%= enviroment.TITLE %></span><span class="workspace-divider"></span><span class="workspace-section">Canjear</span></div><a class="btn btn-secondary" href="/ventas">Regresar a ventas</a></header>
+      <div class="workspace-intro"><div><p class="workspace-eyebrow">CONSULTA Y CANJE DE PREMIOS</p><h1>Canjear ticket</h1></div><p>Revisa el detalle de los premios antes de continuar.</p></div>
+      <div class="redeem-layout" id="contenedorCanjeo">
+        <aside class="redeem-card redeem-info"><span class="redeem-ticket-label">TICKET</span><h2>N.º <%= ID %></h2><p>Consulta los números premiados y el importe del ticket.</p><div class="redeem-step"><span>01</span><div><h3>Revisa el detalle</h3><p>Verifica que corresponde al ticket presentado.</p></div></div><div class="redeem-step"><span>02</span><div><h3>Confirma el canje</h3><p>Si el ticket tiene premios disponibles, podrás continuar con el PIN de seguridad.</p></div></div></aside>
+        <section class="redeem-card redeem-preview"><div class="redeem-preview-heading"><h2>Detalle del premio</h2><span>Vista del ticket</span></div>
         <div
           id="ticketOutput"
           class="font-weight-bold bg-white text-body d-print-none mt-2"
         >
           Ticket: <%= ID %>
         </div>
-        <button class="btn btn-info col-12 p-5 mt-3 d-none" id="btnLanzarModal">
-          <h1>Cambiar</h1>
+        <button class="btn btn-info col-12 mt-3 d-none" id="btnLanzarModal">
+          <span>Canjear ticket</span>
         </button>
+        </section>
       </div>
-    </div>
+    </main>
     <div
       class="modal fade"
       id="modalPing"
@@ -34,25 +43,24 @@
       aria-hidden="true"
     >
       <div class="modal-dialog" role="document">
-        <div class="modal-content card text-black-50"
-        style="background-color: #dee2e6 !important">
+        <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Coloca ping</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Confirmar canje</h5>
             <button
               type="button"
               class="close"
               data-dismiss="modal"
-              aria-label="Close"
+              aria-label="Cerrar"
             >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body text-center">
-            <input type="password" id="inPing" />
+            <p class="redeem-pin-hint">Ingresa el PIN de seguridad para confirmar el canje de este ticket.</p><label for="inPing">PIN de seguridad</label><input type="password" class="form-control" id="inPing" autocomplete="off" />
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="btnCanjear">
-              Aceptar
+              Confirmar canje
             </button>
           </div>
         </div>
@@ -403,7 +411,7 @@
                   .querySelector("#btnLanzarModal")
                   .classList.remove("d-none");
                 if (element.GameTicket.cambio == "SI") {
-                    document.querySelector("#btnLanzarModal").innerHTML =  "<h1 class='text-center'>Tiquete Cambiado</h1>";
+                    document.querySelector("#btnLanzarModal").innerHTML =  "<span>Ticket canjeado</span>";
                   document
                     .querySelector("#btnLanzarModal")
                     .setAttribute("disabled", true);

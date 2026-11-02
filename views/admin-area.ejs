@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,37 +11,24 @@
     />
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="/stylesheets/desktop.css" />
+    <link rel="stylesheet" href="/stylesheets/admin.css" />
   </head>
-  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
-    <div class="row d-print-none mt-3">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-12 col-md-3 mb-2">
-            <button
-              class="btn btn-sm btn-secondary col-12"
-              id="btn-back"
-            >
-              <h5 id="text-back">Regresar</h5>
-              <div
-                class="spinner-grow d-none"
-                role="status"
-                id="spinner-back"
-              >
-                <span class="sr-only">Loading...</span>
-              </div>
-            </button>
-          </div>
-          <h2 class="text-center col-md-6">Gestión de Usuarios</h2>
-        </div>
-        
+  <body class="container-fluid sales-page admin-page">
+    <div class="d-print-none" id="admin-workspace">
+      <div class="admin-grid">
+        <header class="workspace-header"><div class="workspace-brand"><span class="workspace-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v5a2 2 0 0 0 0 4v5H4v-5a2 2 0 0 0 0-4V5Z"/><path d="M15 5v3m0 3v2m0 3v3"/></svg></span><span><%= enviroment.TITLE %></span><span class="workspace-divider"></span><span class="workspace-section">Administración</span></div><button class="btn btn-secondary" id="btn-back"><span id="text-back">Regresar</span><span class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner-back"><span class="sr-only">Cargando…</span></span></button></header>
+        <div class="workspace-intro"><div><p class="workspace-eyebrow">ADMINISTRA TU EQUIPO</p><h1>Gestión de usuarios</h1></div><p>Usuarios, perfiles y comisiones en un solo lugar.</p></div>
+
+        <p id="user-action-message" class="user-action-message" role="status" aria-live="polite" hidden></p>
         <div id="unauthorized" class="alert alert-danger d-none">
           No tienes permisos suficientes para ver esta página.
         </div>
 
         <!-- Configuración de Sacados -->
-        <div class="card mb-4 col-md-8 offset-md-2" id="sacadosConfig">
+        <div class="card admin-settings" id="sacadosConfig">
           <div class="card-body">
-            <h4 class="card-title">Configuración de Sacados</h4>
+            <h2 class="card-title">Configuración de sacados</h2>
             
             <!-- Tabla de valores actuales -->
             <div class="table-responsive mb-4">
@@ -81,33 +68,33 @@
         </div>
 
         <!-- Form for creating/editing users -->
-        <div class="card mb-4 col-md-8 offset-md-2">
+        <div class="card user-editor">
           <div class="card-body">
-            <h4 class="card-title" id="formTitle">Crear Nuevo Usuario</h4>
+            <h2 class="card-title" id="formTitle">Crear nuevo usuario</h2><p class="admin-description">Completa los datos de la cuenta.</p>
             <form id="userForm">
               <input type="hidden" id="userId" />
               <div class="form-group">
-                <label for="username">Nombre de Usuario:</label>
-                <input type="text" class="form-control" id="username" required>
+                <label for="username">Nombre de usuario</label>
+                <input type="text" class="form-control" id="username" autocomplete="off" required>
               </div>
               <div class="form-group">
-                <label for="password">Contraseña:</label>
-                <input type="password" class="form-control" id="password">
+                <label for="password">Contraseña</label>
+                <input type="password" class="form-control" id="password" autocomplete="new-password">
               </div>
               <div class="form-group">
-                <label for="perfil">Perfil:</label>
+                <label for="perfil">Perfil</label>
                 <select class="form-control" id="perfil" required>
-                  <option value="VENDEDOR">VENDEDOR</option>
-                  <option value="SUPERVISOR">SUPERVISOR</option>
-                  <option value="ADMIN">ADMIN</option>
+                  <option value="VENDEDOR">Vendedor</option>
+                  <option value="SUPERVISOR">Supervisor</option>
+                  <option value="ADMIN">Administrador</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="porcentajeComision">Porcentaje Comisión (Chances):</label>
+                <label for="porcentajeComision">Comisión de chances (%)</label>
                 <input type="number" class="form-control" id="porcentajeComision" step="0.01" required>
               </div>
               <div class="form-group">
-                <label for="porcentajeComisionBillete">Porcentaje Comisión (Billetes):</label>
+                <label for="porcentajeComisionBillete">Comisión de billetes (%)</label>
                 <input type="number" class="form-control" id="porcentajeComisionBillete" step="0.01" required>
               </div>
               <button type="submit" class="btn btn-secondary col-12">Guardar</button>
@@ -116,9 +103,9 @@
         </div>
 
         <!-- Users list -->
-        <div class="card">
+        <div class="card user-directory">
           <div class="card-body">
-            <h4 class="card-title">Usuarios</h4>
+            <h2 class="card-title">Usuarios</h2><p class="admin-description">Consulta los perfiles y las comisiones de tu equipo.</p>
             <div class="table-responsive">
               <table class="table table-bordered">
                 <thead>
@@ -135,12 +122,19 @@
                 <tbody id="usersList">
                 </tbody>
               </table>
+              <div class="users-empty"><span aria-hidden="true">—</span><h3>No hay usuarios para mostrar</h3><p>Tu propia cuenta no aparece en esta lista.</p></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <dialog id="deactivate-user-dialog" aria-labelledby="deactivate-title" aria-describedby="deactivate-description">
+      <h2 id="deactivate-title">Eliminar usuario</h2>
+      <p id="deactivate-description">Se deshabilitará la cuenta de <strong id="deactivate-user-name"></strong>. Ya no podrá acceder ni aparecerá en la lista. Su historial se conservará.</p>
+      <p id="deactivate-error" role="alert" hidden></p>
+      <div class="deactivate-actions"><button type="button" class="btn btn-secondary" id="cancel-deactivate">Cancelar</button><button type="button" class="btn btn-deactivate" id="confirm-deactivate">Eliminar usuario</button></div>
+    </dialog>
     <script>
       var api = "<%= enviroment.URL_API %>";
       
@@ -194,13 +188,66 @@
                       minute: 'numeric'
                   }).format(new Date(user.ultimaConexion)) : 'Nunca'}</td>
               <td class="align-content-center">
-                <button class="btn btn-sm btn-secondary" onclick="editUser(${JSON.stringify(user).replace(/"/g, '&quot;')})">Editar</button>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="editUser(${JSON.stringify(user).replace(/"/g, '&quot;')})">Editar</button>
+                <button type="button" class="btn btn-sm btn-deactivate" data-deactivate>Eliminar</button>
               </td>
             `;
+            row.querySelector('[data-deactivate]').addEventListener('click', function () {
+              requestDeactivation(user, row);
+            });
             usersList.appendChild(row);
           });
         });
       }
+
+
+      const deactivateDialog = document.getElementById('deactivate-user-dialog');
+      const confirmDeactivate = document.getElementById('confirm-deactivate');
+      const cancelDeactivate = document.getElementById('cancel-deactivate');
+      const deactivateError = document.getElementById('deactivate-error');
+      let pendingDeactivation = null;
+      function requestDeactivation(user, row) {
+        pendingDeactivation = { id: user.id, row: row };
+        document.getElementById('deactivate-user-name').textContent = user.nombre;
+        deactivateError.hidden = true;
+        document.getElementById('user-action-message').hidden = true;
+        deactivateDialog.showModal();
+        cancelDeactivate.focus();
+      }
+      cancelDeactivate.addEventListener('click', function () { deactivateDialog.close(); });
+      deactivateDialog.addEventListener('cancel', function (event) {
+        if (confirmDeactivate.disabled) event.preventDefault();
+      });
+      deactivateDialog.addEventListener('close', function () { pendingDeactivation = null; });
+      confirmDeactivate.addEventListener('click', async function () {
+        if (!pendingDeactivation || confirmDeactivate.disabled) return;
+        const selected = pendingDeactivation;
+        confirmDeactivate.disabled = true;
+        cancelDeactivate.disabled = true;
+        confirmDeactivate.textContent = 'Eliminando…';
+        deactivateError.hidden = true;
+        try {
+          const response = await fetch(api + 'usuarios/' + selected.id + '/desactivar', {
+            method: 'PATCH',
+            headers: { Authorization: 'Bearer ' + localStorage.getItem('tokenSSO') }
+          });
+          const data = await response.json();
+          if (!response.ok || !data.exitoso) throw new Error(data.resultado || 'No se pudo eliminar el usuario.');
+          selected.row.remove();
+          if (document.getElementById('userId').value === String(selected.id)) resetForm();
+          deactivateDialog.close();
+          const message = document.getElementById('user-action-message');
+          message.textContent = 'Usuario deshabilitado. Su historial se conserva.';
+          message.hidden = false;
+        } catch (error) {
+          deactivateError.textContent = error.message || 'No se pudo conectar. Inténtalo de nuevo.';
+          deactivateError.hidden = false;
+        } finally {
+          confirmDeactivate.disabled = false;
+          cancelDeactivate.disabled = false;
+          confirmDeactivate.textContent = 'Eliminar usuario';
+        }
+      });
 
       function editUser(user) {
         document.getElementById('userId').value = user.id;

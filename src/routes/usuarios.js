@@ -444,4 +444,30 @@ router.post("/changeName",(req,res)=>{
            
 })
 
+
+// Desactivar conserva el usuario y todas sus relaciones históricas.
+router.patch("/:userId/desactivar", async (req, res, next) => {
+    if (!(Number(req.jornada.accesos) >= 2)) {
+        return res.status(403).json({ resultado: "Privilegios insuficientes", exitoso: false });
+    }
+    const userId = Number(req.params.userId);
+    if (!/^[1-9]\d*$/.test(req.params.userId) || !Number.isSafeInteger(userId)) {
+        return res.status(400).json({ resultado: "Usuario inválido", exitoso: false });
+    }
+    if (userId === Number(req.jornada.id)) {
+        return res.status(400).json({ resultado: "No puedes eliminar tu propia cuenta", exitoso: false });
+    }
+    try {
+        const [updated] = await DB.User.update({ esActivo: 'NO' }, {
+            where: { id: userId, padreUsuario_id: req.jornada.id, esActivo: 'SI' }
+        });
+        if (!updated) {
+            return res.status(404).json({ resultado: "Usuario activo no encontrado", exitoso: false });
+        }
+        return res.json({ resultado: "Usuario deshabilitado correctamente", exitoso: true });
+    } catch (error) {
+        return next(error);
+    }
+});
+
 module.exports = router;

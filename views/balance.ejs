@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/images/espacio.png" type="image/png">
     <title><%= enviroment.VERSION %></title>
     <meta
@@ -10,32 +11,23 @@
     />
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="/stylesheets/desktop.css" />
+    <link rel="stylesheet" href="/stylesheets/balance.css" />
   </head>
-  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
-    <div class="row d-print-none" id="generar">
-      <div
-        class="col-2 mx-3 mt-2 card text-body p-2 text-black-50 mb-2"
-        style="background-color: #dee2e6 !important"
-        id="contenedordatosGlobales"
-      >
-        <div class="card-body" id="datosGlobales">
-          <div class="rows">
-            <div class="py-3">
-              <button class="btn btn-sm btn-secondary col-12" id="btnVentas">
-                Regresar Venta
-              </button>
-            </div>
-          </div>
-        </div>
+  <body class="container-fluid sales-page balance-page">
+    <main class="d-print-none" id="generar">
+      <header class="workspace-header"><div class="workspace-brand"><span class="workspace-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v5a2 2 0 0 0 0 4v5H4v-5a2 2 0 0 0 0-4V5Z"/><path d="M15 5v3m0 3v2m0 3v3"/></svg></span><span><%= enviroment.TITLE %></span><span class="workspace-divider"></span><span class="workspace-section">Balance</span></div><button class="btn btn-secondary" id="btnVentas">Regresar a ventas</button></header>
+      <div class="workspace-intro"><div><p class="workspace-eyebrow">RESUMEN DE PREMIOS</p><h1>Balance</h1></div><p>Consulta los premios pendientes de canje por sorteo.</p></div>
+      <div class="balance-metrics">
+        <section class="balance-card metric-primary"><p>Total pendiente</p><strong id="balance-total">—</strong><span>Premios por canjear</span></section>
+        <section class="balance-card"><p>Sorteos con premios pendientes</p><strong id="balance-count">—</strong><span>Incluidos en esta consulta</span></section>
       </div>
-      <div
-        class="col-9 mx-3 mt-2 card text-body p-2 text-black-50 mb-2"
-        style="background-color: #dee2e6 !important"
-        id="balance-card"
-      >
-        <div id="balance-sorteos" class="card-body"></div>
-      </div>
-    </div>
+      <section class="balance-card" id="balance-card" aria-labelledby="balance-title">
+        <div class="balance-panel-heading"><div><h2 id="balance-title">Detalle por sorteo</h2><p>Importes pendientes de tus usuarios y tu cuenta.</p></div><button type="button" class="btn btn-secondary" id="refresh-balance">Actualizar</button></div>
+        <p id="balance-status" role="status" aria-live="polite">Cargando balance…</p>
+        <div class="balance-table-wrap" id="balance-table-wrap" hidden><table><thead><tr><th scope="col">Sorteo</th><th scope="col">Premios pendientes</th></tr></thead><tbody id="balance-sorteos"></tbody></table></div>
+      </section>
+    </main>
 
     <div
       class="alert alert-danger d-none offset-4 col-4 mt-5 p-5"
@@ -94,6 +86,7 @@
               document.querySelector("#loading").classList.remove("d-flex");
               document.querySelector("#loading").classList.add("d-none");
               document.querySelector("#generar").classList.remove("d-none");
+              loadBalance();
             } else {
               /**
                * Caduco la sesión mensaje y redireccionar
@@ -126,31 +119,64 @@
       /**
        * Carga automatica
        */
-       fetch(api + "ganadores?only="+localStorage.getItem("sesion-id")+","+localStorage.getItem("sesion-hijos"), {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("tokenSSO"),
-          },
-        })
-          .then((response) => response.json())
-          .then((response) => {     
-            var linea = ""
-            let ordenado = response.resultado.sort(function compare(a, b) {
-                  if (Number(a.gameId) < Number(b.gameId)) {
-                    return -1;
-                  }
-                  if (Number(a.gameId) > Number(b.gameId)) {
-                    return 1;
-                  }
-                  return 0;
-                })                
-            response.resultado.forEach(elemento => {
-              linea = linea + '<div class="row"><div class="col">'+elemento.gameName+'</div><div class="col">'+elemento.total+'</div></div>'
-            });
-            document.querySelector("#balance-sorteos").innerHTML = linea
-          })
-          
+      async function loadBalance() {
+        const button = document.getElementById('refresh-balance');
+        if (button.disabled) return;
+        const status = document.getElementById('balance-status');
+        const table = document.getElementById('balance-table-wrap');
+        const body = document.getElementById('balance-sorteos');
+        const total = document.getElementById('balance-total');
+        const count = document.getElementById('balance-count');
+        button.disabled = true;
+        button.setAttribute('aria-busy', 'true');
+        button.textContent = 'Actualizando…';
+        status.hidden = false;
+        status.textContent = 'Cargando balance…';
+        status.classList.remove('balance-error');
+        table.hidden = true;
+        total.textContent = '—';
+        count.textContent = '—';
+        try {
+          const users = [localStorage.getItem('sesion-id'), localStorage.getItem('sesion-hijos')].filter(Boolean).join(',');
+          const response = await fetch(api + 'ganadores?only=' + encodeURIComponent(users), {
+            headers: { Authorization: 'Bearer ' + localStorage.getItem('tokenSSO') }
+          });
+          if (!response.ok) throw new Error();
+          const data = await response.json();
+          if (!data.exitoso || !Array.isArray(data.resultado)) throw new Error();
+          const rows = data.resultado.slice().sort((a, b) => Number(a.gameId) - Number(b.gameId));
+          body.textContent = '';
+          let sum = 0;
+          const format = new Intl.NumberFormat('es-PA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          rows.forEach(item => {
+            const amount = Number(item.total);
+            if (!Number.isFinite(amount)) throw new Error();
+            sum += amount;
+            const row = document.createElement('tr');
+            const name = document.createElement('td');
+            const value = document.createElement('td');
+            name.textContent = item.gameName;
+            value.textContent = format.format(amount);
+            row.appendChild(name);
+            row.appendChild(value);
+            body.appendChild(row);
+          });
+          total.textContent = format.format(sum);
+          count.textContent = String(rows.length);
+          status.textContent = 'No hay premios pendientes de canje.';
+          status.hidden = rows.length > 0;
+          table.hidden = rows.length === 0;
+        } catch (error) {
+          status.textContent = 'No pudimos cargar el balance. Pulsa Actualizar para intentarlo de nuevo.';
+          status.classList.add('balance-error');
+        } finally {
+          button.disabled = false;
+          button.removeAttribute('aria-busy');
+          button.textContent = 'Actualizar';
+        }
+      }
+      document.getElementById('refresh-balance').addEventListener('click', loadBalance);
+
           document
         .querySelector("#btnVentas")
         .addEventListener("click", function (event) {

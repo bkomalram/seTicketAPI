@@ -1,0 +1,46 @@
+@media screen {
+  body.balance-page { background: #f5f7f5; color: #26362e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 0 28px 28px; }
+  #generar { max-width: 1600px; margin: 0 auto; display: grid; gap: 20px; }
+  #generar .workspace-header, #generar .workspace-intro { display: flex; }
+  .balance-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .balance-card { min-width: 0; background: white; border: 1px solid #e1e8e2; border-radius: 14px; padding: 24px; }
+  .balance-metrics p { color: #718076; font-size: 12px; margin: 0 0 15px; }
+  .balance-metrics strong { display: block; font-size: 32px; font-weight: 600; line-height: 1.3; letter-spacing: -.8px; font-variant-numeric: tabular-nums; }
+  .balance-metrics span { display: block; font-size: 11px; color: #929e96; margin-top: 9px; }
+  .balance-metrics .metric-primary { background: #edf5ef; border-color: #dce9df; }
+  .metric-primary strong { color: #2d654b; }
+  #generar .btn { border-radius: 7px; font-size: 12px; padding: 9px 16px; min-height: 36px; }
+  #generar .btn-secondary { background: #f5f7f5; border-color: #e1e8e2; color: #52685a; }
+  #generar .btn-secondary:hover { background: #e8f0ea; border-color: #b5c7ba; }
+  #generar .btn:focus-visible { outline: 2px solid #397b59; outline-offset: 2px; }
+  .balance-panel-heading { display: flex; align-items: start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+  .balance-panel-heading h2 { font-size: 15px; font-weight: 650; letter-spacing: -.2px; margin: 0 0 9px; }
+  .balance-panel-heading p { font-size: 12px; color: #87938b; line-height: 1.7; margin: 0; }
+  #balance-table-wrap { overflow-x: auto; scrollbar-width: thin; }
+  #generar table { table-layout: auto; margin: 0; font-size: 14px; }
+  #generar td, #generar th { width: auto; text-align: left; border: none; border-bottom: 1px solid #e7ece7; padding: 16px !important; }
+  #generar th { background: #f0f5f1; color: #647c6b; font-size: 11px; font-weight: 600; }
+  #generar td:last-child, #generar th:last-child { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  #generar td:last-child { font-weight: 600; color: #42664e; }
+  #generar tr:last-child td { border-bottom: none; }
+  #generar td:first-child { overflow-wrap: anywhere; }
+  #generar tbody tr:hover td { background: #f8faf8; }
+  #balance-status { margin: 0; min-height: 220px; display: grid; place-items: center; color: #87938b; text-align: center; font-size: 13px; line-height: 1.7; padding: 24px; }
+  #balance-status.balance-error { color: #a34438; }
+  #generar [hidden] { display: none !important; }
+}
+@media screen and (max-width: 767px) {
+  body.balance-page { padding: 0 18px 24px; }
+  #generar { gap: 16px; }
+  #generar .workspace-header { min-height: 70px; align-items: center; justify-content: space-between; border-bottom: 1px solid #e1e8e2; gap: 10px; }
+  .workspace-brand { font-size: 16px; font-weight: 650; }
+  .workspace-mark, .workspace-divider, .workspace-section { display: none; }
+  #generar .workspace-intro { display: block; padding: 12px 0; }
+  .workspace-eyebrow { font-size: 10px; color: #7b8c80; letter-spacing: 1.2px; }
+  .workspace-intro h1 { font-size: 26px; }
+  .workspace-intro > p { font-size: 12px; color: #87938b; margin: 0; }
+  .balance-metrics { gap: 12px; }
+  .balance-card { padding: 18px; }
+  .balance-metrics strong { font-size: 26px; }
+  .balance-metrics p { min-height: 34px; line-height: 1.5; }
+}

@@ -1,7 +1,3 @@
-DELIMITER $$
-
-DROP PROCEDURE IF EXISTS sp_actualiza_ganadores$$
-
 CREATE PROCEDURE sp_actualiza_ganadores(
     IN p_game_id INT,
     IN p_numero1er CHAR(4),

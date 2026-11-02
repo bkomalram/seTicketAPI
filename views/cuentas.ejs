@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/images/espacio.png" type="image/png">
     <title><%= enviroment.VERSION %></title>
     <meta
@@ -10,22 +11,25 @@
     />
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" href="/stylesheets/app.css" />
+    <link rel="stylesheet" href="/stylesheets/desktop.css" />
+    <link rel="stylesheet" href="/stylesheets/cuentas.css" />
   </head>
-  <body class="container-fluid" style="font-family: 'Roboto Mono', monospace;">
+  <body class="container-fluid sales-page accounts-page">
     <div
       class="d-none d-print-block print-style font-weight-bold pa"
       id="outDimention"
     >
       <div id="outPut1" class="pt-2"></div>
     </div>
-    <div class="row d-print-none">
+    <div class="d-print-none" id="accounts-workspace">
+      <header class="workspace-header"><div class="workspace-brand"><span class="workspace-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v5a2 2 0 0 0 0 4v5H4v-5a2 2 0 0 0 0-4V5Z"/><path d="M15 5v3m0 3v2m0 3v3"/></svg></span><span><%= enviroment.TITLE %></span><span class="workspace-divider"></span><span class="workspace-section">Cuentas</span></div><button class="btn btn-secondary" id="btnVentas">Regresar a ventas</button></header>
+      <div class="workspace-intro"><div><p class="workspace-eyebrow">CONSULTA TU OPERACIÓN</p><h1>Cuentas</h1></div><p>Ventas, comisiones y premios por usuario.</p></div>
       <div
-        class="col-2 mx-3 mt-2 card text-body p-2 text-black-50 mb-2"
-        style="background-color: #dee2e6 !important"
+        class="accounts-card accounts-filters"
         id="generar"
       >
         <div>
-          <h5>Sorteo:</h5>
+          <h2>Filtros de consulta</h2><p class="accounts-description">Elige el sorteo y los usuarios que deseas consultar.</p><label for="select-choose-game">Sorteo</label>
           <select
             id="select-choose-game"
             name="select-choose-game"
@@ -36,7 +40,7 @@
           </select>
         </div>
         <h4 class="text-danger text-center pt-3" id="error-loading-game"></h4>
-        <div class="rows" id="listaUsuarios"></div>
+        <h3 class="accounts-users-title">Usuarios</h3><div class="rows" id="listaUsuarios"></div>
         <div class="rows">
           <div class="col-12 py-3">
             <button class="btn btn-sm btn-secondary col-12" id="btnActualizar">
@@ -54,24 +58,19 @@
             </button>
           </div>
         </div>
-        <div class="rows">
-          <div class="col-12 py-3">
-            <button class="btn btn-sm btn-secondary col-12" id="btnVentas">
-              Regresar Venta
-            </button>
-          </div>
-        </div>
       </div>
-      <div class="col-4">
-        <div class="card-border">
+      <div class="accounts-card accounts-detail">
+        <div class="accounts-detail-inner">
+          <div class="panel-heading"><h2>Detalle del sorteo</h2><span>Chances y billetes</span></div>
           <div class="col-12 text-center" id="estadoTitulo">
-            <h5>Selecciona los usuarios del sorteo</h5>
+            <h5>Selecciona los usuarios del sorteo</h5><p>Marca los usuarios y pulsa Actualizar para ver el detalle de sus cuentas.</p>
           </div>
           <div class="d-flex" id="estado"></div>
           <div class="d-flex" id="estadoBillete"></div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="accounts-card accounts-summary">
+        <div class="panel-heading"><h2>Resumen de cuentas</h2><span>Desglose</span></div>
         <div class="d-flex card-border border-top-0" id="estadoSorteo">
           <div class="col-12 font-weight-bold my-2 d-none" id="totalSorteo">
             <div class="d-flex">
@@ -127,7 +126,6 @@
         </div>
         <div
           class="card text-body text-black-50"
-          style="background-color: #dee2e6 !important"
           id="contenedorPorcentajes"
         ><div class="card-body">
           <table class="table table-bordered" id="porcentajeTable">
@@ -870,7 +868,10 @@
             ' hijos="',
             registro.hijos,
             '"',
-            '<label class="form-check-label" for="flexCheckDefault">',
+            '>',
+            '<label class="form-check-label" for="check',
+            index,
+            '">',
             registro.nombre,
             "</label>",
             "</div>",

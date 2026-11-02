@@ -1,0 +1,56 @@
+@media screen {
+  body.winners-page { background: #f5f7f5; color: #26362e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 0 28px 28px; }
+  #generar { max-width: 1600px; margin: 0 auto; display: grid; grid-template-columns: 330px minmax(0,1fr); gap: 20px; align-items: start; }
+  #generar .workspace-header, #generar .workspace-intro { display: flex; grid-column: 1 / -1; }
+  .winners-card { min-width: 0; background: white; border: 1px solid #e1e8e2; border-radius: 14px; padding: 24px; }
+  #generar h2 { font-size: 15px; font-weight: 650; margin: 0 0 9px; letter-spacing: -.2px; }
+  .panel-description { color: #87938b; font-size: 12px; line-height: 1.6; margin: 0 0 24px; }
+  .winner-field + .winner-field { margin-top: 20px; }
+  .winner-field label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; margin-bottom: 9px; }
+  .winner-field .form-control, .winner-field .custom-select { height: 42px; border: 1px solid #dfe6e0; border-radius: 7px; color: #26362e; font-size: 14px; }
+  .winner-field input::placeholder { color: #9aa69e; font-size: 12px; }
+  .winner-field input:focus, .winner-field select:focus { outline: none; border-color: #508265; box-shadow: 0 0 0 3px #397b5915; }
+  .prizes-divider { border-top: 1px solid #edf1ed; margin: 24px 0; }
+  .prize-index { display: grid; place-items: center; width: 23px; height: 23px; background: #eef4ef; border-radius: 6px; font-size: 10px; color: #6e8877; font-weight: 500; }
+  #generar .btn { border-radius: 7px; font-size: 12px; padding: 9px 16px; min-height: 36px; }
+  #generar .btn-secondary { background: #f5f7f5; border-color: #e1e8e2; color: #52685a; }
+  #generar .btn-secondary:hover { background: #e8f0ea; border-color: #b5c7ba; }
+  #generar .btn:focus-visible { outline: 2px solid #397b59; outline-offset: 2px; }
+  #generar .winner-primary { width: 100%; min-height: 44px; margin-top: 24px; background: #2d654b; border-color: #2d654b; color: white; }
+  #generar .winner-primary:hover { background: #23543d; }
+  #generar .winner-primary:disabled { cursor: wait; }
+  #error-loading-game { font-size: 12px; margin: 16px 0 0; line-height: 1.6; }
+  #error-loading-game:empty { display: none; }
+  .results-heading { display: flex; align-items: start; justify-content: space-between; gap: 16px; border-bottom: 1px solid #edf1ed; }
+  .results-heading .panel-description { margin-bottom: 18px; }
+  .results-heading .btn { flex-shrink: 0; }
+  .winners-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 430px; text-align: center; padding: 40px 24px; }
+  .empty-icon { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 15px; background: #eff5f0; color: #6f927b; margin-bottom: 20px; }
+  .empty-icon svg { width: 27px; height: 27px; }
+  .winners-empty h3 { font-size: 16px; font-weight: 600; letter-spacing: -.2px; margin-bottom: 10px; }
+  .winners-empty p { font-size: 12px; line-height: 1.8; color: #87938b; max-width: 300px; margin: 0; }
+  #listaGanadores:has(#ticketOutput:not(:empty)) .winners-empty { display: none; }
+  #generar #ticketOutput:empty { display: none; }
+  #generar #ticketOutput { font: 600 13px/1.7 "Courier New", monospace; max-width: 620px; margin: 24px auto 0 !important; overflow-wrap: anywhere; }
+  #generar #ticketOutput h1 { font-size: 24px; }
+  #generar #ticketOutput canvas { max-width: 100%; height: auto; }
+  #generar #ticketOutput .border { border-color: #e3e8e3 !important; }
+}
+@media screen and (min-width: 768px) and (max-height: 850px) {
+  .winners-card { padding: 20px; }
+  .winner-field + .winner-field { margin-top: 16px; }
+  .prizes-divider { margin: 20px 0; }
+  .winners-empty { min-height: 400px; }
+}
+@media screen and (max-width: 767px) {
+  body.winners-page { padding: 0 18px 24px; }
+  #generar { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  #generar .workspace-header { min-height: 70px; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid #e1e8e2; }
+  .workspace-brand { font-size: 16px; font-weight: 650; }
+  .workspace-mark, .workspace-divider, .workspace-section { display: none; }
+  #generar .workspace-intro { display: block; padding: 12px 0; }
+  .workspace-eyebrow { font-size: 10px; letter-spacing: 1.2px; color: #7b8c80; }
+  .workspace-intro h1 { font-size: 26px; margin-bottom: 10px; }
+  .workspace-intro > p { font-size: 12px; color: #87938b; margin: 0; }
+  .winners-empty { min-height: 260px; }
+}
