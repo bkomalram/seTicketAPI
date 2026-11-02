@@ -1,0 +1,30 @@
+'use strict';
+const assert=require('assert'),fs=require('fs'),vm=require('vm');
+const rules=require('../src/services/limit-rules');
+let source={id:9,game_id:1},open=true,query;
+const DB={Sequelize:{Op:{in:'in'}},Game:{},User:{async findAll(){return [{id:2}];}},GameTicket:{async findOne(q){query=q;return source;}},GameTicketRecord:{async findAll(){return [{tipo:'CHANCE',numero:'05',cantidad:3},{tipo:'BILLETE',numero:'0015',cantidad:2}];}}};
+const context={module:{exports:{}},require(n){if(n==='../models')return DB;if(n==='./limit-rules')return rules;return {async access(){return {game:{id:20,usuario_id:1,esActivo:'SI',enVenta:open?'SI':'NO'},canManage:true};}};}};
+vm.runInNewContext(fs.readFileSync(require.resolve('../src/services/repeat-ticket'),'utf8'),context);
+(async()=>{
+ const repeat=context.module.exports;
+ const result=await repeat({id:1},{ticketId:9,sorteoId:20});
+ assert.equal(result.ticketId,9);assert.equal(result.sorteoId,20);assert.equal(result.registros[0].numero,'05');
+ assert.deepEqual(Array.from(query.where.userId.in),[1,2]);assert.equal(query.include[0].where.usuario_id,1);
+ assert.equal(query.include[0].where.esActivo,undefined,'Closed source draws are allowed');
+ assert.equal(query.where.esValido,'SI');
+ source=null;await assert.rejects(repeat({id:1},{ticketId:9,sorteoId:20}),/No se encontró/);
+ open=false;await assert.rejects(repeat({id:1},{ticketId:9,sorteoId:20}),/venta activa/);
+ await assert.rejects(repeat({id:1},{ticketId:'abc',sorteoId:20}),/válido/);
+ // Browser logic uses only read-only fetch, never a sale request.
+ const storage=new Map([['choose-game','20'],['sesion-id','1'],['edit-ticket-number','88']]);
+ const element=()=>({value:'',hidden:false,disabled:false,textContent:'',classList:{add(){},remove(){}},events:{},addEventListener(n,fn){this.events[n]=fn;}});
+ const input=element();input.value='9';const load=element(),message=element(),confirm=element(),cancel=element();
+ const panel={querySelector(s){return s==='input'?input:s==='[data-repeat-load]'?load:s==='[role=status]'?message:s==='[data-repeat-confirm]'?confirm:cancel;}};
+ const nodes={};const bag={items:[{number:'80',qty:1}],calc(){this.total=this.items.reduce((sum,i)=>sum+i.total,0);},render(){}};
+ const ui={document:{querySelectorAll(s){return s==='[data-repeat-ticket]'?[panel]:[];},querySelector(s){return nodes[s]||(nodes[s]=element());}},bag,globalChance:{receiptCount:88,price:.5,bprice:2},localStorage:{getItem:k=>storage.get(k)||null,removeItem:k=>storage.delete(k)},api:'http://local/',async fetch(url,options){assert(!options.method || options.method==='GET','Template loading must never submit a sale');return {ok:true,async json(){return {exitoso:true,resultado:result};}};}};
+ vm.runInNewContext(fs.readFileSync(require.resolve('../public/javascripts/repeat-ticket'),'utf8'),ui);
+ await load.events.click();assert.equal(confirm.hidden,false);assert.equal(bag.items[0].number,'80','Search preserves current draft');
+ cancel.events.click();assert.equal(bag.items[0].number,'80','Cancel preserves current draft');
+ await load.events.click();confirm.events.click();assert.equal(bag.items.length,2);assert.equal(bag.items[0].number,'05');assert.equal(bag.items[0].qty,3);assert.equal(bag.items[0].price,.5);assert.equal(bag.total,5.5);assert.equal(ui.globalChance.receiptCount,0);assert(!storage.has('edit-ticket-number'),'Repeating creates a fresh draft');
+ console.log('OK: closed source, active target, team scope, missing tickets, read-only load, replacement confirmation, leading zeros, current prices and fresh draft.');
+})().catch(e=>{console.error(e);process.exit(1);});

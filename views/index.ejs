@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/stylesheets/theme.css" />
     <script src="/javascripts/theme.js"></script>
   <link rel="stylesheet" href="/stylesheets/sale-limits.css" />
+  <link rel="stylesheet" href="/stylesheets/repeat-ticket.css">
   </head>
   <body class="container-fluid sales-page">
     <div
@@ -1410,6 +1411,16 @@
                 </div>
               </button>
             </div>
+            <div class="col-12"><details class="repeat-ticket-panel d-print-none " data-repeat-ticket>
+  <summary>Repetir ticket</summary>
+  <p>Trae los números y cantidades de un ticket anterior al sorteo actual, con los precios actuales. El original se conserva.</p>
+  <label for="repeat-ticket-desktop">Número del ticket anterior</label>
+  <input id="repeat-ticket-desktop" type="text" inputmode="numeric" pattern="[0-9]+" placeholder="N.º ticket" autocomplete="off">
+  <button type="button" class="btn btn-secondary" data-repeat-load>Cargar números</button>
+  <p role="status" aria-live="polite"></p>
+  <button type="button" class="btn btn-success" data-repeat-confirm hidden>Reemplazar contenido</button>
+  <button type="button" class="btn btn-secondary" data-repeat-cancel hidden>Conservar actual</button>
+</details></div>
             <div class="col-12 mt-2">
               <div class="row">
                 <input
@@ -1594,6 +1605,16 @@
             <span>Buscar</span>
           </button>
         </div>
+<details class="repeat-ticket-panel d-print-none d-md-none repeat-ticket-mobile" data-repeat-ticket>
+  <summary>Repetir ticket</summary>
+  <p>Trae los números y cantidades de un ticket anterior al sorteo actual, con los precios actuales. El original se conserva.</p>
+  <label for="repeat-ticket-mobile">Número del ticket anterior</label>
+  <input id="repeat-ticket-mobile" type="text" inputmode="numeric" pattern="[0-9]+" placeholder="N.º ticket" autocomplete="off">
+  <button type="button" class="btn btn-secondary" data-repeat-load>Cargar números</button>
+  <p role="status" aria-live="polite"></p>
+  <button type="button" class="btn btn-success" data-repeat-confirm hidden>Reemplazar contenido</button>
+  <button type="button" class="btn btn-secondary" data-repeat-cancel hidden>Conservar actual</button>
+</details>
         <input type="number" class="form-control d-print-none d-md-none col-8 offset-2 mt-2" autocomplete="off" name="mobile-edit-ticket" id="mobile-edit-ticket" aria-label="Número de ticket para buscar" placeholder="Número de ticket">
         <input type="text" class="form-control d-print-none d-md-none col-10 offset-1 mt-2" autocomplete="off" id="optional-customer-name-mobile" aria-label="Nombre del cliente, opcional" name="optional-customer-name-mobile" placeholder="Nombre del cliente (opcional)">
 
@@ -4398,5 +4419,6 @@
       </form>
     </dialog>
     <script src="/javascripts/sale-limits.js"></script>
+    <script src="/javascripts/repeat-ticket.js"></script>
   </body>
 </html>

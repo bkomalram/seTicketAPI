@@ -164,6 +164,18 @@ router.get("/decifrar", (req,res)=>{
     BK
     @@Se mueven todos los endpoints relacionado con tiquete a su propio API
 */
+// Read-only template retrieval, including tickets from closed draws.
+router.get('/:tiqueteId/repetir', async (req,res) => {
+    try {
+        const resultado = await require('../services/repeat-ticket')(req.jornada, {
+            ticketId:req.params.tiqueteId,sorteoId:req.query.sorteoId,userId:req.query.userId
+        });
+        res.json({exitoso:true,resultado});
+    } catch(error) {
+        res.status(error.status || 500).json({exitoso:false,resultado:error.status ? error.message : 'No se pudo recuperar el ticket.'});
+    }
+});
+
 router.get("/:tiqueteId", (req,res)=>{
     const {tiqueteId} = req.params
     const accion = req.query.accion
