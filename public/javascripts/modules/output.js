@@ -4,7 +4,7 @@ const chanceOutput = function () {
     let output = document.getElementById("ticketOutput")
     let header = [
       '<div class="row mx-0 print-style">',
-        '<img src="/images/vaca.png" class="col-3 mt-4 w-50 h-50">',
+        '<img src="/images/ticket-seven.svg" alt="Ticket siete" class="col-3 mt-3 p-2" style="height:64px;object-fit:contain">',
         '<div class="col-6 p-0">',
          '<div class="row mx-0 mt-2 print-style text-center">',
             '<p name="outputTitle" id="outTitle" class="col-12 p-0">'+globalChance.person+'</p>',
@@ -13,7 +13,7 @@ const chanceOutput = function () {
             '<p name="customer-name" id="display-customer-name" class="col-12 p-0 m-0 text-sm" style="font-size: smaller;">'+bag.customerName+'</p>',
           '</div>',
         '</div>',
-        '<img src="/images/buena-suerte.png" class="col-3 mt-4 w-50 h-50">',
+        '<img src="/images/lucky-clover.svg" alt="Trébol de la suerte" class="col-3 mt-3 p-2" style="height:64px;object-fit:contain">',
       '</div>',     
         '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
           '<div class="col-3 px-0 text-center">CF</div>',
@@ -83,7 +83,7 @@ const chanceOutput = function () {
   const printOldTicket = function (arrayItems, montoTotal) {
     let output = document.getElementById("ticketOutput")
     let header = [
-      '<img src="/images/vaca.png" alt="Smiley face" style="width: 50px;position: absolute;margin-left: 10px;margin-top: 5px;">',
+      '<img src="/images/ticket-seven.svg" alt="Ticket siete" style="width: 50px;position: absolute;margin-left: 10px;margin-top: 5px;">',
       '<p name="outputTitle" id="outTitle" class="text-center mb-0">'+globalChance.person+'</p>',
       '<p name="outputId" id="outId" class="text-center">'+bag.id()+'</p>',
         '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',

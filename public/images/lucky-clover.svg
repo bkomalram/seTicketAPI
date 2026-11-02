@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <title>Trébol de la suerte</title>
+  <g stroke="#173d2c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M64 61C35 53 29 41 37 32c6-7 15-4 18 1 0-10 10-15 17-9 11 9 2 25-8 37Z"/>
+    <path d="M67 64c8-29 20-35 29-27 7 6 4 15-1 18 10 0 15 10 9 17-9 11-25 2-37-8Z"/>
+    <path d="M64 67c29 8 35 20 27 29-6 7-15 4-18-1 0 10-10 15-17 9-11-9-2-25 8-37Z"/>
+    <path d="M61 64c-8 29-20 35-29 27-7-6-4-15 1-18-10 0-15-10-9-17 9-11 25-2 37 8Z"/>
+    <path d="M62 68c-1 17-10 31-24 39"/>
+  </g>
+  <circle cx="64" cy="64" r="4.5" fill="#173d2c"/>
+</svg>
