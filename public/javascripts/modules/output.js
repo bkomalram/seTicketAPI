@@ -1,3 +1,4 @@
+const ticketWarning = '<p class="ticket-warning text-center" style="margin:10px 0 4px;padding:8px 4px;border-top:1px solid #333;font-size:11px;line-height:1.4;font-weight:600;color:#111;background:#fff;break-inside:avoid">Revise bien su tiquete, después de jugada la lotería no hay reclamos.</p>';
 var qrURL = "<%= enviroment.URL_QR %>";
 const chanceOutput = function () {
     let output = document.getElementById("ticketOutput")
@@ -75,7 +76,7 @@ const chanceOutput = function () {
 
     body = body.join('')
   
-    output.innerHTML = header + body + total + fecha + footer
+    output.innerHTML = header + body + total + fecha + footer + ticketWarning
     generarQR(qrURL+"cambiar?id="+globalChance.receiptCount)    
   }
 
@@ -138,7 +139,7 @@ const chanceOutput = function () {
     
     body = body.join('')
   
-    output.innerHTML = header + body + total + fecha + footer    
+    output.innerHTML = header + body + total + fecha + footer + ticketWarning
     document.querySelector('#outPut1').innerHTML = document.querySelector('#ticketOutput').innerHTML                
 
     generarQR(qrURL+"cambiar?id="+arrayItems[0].ID)
