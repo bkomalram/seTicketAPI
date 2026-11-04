@@ -52,8 +52,8 @@ const chanceOutput = function () {
     //UX - Mobile
     let mobileBuilder = [
       '<div class="d-sm-none row mx-0" name="mobile-input-ux">',
-        '<div class="col-3 px-0 text-center"><input type="number" class="form-control" autocomplete="off" name="mobile-filler-number" aria-label="Número para agregar al ticket" placeholder="Número" inputmode="numeric" onkeydown="mobileNumber(event)"></input></div>',
-        '<div class="col-3 px-0 text-center"><input type="number" class="form-control" autocomplete="off" name="mobile-filler-qty" aria-label="Cantidad para agregar al ticket" placeholder="Cant." inputmode="numeric" onkeydown="mobileQty(event)"></input></div>',
+        '<div class="col-3 px-0 text-center"><input type="number" class="form-control" autocomplete="off" name="mobile-filler-number" aria-label="Número para agregar al ticket" placeholder="Número" onkeydown="mobileNumber(event)"></input></div>',
+        '<div class="col-3 px-0 text-center"><input type="number" class="form-control" autocomplete="off" name="mobile-filler-qty" aria-label="Cantidad para agregar al ticket" placeholder="Cant." onkeydown="mobileQty(event)"></input></div>',
         '<div class="col-3 px-0 text-center">--.--</div>',
         '<div class="col-3 px-0 text-center">--.--</div>',
       '</div>'
