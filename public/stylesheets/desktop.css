@@ -178,3 +178,25 @@
   #desktop-status table { min-width: 560px; }
   #configuracion .config-summary { overflow-x: auto; }
 }
+
+/* Fit the 25 rows (00–99) to laptop height while retaining 18px text. */
+@media screen and (min-width: 768px) {
+  #configuracion { gap: 10px 20px; }
+  #configuracion > .workspace-header { min-height: 48px; }
+  #configuracion > .workspace-intro { padding: 0; min-height: 32px; }
+  #configuracion > .workspace-intro .workspace-eyebrow { display: none; }
+  #configuracion > .workspace-intro h1 { font-size: 24px; }
+  #configuracion > .config-toolbar .btn { min-height: 34px; padding-top: 5px; padding-bottom: 5px; }
+  #configuracion > .config-toolbar h5 { margin: 0; font-size: 16px; }
+  #configuracion > #desktop-status, #configuracion > .config-summary { padding: 12px; }
+  #configuracion #desktop-status .panel-heading, #configuracion .config-summary .panel-heading { margin-bottom: 8px; }
+  #configuracion #desktop-status .panel-heading h2, #configuracion .config-summary .panel-heading h2 { line-height: 1.2; }
+  #configuracion #desktop-status table, #configuracion .config-summary table { line-height: 1.05; }
+  #configuracion #desktop-status td, #configuracion #desktop-status th {
+    height: clamp(20px, calc((100dvh - 208px) / 26), 28px);
+    padding: 0 8px !important;
+    vertical-align: middle;
+  }
+  #configuracion .config-summary td, #configuracion .config-summary th { padding: 3px 8px !important; vertical-align: middle; }
+  #configuracion #desktop-status > .d-flex + .d-flex { margin-top: 12px; }
+}
