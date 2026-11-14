@@ -1,4 +1,4 @@
-const ticketWarning = '<p class="ticket-warning text-center" style="margin:10px 0 4px;padding:8px 4px;border-top:1px solid #333;font-size:11px;line-height:1.4;font-weight:600;color:#111;background:#fff;break-inside:avoid">Revise bien su tiquete, después de jugada la lotería no hay reclamos.</p>';
+const ticketWarning = '<p class="ticket-warning text-center" style="margin:10px 0 4px;padding:8px 4px;border-top:1px solid #333;font-size:14px;line-height:1.5;font-weight:700;color:#111;background:#fff;break-inside:avoid">Revise bien su tiquete, después de jugada la lotería no hay reclamos.</p>';
 var qrURL = "<%= enviroment.URL_QR %>";
 const chanceOutput = function () {
     let output = document.getElementById("ticketOutput")
@@ -15,7 +15,7 @@ const chanceOutput = function () {
         '</div>',
         '<img src="/images/lucky-clover.svg" alt="Trébol de la suerte" class="col-3 mt-3 p-2" style="height:64px;object-fit:contain">',
       '</div>',     
-        '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
+        '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0 ticket-line">',
           '<div class="col-3 px-0 text-center">CF</div>',
           '<div class="col-3 px-0 text-center">CANT.</div>',
           '<div class="col-3 px-0 text-center">P.U</div>',
@@ -24,7 +24,7 @@ const chanceOutput = function () {
   
     let total = [
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
-        '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: '+bag.total+'</p>',
+        '<p name="outputId" id="outId" class="text-center col-12 ticket-total"> TOTAL: '+bag.total+'</p>',
       '</div>',
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
         '<p name="chanceCount" id="chanceCount" class="text-center col-12"> CANT. CHANCE: '+bag.chanceCount+'</p>',
@@ -36,7 +36,7 @@ const chanceOutput = function () {
   
     let fecha = [
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
-        '<p name="outputId" id="outId" class="text-center col-12 mb-1 mt-1">'+bag.date()+'</p>',
+        '<p name="outputId" id="outId" class="text-center col-12 mb-1 mt-1 ticket-date">'+bag.date()+'</p>',
       '</div>'
     ].join('')
   
@@ -64,7 +64,7 @@ const chanceOutput = function () {
     let inOrder = bag.itemsInOrder()
     inOrder.forEach(element => {
       let dyn = [
-      '<div class="row mx-0">',
+      '<div class="row mx-0 ticket-line">',
         '<div class="col-3 px-0 text-center">*'+element.number+'*</div>',
         '<div class="col-3 px-0 text-center">'+element.qty+'</div>',
         '<div class="col-3 px-0 text-center">'+(Math.round(element.price * 100) / 100).toFixed(2)+'</div>',
@@ -95,7 +95,7 @@ const chanceOutput = function () {
   
     let total = [
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
-        '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: '+(Math.round(montoTotal * 100) / 100).toFixed(2)+'</p>',
+        '<p name="outputId" id="outId" class="text-center col-12 ticket-total"> TOTAL: '+(Math.round(montoTotal * 100) / 100).toFixed(2)+'</p>',
       '</div>',
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
         '<p name="chanceCount" id="chanceCount" class="text-center col-12"> CANT. CHANCE: '+bag.chanceCount+'</p>',
@@ -109,7 +109,7 @@ const chanceOutput = function () {
     let sysFecha = dbFecha.toLocaleString('en-US', { hour12: true })
     let fecha = [
       '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
-        '<p name="outputId" id="outId" class="text-center col-12 mb-1 mt-1">'+sysFecha+'</p>',
+        '<p name="outputId" id="outId" class="text-center col-12 mb-1 mt-1 ticket-date">'+sysFecha+'</p>',
       '</div>'
     ].join('')
   
@@ -127,7 +127,7 @@ const chanceOutput = function () {
     arrayItems.forEach(element => {    
       totalRegistro = element.CANTIDAD * element.PRECIO
       let dyn = [
-      '<div class="row mx-0">',
+      '<div class="row mx-0 ticket-line">',
         '<div class="col-3 px-0 text-center">*'+element.NUMERO+'*</div>',
         '<div class="col-3 px-0 text-center">'+element.CANTIDAD+'</div>',
         '<div class="col-3 px-0 text-center">'+(Math.round(element.PRECIO * 100) / 100).toFixed(2)+'</div>',
@@ -358,14 +358,14 @@ const imprimirSorteo = async function () {
   let respuesta = await requestChanceTotal.json()
   let total = [
     '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
-      '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: '+respuesta.resultado.CANTIDAD+'</p>',
-      '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: '+(Math.round(respuesta.resultado.PLATA * 100) / 100).toFixed(2)+'</p>',
+      '<p name="outputId" id="outId" class="text-center col-12 ticket-total"> TOTAL: '+respuesta.resultado.CANTIDAD+'</p>',
+      '<p name="outputId" id="outId" class="text-center col-12 ticket-total"> TOTAL: '+(Math.round(respuesta.resultado.PLATA * 100) / 100).toFixed(2)+'</p>',
     '</div>'
   ].join('')
 
   let fecha = [
     '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
-      '<p name="outputId" id="outId" class="text-center col-12 mb-1 mt-1">'+bag.date()+'</p>',
+      '<p name="outputId" id="outId" class="text-center col-12 mb-1 mt-1 ticket-date">'+bag.date()+'</p>',
     '</div>'
   ].join('')
 
@@ -395,8 +395,8 @@ const imprimirSorteo = async function () {
   respuesta = await requestBilleteTotal.json()
   total = [
     '<div class="row mx-0 border print-style border-left-0 border-right-0 border-bottom-0">',
-      '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: '+respuesta.resultado.CANTIDAD+'</p>',
-      '<p name="outputId" id="outId" class="text-center col-12"> TOTAL: '+(Math.round(respuesta.resultado.PLATA * 100) / 100).toFixed(2)+'</p>',
+      '<p name="outputId" id="outId" class="text-center col-12 ticket-total"> TOTAL: '+respuesta.resultado.CANTIDAD+'</p>',
+      '<p name="outputId" id="outId" class="text-center col-12 ticket-total"> TOTAL: '+(Math.round(respuesta.resultado.PLATA * 100) / 100).toFixed(2)+'</p>',
     '</div>'
   ].join('')
 

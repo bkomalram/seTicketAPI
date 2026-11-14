@@ -66,3 +66,20 @@
 @media screen {
   .accounts-detail:has(#estado :first-child) #estadoTitulo { display: none; }
 }
+
+/* Comfortable desktop reading without changing ticket printing. */
+@media screen and (min-width: 768px) {
+  #accounts-workspace h2, #accounts-workspace #estadoTitulo h5 { font-size: 20px; font-weight: 700; }
+  #accounts-workspace .accounts-description, #accounts-workspace #estadoTitulo p, #accounts-workspace .workspace-intro > p { font-size: 16px; font-weight: 600; }
+  #accounts-workspace .accounts-filters label, #accounts-workspace .accounts-users-title, #accounts-workspace #listaUsuarios .form-check-label { font-size: 17px; font-weight: 700; }
+  #accounts-workspace .accounts-filters .custom-select { font-size: 17px; font-weight: 700; height: auto; min-height: 46px; }
+  #accounts-workspace .btn { font-size: 16px; font-weight: 700; min-height: 44px; }
+  #accounts-workspace .panel-heading > span { font-size: 14px; font-weight: 600; }
+  #accounts-workspace table { font-size: 18px; line-height: 1.5; }
+  #accounts-workspace td { font-weight: 700; padding: 10px 9px !important; }
+  #accounts-workspace th { font-size: 17px; font-weight: 700; padding: 10px 9px !important; }
+  #accounts-workspace td.font-weight-bold, #accounts-workspace #porcentajeTable tr:last-child td { font-weight: 700 !important; }
+  #accounts-workspace #totalSorteo { font-size: 18px; font-weight: 700; }
+  #accounts-workspace #estado table, #accounts-workspace #estadoBillete table { min-width: 560px; }
+  #accounts-workspace .accounts-summary { overflow-x: auto; }
+}

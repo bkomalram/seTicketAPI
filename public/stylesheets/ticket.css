@@ -1,0 +1,31 @@
+/* Shared receipt typography for screen, exported images and paper. */
+#mobile-sell #ticketOutput, #outDimention #outPut1 {
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+#ticketOutput [name="outputTitle"], #outPut1 [name="outputTitle"] {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+#ticketOutput [name="seller"], #ticketOutput [name="customer-name"],
+#outPut1 [name="seller"], #outPut1 [name="customer-name"] { font-size: 16px !important; }
+#ticketOutput .ticket-total, #outPut1 .ticket-total { font-size: 18px; font-weight: 700; }
+#mobile-sell #ticketOutput h1, #outDimention #outPut1 h1 { font-size: 24px; font-weight: 700; line-height: 1.3; margin: 10px 0; }
+#ticketOutput .ticket-date, #outPut1 .ticket-date { font-size: 14px; line-height: 1.5; }
+#ticketOutput .ticket-warning, #outPut1 .ticket-warning { font-size: 14px !important; font-weight: 700 !important; line-height: 1.5 !important; padding: 10px 4px !important; }
+#ticketOutput p, #outPut1 p { margin-bottom: 8px; }
+#ticketOutput .ticket-line, #outPut1 .ticket-line { padding-top: 4px; padding-bottom: 4px; }
+#ticketOutput .ticket-line > div, #outPut1 .ticket-line > div { min-width: 0; }
+#ticketOutput .ticket-line > div:nth-child(1), #outPut1 .ticket-line > div:nth-child(1) { flex: 0 0 26%; max-width: 26%; }
+#ticketOutput .ticket-line > div:nth-child(2), #outPut1 .ticket-line > div:nth-child(2) { flex: 0 0 20%; max-width: 20%; }
+#ticketOutput .ticket-line > div:nth-child(3), #outPut1 .ticket-line > div:nth-child(3) { flex: 0 0 22%; max-width: 22%; }
+#ticketOutput .ticket-line > div:nth-child(4), #outPut1 .ticket-line > div:nth-child(4) { flex: 0 0 32%; max-width: 32%; }
+@media print {
+  #outDimention #outPut1 { color: #000; background: #fff; }
+  #outDimention #outPut1 .row { break-inside: avoid; }
+}

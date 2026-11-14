@@ -18,6 +18,7 @@
     <script src="/javascripts/theme.js"></script>
   <link rel="stylesheet" href="/stylesheets/sale-limits.css" />
   <link rel="stylesheet" href="/stylesheets/repeat-ticket.css">
+  <link rel="stylesheet" href="/stylesheets/ticket.css">
   </head>
   <body class="container-fluid sales-page">
     <div
@@ -3541,6 +3542,48 @@
         }
       }
 
+      // Rasterizar las ilustraciones antes de capturar: html2canvas no
+      // conserva object-fit en todos los navegadores móviles.
+      async function capturarTicketWhatsapp(ticketElement) {
+        if (document.fonts) await document.fonts.ready;
+        const images = await Promise.all(Array.from(ticketElement.querySelectorAll('img')).map(async (img) => {
+          await new Promise((resolve, reject) => {
+            if (img.complete) {
+              return img.naturalWidth ? resolve() : reject(new Error('No se pudo cargar ' + img.src));
+            }
+            img.addEventListener('load', resolve, { once: true });
+            img.addEventListener('error', reject, { once: true });
+          });
+          const style = getComputedStyle(img);
+          const width = img.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+          const height = img.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+          if (width <= 0 || height <= 0) throw new Error('La imagen del tiquete no tiene tamaño visible');
+          const bitmap = document.createElement('canvas');
+          bitmap.width = Math.round(width * 2);
+          bitmap.height = Math.round(height * 2);
+          const ratio = Math.min(bitmap.width / img.naturalWidth, bitmap.height / img.naturalHeight);
+          const drawWidth = img.naturalWidth * ratio;
+          const drawHeight = img.naturalHeight * ratio;
+          bitmap.getContext('2d').drawImage(img, (bitmap.width - drawWidth) / 2,
+            (bitmap.height - drawHeight) / 2, drawWidth, drawHeight);
+          return bitmap.toDataURL('image/png');
+        }));
+        return html2canvas(ticketElement, {
+          backgroundColor: '#ffffff',
+          scale: 2,
+          onclone: async (clonedDocument) => {
+            const clonedImages = clonedDocument.querySelectorAll('#ticketOutput img');
+            await Promise.all(Array.from(clonedImages).map((img, index) => new Promise((resolve, reject) => {
+              img.onload = resolve;
+              img.onerror = reject;
+              img.style.objectFit = 'fill';
+              img.removeAttribute('srcset');
+              img.src = images[index];
+            })));
+          }
+        });
+      }
+
       async function compartirPorWhatsapp() {
         try {
           // Mostrar spinner
@@ -3647,7 +3690,7 @@
             registros: arregloRegistros,
           };
 
-          fetch(api + "tiquete/mq", {
+          await fetch(api + "tiquete/mq", {
             method: "POST",
             body: JSON.stringify(objetoSorteo),
             headers: {
@@ -3656,7 +3699,7 @@
             },
           })
             .then((response) => response.json())
-            .then((data) => {
+            .then(async (data) => {
               if (data.exitoso) {
                 globalChance.receiptCount = data.resultado.id;
                 bag.render();
@@ -3667,7 +3710,7 @@
                   document.querySelector("#ticketOutput").innerHTML;
 
                 //Necesito consumir el endpoint de cifrar el id del tiquete
-                fetch(api + "tiquete/cifrar?id="+globalChance.receiptCount.toString(), {
+                await fetch(api + "tiquete/cifrar?id="+globalChance.receiptCount.toString(), {
                   method: "GET",
                   headers: {
                     "Content-Type": "application/json",
@@ -3684,10 +3727,7 @@
                     const ticketElement = document.querySelector("#ticketOutput");
                     
                     // Convertir a imagen usando html2canvas
-                    const canvas = await html2canvas(ticketElement, {
-                      backgroundColor: '#ffffff',
-                      scale: 2 // Mejor calidad
-                    });
+                    const canvas = await capturarTicketWhatsapp(ticketElement);
                     
                     // Convertir el canvas a una URL de datos (base64)
                     const imageData = canvas.toDataURL('image/jpeg', 0.8);

@@ -79,9 +79,26 @@ router.get("/", (req,res)=>{
                 ["userId", 'ASC'],
             ]
         })
-        .then((response)=>{            
-            res.status(200).json({resultado:response,exitoso:true})       
+        .then(async (tickets)=>{
+            // Sum detail prizes in one query; the header prize is not always updated.
+            const totals = tickets.length ? await DB.GameTicketRecord.findAll({
+                where: {
+                    gameTicketId: { [DB.Sequelize.Op.in]: tickets.map(ticket => ticket.id) },
+                    ganador: 'SI'
+                },
+                attributes: [
+                    'gameTicketId',
+                    [DB.sequelize.fn('SUM', DB.sequelize.literal('COALESCE(valorganador1er, 0) + COALESCE(valorganador2do, 0) + COALESCE(valorganador3ro, 0)')), 'montoGanado']
+                ],
+                group: ['gameTicketId'], raw: true
+            }) : [];
+            const prizes = new Map(totals.map(row => [Number(row.gameTicketId), Number(row.montoGanado) || 0]));
+            const resultado = tickets.map(ticket => Object.assign({}, ticket.toJSON(), {
+                montoGanado: prizes.get(Number(ticket.id)) || 0
+            }));
+            res.status(200).json({resultado,exitoso:true});
         })
+        .catch(() => res.status(500).json({resultado:'No se pudo cargar el historial de tickets.',exitoso:false}))
         
     } catch (error) {
         console.log(error)

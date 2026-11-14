@@ -26,6 +26,7 @@
               <tr>
                 <th scope="col">Ticket</th>
                 <th scope="col">Monto total</th>
+                <th scope="col">Monto ganado</th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
@@ -41,6 +42,7 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+    <script src="/javascripts/ticket-prizes.js"></script>
     <script>
 
       document.getElementById('btn-back').addEventListener('click', function() {
@@ -67,8 +69,28 @@
         },
       })
         .then((response) => response.json())
-        .then((data) => {
-          
+        .then(async (data) => {
+          // Read the same records shown by the eye icon. Do not trust a zero header.
+          if (data.exitoso) {
+            const winners = data.resultado.filter(ticket => ticket.ganador === 'SI' || Number(ticket.montoGanado) > 0);
+            let next = 0;
+            async function loadPrizes() {
+              while (next < winners.length) {
+                const ticket = winners[next++];
+                try {
+                  const response = await fetch(api + '/tiquete/' + ticket.id, {
+                    headers: { Authorization: 'Bearer ' + token }, cache: 'no-store'
+                  });
+                  const detail = await response.json();
+                  if (!response.ok || !detail.exitoso || !Array.isArray(detail.resultado) || !detail.resultado.length) throw Error('No se pudo consultar el premio.');
+                  ticket.montoGanado = TicketPrizes.total(detail.resultado);
+                } catch (error) {
+                  ticket.prizeLoadFailed = true;
+                }
+              }
+            }
+            await Promise.all(Array.from({length: Math.min(4, winners.length)}, loadPrizes));
+          }
           document.getElementById('loading').classList.add('d-none');
           if (data.exitoso) {
             const status = document.getElementById('history-status');
@@ -79,15 +101,17 @@
             data.resultado.forEach(ticket => {
               const tr = document.createElement("tr");
               var tdBGcolor = "";
-              //Si ticket.ganador es "SI" colocar color verde a tr
-              if (ticket.ganador === "SI") {
+              const montoGanado = Number(ticket.montoGanado) || 0;
+              const esGanador = ticket.ganador === "SI" || montoGanado > 0;
+              if (esGanador) {
                 tr.classList.add("winning-ticket");
                 tdBGcolor = "class='winning-cell'";
               }
 
               tr.innerHTML = `
-                <td ${tdBGcolor}>${ticket.id}</td>
+                <td ${tdBGcolor}>${ticket.id}${esGanador ? '<span class="ticket-winner-badge">Ganador</span>' : ''}</td>
                 <td ${tdBGcolor}>${Number(ticket.valorcompra).toFixed(2)}</td>
+                <td class="ticket-prize${esGanador ? ' winning-cell' : ''}">${ticket.prizeLoadFailed ? '<span title="No se pudo consultar el premio. Actualiza el historial para reintentar.">Sin consultar</span>' : montoGanado.toFixed(2)}</td>
                 <td ${tdBGcolor}>
                   <div class="d-flex flex-wrap flex-md-nowrap justify-content-end align-items-center ticket-actions">
                     <button class="btn btn-sm btn-secondary mb-1 mb-md-0 me-1" style="min-width:36px;" onclick="editarTicket('${ticket.id}')" title="Editar">
@@ -224,7 +248,7 @@
                 <tbody>`;
               tickets.forEach(ticket => {
                 let fecha = ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : '';
-                let calcularPremio = ticket.ganador === "SI" ? (ticket.valorganador1er + ticket.valorganador2do + ticket.valorganador3ro).toFixed(2) : '0.00';
+                let calcularPremio = TicketPrizes.record(ticket).toFixed(2);
 
                 var tdBGcolor = "";
               //Si ticket.ganador es "SI" colocar color verde a tr
