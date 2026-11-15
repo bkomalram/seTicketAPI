@@ -83,3 +83,28 @@
   #accounts-workspace #estado table, #accounts-workspace #estadoBillete table { min-width: 560px; }
   #accounts-workspace .accounts-summary { overflow-x: auto; }
 }
+
+/* Match the compact draw-status layout while keeping large bold figures. */
+@media screen and (min-width: 768px) {
+  #accounts-workspace { gap: 10px 20px; }
+  #accounts-workspace > .workspace-header { min-height: 48px; }
+  #accounts-workspace > .workspace-intro { padding: 0; min-height: 32px; }
+  #accounts-workspace > .workspace-intro .workspace-eyebrow { display: none; }
+  #accounts-workspace > .workspace-intro h1 { font-size: 24px; }
+  #accounts-workspace .accounts-card { padding: 12px; }
+  #accounts-workspace .panel-heading { margin-bottom: 8px; }
+  #accounts-workspace .panel-heading h2 { line-height: 1.2; }
+  #accounts-workspace table { line-height: 1.05; }
+  #accounts-workspace .accounts-detail td, #accounts-workspace .accounts-detail th {
+    height: clamp(20px, calc((100dvh - 168px) / 26), 28px);
+    padding: 0 8px !important;
+    vertical-align: middle;
+  }
+  #accounts-workspace .accounts-summary td, #accounts-workspace .accounts-summary th { padding: 3px 8px !important; vertical-align: middle; }
+  #accounts-workspace #estadoBillete:not(:empty) { margin-top: 12px; }
+  #accounts-workspace .accounts-description { margin-bottom: 12px; }
+  #accounts-workspace .accounts-users-title { margin: 14px 0 6px; padding-top: 12px; }
+  #accounts-workspace #listaUsuarios .form-check { min-height: 34px; margin-bottom: 2px; }
+  #accounts-workspace #listaUsuarios .form-check-label { padding-top: 6px; padding-bottom: 6px; }
+  #accounts-workspace .accounts-filters > .rows > .col-12 { margin-top: 12px; }
+}
