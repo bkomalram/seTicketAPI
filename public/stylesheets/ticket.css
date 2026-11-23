@@ -28,4 +28,12 @@
 @media print {
   #outDimention #outPut1 { color: #000; background: #fff; }
   #outDimention #outPut1 .row { break-inside: avoid; }
+  /* Smaller on paper; keep the original QR bitmap and its quiet zone. */
+  #outDimention #outPut1 canvas {
+    width: 140px !important;
+    height: 140px !important;
+    max-width: 100%;
+    display: block;
+    margin: 4px auto;
+  }
 }
